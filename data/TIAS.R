@@ -38,8 +38,8 @@ library(ggplot2)
 library(ggpubr)
 display.brewer.all()
 
-# set working directory
-setwd("/Users/kdlee/Desktop/FTL/TIAS")
+# set working directory 
+setwd("/Users/kdlee/Desktop/Lebowitz_Lab/FTL")
 
 # import data 
 TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
@@ -109,7 +109,6 @@ ftl_plot1 <- ggplot(T2005M_S1_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot1 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT1.png")
 
 # lines 50-100 of logical match data for TIAS 2005 FTL criteria
 
@@ -131,7 +130,6 @@ ftl_plot2 <- ggplot(T2005M_S2_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot2 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT2.png")
 
 # lines 101-150 of logical match data for TIAS 2005 FTL criteria
 
@@ -153,7 +151,6 @@ ftl_plot3 <- ggplot(T2005M_S3_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot3 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT3.png")
 
 # lines 151:200 of logical match data for TIAS 2005 FTL criteria
 
@@ -175,7 +172,6 @@ ftl_plot4 <- ggplot(T2005M_S4_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot4 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT4.png")
 
 # lines 201-250 of logical match data for TIAS 2005 FTL criteria
 
@@ -197,7 +193,6 @@ ftl_plot5 <- ggplot(T2005M_S5_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot5 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT5.png")
 
 # lines 251-300 of logical match data for TIAS 2005 FTL criteria
 
@@ -219,7 +214,6 @@ ftl_plot6 <- ggplot(T2005M_S6_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot6 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT6.png")
 
 # lines 301-350 of logical match data for TIAS 2005 FTL criteria
 
@@ -241,7 +235,6 @@ ftl_plot7 <- ggplot(T2005M_S7_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot7 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT7.png")
 
 # lines 351-400 of logical match data for TIAS 2005 FTL criteria
 
@@ -263,7 +256,6 @@ ftl_plot8 <- ggplot(T2005M_S8_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot8 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT8.png")
 
 # lines 401-450 of logical match data for TIAS 2005 FTL criteria
 
@@ -285,7 +277,6 @@ ftl_plot9 <- ggplot(T2005M_S9_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + g
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot9 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT9.png")
 
 # lines 451-500 of logical match data for TIAS 2005 FTL criteria
 
@@ -307,7 +298,6 @@ ftl_plot10 <- ggplot(T2005M_S10_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) +
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot10 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT10.png")
 
 # lines 501-550 of logical match data for TIAS 2005 FTL criteria
 
@@ -329,7 +319,6 @@ ftl_plot11 <- ggplot(T2005M_S11_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) +
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot11 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT11.png")
 
 # lines 551-600 of logical match data for TIAS 2005 FTL criteria
 
@@ -351,7 +340,6 @@ ftl_plot12 <- ggplot(T2005M_S12_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) +
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot12 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT12.png")
     
 # lines 601-650 of logical match data for TIAS 2005 FTL criteria
 
@@ -373,7 +361,6 @@ ftl_plot13 <- ggplot(T2005M_S13_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) +
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot13 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT13.png")
 
 # lines 651-700 of logical match data for TIAS 2005 FTL criteria
 
@@ -395,7 +382,6 @@ ftl_plot14 <- ggplot(T2005M_S14_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) +
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1))
 ftl_plot14 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT14.png")
 
 # lines 701-745 of logical match data for TIAS 2005 FTL criteria
 
@@ -417,53 +403,59 @@ ftl_plot15 <- ggplot(T2005M_S15_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) +
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
   scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-ggsave("TIAS2005_CRT_PLOT15.png")
 
 # viewing all heatmap plots for TIAS 2005 FTL criteria match, manually export as image with width 3000 height 2800 
 
-ggarrange(ftl_plot1 + rremove("legend"), ftl_plot2 + rremove("legend") + rremove("y.title"), ftl_plot3 + rremove("legend") + rremove("y.title"), ftl_plot4 + rremove("legend"), 
+TIAS2005_plot <- ggarrange(ftl_plot1 + rremove("legend"), ftl_plot2 + rremove("legend") + rremove("y.title"), ftl_plot3 + rremove("legend") + rremove("y.title"), ftl_plot4 + rremove("legend"), 
           ftl_plot5 + rremove("legend") + rremove("y.title"), ftl_plot6 + rremove("legend") + rremove("y.title"), ftl_plot7 + rremove("legend"), ftl_plot8 + rremove("legend") + rremove("y.title"), 
           ftl_plot9 + rremove("legend") + rremove("y.title"), ftl_plot10 + rremove("legend"), ftl_plot11 + rremove("legend") + rremove("y.title"), ftl_plot12 + rremove("legend") + rremove("y.title"),
           ftl_plot13 + rremove("legend"), ftl_plot14 + rremove("legend") + rremove("y.title"), ftl_plot15 + rremove("y.title"), ncol = 3, nrow = 5) 
+TIAS2005_plot
 
 #####################
 # TIAS 2007 
 #####################
 
-# remove objects
-rm(list=ls())
-
 TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
 
-TIAS2005$CAT <- with(TIAS2005, ifelse(
-  TA050042 == 1 & TA050043 == 1 & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
-    TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 == 1 & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
-    TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("9", "10"), "FTL_05", "IAC_05"
+TIAS2007$CAT <- with(TIAS2007, ifelse(
+  TA070042 == 1 & TA070043 == 1 & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
+    TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 == 1 & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
+    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("9", "10"), "FTL_07", "IAC_07"
   ))
 
-table(TIAS2005$CAT)
+table(TIAS2007$CAT)
 
-TIAS2005 <- TIAS2005 %>% select(ID, CAT, TA050042, TA050043, TA050595, TA050631, TA050127, TA050769, TA050712, TA050715, TA050716, TA050678, 
-                                TA050785, TA050809, TA050793, TA050777, TA050825, TA050817, TA050798, TA050394)
+TIAS2007 <- TIAS2007 %>% select(ID, CAT, TA070042, TA070043, TA070570, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, TA070756, 
+                                TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368) 
+                                  
+TIAS2007$TA070042_M <- TIAS2007$TA070042 == 1 
+TIAS2007$TA070043_M <- TIAS2007$TA070043 == 1
+TIAS2007$TA070570_M <- TIAS2007$TA070570 %in% c("5", "0")
+TIAS2007$TA070602_M <- TIAS2007$TA070602 %in% c("5", "0")
+TIAS2007$TA070127_M <- TIAS2007$TA070127 == 3
+TIAS2007$TA070740_M <- TIAS2007$TA070740 < 60
+TIAS2007$TA070683_M <- TIAS2007$TA070683 == 0 
+TIAS2007$TA070686_M <- TIAS2007$TA070686 == 0 
+TIAS2007$TA070687_M <- TIAS2007$TA070687 == 0 
+TIAS2007$TA070649_M <- TIAS2007$TA070649 == 1
+TIAS2007$TA070756_M <- TIAS2007$TA070756 == 0
+TIAS2007$TA070777_M <- TIAS2007$TA070777 == 0
+TIAS2007$TA070764_M <- TIAS2007$TA070764 == 0
+TIAS2007$TA070748_M <- TIAS2007$TA070748 == 0
+TIAS2007$TA070793_M <- TIAS2007$TA070793 == 0
+TIAS2007$TA070785_M <- TIAS2007$TA070785 == 0
+TIAS2007$TA070769_M <- TIAS2007$TA070769 == 0
+TIAS2007$TA070368_M <- TIAS2007$TA070368 %in% c("9", "10")
 
-TIAS2005$TA050042_M <- TIAS2005$TA050042 == 1 
-TIAS2005$TA050043_M <- TIAS2005$TA050043 == 1
-TIAS2005$TA050595_M <- TIAS2005$TA050595 %in% c("5", "0")
-TIAS2005$TA050631_M <- TIAS2005$TA050631 %in% c("5", "0")
-TIAS2005$TA050127_M <- TIAS2005$TA050127 == 3
-TIAS2005$TA050769_M <- TIAS2005$TA050769 < 60
-TIAS2005$TA050712_M <- TIAS2005$TA050712 == 0 
-TIAS2005$TA050715_M <- TIAS2005$TA050715 == 0 
-TIAS2005$TA050716_M <- TIAS2005$TA050716 == 0 
-TIAS2005$TA050678_M <- TIAS2005$TA050678 == 1
-TIAS2005$TA050785_M <- TIAS2005$TA050785 == 0
-TIAS2005$TA050809_M <- TIAS2005$TA050809 == 0
-TIAS2005$TA050793_M <- TIAS2005$TA050793 == 0
-TIAS2005$TA050777_M <- TIAS2005$TA050777 == 0
-TIAS2005$TA050825_M <- TIAS2005$TA050825 == 0
-TIAS2005$TA050817_M <- TIAS2005$TA050817 == 0
-TIAS2005$TA050798_M <- TIAS2005$TA050798 == 0
-TIAS2005$TA050394_M <- TIAS2005$TA050394 %in% c("9", "10")
+T2007M <- TIAS2007 %>% select(TA070042_M, TA070043_M, TA070570_M, TA070602_M, TA070127_M, TA070740_M, TA070683_M, TA070686_M, TA070687_M, TA070649_M, TA070756_M, 
+                              TA070777_M, TA070764_M, TA070748_M, TA070793_M, TA070785_M, TA070769_M, TA070368_M, ID) 
+  
+cols <- sapply(T2007M, is.logical)
+T2007M[,cols] <- lapply(T2007M[,cols], as.numeric)
+
+
+
 
 
 
