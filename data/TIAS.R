@@ -54,7 +54,7 @@ nrow(TIAS2005)
 
 TIAS2005$CAT <- with(TIAS2005, ifelse(
   TA050042 == 1 & TA050043 == 1 & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
-    TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 == 1 & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
+    TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
       TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("9", "10"), "FTL_05", "IAC_05"
         ))
 
@@ -72,7 +72,7 @@ TIAS2005$TA050769_M <- TIAS2005$TA050769 < 60
 TIAS2005$TA050712_M <- TIAS2005$TA050712 == 0 
 TIAS2005$TA050715_M <- TIAS2005$TA050715 == 0 
 TIAS2005$TA050716_M <- TIAS2005$TA050716 == 0 
-TIAS2005$TA050678_M <- TIAS2005$TA050678 == 1
+TIAS2005$TA050678_M <- TIAS2005$TA050678 %in% c("3", "5", "7", "0")
 TIAS2005$TA050785_M <- TIAS2005$TA050785 == 0
 TIAS2005$TA050809_M <- TIAS2005$TA050809 == 0
 TIAS2005$TA050793_M <- TIAS2005$TA050793 == 0
@@ -82,6 +82,7 @@ TIAS2005$TA050817_M <- TIAS2005$TA050817 == 0
 TIAS2005$TA050798_M <- TIAS2005$TA050798 == 0
 TIAS2005$TA050394_M <- TIAS2005$TA050394 %in% c("9", "10")
 
+table(TIAS2005$TA050678_M)
 
 T2005M <- TIAS2005 %>% select(TA050042_M, TA050043_M, TA050595_M, TA050631_M, TA050127_M, TA050769_M, TA050712_M, TA050715_M, TA050716_M,
                               TA050678_M, TA050785_M, TA050809_M, TA050793_M, TA050777_M, TA050825_M, TA050817_M, TA050798_M, TA050394_M, ID)
@@ -410,6 +411,7 @@ TIAS2005_plot <- ggarrange(ftl_plot1 + rremove("legend"), ftl_plot2 + rremove("l
           ftl_plot5 + rremove("legend") + rremove("y.title"), ftl_plot6 + rremove("legend") + rremove("y.title"), ftl_plot7 + rremove("legend"), ftl_plot8 + rremove("legend") + rremove("y.title"), 
           ftl_plot9 + rremove("legend") + rremove("y.title"), ftl_plot10 + rremove("legend"), ftl_plot11 + rremove("legend") + rremove("y.title"), ftl_plot12 + rremove("legend") + rremove("y.title"),
           ftl_plot13 + rremove("legend"), ftl_plot14 + rremove("legend") + rremove("y.title"), ftl_plot15 + rremove("y.title"), ncol = 3, nrow = 5) 
+
 TIAS2005_plot
 
 #####################
