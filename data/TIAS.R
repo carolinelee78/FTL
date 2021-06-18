@@ -5,9 +5,11 @@
 #####################
 
 # remove objects
+
 rm(list=ls())
 
 # detach all libraries
+
 detachAllPackages <- function() {
   basic.packages <- c("package:stats", "package:graphics", "package:grDevices", "package:utils", "package:datasets", "package:methods", "package:base")
   package.list <- search()[ifelse(unlist(gregexpr("package:", search()))==1, TRUE, FALSE)]
@@ -17,6 +19,7 @@ detachAllPackages <- function() {
 detachAllPackages()
 
 # function to load libraries
+
 pkgTest <- function(pkg){
   new.pkg <- pkg[!(pkg %in% installed.packages()[,  "Package"])]
   if (length(new.pkg)) 
@@ -40,31 +43,37 @@ library(ggpubr)
 display.brewer.all()
 
 # set working directory 
+
 setwd("/Users/kdlee/Desktop/Lebowitz_Lab/FTL")
 
 # import data 
+
 TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
 TIAS$ID <- seq.int(nrow(TIAS))
 
 #####################
-# TIAS 2005 
+# TIAS 2005
 #####################
 
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
 nrow(TIAS2005)
 
+# manually paste in variable names and corresponding ftl criteria values from var table 
+
 TIAS2005$CAT <- with(TIAS2005, ifelse(
   TA050042 == 1 & TA050043 == 1 & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
     TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
-      TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_05", ifelse(
-        TA050042 == 1 & TA050043 == 1 & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
-          TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
-          TA050817 == 0 & TA050798 == 0 & TA050394 == 0 & TA050371 %in% c("5", "8", "9"), "FTL_05", "IAC_05")))
+    TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_05", ifelse(
+      TA050042 == 1 & TA050043 == 1 & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
+        TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
+        TA050817 == 0 & TA050798 == 0 & TA050394 == 0 & TA050371 %in% c("5", "8", "9"), "FTL_05", "IAC_05")))
 
 table(TIAS2005$CAT)
 
+# manually paste in variable names from var table
+
 TIAS2005 <- TIAS2005 %>% select(ID, CAT, TA050042, TA050043, TA050595, TA050631, TA050127, TA050769, TA050712, TA050715, TA050716, TA050678, 
-                                    TA050785, TA050809, TA050793, TA050777, TA050825, TA050817, TA050798, TA050394, TA050371)
+                                TA050785, TA050809, TA050793, TA050777, TA050825, TA050817, TA050798, TA050394, TA050371)
 
 TIAS2005$TA050042_M <- TIAS2005$TA050042 == 1 
 TIAS2005$TA050043_M <- TIAS2005$TA050043 == 1
@@ -95,342 +104,81 @@ T2005M <- TIAS2005 %>% select(TA050042_M, TA050043_M, TA050595_M, TA050631_M, TA
 cols <- sapply(T2005M, is.logical)
 T2005M[,cols] <- lapply(T2005M[,cols], as.numeric)
 
-# lines 1-50 of logical match data for TIAS 2005 FTL criteria
+ncol(T2005M) # last column is 'ID', so the column range to plug in tidy.vars would be 1:(ncol-1)
 
-T2005M_S1 <- T2005M[1:50,]
+nrow(T2005M) # find out how many rows are in T2007M, value of the chunk should the no. of columns (participants) you would want for each subplot 
+chunk <- 50 
+n <- nrow(T2005M)
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
 
-T2005M_S1_tidy <- T2005M_S1 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+T2005M_list <- split(T2005M, r)
+length(T2005M_list) # find out how many chunks have been created, i for functions would be 1:# of chunks
 
-T2005M_S1_tidy$variable <- factor(T2005M_S1_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                             "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S1_ID_levels <- dplyr::pull(T2005M_S1, ID)
-T2005M_S1_tidy$ID <- factor(T2005M_S1_tidy$ID, levels = S1_ID_levels)
+tidy.vars <- function(x){
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+}
 
-T2005M_S1_tidy$met_FTL_crt<- factor(T2005M_S1_tidy$met_FTL_crt)
+T2005M_tidy_list <- lapply(T2005M_list, tidy.vars)
 
-ftl_plot1 <- ggplot(T2005M_S1_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot1 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+# manually paste in variable names as strings to define levels for the factors 
 
-# lines 50-100 of logical match data for TIAS 2005 FTL criteria
+for(i in 1:15) {
+  T2005M_tidy_list[[i]]$variable <- factor(T2005M_tidy_list[[i]]$variable, levels = c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M", "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
+} 
 
-T2005M_S2 <- T2005M[51:100,]
+set.ID.levels <- function(x){
+  dplyr::pull(x, ID)
+}
 
-T2005M_S2_tidy <- T2005M_S2 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+T2005M_levels_list <- lapply(T2005M_list, set.ID.levels)
 
-T2005M_S2_tidy$variable <- factor(T2005M_S2_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S2_ID_levels <- dplyr::pull(T2005M_S2, ID)
-T2005M_S2_tidy$ID <- factor(T2005M_S2_tidy$ID, levels = S2_ID_levels)
+for(i in 1:15) {
+  T2005M_tidy_list[[i]]$ID <- factor(T2005M_tidy_list[[i]]$ID, levels = T2005M_levels_list[[i]])
+}
 
-T2005M_S2_tidy$met_FTL_crt<- factor(T2005M_S2_tidy$met_FTL_crt)
+for(i in 1:15) {
+  T2005M_tidy_list[[i]]$met_FTL_crt <- factor(T2005M_tidy_list[[i]]$met_FTL_crt)
+}
 
-ftl_plot2 <- ggplot(T2005M_S2_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot2 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+create.heatmap <- function(x){
+  ggplot(x, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
+    coord_equal() +
+    labs(x="ID", y="Criteria") +
+    theme_tufte(base_family="Helvetica") +
+    theme(axis.ticks=element_blank()) + 
+    theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+    scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+}
 
-# lines 101-150 of logical match data for TIAS 2005 FTL criteria
+T05.heatmaps <- function(x){
+  create.heatmap(T2005M_tidy_list[[x]])
+}
 
-T2005M_S3 <- T2005M[101:150,]
+# need to arrange plots with ggarrange manually, depending on how many plots you have for the wave, remove y.title for except for the leftmost plots, remove legends for all plots except for the last plot
 
-T2005M_S3_tidy <- T2005M_S3 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+TIAS2005_plot <- ggarrange(T05.heatmaps(1) + rremove("legend"), T05.heatmaps(2) + rremove("legend") + rremove("y.title"), T05.heatmaps(3) + rremove("legend") + rremove("y.title"), T05.heatmaps(4) + rremove("legend"), 
+                           T05.heatmaps(5) + rremove("legend") + rremove("y.title"), T05.heatmaps(6) + rremove("legend") + rremove("y.title"), T05.heatmaps(7) + rremove("legend"), T05.heatmaps(8) + rremove("legend") + rremove("y.title"), 
+                           T05.heatmaps(9) + rremove("legend") + rremove("y.title"), T05.heatmaps(10) + rremove("legend"), T05.heatmaps(11) + rremove("legend") + rremove("y.title"), T05.heatmaps(12) + rremove("legend") + rremove("y.title"),
+                           T05.heatmaps(13) + rremove("legend"), T05.heatmaps(14) + rremove("legend") + rremove("y.title"), T05.heatmaps(15) + rremove("y.title"), ncol = 3, nrow = 5) 
 
-T2005M_S3_tidy$variable <- factor(T2005M_S3_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S3_ID_levels <- dplyr::pull(T2005M_S3, ID)
-T2005M_S3_tidy$ID <- factor(T2005M_S3_tidy$ID, levels = S3_ID_levels)
-
-T2005M_S3_tidy$met_FTL_crt<- factor(T2005M_S3_tidy$met_FTL_crt)
-
-ftl_plot3 <- ggplot(T2005M_S3_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot3 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 151-200 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S4 <- T2005M[151:200,]
-
-T2005M_S4_tidy <- T2005M_S4 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S4_tidy$variable <- factor(T2005M_S4_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S4_ID_levels <- dplyr::pull(T2005M_S4, ID)
-T2005M_S4_tidy$ID <- factor(T2005M_S4_tidy$ID, levels = S4_ID_levels)
-
-T2005M_S4_tidy$met_FTL_crt<- factor(T2005M_S4_tidy$met_FTL_crt)
-
-ftl_plot4 <- ggplot(T2005M_S4_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot4 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 201-250 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S5 <- T2005M[201:250,]
-
-T2005M_S5_tidy <- T2005M_S5 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S5_tidy$variable <- factor(T2005M_S5_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S5_ID_levels <- dplyr::pull(T2005M_S5, ID)
-T2005M_S5_tidy$ID <- factor(T2005M_S5_tidy$ID, levels = S5_ID_levels)
-
-T2005M_S5_tidy$met_FTL_crt<- factor(T2005M_S5_tidy$met_FTL_crt)
-
-ftl_plot5 <- ggplot(T2005M_S5_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot5 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 251-300 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S6 <- T2005M[251:300,]
-
-T2005M_S6_tidy <- T2005M_S6 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S6_tidy$variable <- factor(T2005M_S6_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S6_ID_levels <- dplyr::pull(T2005M_S6, ID)
-T2005M_S6_tidy$ID <- factor(T2005M_S6_tidy$ID, levels = S6_ID_levels)
-
-T2005M_S6_tidy$met_FTL_crt<- factor(T2005M_S6_tidy$met_FTL_crt)
-
-ftl_plot6 <- ggplot(T2005M_S6_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot6 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 301-350 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S7 <- T2005M[301:350,]
-
-T2005M_S7_tidy <- T2005M_S7 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S7_tidy$variable <- factor(T2005M_S7_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S7_ID_levels <- dplyr::pull(T2005M_S7, ID)
-T2005M_S7_tidy$ID <- factor(T2005M_S7_tidy$ID, levels = S7_ID_levels)
-
-T2005M_S7_tidy$met_FTL_crt<- factor(T2005M_S7_tidy$met_FTL_crt)
-
-ftl_plot7 <- ggplot(T2005M_S7_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot7 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 351-400 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S8 <- T2005M[351:400,]
-
-T2005M_S8_tidy <- T2005M_S8 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S8_tidy$variable <- factor(T2005M_S8_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S8_ID_levels <- dplyr::pull(T2005M_S8, ID)
-T2005M_S8_tidy$ID <- factor(T2005M_S8_tidy$ID, levels = S8_ID_levels)
-
-T2005M_S8_tidy$met_FTL_crt<- factor(T2005M_S8_tidy$met_FTL_crt)
-
-ftl_plot8 <- ggplot(T2005M_S8_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot8 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 401-450 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S9 <- T2005M[401:450,]
-
-T2005M_S9_tidy <- T2005M_S9 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S9_tidy$variable <- factor(T2005M_S9_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S9_ID_levels <- dplyr::pull(T2005M_S9, ID)
-T2005M_S9_tidy$ID <- factor(T2005M_S9_tidy$ID, levels = S9_ID_levels)
-
-T2005M_S9_tidy$met_FTL_crt<- factor(T2005M_S9_tidy$met_FTL_crt)
-
-ftl_plot9 <- ggplot(T2005M_S9_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot9 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 451-500 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S10 <- T2005M[451:500,]
-
-T2005M_S10_tidy <- T2005M_S10 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S10_tidy$variable <- factor(T2005M_S10_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                     "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S10_ID_levels <- dplyr::pull(T2005M_S10, ID)
-T2005M_S10_tidy$ID <- factor(T2005M_S10_tidy$ID, levels = S10_ID_levels)
-
-T2005M_S10_tidy$met_FTL_crt<- factor(T2005M_S10_tidy$met_FTL_crt)
-
-ftl_plot10 <- ggplot(T2005M_S10_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot10 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 501-550 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S11 <- T2005M[501:550,]
-
-T2005M_S11_tidy <- T2005M_S11 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S11_tidy$variable <- factor(T2005M_S11_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                       "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S11_ID_levels <- dplyr::pull(T2005M_S11, ID)
-T2005M_S11_tidy$ID <- factor(T2005M_S11_tidy$ID, levels = S11_ID_levels)
-
-T2005M_S11_tidy$met_FTL_crt<- factor(T2005M_S11_tidy$met_FTL_crt)
-
-ftl_plot11 <- ggplot(T2005M_S11_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot11 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 551-600 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S12 <- T2005M[551:600,]
-
-T2005M_S12_tidy <- T2005M_S12 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S12_tidy$variable <- factor(T2005M_S12_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                       "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S12_ID_levels <- dplyr::pull(T2005M_S12, ID)
-T2005M_S12_tidy$ID <- factor(T2005M_S12_tidy$ID, levels = S12_ID_levels)
-
-T2005M_S12_tidy$met_FTL_crt<- factor(T2005M_S12_tidy$met_FTL_crt)
-
-ftl_plot12 <- ggplot(T2005M_S12_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot12 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-    
-# lines 601-650 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S13 <- T2005M[601:650,]
-
-T2005M_S13_tidy <- T2005M_S13 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S13_tidy$variable <- factor(T2005M_S13_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                       "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S13_ID_levels <- dplyr::pull(T2005M_S13, ID)
-T2005M_S13_tidy$ID <- factor(T2005M_S13_tidy$ID, levels = S13_ID_levels)
-
-T2005M_S13_tidy$met_FTL_crt<- factor(T2005M_S13_tidy$met_FTL_crt)
-
-ftl_plot13 <- ggplot(T2005M_S13_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot13 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 651-700 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S14 <- T2005M[651:700,]
-
-T2005M_S14_tidy <- T2005M_S14 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S14_tidy$variable <- factor(T2005M_S14_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                       "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S14_ID_levels <- dplyr::pull(T2005M_S14, ID)
-T2005M_S14_tidy$ID <- factor(T2005M_S14_tidy$ID, levels = S14_ID_levels)
-
-T2005M_S14_tidy$met_FTL_crt<- factor(T2005M_S14_tidy$met_FTL_crt)
-
-ftl_plot14 <- ggplot(T2005M_S14_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot14 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# lines 701-745 of logical match data for TIAS 2005 FTL criteria
-
-T2005M_S15 <- T2005M[701:745,]
-
-T2005M_S15_tidy <- T2005M_S15 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
-
-T2005M_S15_tidy$variable <- factor(T2005M_S15_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
-                                                                       "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
-S15_ID_levels <- dplyr::pull(T2005M_S15, ID)
-T2005M_S15_tidy$ID <- factor(T2005M_S15_tidy$ID, levels = S15_ID_levels)
-
-T2005M_S15_tidy$met_FTL_crt<- factor(T2005M_S15_tidy$met_FTL_crt)
-
-ftl_plot15 <- ggplot(T2005M_S15_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
-  scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-# viewing all heatmap plots for TIAS 2005 FTL criteria match, manually export as image with width 3000 height 2800 
-
-TIAS2005_plot <- ggarrange(ftl_plot1 + rremove("legend"), ftl_plot2 + rremove("legend") + rremove("y.title"), ftl_plot3 + rremove("legend") + rremove("y.title"), ftl_plot4 + rremove("legend"), 
-          ftl_plot5 + rremove("legend") + rremove("y.title"), ftl_plot6 + rremove("legend") + rremove("y.title"), ftl_plot7 + rremove("legend"), ftl_plot8 + rremove("legend") + rremove("y.title"), 
-          ftl_plot9 + rremove("legend") + rremove("y.title"), ftl_plot10 + rremove("legend"), ftl_plot11 + rremove("legend") + rremove("y.title"), ftl_plot12 + rremove("legend") + rremove("y.title"),
-          ftl_plot13 + rremove("legend"), ftl_plot14 + rremove("legend") + rremove("y.title"), ftl_plot15 + rremove("y.title"), ncol = 3, nrow = 5) 
-
-TIAS2005_plot
+TIAS2005_plot 
 
 #####################
 # TIAS 2007 
 #####################
 
 # remove objects
+
 rm(list=ls())
 
 # import data again 
+
 TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
 TIAS$ID <- seq.int(nrow(TIAS))
 
 TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
+
+# manually paste in variable names and corresponding ftl criteria values from var table 
 
 TIAS2007$CAT <- with(TIAS2007, ifelse(
   TA070042 == 1 & TA070043 == 1 & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
@@ -440,9 +188,13 @@ TIAS2007$CAT <- with(TIAS2007, ifelse(
 
 table(TIAS2007$CAT)
 
+# manually paste in variable names from var table
+
 TIAS2007 <- TIAS2007 %>% select(ID, CAT, TA070042, TA070043, TA070570, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, TA070756, 
                                 TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368) 
-                                  
+
+# manually paste in ftl values for each variable from var table
+
 TIAS2007$TA070042_M <- TIAS2007$TA070042 == 1 
 TIAS2007$TA070043_M <- TIAS2007$TA070043 == 1
 TIAS2007$TA070570_M <- TIAS2007$TA070570 %in% c("5", "0")
@@ -468,83 +220,71 @@ T2007M <- TIAS2007 %>% select(TA070042_M, TA070043_M, TA070570_M, TA070602_M, TA
 cols <- sapply(T2007M, is.logical)
 T2007M[,cols] <- lapply(T2007M[,cols], as.numeric)
 
-nrow(T2007M)
+ncol(T2007M) # last column is 'ID', so the column range to plug in tidy.vars would be 1:(ncol-1)
 
-# lines 1-50 of logical match data for TIAS 2007 FTL criteria
+nrow(T2007M) # find out how many rows are in T2007M, value of the chunk should the no. of columns (participants) you would want for each subplot 
+chunk <- 50 
+n <- nrow(T2007M)
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
 
-T2007M_S1 <- T2007M[1:50,]
+T2007M_list <- split(T2007M, r)
+length(T2007M_list) # find out how many chunks have been created, i for functions would be 1:# of chunks
 
-T2007M_S1_tidy <- T2007M_S1 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+tidy.vars <- function(x){
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+}
+  
+T2007M_tidy_list <- lapply(T2007M_list, tidy.vars)
 
-T2007M_S1_tidy$variable <- factor(T2007M_S1_tidy$variable, levels =c("TA070042_M", "TA070043_M", "TA070570_M", "TA070602_M", "TA070127_M", "TA070740_M", "TA070683_M", "TA070686_M", "TA070687_M", "TA070649_M", "TA070756_M", 
-                                                                     "TA070777_M", "TA070764_M", "TA070748_M", "TA070793_M", "TA070785_M", "TA070769_M", "TA070368_M"))
-S1_ID_levels_07 <- dplyr::pull(T2007M_S1, ID)
-T2007M_S1_tidy$ID <- factor(T2007M_S1_tidy$ID, levels = S1_ID_levels_07)
+for(i in 1:23) {
+  T2007M_tidy_list[[i]]$variable <- factor(T2007M_tidy_list[[i]]$variable, levels = c("TA070042_M", "TA070043_M", "TA070570_M", "TA070602_M", "TA070127_M", "TA070740_M", "TA070683_M", "TA070686_M", "TA070687_M", "TA070649_M", "TA070756_M", "TA070777_M", "TA070764_M", "TA070748_M", "TA070793_M", "TA070785_M", "TA070769_M", "TA070368_M"))
+}
 
-T2007M_S1_tidy$met_FTL_crt<- factor(T2007M_S1_tidy$met_FTL_crt)
+set.ID.levels <- function(x){
+  dplyr::pull(x, ID)
+}
 
-ftl_plot1_07 <- ggplot(T2007M_S1_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot1_07 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+T2007M_levels_list <- lapply(T2007M_list, set.ID.levels)
 
-# lines 50-100 of logical match data for TIAS 2007 FTL criteria
+for(i in 1:23) {
+   T2007M_tidy_list[[i]]$ID <- factor(T2007M_tidy_list[[i]]$ID, levels = T2007M_levels_list[[i]])
+}
 
-T2007M_S2 <- T2007M[51:100,]
+for(i in 1:23) {
+  T2007M_tidy_list[[i]]$met_FTL_crt <- factor(T2007M_tidy_list[[i]]$met_FTL_crt)
+}
 
-T2007M_S2_tidy <- T2007M_S2 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+create.heatmap <- function(x){
+  ggplot(x, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
+    coord_equal() +
+    labs(x="ID", y="Criteria") +
+    theme_tufte(base_family="Helvetica") +
+    theme(axis.ticks=element_blank()) + 
+    theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+    scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+}
 
-T2007M_S2_tidy$variable <- factor(T2007M_S2_tidy$variable, levels =c("TA070042_M", "TA070043_M", "TA070570_M", "TA070602_M", "TA070127_M", "TA070740_M", "TA070683_M", "TA070686_M", "TA070687_M", "TA070649_M", "TA070756_M", 
-                                                                     "TA070777_M", "TA070764_M", "TA070748_M", "TA070793_M", "TA070785_M", "TA070769_M", "TA070368_M"))
+T07.heatmaps <- function(x){
+  create.heatmap(T2007M_tidy_list[[x]])
+}
 
-S2_ID_levels_07 <- dplyr::pull(T2007M_S2, ID)
-T2007M_S2_tidy$ID <- factor(T2007M_S2_tidy$ID, levels = S2_ID_levels_07)
+# need to arrange plots with ggarrange manually, depending on how many plots you have for the wave, remove y.title for except for the leftmost plots, remove legends for all plots except for the last plot
 
-T2007M_S2_tidy$met_FTL_crt<- factor(T2007M_S2_tidy$met_FTL_crt)
+TIAS2007_plot1 <- ggarrange(T07.heatmaps(1) + rremove("legend"), T07.heatmaps(2) + rremove("legend") + rremove("y.title"), T07.heatmaps(3) + rremove("legend") + rremove("y.title"), T07.heatmaps(4) + rremove("legend"), 
+                            T07.heatmaps(5) + rremove("legend") + rremove("y.title"), T07.heatmaps(6) + rremove("legend") + rremove("y.title"), T07.heatmaps(7) + rremove("legend"), T07.heatmaps(8) + rremove("legend") + rremove("y.title"), 
+                            T07.heatmaps(9) + rremove("legend") + rremove("y.title"), T07.heatmaps(10) + rremove("legend"), T07.heatmaps(11) + rremove("legend") + rremove("y.title"), T07.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
 
-ftl_plot2_07 <- ggplot(T2007M_S2_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot2_07 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+TIAS2007_plot1 # view first aggregated plot 
 
-# lines 101-150 of logical match data for TIAS 2007 FTL criteria
+TIAS2007_plot2 <- ggarrange(T07.heatmaps(13) + rremove("legend"), T07.heatmaps(14) + rremove("legend") + rremove("y.title"), T07.heatmaps(15) + rremove("legend") + rremove("y.title"), T07.heatmaps(16) + rremove("legend"), 
+                            T07.heatmaps(17) + rremove("legend") + rremove("y.title"), T07.heatmaps(18) + rremove("legend") + rremove("y.title"), T07.heatmaps(19) + rremove("legend"), T07.heatmaps(20) + rremove("legend") + rremove("y.title"), 
+                            T07.heatmaps(21) + rremove("legend") + rremove("y.title"), T07.heatmaps(22) + rremove("legend"), T07.heatmaps(23) + rremove("y.title"), ncol = 3, nrow = 4) 
 
-T2007M_S3 <- T2007M[101:150,]
+TIAS2007_plot2 # view second aggregated plot 
 
-T2007M_S3_tidy <- T2007M_S3 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
 
-T2007M_S3_tidy$variable <- factor(T2007M_S3_tidy$variable, levels =c("TA070042_M", "TA070043_M", "TA070570_M", "TA070602_M", "TA070127_M", "TA070740_M", "TA070683_M", "TA070686_M", "TA070687_M", "TA070649_M", "TA070756_M", 
-                                                                     "TA070777_M", "TA070764_M", "TA070748_M", "TA070793_M", "TA070785_M", "TA070769_M", "TA070368_M"))
-S3_ID_levels_07 <- dplyr::pull(T2007M_S3, ID)
-T2007M_S3_tidy$ID <- factor(T2007M_S3_tidy$ID, levels = S3_ID_levels_07)
+ 
 
-T2007M_S3_tidy$met_FTL_crt<- factor(T2007M_S3_tidy$met_FTL_crt)
-
-ftl_plot3_07 <- ggplot(T2007M_S3_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
-  coord_equal() +
-  labs(x="ID", y="Criteria") +
-  theme_tufte(base_family="Helvetica") +
-  theme(axis.ticks=element_blank()) + 
-  theme(axis.text.x=element_text(angle = 45, hjust = 1))
-ftl_plot3_07 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
-
-#####################
-# experimental code, working on automation 
-#####################
-
-T2007M$group <- 1:1115 %% 23 + 1 
-T2007M_list <- split(T2007M, T2007M$group)
-length(T2007M_list)
-nrow(T2007M_list[[1]])
-list2env(setNames(T2007M_list, paste0("T2007M_S", 1:23)), environment())
-
-as.numeric(rownames(T2007M_S1))
 
 
 
