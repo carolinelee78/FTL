@@ -541,13 +541,10 @@ ftl_plot3_07 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "
 T2007M$group <- 1:1115 %% 23 + 1 
 T2007M_list <- split(T2007M, T2007M$group)
 length(T2007M_list)
-nrow(T2007M_list[[15]])
-names(T2007M_list) <- paste0("T2007M_S", 1:23)
-names(T2007M_list)
+nrow(T2007M_list[[1]])
+list2env(setNames(T2007M_list, paste0("T2007M_S", 1:23)), environment())
 
-
-
-
+as.numeric(rownames(T2007M_S1))
 
 
 
