@@ -603,7 +603,7 @@ T2015M_S5_tidy$variable <- factor(T2015M_S5_tidy$variable, levels =c("TA150043_M
 S5_ID_levels_15 <- dplyr::pull(T2015M_S5, ID)
 T2015M_S5_tidy$ID <- factor(T2005M_S5_tidy$ID, levels = S5_ID_levels_15)
 
-T2005M_S5_tidy$met_FTL_crt<- factor(T2005M_S5_tidy$met_FTL_crt)
+T2015M_S5_tidy$met_FTL_crt<- factor(T2015M_S5_tidy$met_FTL_crt)
 
 ftl_plot5_15 <- ggplot(T2015M_S5_tidy, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
   coord_equal() +
@@ -743,7 +743,7 @@ ftl_plot11_15 + scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", 
 
 T2015M_S12 <- T2015M[551:600,]
 
-T2005M_S12_tidy <- T2015M_S12 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+T2015M_S12_tidy <- T2015M_S12 %>% tidyr::gather(variable, met_FTL_crt, 1:18)
 
 T2015M_S12_tidy$variable <- factor(T2015M_S12_tidy$variable, levels =c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M",
                                                                        "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
