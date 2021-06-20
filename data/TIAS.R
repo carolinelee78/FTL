@@ -157,7 +157,7 @@ T05.heatmaps <- function(x){
 # need to arrange plots with ggarrange manually, depending on how many plots you have for the wave, remove y.title for except for the leftmost plots, remove legends for all plots except for the last plot
 
 TIAS2005_plot <- ggarrange(T05.heatmaps(1) + rremove("legend"), T05.heatmaps(2) + rremove("legend") + rremove("y.title"), T05.heatmaps(3) + rremove("legend") + rremove("y.title"), 
-                           T05.heatmaps(4) + rremove("legend"),T05.heatmaps(5) + rremove("legend") + rremove("y.title"), T05.heatmaps(6) + rremove("legend") + rremove("y.title"), 
+                           T05.heatmaps(4) + rremove("legend"), T05.heatmaps(5) + rremove("legend") + rremove("y.title"), T05.heatmaps(6) + rremove("legend") + rremove("y.title"), 
                            T05.heatmaps(7) + rremove("legend"), T05.heatmaps(8) + rremove("legend") + rremove("y.title"), T05.heatmaps(9) + rremove("legend") + rremove("y.title"), 
                            T05.heatmaps(10) + rremove("legend"), T05.heatmaps(11) + rremove("legend") + rremove("y.title"), T05.heatmaps(12) + rremove("legend") + rremove("y.title"),
                            T05.heatmaps(13) + rremove("legend"), T05.heatmaps(14) + rremove("legend") + rremove("y.title"), T05.heatmaps(15) + rremove("y.title"), ncol = 3, nrow = 5) 
