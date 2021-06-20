@@ -411,7 +411,7 @@ TIAS2009_plot2 <- ggarrange(T09.heatmaps(17) + rremove("legend"), T09.heatmaps(1
                             T09.heatmaps(25) + rremove("legend"), T09.heatmaps(26) + rremove("legend") + rremove("y.title"), T09.heatmaps(27) + rremove("legend") + rremove("y.title"), T09.heatmaps(28) + rremove("legend") + rremove("y.title"), 
                             T09.heatmaps(29) + rremove("legend"), T09.heatmaps(30) + rremove("legend") + rremove("y.title"), T09.heatmaps(31) + rremove("legend") + rremove("y.title"), T09.heatmaps(32) + rremove("y.title"), ncol = 4, nrow = 4) 
 
-TIAS2009_plot2 # view first aggregated plot, export manually as png with width 3000 height 2800
+TIAS2009_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800
 
 #####################
 # TIAS 2011
