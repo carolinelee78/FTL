@@ -414,8 +414,9 @@ TIAS2009_plot2 # view first aggregated plot, export manually as png with width 3
 # TIAS 2011
 #####################
 
-
-
+#####################
+# TIAS 2013
+#####################
 
 #####################
 # TIAS 2015 
@@ -544,4 +545,7 @@ TIAS2015_plot3 <- ggarrange(T15.heatmaps(25) + rremove("legend"), T15.heatmaps(2
                             T15.heatmaps(32) + rremove("legend") + rremove("y.title"), T15.heatmaps(33) + rremove("y.title"), ncol = 3, nrow = 3) 
 
 TIAS2015_plot3 # view third aggregated plot, export manually as png with width 3000 height 2800   
- 
+
+#####################
+# TIAS 2017
+#####################
