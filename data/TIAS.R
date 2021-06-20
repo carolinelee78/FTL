@@ -287,6 +287,137 @@ TIAS2007_plot2 <- ggarrange(T07.heatmaps(13) + rremove("legend"), T07.heatmaps(1
 TIAS2007_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800 
 
 #####################
+# TIAS 2009
+#####################
+
+# clear global environment
+
+rm(list=ls())
+
+# import data again 
+
+TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
+TIAS$ID <- seq.int(nrow(TIAS))
+
+# subset for wave  
+
+TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
+
+# manually paste in variable names and corresponding ftl criteria values from var table 
+
+TIAS2009$CAT <- with(TIAS2009, ifelse(
+  TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
+  TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
+  TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_09", "IAC_09"))
+
+table(TIAS2009$CAT)
+TIAS2009[TIAS2009$CAT == "FTL_09", "ID"]
+TIAS2009_FTL <- subset(TIAS2009, CAT == "FTL_09")
+
+# manually paste in variable names from var table
+
+TIAS2009 <- TIAS2009 %>% select(ID, CAT, TA090043, TA090044, TA090612, TA090655, TA090136, TA090799, TA090739, TA090742, TA090743, TA090705, TA090815, 
+                                TA090836, TA090823, TA090807, TA090852, TA090844, TA090828, TA090385) 
+
+# manually paste in ftl values for each variable from var table
+
+TIAS2009$TA090043_M <- TIAS2009$TA090043 == 1 
+TIAS2009$TA090044_M <- TIAS2009$TA090044 %in% c("1", "96")
+TIAS2009$TA090612_M <- TIAS2009$TA090612 %in% c("5", "0")
+TIAS2009$TA090655_M <- TIAS2009$TA090655 %in% c("5", "0")
+TIAS2009$TA090136_M <- TIAS2009$TA090136 == 3
+TIAS2009$TA090799_M <- TIAS2009$TA090799 < 60
+TIAS2009$TA090739_M <- TIAS2009$TA090739 == 0 
+TIAS2009$TA090742_M <- TIAS2009$TA090742 == 0 
+TIAS2009$TA090743_M <- TIAS2009$TA090743 == 0 
+TIAS2009$TA090705_M <- TIAS2009$TA090705 %in% c("3", "5", "7", "0")
+TIAS2009$TA090815_M <- TIAS2009$TA090815 == 0
+TIAS2009$TA090836_M <- TIAS2009$TA090836 == 0
+TIAS2009$TA090823_M <- TIAS2009$TA090823 == 0
+TIAS2009$TA090807_M <- TIAS2009$TA090807 == 0
+TIAS2009$TA090852_M <- TIAS2009$TA090852 == 0
+TIAS2009$TA090844_M <- TIAS2009$TA090844 == 0
+TIAS2009$TA090828_M <- TIAS2009$TA090828 == 0
+TIAS2009$TA090385_M <- TIAS2009$TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99")
+
+T2009M <- TIAS2009 %>% select(TA090043_M, TA090044_M, TA090612_M, TA090655_M, TA090136_M, TA090799_M, TA090739_M, TA090742_M, TA090743_M, TA090705_M, TA090815_M, 
+                              TA090836_M, TA090823_M, TA090807_M, TA090852_M, TA090844_M, TA090828_M, TA090385_M, ID) 
+
+cols <- sapply(T2009M, is.logical)
+T2009M[,cols] <- lapply(T2009M[,cols], as.numeric)
+
+ncol(T2009M) # last column is 'ID', so the column range to plug in tidy.vars would be 1:(ncol-1)
+
+nrow(T2009M) # find out how many rows are in T2009M, value of the chunk should be the no. of columns (participants) you would want for each subplot 
+chunk <- 50 
+n <- nrow(T2009M)
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
+
+T2009M_list <- split(T2009M, r)
+length(T2009M_list) # find out how many chunks have been created, i for functions would be 1:(# of chunks)
+
+tidy.vars <- function(x){
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+}
+
+T2009M_tidy_list <- lapply(T2009M_list, tidy.vars)
+
+for(i in 1:32) {
+  T2009M_tidy_list[[i]]$variable <- factor(T2009M_tidy_list[[i]]$variable, levels = c("TA090043_M", "TA090044_M", "TA090612_M", "TA090655_M", "TA090136_M", "TA090799_M", "TA090739_M", "TA090742_M", "TA090743_M", "TA090705_M", "TA090815_M", "TA090836_M", "TA090823_M", "TA090807_M", "TA090852_M", "TA090844_M", "TA090828_M", "TA090385_M"))
+}                                                                                     
+
+set.ID.levels <- function(x){
+  dplyr::pull(x, ID)
+}
+
+T2009M_levels_list <- lapply(T2009M_list, set.ID.levels)
+
+for(i in 1:32) {
+  T2009M_tidy_list[[i]]$ID <- factor(T2009M_tidy_list[[i]]$ID, levels = T2009M_levels_list[[i]])
+}
+
+for(i in 1:32) {
+  T2009M_tidy_list[[i]]$met_FTL_crt <- factor(T2009M_tidy_list[[i]]$met_FTL_crt)
+}
+
+create.heatmap <- function(x){
+  ggplot(x, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
+    coord_equal() +
+    labs(x="ID", y="Criteria") +
+    theme_tufte(base_family="Helvetica") +
+    theme(axis.ticks=element_blank()) + 
+    theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+    scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+}
+
+T09.heatmaps <- function(x){
+  create.heatmap(T2009M_tidy_list[[x]])
+}
+
+# need to arrange plots with ggarrange manually - depending on how many plots you have for the wave, remove y.title for all plots except for the leftmost plots, remove legends for all plots except for the last plot
+
+TIAS2009_plot1 <- ggarrange(T09.heatmaps(1) + rremove("legend"), T09.heatmaps(2) + rremove("legend") + rremove("y.title"), T09.heatmaps(3) + rremove("legend") + rremove("y.title"), T09.heatmaps(4) + rremove("legend") + rremove("y.title"), 
+                            T09.heatmaps(5) + rremove("legend"), T09.heatmaps(6) + rremove("legend") + rremove("y.title"), T09.heatmaps(7) + rremove("legend") + rremove("y.title"), T09.heatmaps(8) + rremove("legend") + rremove("y.title"), 
+                            T09.heatmaps(9) + rremove("legend"), T09.heatmaps(10) + rremove("legend") + rremove("y.title"), T09.heatmaps(11) + rremove("legend") + rremove("y.title"), T09.heatmaps(12) + rremove("legend") + rremove("y.title"), 
+                            T09.heatmaps(13) + rremove("legend"), T09.heatmaps(14) + rremove("legend") + rremove("y.title"), T09.heatmaps(15) + rremove("legend") + rremove("y.title"), T09.heatmaps(16) + rremove("legend") + rremove("y.title"), ncol = 4, nrow = 4) 
+
+TIAS2009_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800
+
+TIAS2009_plot2 <- ggarrange(T09.heatmaps(17) + rremove("legend"), T09.heatmaps(18) + rremove("legend") + rremove("y.title"), T09.heatmaps(19) + rremove("legend") + rremove("y.title"), T09.heatmaps(20) + rremove("legend") + rremove("y.title"), 
+                            T09.heatmaps(21) + rremove("legend"), T09.heatmaps(22) + rremove("legend") + rremove("y.title"), T09.heatmaps(23) + rremove("legend") + rremove("y.title"), T09.heatmaps(24) + rremove("legend") + rremove("y.title"), 
+                            T09.heatmaps(25) + rremove("legend"), T09.heatmaps(26) + rremove("legend") + rremove("y.title"), T09.heatmaps(27) + rremove("legend") + rremove("y.title"), T09.heatmaps(28) + rremove("legend") + rremove("y.title"), 
+                            T09.heatmaps(29) + rremove("legend"), T09.heatmaps(30) + rremove("legend") + rremove("y.title"), T09.heatmaps(31) + rremove("legend") + rremove("y.title"), T09.heatmaps(32) + rremove("legend") + rremove("y.title"), ncol = 4, nrow = 4) 
+
+TIAS2009_plot2 # view first aggregated plot, export manually as png with width 3000 height 2800
+
+#####################
+# TIAS 2011
+#####################
+
+
+
+
+#####################
 # TIAS 2015 
 #####################
 
