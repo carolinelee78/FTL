@@ -154,7 +154,7 @@ T05.heatmaps <- function(x){
   create.heatmap(T2005M_tidy_list[[x]])
 }
 
-# need to arrange plots with ggarrange manually, depending on how many plots you have for the wave, remove y.title for except for the leftmost plots, remove legends for all plots except for the last plot
+# need to arrange plots with ggarrange manually, depending on how many plots you have for the wave, remove y.title for all plots except for the leftmost plots, remove legends for all plots except for the last plot
 
 TIAS2005_plot <- ggarrange(T05.heatmaps(1) + rremove("legend"), T05.heatmaps(2) + rremove("legend") + rremove("y.title"), T05.heatmaps(3) + rremove("legend") + rremove("y.title"), 
                            T05.heatmaps(4) + rremove("legend"), T05.heatmaps(5) + rremove("legend") + rremove("y.title"), T05.heatmaps(6) + rremove("legend") + rremove("y.title"), 
@@ -186,8 +186,7 @@ TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
 TIAS2007$CAT <- with(TIAS2007, ifelse(
   TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
     TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
-    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_07", "IAC_07"
-  ))
+    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_07", "IAC_07"))
 
 table(TIAS2007$CAT)
 TIAS2007[TIAS2007$CAT == "FTL_07", "ID"]
