@@ -55,10 +55,6 @@ TIAS$ID <- seq.int(nrow(TIAS))
 # TIAS 2005
 #####################
 
-# clear global environment
-
-rm(list=ls())
-
 # subset for wave 
 
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
@@ -288,14 +284,14 @@ TIAS2007_plot1 <- ggarrange(T07.heatmaps(1) + rremove("legend"), T07.heatmaps(2)
                             T07.heatmaps(7) + rremove("legend"), T07.heatmaps(8) + rremove("legend") + rremove("y.title"), T07.heatmaps(9) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(10) + rremove("legend"), T07.heatmaps(11) + rremove("legend") + rremove("y.title"), T07.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
 
-TIAS2007_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800
+TIAS2007_plot1 # view first aggregated plot, export manually as png with width 3000 height 2000
 
 TIAS2007_plot2 <- ggarrange(T07.heatmaps(13) + rremove("legend"), T07.heatmaps(14) + rremove("legend") + rremove("y.title"), T07.heatmaps(15) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(16) + rremove("legend"), T07.heatmaps(17) + rremove("legend") + rremove("y.title"), T07.heatmaps(18) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(19) + rremove("legend"), T07.heatmaps(20) + rremove("legend") + rremove("y.title"), T07.heatmaps(21) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(22) + rremove("legend"), T07.heatmaps(23) + rremove("y.title"), ncol = 3, nrow = 4) 
 
-TIAS2007_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800 
+TIAS2007_plot2 # view second aggregated plot, export manually as png with width 3000 height 2000 
 
 #####################
 # TIAS 2009
@@ -416,14 +412,14 @@ TIAS2009_plot1 <- ggarrange(T09.heatmaps(1) + rremove("legend"), T09.heatmaps(2)
                             T09.heatmaps(9) + rremove("legend"), T09.heatmaps(10) + rremove("legend") + rremove("y.title"), T09.heatmaps(11) + rremove("legend") + rremove("y.title"), T09.heatmaps(12) + rremove("legend") + rremove("y.title"), 
                             T09.heatmaps(13) + rremove("legend"), T09.heatmaps(14) + rremove("legend") + rremove("y.title"), T09.heatmaps(15) + rremove("legend") + rremove("y.title"), T09.heatmaps(16) + rremove("legend") + rremove("y.title"), ncol = 4, nrow = 4) 
 
-TIAS2009_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800
+TIAS2009_plot1 # view first aggregated plot, export manually as png with width 3500 height 2000
 
 TIAS2009_plot2 <- ggarrange(T09.heatmaps(17) + rremove("legend"), T09.heatmaps(18) + rremove("legend") + rremove("y.title"), T09.heatmaps(19) + rremove("legend") + rremove("y.title"), T09.heatmaps(20) + rremove("legend") + rremove("y.title"), 
                             T09.heatmaps(21) + rremove("legend"), T09.heatmaps(22) + rremove("legend") + rremove("y.title"), T09.heatmaps(23) + rremove("legend") + rremove("y.title"), T09.heatmaps(24) + rremove("legend") + rremove("y.title"), 
                             T09.heatmaps(25) + rremove("legend"), T09.heatmaps(26) + rremove("legend") + rremove("y.title"), T09.heatmaps(27) + rremove("legend") + rremove("y.title"), T09.heatmaps(28) + rremove("legend") + rremove("y.title"), 
                             T09.heatmaps(29) + rremove("legend"), T09.heatmaps(30) + rremove("legend") + rremove("y.title"), T09.heatmaps(31) + rremove("legend") + rremove("y.title"), T09.heatmaps(32) + rremove("y.title"), ncol = 4, nrow = 4) 
 
-TIAS2009_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800
+TIAS2009_plot2 # view second aggregated plot, export manually as png with width 3500 height 2000
 
 #####################
 # TIAS 2011
@@ -542,25 +538,25 @@ TIAS2011_plot1 <- ggarrange(T11.heatmaps(1) + rremove("legend"), T11.heatmaps(2)
                             T11.heatmaps(7) + rremove("legend"), T11.heatmaps(8) + rremove("legend") + rremove("y.title"), T11.heatmaps(9) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(10) + rremove("legend"), T11.heatmaps(11) + rremove("legend") + rremove("y.title"), T11.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
 
-TIAS2011_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800
+TIAS2011_plot1 # view first aggregated plot, export manually as png with width 3000 height 2000
 
 TIAS2011_plot2 <- ggarrange(T11.heatmaps(13) + rremove("legend"), T11.heatmaps(14) + rremove("legend") + rremove("y.title"), T11.heatmaps(15) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(16) + rremove("legend"), T11.heatmaps(17) + rremove("legend") + rremove("y.title"), T11.heatmaps(18) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(19) + rremove("legend"), T11.heatmaps(20) + rremove("legend") + rremove("y.title"), T11.heatmaps(21) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2011_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800
+TIAS2011_plot2 # view second aggregated plot, export manually as png with width 3000 height 1500
 
 TIAS2011_plot3 <- ggarrange(T11.heatmaps(22) + rremove("legend"), T11.heatmaps(23) + rremove("legend") + rremove("y.title"), T11.heatmaps(24) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(25) + rremove("legend"), T11.heatmaps(26) + rremove("legend") + rremove("y.title"), T11.heatmaps(27) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(28) + rremove("legend"), T11.heatmaps(29) + rremove("legend") + rremove("y.title"), T11.heatmaps(30) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2011_plot3 # view third aggregated plot, export manually as png with width 3000 height 2800
+TIAS2011_plot3 # view third aggregated plot, export manually as png with width 3000 height 1500
 
 TIAS2011_plot4 <- ggarrange(T11.heatmaps(31) + rremove("legend"), T11.heatmaps(32) + rremove("legend") + rremove("y.title"), T11.heatmaps(33) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(34) + rremove("legend"), T11.heatmaps(35) + rremove("legend") + rremove("y.title"), T11.heatmaps(36) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(37) + rremove("legend"), T11.heatmaps(38) + rremove("legend") + rremove("y.title"), T11.heatmaps(39) + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2011_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 2800
+TIAS2011_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 1500
 
 
 #####################
@@ -643,9 +639,8 @@ tidy.vars <- function(x){
 
 T2013M_tidy_list <- lapply(T2013M_list, tidy.vars)
 
-for(i in 1:39) {
-  T2013M_tidy_list[[i]]$variable <- factor(T2013M_tidy_list[[i]]$variable, levels = c("TA130043_M", "TA130044_M", "TA130719_M", "TA130763_M", "TA130136_M", "TA130948_M", "TA130852_M", "TA130855_M", "TA130856_M", "TA130813_M", "TA130964_M", 
-                                "TA130985_M", "TA131835_M", "TA130861_M", "TA131877_M", "TA130993_M", "TA130977_M", "TA130842_M"))
+for(i in 1:37) {
+  T2013M_tidy_list[[i]]$variable <- factor(T2013M_tidy_list[[i]]$variable, levels = c("TA130043_M", "TA130044_M", "TA130719_M", "TA130763_M", "TA130136_M", "TA130948_M", "TA130852_M", "TA130855_M", "TA130856_M", "TA130813_M", "TA130961_M",  "TA130982_M", "TA130969_M", "TA130861_M", "TA130998_M", "TA130990_M", "TA130977_M", "TA130482_M"))
 }
 
 set.ID.levels <- function(x){
@@ -654,11 +649,11 @@ set.ID.levels <- function(x){
 
 T2013M_levels_list <- lapply(T2013M_list, set.ID.levels)
 
-for(i in 1:39) {
+for(i in 1:37) {
   T2013M_tidy_list[[i]]$ID <- factor(T2013M_tidy_list[[i]]$ID, levels = T2013M_levels_list[[i]])
 }
 
-for(i in 1:39) {
+for(i in 1:37) {
   T2013M_tidy_list[[i]]$met_FTL_crt <- factor(T2013M_tidy_list[[i]]$met_FTL_crt)
 }
 
@@ -672,34 +667,28 @@ create.heatmap <- function(x){
     scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
 }
 
-T11.heatmaps <- function(x){
+T13.heatmaps <- function(x){
   create.heatmap(T2013M_tidy_list[[x]])
 }
 
-TIAS2013_plot1 <- ggarrange(T13.heatmaps(1) + rremove("legend"), T13.heatmaps(2) + rremove("legend") + rremove("y.title"), T13.heatmaps(3) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(4) + rremove("legend"), T13.heatmaps(5) + rremove("legend") + rremove("y.title"), T13.heatmaps(6) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(7) + rremove("legend"), T13.heatmaps(8) + rremove("legend") + rremove("y.title"), T13.heatmaps(9) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(10) + rremove("legend"), T13.heatmaps(11) + rremove("legend") + rremove("y.title"), T13.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
+TIAS2013_plot1 <- ggarrange(T13.heatmaps(1) + rremove("legend"), T13.heatmaps(2) + rremove("legend") + rremove("y.title"), T13.heatmaps(3) + rremove("legend") + rremove("y.title"), T13.heatmaps(4) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(5) + rremove("legend"), T13.heatmaps(6) + rremove("legend") + rremove("y.title"), T13.heatmaps(7) + rremove("legend") + rremove("y.title"), T13.heatmaps(8) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(9) + rremove("legend"), T13.heatmaps(10) + rremove("legend") + rremove("y.title"), T13.heatmaps(11) + rremove("legend") + rremove("y.title"), T13.heatmaps(12) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(13) + rremove("legend"), T13.heatmaps(14) + rremove("legend") + rremove("y.title"), T13.heatmaps(15) + rremove("legend") + rremove("y.title"), T13.heatmaps(16) + rremove("legend") + rremove("y.title"), ncol = 4, nrow = 4) 
 
-TIAS2013_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800
+TIAS2013_plot1 # view first aggregated plot, export manually as png with width 3500 height 2000
 
-TIAS2013_plot2 <- ggarrange(T13.heatmaps(13) + rremove("legend"), T13.heatmaps(14) + rremove("legend") + rremove("y.title"), T13.heatmaps(15) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(16) + rremove("legend"), T13.heatmaps(17) + rremove("legend") + rremove("y.title"), T13.heatmaps(18) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(19) + rremove("legend"), T13.heatmaps(20) + rremove("legend") + rremove("y.title"), T13.heatmaps(21) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
+TIAS2013_plot2 <- ggarrange(T13.heatmaps(17) + rremove("legend"), T13.heatmaps(18) + rremove("legend") + rremove("y.title"), T13.heatmaps(19) + rremove("legend") + rremove("y.title"), T13.heatmaps(20) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(21) + rremove("legend"), T13.heatmaps(22) + rremove("legend") + rremove("y.title"), T13.heatmaps(23) + rremove("legend") + rremove("y.title"), T13.heatmaps(24) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(25) + rremove("legend"), T13.heatmaps(26) + rremove("legend") + rremove("y.title"), T13.heatmaps(27) + rremove("legend") + rremove("y.title"), T13.heatmaps(28) + rremove("legend") + rremove("y.title"), ncol = 4, nrow = 3)
 
-TIAS2013_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800
+TIAS2013_plot2 # view second aggregated plot, export manually as png with width 3500 height 1500
 
-TIAS2013_plot3 <- ggarrange(T13.heatmaps(22) + rremove("legend"), T13.heatmaps(23) + rremove("legend") + rremove("y.title"), T13.heatmaps(24) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(25) + rremove("legend"), T13.heatmaps(26) + rremove("legend") + rremove("y.title"), T13.heatmaps(27) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(28) + rremove("legend"), T13.heatmaps(29) + rremove("legend") + rremove("y.title"), T13.heatmaps(30) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
+TIAS2013_plot3 <- ggarrange(T13.heatmaps(29) + rremove("legend"), T13.heatmaps(30) + rremove("legend") + rremove("y.title"), T13.heatmaps(31) + rremove("legend") + rremove("y.title"),
+                            T13.heatmaps(32) + rremove("legend"), T13.heatmaps(33) + rremove("legend") + rremove("y.title"), T13.heatmaps(34) + rremove("y.title") + rremove("legend"), 
+                            T13.heatmaps(35) + rremove("legend"), T13.heatmaps(36) + rremove("legend") + rremove("y.title"), T13.heatmaps(37) + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2013_plot3 # view third aggregated plot, export manually as png with width 3000 height 2800
-
-TIAS2013_plot4 <- ggarrange(T13.heatmaps(31) + rremove("legend"), T13.heatmaps(32) + rremove("legend") + rremove("y.title"), T13.heatmaps(33) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(34) + rremove("legend"), T13.heatmaps(35) + rremove("legend") + rremove("y.title"), T13.heatmaps(36) + rremove("legend") + rremove("y.title"), 
-                            T13.heatmaps(37) + rremove("legend"), T13.heatmaps(38) + rremove("legend") + rremove("y.title"), T13.heatmaps(39) + rremove("y.title"), ncol = 3, nrow = 3) 
-
-TIAS2013_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 2800
+TIAS2013_plot3 # view third aggregated plot, export manually as png with width 3500 height 1500
 
 #####################
 # TIAS 2015 
@@ -820,20 +809,20 @@ TIAS2015_plot1 <- ggarrange(T15.heatmaps(1) + rremove("legend"), T15.heatmaps(2)
                             T15.heatmaps(7) + rremove("legend"), T15.heatmaps(8) + rremove("legend") + rremove("y.title"), T15.heatmaps(9) + rremove("legend") + rremove("y.title"), 
                             T15.heatmaps(10) + rremove("legend"), T15.heatmaps(11) + rremove("legend") + rremove("y.title"), T15.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
                             
-TIAS2015_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800 
+TIAS2015_plot1 # view first aggregated plot, export manually as png with width 3000 height 2000 
 
 TIAS2015_plot2 <- ggarrange(T15.heatmaps(13) + rremove("legend"), T15.heatmaps(14) + rremove("legend") + rremove("y.title"), T15.heatmaps(15) + rremove("y.title") + rremove("legend"), 
                             T15.heatmaps(16) + rremove("legend"), T15.heatmaps(17) + rremove("legend") + rremove("y.title"), T15.heatmaps(18) + rremove("legend") + rremove("y.title"), 
                             T15.heatmaps(19) + rremove("legend"), T15.heatmaps(20) + rremove("legend") + rremove("y.title"), T15.heatmaps(21) + rremove("legend") + rremove("y.title"), 
                             T15.heatmaps(22) + rremove("legend"), T15.heatmaps(23) + rremove("legend") + rremove("y.title"), T15.heatmaps(24) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4)
 
-TIAS2015_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800   
+TIAS2015_plot2 # view second aggregated plot, export manually as png with width 3000 height 2000   
 
 TIAS2015_plot3 <- ggarrange(T15.heatmaps(25) + rremove("legend"), T15.heatmaps(26) + rremove("legend") + rremove("y.title"), T15.heatmaps(27) + rremove("legend") + rremove("y.title"),
                             T15.heatmaps(28) + rremove("legend"), T15.heatmaps(29) + rremove("legend") + rremove("y.title"), T15.heatmaps(30) + rremove("y.title") + rremove("legend"), 
                             T15.heatmaps(31) + rremove("legend"), T15.heatmaps(32) + rremove("legend") + rremove("y.title"), T15.heatmaps(33) + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2015_plot3 # view third aggregated plot, export manually as png with width 3000 height 2800   
+TIAS2015_plot3 # view third aggregated plot, export manually as png with width 3000 height 1500   
 
 #####################
 # TIAS 2017
@@ -947,7 +936,7 @@ TIAS2017_plot1 <- ggarrange(T17.heatmaps(1) + rremove("legend"), T17.heatmaps(2)
                             T17.heatmaps(7) + rremove("legend"), T17.heatmaps(8) + rremove("legend") + rremove("y.title"), T17.heatmaps(9) + rremove("legend") + rremove("y.title"), 
                             T17.heatmaps(10) + rremove("legend"), T17.heatmaps(11) + rremove("legend") + rremove("y.title"), T17.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
                             
-TIAS2017_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800 
+TIAS2017_plot1 # view first aggregated plot, export manually as png with width 3000 height 2000 
 
 TIAS2017_plot2 <- ggarrange(T17.heatmaps(13) + rremove("legend"), T17.heatmaps(14) + rremove("legend") + rremove("y.title"), T17.heatmaps(15) + rremove("y.title") + rremove("legend"), 
                             T17.heatmaps(16) + rremove("legend"), T17.heatmaps(17) + rremove("legend") + rremove("y.title"), T17.heatmaps(18) + rremove("legend") + rremove("y.title"), 
