@@ -550,6 +550,133 @@ TIAS2011_plot4 # view fourth aggregated plot, export manually as png with width 
 #####################
 # TIAS 2013
 #####################
+rm(list=ls())
+
+# import data again 
+
+TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
+TIAS$ID <- seq.int(nrow(TIAS))
+
+# subset for wave  
+
+TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
+
+# manually paste in variable names and corresponding ftl criteria values from var table 
+
+TIAS2013$CAT <- with(TIAS2013, ifelse(
+  TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
+  TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130964 == 0 & TA130985 == 0 & TA131835 == 0 & TA130861 == 0 & TA131877 == 0 & 
+  TA130993 == 0 & TA130977 == 0 & TA130842 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_11", "IAC_11"))
+
+table(TIAS2013$CAT)
+TIAS2013[TIAS2013$CAT == "FTL_13", "ID"]
+TIAS2013_FTL <- subset(TIAS2013, CAT == "FTL_13")
+
+# manually paste in variable names from var table
+
+TIAS2013 <- TIAS2013 %>% select(ID, CAT, TA130043, TA130044, TA130719, TA130763, TA130136, TA130948, TA130852, TA130855, TA130856, TA130813, TA130964, 
+                                TA130985, TA131835, TA130861, TA131877, TA130993, TA130977, TA130842) 
+
+# manually paste in ftl values for each variable from var table
+
+TIAS2013$TA130043_M <- TIAS2013$TA130043 == 1 
+TIAS2013$TA130044_M <- TIAS2013$TA130044 %in% c("1", "96")
+TIAS2013$TA130719_M <- TIAS2013$TA130719 %in% c("5", "0")
+TIAS2013$TA130763_M <- TIAS2013$TA130763 %in% c("5", "0")
+TIAS2013$TA130136_M <- TIAS2013$TA130136 == 3
+TIAS2013$TA130948_M <- TIAS2013$TA130948 < 60
+TIAS2013$TA130852_M <- TIAS2013$TA130852 == 0 
+TIAS2013$TA130855_M <- TIAS2013$TA130855 == 0 
+TIAS2013$TA130856_M <- TIAS2013$TA130856 == 0 
+TIAS2013$TA130813_M <- TIAS2013$TA130813 %in% c("3", "5", "7", "0")
+TIAS2013$TA130964_M <- TIAS2013$TA130964 == 0
+TIAS2013$TA130985_M <- TIAS2013$TA130985 == 0
+TIAS2013$TA131835_M <- TIAS2013$TA131835 == 0
+TIAS2013$TA130861_M <- TIAS2013$TA130861 == 0
+TIAS2013$TA131877_M <- TIAS2013$TA131877 == 0
+TIAS2013$TA130993_M <- TIAS2013$TA130993 == 0
+TIAS2013$TA130977_M <- TIAS2013$TA130977 == 0
+TIAS2013$TA130842_M <- TIAS2013$TA130842 %in% c("1", "2", "3", "4", "7", "8", "97", "99")
+
+T2013M <- TIAS2013 %>% select(TA130043_M, TA130044_M, TA130719_M, TA130763_M, TA130136_M, TA130948_M, TA130852_M, TA130855_M, TA130856_M, TA130813_M, TA130964_M, 
+                                TA130985_M, TA131835_M, TA130861_M, TA131877_M, TA130993_M, TA130977_M, TA130842_M, ID) 
+
+cols <- sapply(T2013M, is.logical)
+T2013M[,cols] <- lapply(T2013M[,cols], as.numeric)
+
+ncol(T2013M) # last column is 'ID', so the column range to plug in tidy.vars would be 1:(ncol-1)
+
+nrow(T2013M) # find out how many rows are in T2011M, value of the chunk should be the no. of columns (participants) you would want for each subplot 
+chunk <- 50 
+n <- nrow(T2013M)
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
+
+T2013M_list <- split(T2013M, r)
+length(T2013M_list) # find out how many chunks have been created, i for functions would be 1:(# of chunks)
+
+tidy.vars <- function(x){
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+}
+
+T2013M_tidy_list <- lapply(T2013M_list, tidy.vars)
+
+for(i in 1:39) {
+  T2013M_tidy_list[[i]]$variable <- factor(T2013M_tidy_list[[i]]$variable, levels = c("TA130043_M", "TA130044_M", "TA130719_M", "TA130763_M", "TA130136_M", "TA130948_M", "TA130852_M", "TA130855_M", "TA130856_M", "TA130813_M", "TA130964_M", 
+                                "TA130985_M", "TA131835_M", "TA130861_M", "TA131877_M", "TA130993_M", "TA130977_M", "TA130842_M"))
+}
+
+set.ID.levels <- function(x){
+  dplyr::pull(x, ID)
+}
+
+T2013M_levels_list <- lapply(T2013M_list, set.ID.levels)
+
+for(i in 1:39) {
+  T2013M_tidy_list[[i]]$ID <- factor(T2013M_tidy_list[[i]]$ID, levels = T2013M_levels_list[[i]])
+}
+
+for(i in 1:39) {
+  T2013M_tidy_list[[i]]$met_FTL_crt <- factor(T2013M_tidy_list[[i]]$met_FTL_crt)
+}
+
+create.heatmap <- function(x){
+  ggplot(x, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
+    coord_equal() +
+    labs(x="ID", y="Criteria") +
+    theme_tufte(base_family="Helvetica") +
+    theme(axis.ticks=element_blank()) + 
+    theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+    scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+}
+
+T11.heatmaps <- function(x){
+  create.heatmap(T2013M_tidy_list[[x]])
+}
+
+TIAS2013_plot1 <- ggarrange(T13.heatmaps(1) + rremove("legend"), T13.heatmaps(2) + rremove("legend") + rremove("y.title"), T13.heatmaps(3) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(4) + rremove("legend"), T13.heatmaps(5) + rremove("legend") + rremove("y.title"), T13.heatmaps(6) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(7) + rremove("legend"), T13.heatmaps(8) + rremove("legend") + rremove("y.title"), T13.heatmaps(9) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(10) + rremove("legend"), T13.heatmaps(11) + rremove("legend") + rremove("y.title"), T13.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
+
+TIAS2013_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800
+
+TIAS2013_plot2 <- ggarrange(T13.heatmaps(13) + rremove("legend"), T13.heatmaps(14) + rremove("legend") + rremove("y.title"), T13.heatmaps(15) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(16) + rremove("legend"), T13.heatmaps(17) + rremove("legend") + rremove("y.title"), T13.heatmaps(18) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(19) + rremove("legend"), T13.heatmaps(20) + rremove("legend") + rremove("y.title"), T13.heatmaps(21) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
+
+TIAS2013_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800
+
+TIAS2013_plot3 <- ggarrange(T13.heatmaps(22) + rremove("legend"), T13.heatmaps(23) + rremove("legend") + rremove("y.title"), T13.heatmaps(24) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(25) + rremove("legend"), T13.heatmaps(26) + rremove("legend") + rremove("y.title"), T13.heatmaps(27) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(28) + rremove("legend"), T13.heatmaps(29) + rremove("legend") + rremove("y.title"), T13.heatmaps(30) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
+
+TIAS2013_plot3 # view third aggregated plot, export manually as png with width 3000 height 2800
+
+TIAS2013_plot4 <- ggarrange(T13.heatmaps(31) + rremove("legend"), T13.heatmaps(32) + rremove("legend") + rremove("y.title"), T13.heatmaps(33) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(34) + rremove("legend"), T13.heatmaps(35) + rremove("legend") + rremove("y.title"), T13.heatmaps(36) + rremove("legend") + rremove("y.title"), 
+                            T13.heatmaps(37) + rremove("legend"), T13.heatmaps(38) + rremove("legend") + rremove("y.title"), T13.heatmaps(39) + rremove("y.title"), ncol = 3, nrow = 3) 
+
+TIAS2013_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 2800
 
 #####################
 # TIAS 2015 
@@ -684,3 +811,127 @@ TIAS2015_plot3 # view third aggregated plot, export manually as png with width 3
 #####################
 # TIAS 2017
 #####################
+
+rm(list=ls())
+
+# import data again 
+
+TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
+TIAS$ID <- seq.int(nrow(TIAS))
+
+# subset for wave  
+
+TIAS2017 <- TIAS[!is.na(TIAS$TAS17),]
+nrow(TIAS2017)
+
+# manually paste in variable names and corresponding ftl criteria values from var table 
+
+TIAS2017$CAT <- with(TIAS2017, ifelse(
+  TA170058 == 1 & TA170059 %in% c("1", "96") & TA170790 %in% c("5", "0") & TA170416 %in% c("5", "0") & TA170183 == 3 & TA171827 < 60 & 
+    TA170909 == 0 & TA170912 == 0 & TA170913 == 0 & TA170866 %in% c("3", "5", "7", "0") & TA171869 == 0 & TA171885 == 0 & TA171835 == 0 & TA171861 == 0 & TA171877 == 0 & 
+    TA171835 == 0 & TA171840 == 0)
+
+table(TIAS2017$CAT)
+
+TIAS2017 <- TIAS2017 %>% select(ID, CAT, TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171835, TA171840)
+
+TIAS2017$TA170058_M <- TIAS2017$TA170058 == 1 
+TIAS2017$TA170059_M <- TIAS2017$TA170059 %in% c("1", "96")
+TIAS2017$TA170790_M <- TIAS2017$TA170790 %in% c("5", "0")
+TIAS2017$TA170416_M <- TIAS2017$TA170416 %in% c("5", "0")
+TIAS2017$TA170183_M <- TIAS2017$TA170183 == 3
+TIAS2017$TA171827_M <- TIAS2017$TA171827 < 60
+TIAS2017$TA170909_M <- TIAS2017$TA170909 == 0 
+TIAS2017$TA170912_M <- TIAS2017$TA170912 == 0 
+TIAS2017$TA170913_M <- TIAS2017$TA170913 == 0 
+TIAS2017$TA170866_M <- TIAS2017$TA170866 %in% c("3", "5", "7", "0")
+TIAS2017$TA171869_M <- TIAS2017$TA171869 == 0
+TIAS2017$TA171885_M <- TIAS2017$TA171885 == 0
+TIAS2017$TA171835_M <- TIAS2017$TA171835 == 0
+TIAS2017$TA171861_M <- TIAS2017$TA171861 == 0
+TIAS2017$TA171877_M <- TIAS2017$TA171877 == 0
+TIAS2017$TA171835_M <- TIAS2017$TA171835 == 0
+TIAS2017$TA171840_M <- TIAS2017$TA171840 == 0
+
+table(TIAS2017$TA170866_M)
+TIAS2017[TIAS2075$CAT == "FTL_17", "ID"]
+TIAS2017_FTL <- subset(TIAS2017, CAT == "FTL_17")
+  
+T2017M <- TIAS2017 %>% select(TA170058_M, TA170059_M, TA170790_M, TA170416_M, TA170183_M, TA171827_M, TA170909_M, TA170912_M, TA170913_M, TA170866_M, TA171869_M, TA171885_M, TA171835_M, TA171861_M, TA171877_M, TA171835_M, TA171840_M, ID)
+  
+cols <- sapply(T2017M, is.logical)
+T2017M[,cols] <- lapply(T2017M[,cols], as.numeric)
+
+ncol(T2017M) # last column is 'ID', so the column range to plug in tidy.vars would be 1:(ncol-1)
+
+nrow(T2017M) # find out how many rows are in T2015M, value of the chunk should the no. of columns (participants) you would want for each subplot 
+chunk <- 50 
+n <- nrow(T2017M)
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
+
+T2017M_list <- split(T2017M, r)
+length(T2017M_list) # find out how many chunks have been created, i for functions would be 1:(# of chunks)
+
+tidy.vars <- function(x){
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+}
+
+T2017M_tidy_list <- lapply(T2017M_list, tidy.vars)
+
+# manually paste in variable names as strings to define levels for the factors 
+
+for(i in 1:33) {
+  T2017M_tidy_list[[i]]$variable <- factor(T2017M_tidy_list[[i]]$variable, levels = c("TA170058_M", "TA170059_M", "TA170790_M", "TA170416_M", "TA170183_M", "TA171827_M", "TA170909_M", "TA170912_M", "TA170913_M", "TA170866_M", "TA171869_M", "TA171885_M", "TA171835_M", "TA171861_M", "TA171877_M", "TA171835_M", "TA171840_M")
+  )
+} 
+
+set.ID.levels <- function(x){
+  dplyr::pull(x, ID)
+}
+
+T2017M_levels_list <- lapply(T2017M_list, set.ID.levels)
+
+for(i in 1:33) {
+  T2017M_tidy_list[[i]]$ID <- factor(T2017M_tidy_list[[i]]$ID, levels = T2017M_levels_list[[i]])
+}
+
+for(i in 1:33) {
+  T2017M_tidy_list[[i]]$met_FTL_crt <- factor(T2017M_tidy_list[[i]]$met_FTL_crt)
+}
+
+create.heatmap <- function(x){
+  ggplot(x, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
+    coord_equal() +
+    labs(x="ID", y="Criteria") +
+    theme_tufte(base_family="Helvetica") +
+    theme(axis.ticks=element_blank()) + 
+    theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+    scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
+}
+
+T17.heatmaps <- function(x){
+  create.heatmap(T2017M_tidy_list[[x]])
+}
+
+# need to arrange plots with ggarrange manually - depending on how many plots you have for the wave, remove y.title for all plots except for the leftmost plots, remove legends for all plots except for the last plot
+
+TIAS2017_plot1 <- ggarrange(T17.heatmaps(1) + rremove("legend"), T17.heatmaps(2) + rremove("legend") + rremove("y.title"), T17.heatmaps(3) + rremove("legend") + rremove("y.title"), 
+                            T17.heatmaps(4) + rremove("legend"), T17.heatmaps(5) + rremove("legend") + rremove("y.title"), T17.heatmaps(6) + rremove("legend") + rremove("y.title"), 
+                            T17.heatmaps(7) + rremove("legend"), T17.heatmaps(8) + rremove("legend") + rremove("y.title"), T17.heatmaps(9) + rremove("legend") + rremove("y.title"), 
+                            T17.heatmaps(10) + rremove("legend"), T17.heatmaps(11) + rremove("legend") + rremove("y.title"), T17.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
+                            
+TIAS2017_plot1 # view first aggregated plot, export manually as png with width 3000 height 2800 
+
+TIAS2017_plot2 <- ggarrange(T17.heatmaps(13) + rremove("legend"), T17.heatmaps(14) + rremove("legend") + rremove("y.title"), T17.heatmaps(15) + rremove("y.title") + rremove("legend"), 
+                            T17.heatmaps(16) + rremove("legend"), T17.heatmaps(17) + rremove("legend") + rremove("y.title"), T17.heatmaps(18) + rremove("legend") + rremove("y.title"), 
+                            T17.heatmaps(19) + rremove("legend"), T17.heatmaps(20) + rremove("legend") + rremove("y.title"), T17.heatmaps(21) + rremove("legend") + rremove("y.title"), 
+                            T17.heatmaps(22) + rremove("legend"), T17.heatmaps(23) + rremove("legend") + rremove("y.title"), T17.heatmaps(24) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4)
+
+TIAS2017_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800   
+
+TIAS2017_plot3 <- ggarrange(T17.heatmaps(25) + rremove("legend"), T17.heatmaps(26) + rremove("legend") + rremove("y.title"), T17.heatmaps(27) + rremove("legend") + rremove("y.title"),
+                            T17.heatmaps(28) + rremove("legend"), T17.heatmaps(29) + rremove("legend") + rremove("y.title"), T17.heatmaps(30) + rremove("y.title") + rremove("legend"), 
+                            T17.heatmaps(31) + rremove("legend"), T17.heatmaps(32) + rremove("legend") + rremove("y.title"), T17.heatmaps(33) + rremove("y.title"), ncol = 3, nrow = 3) 
+
+TIAS2017_plot3 # view third aggregated plot, export manually as png with width 3000 height 2800   
+
