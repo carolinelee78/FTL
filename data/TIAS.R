@@ -55,21 +55,26 @@ TIAS$ID <- seq.int(nrow(TIAS))
 # TIAS 2005
 #####################
 
+# clear global environment
+
+rm(list=ls())
+
+# subset for wave 
+
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
 nrow(TIAS2005)
 
 # manually paste in variable names and corresponding ftl criteria values from var table 
 
 TIAS2005$CAT <- with(TIAS2005, ifelse(
-  TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
+    TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
     TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
     TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_05", ifelse(
-      TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
+        TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
         TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
         TA050817 == 0 & TA050798 == 0 & TA050394 == 0 & TA050371 == 1, "FTL_05", "IAC_05")))
 
 table(TIAS2005$CAT)
-TIAS2005[TIAS2005$CAT == "FTL_05", "ID"]
 TIAS2005_FTL <- subset(TIAS2005, CAT == "FTL_05")
 
 # manually paste in variable names from var table
@@ -184,18 +189,20 @@ TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
 # manually paste in variable names and corresponding ftl criteria values from var table 
 
 TIAS2007$CAT <- with(TIAS2007, ifelse(
-  TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
+    TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
     TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
-    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_07", "IAC_07"))
+    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_07", ifelse(
+        TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
+        TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
+        TA070785 == 0 & TA070769 == 0 & TA070368 == 0 & TA070344 == 1, "FTL_07", "IAC_07")))
 
 table(TIAS2007$CAT)
-TIAS2007[TIAS2007$CAT == "FTL_07", "ID"]
 TIAS2007_FTL <- subset(TIAS2007, CAT == "FTL_07")
 
 # manually paste in variable names from var table
 
 TIAS2007 <- TIAS2007 %>% select(ID, CAT, TA070042, TA070043, TA070570, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, TA070756, 
-                                TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368) 
+                                TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368, TA070344) 
 
 # manually paste in ftl values for each variable from var table
 
@@ -216,7 +223,9 @@ TIAS2007$TA070748_M <- TIAS2007$TA070748 == 0
 TIAS2007$TA070793_M <- TIAS2007$TA070793 == 0
 TIAS2007$TA070785_M <- TIAS2007$TA070785 == 0
 TIAS2007$TA070769_M <- TIAS2007$TA070769 == 0
-TIAS2007$TA070368_M <- TIAS2007$TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99")
+TIAS2007$TA070368_M <- with(TIAS2007, ifelse(
+  TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE, ifelse(
+    TA070368 == 0 & TA070344 == 1, TRUE, FALSE)))
 
 T2007M <- TIAS2007 %>% select(TA070042_M, TA070043_M, TA070570_M, TA070602_M, TA070127_M, TA070740_M, TA070683_M, TA070686_M, TA070687_M, TA070649_M, TA070756_M, 
                               TA070777_M, TA070764_M, TA070748_M, TA070793_M, TA070785_M, TA070769_M, TA070368_M, ID) 
@@ -310,16 +319,18 @@ TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
 TIAS2009$CAT <- with(TIAS2009, ifelse(
   TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
   TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
-  TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_09", "IAC_09"))
+  TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_09", ifelse(
+      TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
+      TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
+      TA090844 == 0 & TA090828 == 0 & TA090385 == 0 & TA090361 == 1, "FTL_09", "IAC_07")))
 
 table(TIAS2009$CAT)
-TIAS2009[TIAS2009$CAT == "FTL_09", "ID"]
 TIAS2009_FTL <- subset(TIAS2009, CAT == "FTL_09")
 
 # manually paste in variable names from var table
 
 TIAS2009 <- TIAS2009 %>% select(ID, CAT, TA090043, TA090044, TA090612, TA090655, TA090136, TA090799, TA090739, TA090742, TA090743, TA090705, TA090815, 
-                                TA090836, TA090823, TA090807, TA090852, TA090844, TA090828, TA090385) 
+                                TA090836, TA090823, TA090807, TA090852, TA090844, TA090828, TA090385, TA090361) 
 
 # manually paste in ftl values for each variable from var table
 
@@ -340,7 +351,9 @@ TIAS2009$TA090807_M <- TIAS2009$TA090807 == 0
 TIAS2009$TA090852_M <- TIAS2009$TA090852 == 0
 TIAS2009$TA090844_M <- TIAS2009$TA090844 == 0
 TIAS2009$TA090828_M <- TIAS2009$TA090828 == 0
-TIAS2009$TA090385_M <- TIAS2009$TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99")
+TIAS2009$TA090385_M <- with(TIAS2009, ifelse(
+  TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE, ifelse(
+    TA090385 == 0 & TA090361 == 1, TRUE, FALSE)))
 
 T2009M <- TIAS2009 %>% select(TA090043_M, TA090044_M, TA090612_M, TA090655_M, TA090136_M, TA090799_M, TA090739_M, TA090742_M, TA090743_M, TA090705_M, TA090815_M, 
                               TA090836_M, TA090823_M, TA090807_M, TA090852_M, TA090844_M, TA090828_M, TA090385_M, ID) 
@@ -434,16 +447,18 @@ TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
 TIAS2011$CAT <- with(TIAS2011, ifelse(
   TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
   TA110829 == 0 & TA110832 == 0 & TA110833 == 0 & TA110793 %in% c("3", "5", "7", "0") & TA110931 == 0 & TA110952 == 0 & TA110939 == 0 & TA110923 == 0 & TA110968 == 0 & 
-  TA110960 == 0 & TA110944 == 0 & TA110462 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_11", "IAC_11"))
+  TA110960 == 0 & TA110944 == 0 & TA110462 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_11", ifelse(
+      TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
+      TA110829 == 0 & TA110832 == 0 & TA110833 == 0 & TA110793 %in% c("3", "5", "7", "0") & TA110931 == 0 & TA110952 == 0 & TA110939 == 0 & TA110923 == 0 & TA110968 == 0 & 
+      TA110960 == 0 & TA110944 == 0 & TA110462 == 0 & TA110351 == 1, "FTL_11", "IAC_11")))
 
 table(TIAS2011$CAT)
-TIAS2011[TIAS2011$CAT == "FTL_11", "ID"]
 TIAS2011_FTL <- subset(TIAS2011, CAT == "FTL_11")
 
 # manually paste in variable names from var table
 
 TIAS2011 <- TIAS2011 %>% select(ID, CAT, TA110044, TA110045, TA110699, TA110743, TA110137, TA110915, TA110829, TA110832, TA110833, TA110793, TA110931, 
-                                TA110952, TA110939, TA110923, TA110968, TA110960, TA110944, TA110462) 
+                                TA110952, TA110939, TA110923, TA110968, TA110960, TA110944, TA110462, TA110351) 
 
 # manually paste in ftl values for each variable from var table
 
@@ -464,7 +479,9 @@ TIAS2011$TA110923_M <- TIAS2011$TA110923 == 0
 TIAS2011$TA110968_M <- TIAS2011$TA110968 == 0
 TIAS2011$TA110960_M <- TIAS2011$TA110960 == 0
 TIAS2011$TA110944_M <- TIAS2011$TA110944 == 0
-TIAS2011$TA110462_M <- TIAS2011$TA110462 %in% c("1", "2", "3", "4", "7", "8", "97", "99")
+TIAS2011$TA110462_M <- with(TIAS2011, ifelse(
+  TA110462 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE, ifelse(
+    TA110462 == 0 & TA110351 == 1, TRUE, FALSE)))
 
 T2011M <- TIAS2011 %>% select(TA110044_M, TA110045_M, TA110699_M, TA110743_M, TA110137_M, TA110915_M, TA110829_M, TA110832_M, TA110833_M, TA110793_M, TA110931_M, 
                               TA110952_M, TA110939_M, TA110923_M, TA110968_M, TA110960_M, TA110944_M, TA110462_M, ID) 
@@ -549,6 +566,9 @@ TIAS2011_plot4 # view fourth aggregated plot, export manually as png with width 
 #####################
 # TIAS 2013
 #####################
+
+# clear global environment
+
 rm(list=ls())
 
 # import data again 
@@ -564,17 +584,19 @@ TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
 
 TIAS2013$CAT <- with(TIAS2013, ifelse(
   TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
-  TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130964 == 0 & TA130985 == 0 & TA131835 == 0 & TA130861 == 0 & TA131877 == 0 & 
-  TA130993 == 0 & TA130977 == 0 & TA130842 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_13", "IAC_13"))
-
+  TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130961 == 0 & TA130982 == 0 & TA130969 == 0 & TA130861 == 0 & TA130998 == 0 &
+  TA130990 == 0 & TA130977 == 0 & TA130482 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_13", ifelse(
+      TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
+      TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130961 == 0 & TA130982 == 0 & TA130969 == 0 & TA130861 == 0 & TA130998 == 0 & 
+        TA130990 == 0 & TA130977 == 0 & TA130482 == 0 & TA130350 == 1, "FTL_13", "IAC_13")))
+  
 table(TIAS2013$CAT)
-TIAS2013[TIAS2013$CAT == "FTL_13", "ID"]
 TIAS2013_FTL <- subset(TIAS2013, CAT == "FTL_13")
 
 # manually paste in variable names from var table
 
-TIAS2013 <- TIAS2013 %>% select(ID, CAT, TA130043, TA130044, TA130719, TA130763, TA130136, TA130948, TA130852, TA130855, TA130856, TA130813, TA130964, 
-                                TA130985, TA131835, TA130861, TA131877, TA130993, TA130977, TA130842) 
+TIAS2013 <- TIAS2013 %>% select(ID, CAT, TA130043, TA130044, TA130719, TA130763, TA130136, TA130948, TA130852, TA130855, TA130856, TA130813, TA130961, 
+                                TA130982, TA130969, TA130861, TA130998, TA130990, TA130977, TA130482, TA130350) 
 
 # manually paste in ftl values for each variable from var table
 
@@ -588,17 +610,19 @@ TIAS2013$TA130852_M <- TIAS2013$TA130852 == 0
 TIAS2013$TA130855_M <- TIAS2013$TA130855 == 0 
 TIAS2013$TA130856_M <- TIAS2013$TA130856 == 0 
 TIAS2013$TA130813_M <- TIAS2013$TA130813 %in% c("3", "5", "7", "0")
-TIAS2013$TA130964_M <- TIAS2013$TA130964 == 0
-TIAS2013$TA130985_M <- TIAS2013$TA130985 == 0
-TIAS2013$TA131835_M <- TIAS2013$TA131835 == 0
+TIAS2013$TA130961_M <- TIAS2013$TA130961 == 0
+TIAS2013$TA130982_M <- TIAS2013$TA130982 == 0
+TIAS2013$TA130969_M <- TIAS2013$TA130969 == 0
 TIAS2013$TA130861_M <- TIAS2013$TA130861 == 0
-TIAS2013$TA131877_M <- TIAS2013$TA131877 == 0
-TIAS2013$TA130993_M <- TIAS2013$TA130993 == 0
+TIAS2013$TA130998_M <- TIAS2013$TA130998 == 0
+TIAS2013$TA130990_M <- TIAS2013$TA130990 == 0
 TIAS2013$TA130977_M <- TIAS2013$TA130977 == 0
-TIAS2013$TA130842_M <- TIAS2013$TA130842 %in% c("1", "2", "3", "4", "7", "8", "97", "99")
+TIAS2013$TA130482_M <- with(TIAS2013, ifelse( 
+  TA130482 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE, ifelse(
+    TA130482 == 0 & TA130350 == 1, TRUE, FALSE)))
 
-T2013M <- TIAS2013 %>% select(TA130043_M, TA130044_M, TA130719_M, TA130763_M, TA130136_M, TA130948_M, TA130852_M, TA130855_M, TA130856_M, TA130813_M, TA130964_M, 
-                                TA130985_M, TA131835_M, TA130861_M, TA131877_M, TA130993_M, TA130977_M, TA130842_M, ID) 
+T2013M <- TIAS2013 %>% select(TA130043_M, TA130044_M, TA130719_M, TA130763_M, TA130136_M, TA130948_M, TA130852_M, TA130855_M, TA130856_M, TA130813_M, TA130961_M, 
+                              TA130982_M, TA130969_M, TA130861_M, TA130998_M, TA130990_M, TA130977_M, TA130482_M, ID) 
 
 cols <- sapply(T2013M, is.logical)
 T2013M[,cols] <- lapply(T2013M[,cols], as.numeric)
@@ -693,18 +717,21 @@ TIAS$ID <- seq.int(nrow(TIAS))
 # subset for wave  
 
 TIAS2015 <- TIAS[!is.na(TIAS$TAS15),]
-nrow(TIAS2015)
 
 # manually paste in variable names and corresponding ftl criteria values from var table 
 
 TIAS2015$CAT <- with(TIAS2015, ifelse(
-  TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
-    TA150869 == 0 & TA150872 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 == 0 & TA150978 == 0 & TA151023 == 0 & 
-    TA151015 == 0 & TA150999 == 0 & TA150491 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_15", "IAC_15"))
-
+   TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
+   TA150869 == 0 & TA150872 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 == 0 & TA150978 == 0 & TA151023 == 0 & 
+   TA151015 == 0 & TA150999 == 0 & TA150491 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_15", ifelse(
+      TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
+      TA150869 == 0 & TA150872 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 == 0 & TA150978 == 0 & TA151023 == 0 & 
+      TA151015 == 0 & TA150999 == 0 & TA150491 == 0 & TA150352 == 1, "FTL_15", "IAC_15")))
+    
 table(TIAS2015$CAT)
+TIAS2015_FTL <- subset(TIAS2015, CAT == "FTL_15")
 
-TIAS2015 <- TIAS2015 %>% select(ID, CAT, TA150043, TA150044, TA150731, TA150776, TA150128, TA150970, TA150869, TA150872, TA150873, TA150826, TA150986, TA151007, TA150994, TA150978, TA151023, TA151015, TA150999, TA150491)
+TIAS2015 <- TIAS2015 %>% select(ID, CAT, TA150043, TA150044, TA150731, TA150776, TA150128, TA150970, TA150869, TA150872, TA150873, TA150826, TA150986, TA151007, TA150994, TA150978, TA151023, TA151015, TA150999, TA150491, TA150352)
 
 TIAS2015$TA150043_M <- TIAS2015$TA150043 == 1 
 TIAS2015$TA150044_M <- TIAS2015$TA150044 %in% c("1", "96")
@@ -723,10 +750,11 @@ TIAS2015$TA150978_M <- TIAS2015$TA150978 == 0
 TIAS2015$TA151023_M <- TIAS2015$TA151023 == 0
 TIAS2015$TA151015_M <- TIAS2015$TA151015 == 0
 TIAS2015$TA150999_M <- TIAS2015$TA150999 == 0
-TIAS2015$TA150491_M <- TIAS2015$TA150491 %in% c("1", "2", "3", "4", "7", "8", "97", "99")
-  
+TIAS2015$TA150491_M <- with(TIAS2015, ifelse(
+  TA150491 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE, ifelse(
+    TA150491 == 0 & TA150352 == 1, TRUE, FALSE)))
+
 table(TIAS2015$TA150826_M)
-TIAS2015[TIAS2015$CAT == "FTL_15", "ID"]
 TIAS2015_FTL <- subset(TIAS2015, CAT == "FTL_15")
   
 T2015M <- TIAS2015 %>% select(TA150043_M, TA150044_M, TA150731_M, TA150776_M, TA150128_M, TA150970_M, TA150869_M, TA150872_M, TA150873_M,
@@ -811,6 +839,8 @@ TIAS2015_plot3 # view third aggregated plot, export manually as png with width 3
 # TIAS 2017
 #####################
 
+# clear global environment
+
 rm(list=ls())
 
 # import data again 
@@ -821,18 +851,18 @@ TIAS$ID <- seq.int(nrow(TIAS))
 # subset for wave  
 
 TIAS2017 <- TIAS[!is.na(TIAS$TAS17),]
-nrow(TIAS2017)
 
 # manually paste in variable names and corresponding ftl criteria values from var table 
 
 TIAS2017$CAT <- with(TIAS2017, ifelse(
   TA170058 == 1 & TA170059 %in% c("1", "96") & TA170790 %in% c("5", "0") & TA170416 %in% c("5", "0") & TA170183 == 3 & TA171827 < 60 & 
     TA170909 == 0 & TA170912 == 0 & TA170913 == 0 & TA170866 %in% c("3", "5", "7", "0") & TA171869 == 0 & TA171885 == 0 & TA171835 == 0 & TA171861 == 0 & TA171877 == 0 & 
-    TA171835 == 0 & TA171840 == 0, "FTL_17", "IAC_17"))
+    TA171835 == 0 & TA171840 == 0 & TA170389 == 0, "FTL_17", "IAC_17"))
 
 table(TIAS2017$CAT)
+TIAS2017_FTL <- subset(TIAS2017, CAT == "FTL_17")
 
-TIAS2017 <- TIAS2017 %>% select(ID, CAT, TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171835, TA171840)
+TIAS2017 <- TIAS2017 %>% select(ID, CAT, TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171840, TA170389)
 
 TIAS2017$TA170058_M <- TIAS2017$TA170058 == 1 
 TIAS2017$TA170059_M <- TIAS2017$TA170059 %in% c("1", "96")
@@ -849,14 +879,13 @@ TIAS2017$TA171885_M <- TIAS2017$TA171885 == 0
 TIAS2017$TA171835_M <- TIAS2017$TA171835 == 0
 TIAS2017$TA171861_M <- TIAS2017$TA171861 == 0
 TIAS2017$TA171877_M <- TIAS2017$TA171877 == 0
-TIAS2017$TA171835_M <- TIAS2017$TA171835 == 0
 TIAS2017$TA171840_M <- TIAS2017$TA171840 == 0
+TIAS2017$TA170389_M <- TIAS2017$TA170389 == 0
 
-table(TIAS2017$TA170866_M)
-TIAS2017[TIAS2075$CAT == "FTL_17", "ID"]
+TIAS2017[TIAS2017$CAT == "FTL_17", "ID"]
 TIAS2017_FTL <- subset(TIAS2017, CAT == "FTL_17")
   
-T2017M <- TIAS2017 %>% select(TA170058_M, TA170059_M, TA170790_M, TA170416_M, TA170183_M, TA171827_M, TA170909_M, TA170912_M, TA170913_M, TA170866_M, TA171869_M, TA171885_M, TA171835_M, TA171861_M, TA171877_M, TA171835_M, TA171840_M, ID)
+T2017M <- TIAS2017 %>% select(TA170058_M, TA170059_M, TA170790_M, TA170416_M, TA170183_M, TA171827_M, TA170909_M, TA170912_M, TA170913_M, TA170866_M, TA171869_M, TA171885_M, TA171835_M, TA171861_M, TA171877_M, TA171840_M, TA170389_M, ID)
   
 cols <- sapply(T2017M, is.logical)
 T2017M[,cols] <- lapply(T2017M[,cols], as.numeric)
@@ -872,16 +901,15 @@ T2017M_list <- split(T2017M, r)
 length(T2017M_list) # find out how many chunks have been created, i for functions would be 1:(# of chunks)
 
 tidy.vars <- function(x){
-  x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:17)
 }
 
 T2017M_tidy_list <- lapply(T2017M_list, tidy.vars)
 
 # manually paste in variable names as strings to define levels for the factors 
 
-for(i in 1:33) {
-  T2017M_tidy_list[[i]]$variable <- factor(T2017M_tidy_list[[i]]$variable, levels = c("TA170058_M", "TA170059_M", "TA170790_M", "TA170416_M", "TA170183_M", "TA171827_M", "TA170909_M", "TA170912_M", "TA170913_M", "TA170866_M", "TA171869_M", "TA171885_M", "TA171835_M", "TA171861_M", "TA171877_M", "TA171835_M", "TA171840_M")
-  )
+for(i in 1:51) {
+  T2017M_tidy_list[[i]]$variable <- factor(T2017M_tidy_list[[i]]$variable, levels = c("TA170058_M", "TA170059_M", "TA170790_M", "TA170416_M", "TA170183_M", "TA171827_M", "TA170909_M", "TA170912_M", "TA170913_M", "TA170866_M", "TA171869_M", "TA171885_M", "TA171835_M", "TA171861_M", "TA171877_M", "TA171840_M", "TA170389_M"))
 } 
 
 set.ID.levels <- function(x){
@@ -890,11 +918,11 @@ set.ID.levels <- function(x){
 
 T2017M_levels_list <- lapply(T2017M_list, set.ID.levels)
 
-for(i in 1:33) {
+for(i in 1:51) {
   T2017M_tidy_list[[i]]$ID <- factor(T2017M_tidy_list[[i]]$ID, levels = T2017M_levels_list[[i]])
 }
 
-for(i in 1:33) {
+for(i in 1:51) {
   T2017M_tidy_list[[i]]$met_FTL_crt <- factor(T2017M_tidy_list[[i]]$met_FTL_crt)
 }
 
@@ -933,4 +961,178 @@ TIAS2017_plot3 <- ggarrange(T17.heatmaps(25) + rremove("legend"), T17.heatmaps(2
                             T17.heatmaps(31) + rremove("legend"), T17.heatmaps(32) + rremove("legend") + rremove("y.title"), T17.heatmaps(33) + rremove("y.title"), ncol = 3, nrow = 3) 
 
 TIAS2017_plot3 # view third aggregated plot, export manually as png with width 3000 height 2800   
+
+TIAS2017_plot4 <- ggarrange(T17.heatmaps(34) + rremove("legend"), T17.heatmaps(35) + rremove("legend") + rremove("y.title"), T17.heatmaps(36) + rremove("legend") + rremove("y.title"),
+                            T17.heatmaps(37) + rremove("legend"), T17.heatmaps(38) + rremove("legend") + rremove("y.title"), T17.heatmaps(39) + rremove("y.title") + rremove("legend"), 
+                            T17.heatmaps(40) + rremove("legend"), T17.heatmaps(41) + rremove("legend") + rremove("y.title"), T17.heatmaps(42) + rremove("y.title"), ncol = 3, nrow = 3) 
+
+TIAS2017_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 2800   
+
+TIAS2017_plot5 <- ggarrange(T17.heatmaps(43) + rremove("legend"), T17.heatmaps(44) + rremove("legend") + rremove("y.title"), T17.heatmaps(45) + rremove("legend") + rremove("y.title"),
+                            T17.heatmaps(46) + rremove("legend"), T17.heatmaps(47) + rremove("legend") + rremove("y.title"), T17.heatmaps(48) + rremove("y.title") + rremove("legend"), 
+                            T17.heatmaps(49) + rremove("legend"), T17.heatmaps(50) + rremove("legend") + rremove("y.title"), T17.heatmaps(51) + rremove("y.title"), ncol = 3, nrow = 3) 
+
+TIAS2017_plot5 # view fifth aggregated plot, export manually as png with width 3000 height 2800   
+
+#####################
+# TIAS 2005-2017
+#####################
+
+# clear global environment
+
+rm(list=ls())
+
+# import data again 
+
+TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
+TIAS$ID <- seq.int(nrow(TIAS))
+
+# TIAS 2005 IAC vs. FTL 
+
+TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
+nrow(TIAS2005)
+
+TIAS2005$CAT <- with(TIAS2005, ifelse(
+   TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
+   TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
+   TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_05", ifelse(
+      TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
+      TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
+      TA050817 == 0 & TA050798 == 0 & TA050394 == 0 & TA050371 == 1, "FTL_05", "IAC_05")))
+
+T05_ID <- TIAS2005$ID
+FTL05_ID <- TIAS2005[TIAS2005$CAT == "FTL_05", "ID"]
+print(FTL05_ID)
+TIAS$CAT_05 <- with(TIAS, ifelse(
+  ID %in% FTL05_ID, "FTL_05", ifelse(
+    ID %in% T05_ID, "IAC_05", NA)))
+
+# TIAS 2007 IAC vs. FTL 
+
+TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
+
+TIAS2007$CAT <- with(TIAS2007, ifelse(
+  TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
+  TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
+  TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_07", ifelse(
+      TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
+      TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
+      TA070785 == 0 & TA070769 == 0 & TA070368 == 0 & TA070344 == 1, "FTL_07", "IAC_07")))
+
+T07_ID <- TIAS2007$ID
+FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "ID"]
+print(FTL07_ID)
+TIAS$CAT_07 <- with(TIAS, ifelse(
+  ID %in% FTL07_ID, "FTL_07", ifelse(
+    ID %in% T07_ID, "IAC_07", NA)))
+
+# TIAS 2009 IAC vs. FTL 
+
+TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
+
+TIAS2009$CAT <- with(TIAS2009, ifelse(
+  TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
+  TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
+  TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_09", ifelse(
+      TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
+      TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
+      TA090844 == 0 & TA090828 == 0 & TA090385 == 0 & TA090361 == 1, "FTL_09", "IAC_07")))
+
+T09_ID <- TIAS2009$ID
+FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "ID"]
+print(FTL09_ID)
+TIAS$CAT_09 <- with(TIAS, ifelse(
+  ID %in% FTL09_ID, "FTL_09", ifelse(
+    ID %in% T09_ID, "IAC_09", NA)))
+
+# TIAS 2011 IAC vs. FTL 
+
+TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
+
+TIAS2011$CAT <- with(TIAS2011, ifelse(
+  TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
+  TA110829 == 0 & TA110832 == 0 & TA110833 == 0 & TA110793 %in% c("3", "5", "7", "0") & TA110931 == 0 & TA110952 == 0 & TA110939 == 0 & TA110923 == 0 & TA110968 == 0 & 
+  TA110960 == 0 & TA110944 == 0 & TA110462 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_11", ifelse(
+      TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
+      TA110829 == 0 & TA110832 == 0 & TA110833 == 0 & TA110793 %in% c("3", "5", "7", "0") & TA110931 == 0 & TA110952 == 0 & TA110939 == 0 & TA110923 == 0 & TA110968 == 0 & 
+      TA110960 == 0 & TA110944 == 0 & TA110462 == 0 & TA110351 == 1, "FTL_11", "IAC_11")))
+
+T11_ID <- TIAS2011$ID
+FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "ID"]
+print(FTL11_ID)
+TIAS$CAT_11 <- with(TIAS, ifelse(
+  ID %in% FTL11_ID, "FTL_11", ifelse(
+    ID %in% T11_ID, "IAC_11", NA)))
+
+# TIAS 2013 IAC vs. FTL 
+
+TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
+
+TIAS2013$CAT <- with(TIAS2013, ifelse(
+  TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
+  TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130961 == 0 & TA130982 == 0 & TA130969 == 0 & TA130861 == 0 & TA130998 == 0 &
+  TA130990 == 0 & TA130977 == 0 & TA130482 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_13", ifelse(
+      TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
+      TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130961 == 0 & TA130982 == 0 & TA130969 == 0 & TA130861 == 0 & TA130998 == 0 & 
+      TA130990 == 0 & TA130977 == 0 & TA130482 == 0 & TA130350 == 1, "FTL_13", "IAC_13")))
+
+T13_ID <- TIAS2013$ID
+FTL13_ID <- TIAS2013[TIAS2013$CAT == "FTL_13", "ID"]
+print(FTL13_ID)
+TIAS$CAT_13 <- with(TIAS, ifelse(
+  ID %in% FTL13_ID, "FTL_13", ifelse(
+    ID %in% T13_ID, "IAC_13", NA)))
+
+# TIAS 2015 IAC vs. FTL 
+
+TIAS2015 <- TIAS[!is.na(TIAS$TAS15),]
+
+TIAS2015$CAT <- with(TIAS2015, ifelse(
+  TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
+    TA150869 == 0 & TA150872 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 == 0 & TA150978 == 0 & TA151023 == 0 & 
+    TA151015 == 0 & TA150999 == 0 & TA150491 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_15", ifelse(
+      TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
+        TA150869 == 0 & TA150872 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 == 0 & TA150978 == 0 & TA151023 == 0 & 
+        TA151015 == 0 & TA150999 == 0 & TA150491 == 0 & TA150352 == 1, "FTL_15", "IAC_15")))
+
+T15_ID <- TIAS2015$ID
+FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "ID"]
+print(FTL15_ID)
+TIAS$CAT_15 <- with(TIAS, ifelse(
+  ID %in% FTL15_ID, "FTL_15", ifelse(
+    ID %in% T15_ID, "IAC_15", NA)))
+
+# TIAS 2017 IAC vs. FTL 
+
+TIAS2017 <- TIAS[!is.na(TIAS$TAS17),]
+
+TIAS2017$CAT <- with(TIAS2017, ifelse(
+  TA170058 == 1 & TA170059 %in% c("1", "96") & TA170790 %in% c("5", "0") & TA170416 %in% c("5", "0") & TA170183 == 3 & TA171827 < 60 & 
+    TA170909 == 0 & TA170912 == 0 & TA170913 == 0 & TA170866 %in% c("3", "5", "7", "0") & TA171869 == 0 & TA171885 == 0 & TA171835 == 0 & TA171861 == 0 & TA171877 == 0 & 
+    TA171835 == 0 & TA171840 == 0 & TA170389 == 0, "FTL_17", "IAC_17"))
+
+T17_ID <- TIAS2017$ID
+FTL17_ID <- TIAS2017[TIAS2017$CAT == "FTL_17", "ID"]
+print(FTL17_ID)
+TIAS$CAT_17 <- with(TIAS, ifelse(
+  ID %in% FTL17_ID, "FTL_17", ifelse(
+    ID %in% T17_ID, "IAC_17", NA)))
+
+# view final dataset 
+
+TIAS_FINAL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_13, CAT_15, CAT_17, TA050042, TA050043, TA050595, TA050631, TA050127, TA050769, TA050712, TA050715, TA050716, TA050678, TA050785, TA050809, TA050793, TA050777, TA050825, TA050817, TA050798, TA050394, TA050371,
+                              TA070042, TA070043, TA070570, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, TA070756, TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368, TA070344,
+                              TA090043, TA090044, TA090612, TA090655, TA090136, TA090799, TA090739, TA090742, TA090743, TA090705, TA090815, TA090836, TA090823, TA090807, TA090852, TA090844, TA090828, TA090385, TA090361,
+                              TA110044, TA110045, TA110699, TA110743, TA110137, TA110915, TA110829, TA110832, TA110833, TA110793, TA110931, TA110952, TA110939, TA110923, TA110968, TA110960, TA110944, TA110462, TA110351,
+                              TA130043, TA130044, TA130719, TA130763, TA130136, TA130948, TA130852, TA130855, TA130856, TA130813, TA130961, TA130982, TA130969, TA130861, TA130998, TA130990, TA130977, TA130482, TA130350,
+                              TA150043, TA150044, TA150731, TA150776, TA150128, TA150970, TA150869, TA150872, TA150873, TA150826, TA150986, TA151007, TA150994, TA150978, TA151023, TA151015, TA150999, TA150491, TA150352,
+                              TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171840, TA170389)
+
+
+
+
+
+
+
+
 
