@@ -846,7 +846,7 @@ TIAS2017 <- TIAS[!is.na(TIAS$TAS17),]
 TIAS2017$CAT <- with(TIAS2017, ifelse(
   TA170058 == 1 & TA170059 %in% c("1", "96") & TA170790 %in% c("5", "0") & TA170416 %in% c("5", "0") & TA170183 == 3 & TA171827 < 60 & 
     TA170909 == 0 & TA170912 == 0 & TA170913 == 0 & TA170866 %in% c("3", "5", "7", "0") & TA171869 == 0 & TA171885 == 0 & TA171835 == 0 & TA171861 == 0 & TA171877 == 0 & 
-    TA171835 == 0 & TA171840 == 0 & TA170389 == 0, "FTL_17", "IAC_17"))
+    TA171835 == 0 & TA171840 == 0 & TA170389 == 1, "FTL_17", "IAC_17"))
 
 table(TIAS2017$CAT)
 TIAS2017_FTL <- subset(TIAS2017, CAT == "FTL_17")
@@ -869,7 +869,7 @@ TIAS2017$TA171835_M <- TIAS2017$TA171835 == 0
 TIAS2017$TA171861_M <- TIAS2017$TA171861 == 0
 TIAS2017$TA171877_M <- TIAS2017$TA171877 == 0
 TIAS2017$TA171840_M <- TIAS2017$TA171840 == 0
-TIAS2017$TA170389_M <- TIAS2017$TA170389 == 0
+TIAS2017$TA170389_M <- TIAS2017$TA170389 == 1
 
 TIAS2017[TIAS2017$CAT == "FTL_17", "ID"]
 TIAS2017_FTL <- subset(TIAS2017, CAT == "FTL_17")
@@ -943,25 +943,25 @@ TIAS2017_plot2 <- ggarrange(T17.heatmaps(13) + rremove("legend"), T17.heatmaps(1
                             T17.heatmaps(19) + rremove("legend"), T17.heatmaps(20) + rremove("legend") + rremove("y.title"), T17.heatmaps(21) + rremove("legend") + rremove("y.title"), 
                             T17.heatmaps(22) + rremove("legend"), T17.heatmaps(23) + rremove("legend") + rremove("y.title"), T17.heatmaps(24) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4)
 
-TIAS2017_plot2 # view second aggregated plot, export manually as png with width 3000 height 2800   
+TIAS2017_plot2 # view second aggregated plot, export manually as png with width 3000 height 2000   
 
 TIAS2017_plot3 <- ggarrange(T17.heatmaps(25) + rremove("legend"), T17.heatmaps(26) + rremove("legend") + rremove("y.title"), T17.heatmaps(27) + rremove("legend") + rremove("y.title"),
                             T17.heatmaps(28) + rremove("legend"), T17.heatmaps(29) + rremove("legend") + rremove("y.title"), T17.heatmaps(30) + rremove("y.title") + rremove("legend"), 
-                            T17.heatmaps(31) + rremove("legend"), T17.heatmaps(32) + rremove("legend") + rremove("y.title"), T17.heatmaps(33) + rremove("y.title"), ncol = 3, nrow = 3) 
+                            T17.heatmaps(31) + rremove("legend"), T17.heatmaps(32) + rremove("legend") + rremove("y.title"), T17.heatmaps(33) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2017_plot3 # view third aggregated plot, export manually as png with width 3000 height 2800   
+TIAS2017_plot3 # view third aggregated plot, export manually as png with width 3000 height 1500   
 
 TIAS2017_plot4 <- ggarrange(T17.heatmaps(34) + rremove("legend"), T17.heatmaps(35) + rremove("legend") + rremove("y.title"), T17.heatmaps(36) + rremove("legend") + rremove("y.title"),
                             T17.heatmaps(37) + rremove("legend"), T17.heatmaps(38) + rremove("legend") + rremove("y.title"), T17.heatmaps(39) + rremove("y.title") + rremove("legend"), 
-                            T17.heatmaps(40) + rremove("legend"), T17.heatmaps(41) + rremove("legend") + rremove("y.title"), T17.heatmaps(42) + rremove("y.title"), ncol = 3, nrow = 3) 
+                            T17.heatmaps(40) + rremove("legend"), T17.heatmaps(41) + rremove("legend") + rremove("y.title"), T17.heatmaps(42) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2017_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 2800   
+TIAS2017_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 1500   
 
 TIAS2017_plot5 <- ggarrange(T17.heatmaps(43) + rremove("legend"), T17.heatmaps(44) + rremove("legend") + rremove("y.title"), T17.heatmaps(45) + rremove("legend") + rremove("y.title"),
                             T17.heatmaps(46) + rremove("legend"), T17.heatmaps(47) + rremove("legend") + rremove("y.title"), T17.heatmaps(48) + rremove("y.title") + rremove("legend"), 
                             T17.heatmaps(49) + rremove("legend"), T17.heatmaps(50) + rremove("legend") + rremove("y.title"), T17.heatmaps(51) + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2017_plot5 # view fifth aggregated plot, export manually as png with width 3000 height 2800   
+TIAS2017_plot5 # view fifth aggregated plot, export manually as png with width 3000 height 1500   
 
 #####################
 # TIAS 2005-2017
@@ -1107,9 +1107,9 @@ TIAS$CAT_17 <- with(TIAS, ifelse(
   ID %in% FTL17_ID, "FTL_17", ifelse(
     ID %in% T17_ID, "IAC_17", NA)))
 
-# view final dataset 
+# view final TIAS-C FTL/IAC dataset 
 
-TIAS_FINAL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_13, CAT_15, CAT_17, TA050042, TA050043, TA050595, TA050631, TA050127, TA050769, TA050712, TA050715, TA050716, TA050678, TA050785, TA050809, TA050793, TA050777, TA050825, TA050817, TA050798, TA050394, TA050371,
+TIAS_FTL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_13, CAT_15, CAT_17, TA050042, TA050043, TA050595, TA050631, TA050127, TA050769, TA050712, TA050715, TA050716, TA050678, TA050785, TA050809, TA050793, TA050777, TA050825, TA050817, TA050798, TA050394, TA050371,
                               TA070042, TA070043, TA070570, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, TA070756, TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368, TA070344,
                               TA090043, TA090044, TA090612, TA090655, TA090136, TA090799, TA090739, TA090742, TA090743, TA090705, TA090815, TA090836, TA090823, TA090807, TA090852, TA090844, TA090828, TA090385, TA090361,
                               TA110044, TA110045, TA110699, TA110743, TA110137, TA110915, TA110829, TA110832, TA110833, TA110793, TA110931, TA110952, TA110939, TA110923, TA110968, TA110960, TA110944, TA110462, TA110351,
@@ -1117,9 +1117,9 @@ TIAS_FINAL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_13, CAT_15, CAT_17
                               TA150043, TA150044, TA150731, TA150776, TA150128, TA150970, TA150869, TA150872, TA150873, TA150826, TA150986, TA151007, TA150994, TA150978, TA151023, TA151015, TA150999, TA150491, TA150352,
                               TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171840, TA170389)
 
+# export final TIAS-C FTL/IAC dataset  
 
-
-
+write.csv2(TIAS_FTL, "TIASC_FTL.csv")
 
 
 
