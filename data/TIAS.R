@@ -994,7 +994,7 @@ FTL05_ID <- TIAS2005[TIAS2005$CAT == "FTL_05", "ID"]
 print(FTL05_ID)
 TIAS$CAT_05 <- with(TIAS, ifelse(
   ID %in% FTL05_ID, "FTL_05", ifelse(
-    ID %in% T05_ID, "IAC_05", NA)))
+    ID %in% T05_ID, "IAC_05", "NA_05")))
 
 # TIAS 2007 IAC vs. FTL 
 
@@ -1013,7 +1013,7 @@ FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "ID"]
 print(FTL07_ID)
 TIAS$CAT_07 <- with(TIAS, ifelse(
   ID %in% FTL07_ID, "FTL_07", ifelse(
-    ID %in% T07_ID, "IAC_07", NA)))
+    ID %in% T07_ID, "IAC_07", "NA_07")))
 
 # TIAS 2009 IAC vs. FTL 
 
@@ -1032,7 +1032,7 @@ FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "ID"]
 print(FTL09_ID)
 TIAS$CAT_09 <- with(TIAS, ifelse(
   ID %in% FTL09_ID, "FTL_09", ifelse(
-    ID %in% T09_ID, "IAC_09", NA)))
+    ID %in% T09_ID, "IAC_09", "NA_09")))
 
 # TIAS 2011 IAC vs. FTL 
 
@@ -1051,7 +1051,7 @@ FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "ID"]
 print(FTL11_ID)
 TIAS$CAT_11 <- with(TIAS, ifelse(
   ID %in% FTL11_ID, "FTL_11", ifelse(
-    ID %in% T11_ID, "IAC_11", NA)))
+    ID %in% T11_ID, "IAC_11", "NA_11")))
 
 # TIAS 2013 IAC vs. FTL 
 
@@ -1070,7 +1070,7 @@ FTL13_ID <- TIAS2013[TIAS2013$CAT == "FTL_13", "ID"]
 print(FTL13_ID)
 TIAS$CAT_13 <- with(TIAS, ifelse(
   ID %in% FTL13_ID, "FTL_13", ifelse(
-    ID %in% T13_ID, "IAC_13", NA)))
+    ID %in% T13_ID, "IAC_13", "NA_13")))
 
 # TIAS 2015 IAC vs. FTL 
 
@@ -1089,7 +1089,7 @@ FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "ID"]
 print(FTL15_ID)
 TIAS$CAT_15 <- with(TIAS, ifelse(
   ID %in% FTL15_ID, "FTL_15", ifelse(
-    ID %in% T15_ID, "IAC_15", NA)))
+    ID %in% T15_ID, "IAC_15", "NA_15")))
 
 # TIAS 2017 IAC vs. FTL 
 
@@ -1105,7 +1105,7 @@ FTL17_ID <- TIAS2017[TIAS2017$CAT == "FTL_17", "ID"]
 print(FTL17_ID)
 TIAS$CAT_17 <- with(TIAS, ifelse(
   ID %in% FTL17_ID, "FTL_17", ifelse(
-    ID %in% T17_ID, "IAC_17", NA)))
+    ID %in% T17_ID, "IAC_17", "NA_17")))
 
 # view final TIAS-C FTL/IAC dataset 
 
@@ -1117,9 +1117,117 @@ TIAS_FTL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_13, CAT_15, CAT_17, 
                               TA150043, TA150044, TA150731, TA150776, TA150128, TA150970, TA150869, TA150872, TA150873, TA150826, TA150986, TA151007, TA150994, TA150978, TA151023, TA151015, TA150999, TA150491, TA150352,
                               TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171840, TA170389)
 
-# export final TIAS-C FTL/IAC dataset  
+#####################
+# Export final TIAS-C FTL/IAC dataset  
+#####################
 
 write.csv2(TIAS_FTL, "TIASC_FTL.csv")
+
+#####################
+# Create FTL/IAC Heatmaps
+#####################
+
+FTL_ID <- TIAS_FTL[,1:7]
+
+FTL_ID$CAT_05 <- with(FTL_ID, ifelse(
+  CAT_05 == "FTL_05", 0, ifelse(
+   CAT_05 == "IAC_05", 1, 2)))
+
+FTL_ID$CAT_07 <- with(FTL_ID, ifelse(
+  CAT_07 == "FTL_07", 0, ifelse(
+    CAT_07 == "IAC_07", 1, 2)))
+
+FTL_ID$CAT_09 <- with(FTL_ID, ifelse(
+  CAT_09 == "FTL_09", 0, ifelse(
+    CAT_09 == "IAC_09", 1, 2)))
+
+FTL_ID$CAT_13 <- with(FTL_ID, ifelse(
+  CAT_13 == "FTL_13", 0, ifelse(
+    CAT_13 == "IAC_13", 1, 2)))
+
+FTL_ID$CAT_15 <- with(FTL_ID, ifelse(
+  CAT_15 == "FTL_15", 0, ifelse(
+    CAT_15 == "IAC_15", 1, 2)))
+
+FTL_ID$CAT_17 <- with(FTL_ID, ifelse(
+  CAT_17 == "FTL_17", 0, ifelse(
+    CAT_17 == "IAC_17", 1, 2)))
+
+ncol(FTL_ID)  
+
+nrow(FTL_ID)  
+chunk <- 100 
+n <- nrow(FTL_ID)
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
+
+FTLID_list <- split(FTL_ID, r)
+length(FTLID_list)  
+
+tidy.vars <- function(x){
+  x %>% tidyr::gather(variable, met_FTL_crt, 2:7)
+}
+
+FTLID_tidy_list <- lapply(FTLID_list, tidy.vars)
+
+for(i in 1:41) {
+  FTLID_tidy_list[[i]]$variable <- factor(FTLID_tidy_list[[i]]$variable, levels = c("CAT_05", "CAT_07", "CAT_09", "CAT_13", "CAT_15", "CAT_17"))
+} 
+
+set.ID.levels <- function(x){
+  dplyr::pull(x, ID)
+}
+
+FTLID_levels_list <- lapply(FTLID_list, set.ID.levels)
+
+for(i in 1:41) {
+  FTLID_tidy_list[[i]]$ID <- factor(FTLID_tidy_list[[i]]$ID, levels = FTLID_levels_list[[i]])
+}
+
+for(i in 1:41) {
+  FTLID_tidy_list[[i]]$met_FTL_crt <- factor(FTLID_tidy_list[[i]]$met_FTL_crt)
+}
+
+legend_title <- "Met FTL Criteria"
+create.heatmap <- function(x){
+  ggplot(x, aes(x=variable, y=ID, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
+    coord_equal() +
+    labs(x="Waves", y="ID") +
+    theme_tufte(base_family="Helvetica") +
+    theme(axis.ticks=element_blank()) + 
+    theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
+    scale_fill_manual(legend_title, values = c("green", "orange", "grey"), labels = c("Yes", "No", "NA"))
+}
+
+FTL.heatmaps <- function(x){
+  create.heatmap(FTLID_tidy_list[[x]])
+}
+
+FTLID_plot1 <- ggarrange(FTL.heatmaps(1) + rremove("legend"), FTL.heatmaps(2) + rremove("legend") + rremove("y.title"), FTL.heatmaps(3) + rremove("legend") + rremove("y.title"), FTL.heatmaps(4) + rremove("legend") + rremove("y.title"), 
+                         FTL.heatmaps(5) + rremove("legend") + rremove("y.title"), FTL.heatmaps(6) + rremove("legend") + rremove("y.title"), FTL.heatmaps(7) + rremove("legend") + rremove("y.title"), FTL.heatmaps(8) + rremove("legend") + rremove("y.title"), 
+                         FTL.heatmaps(9) + rremove("legend") + rremove("y.title"), FTL.heatmaps(10) + rremove("y.title"), nrow = 1, ncol = 10)
+
+FTLID_plot1 # view first aggregated plot, export manually as png with width 3000 height 2000   
+
+FTLID_plot2 <- ggarrange(FTL.heatmaps(11) + rremove("legend"), FTL.heatmaps(12) + rremove("legend") + rremove("y.title"), FTL.heatmaps(13) + rremove("legend") + rremove("y.title"), FTL.heatmaps(14) + rremove("legend") + rremove("y.title"), 
+                         FTL.heatmaps(15) + rremove("legend") + rremove("y.title"), FTL.heatmaps(16) + rremove("legend") + rremove("y.title"), FTL.heatmaps(17) + rremove("legend") + rremove("y.title"), FTL.heatmaps(18) + rremove("legend") + rremove("y.title"), 
+                         FTL.heatmaps(19) + rremove("legend") + rremove("y.title"), FTL.heatmaps(20) + rremove("y.title"), nrow = 1, ncol = 10)
+
+FTLID_plot2 # view second aggregated plot, export manually as png with width 3000 height 2000   
+
+FTLID_plot3 <- ggarrange(FTL.heatmaps(21) + rremove("legend"), FTL.heatmaps(22) + rremove("legend") + rremove("y.title"), FTL.heatmaps(23) + rremove("legend") + rremove("y.title"), FTL.heatmaps(24) + rremove("legend") + rremove("y.title"), 
+                         FTL.heatmaps(25) + rremove("legend") + rremove("y.title"), FTL.heatmaps(26) + rremove("legend") + rremove("y.title"), FTL.heatmaps(27) + rremove("legend") + rremove("y.title"), FTL.heatmaps(28) + rremove("legend") + rremove("y.title"), 
+                         FTL.heatmaps(29) + rremove("legend") + rremove("y.title"), FTL.heatmaps(30) + rremove("y.title"), nrow = 1, ncol = 10)
+
+FTLID_plot3 # view third aggregated plot, export manually as png with width 3000 height 2000   
+
+FTLID_plot4 <- ggarrange(FTL.heatmaps(31) + rremove("legend"), FTL.heatmaps(32) + rremove("legend") + rremove("y.title"), FTL.heatmaps(33) + rremove("legend") + rremove("y.title"), FTL.heatmaps(34) + rremove("legend") + rremove("y.title"), 
+                         FTL.heatmaps(35) + rremove("legend") + rremove("y.title"), FTL.heatmaps(36) + rremove("legend") + rremove("y.title"), FTL.heatmaps(37) + rremove("legend") + rremove("y.title"), FTL.heatmaps(38) + rremove("legend") + rremove("y.title"), 
+                         FTL.heatmaps(39) + rremove("legend") + rremove("y.title"), FTL.heatmaps(40) + rremove("legend") + rremove("y.title"), FTL.heatmaps(41) + rremove("y.title"), nrow = 1, ncol = 11)
+
+FTLID_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 2000   
+
+
+
 
 
 
