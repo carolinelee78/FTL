@@ -992,6 +992,7 @@ TIAS2005$CAT <- with(TIAS2005, ifelse(
 T05_ID <- TIAS2005$ID
 FTL05_ID <- TIAS2005[TIAS2005$CAT == "FTL_05", "ID"]
 print(FTL05_ID)
+table(TIAS2005$CAT)
 TIAS$CAT_05 <- with(TIAS, ifelse(
   ID %in% FTL05_ID, "FTL_05", ifelse(
     ID %in% T05_ID, "IAC_05", "NA_05")))
@@ -1011,6 +1012,7 @@ TIAS2007$CAT <- with(TIAS2007, ifelse(
 T07_ID <- TIAS2007$ID
 FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "ID"]
 print(FTL07_ID)
+table(TIAS2007$CAT)
 TIAS$CAT_07 <- with(TIAS, ifelse(
   ID %in% FTL07_ID, "FTL_07", ifelse(
     ID %in% T07_ID, "IAC_07", "NA_07")))
@@ -1030,6 +1032,7 @@ TIAS2009$CAT <- with(TIAS2009, ifelse(
 T09_ID <- TIAS2009$ID
 FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "ID"]
 print(FTL09_ID)
+table(TIAS2009$CAT)
 TIAS$CAT_09 <- with(TIAS, ifelse(
   ID %in% FTL09_ID, "FTL_09", ifelse(
     ID %in% T09_ID, "IAC_09", "NA_09")))
@@ -1049,6 +1052,7 @@ TIAS2011$CAT <- with(TIAS2011, ifelse(
 T11_ID <- TIAS2011$ID
 FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "ID"]
 print(FTL11_ID)
+table(TIAS2011$CAT)
 TIAS$CAT_11 <- with(TIAS, ifelse(
   ID %in% FTL11_ID, "FTL_11", ifelse(
     ID %in% T11_ID, "IAC_11", "NA_11")))
@@ -1068,6 +1072,7 @@ TIAS2013$CAT <- with(TIAS2013, ifelse(
 T13_ID <- TIAS2013$ID
 FTL13_ID <- TIAS2013[TIAS2013$CAT == "FTL_13", "ID"]
 print(FTL13_ID)
+table(TIAS2013$CAT)
 TIAS$CAT_13 <- with(TIAS, ifelse(
   ID %in% FTL13_ID, "FTL_13", ifelse(
     ID %in% T13_ID, "IAC_13", "NA_13")))
@@ -1087,6 +1092,7 @@ TIAS2015$CAT <- with(TIAS2015, ifelse(
 T15_ID <- TIAS2015$ID
 FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "ID"]
 print(FTL15_ID)
+table(TIAS2015$CAT)
 TIAS$CAT_15 <- with(TIAS, ifelse(
   ID %in% FTL15_ID, "FTL_15", ifelse(
     ID %in% T15_ID, "IAC_15", "NA_15")))
@@ -1103,6 +1109,7 @@ TIAS2017$CAT <- with(TIAS2017, ifelse(
 T17_ID <- TIAS2017$ID
 FTL17_ID <- TIAS2017[TIAS2017$CAT == "FTL_17", "ID"]
 print(FTL17_ID)
+table(TIAS2017$CAT)
 TIAS$CAT_17 <- with(TIAS, ifelse(
   ID %in% FTL17_ID, "FTL_17", ifelse(
     ID %in% T17_ID, "IAC_17", "NA_17")))
@@ -1170,7 +1177,7 @@ tidy.vars <- function(x){
 FTLID_tidy_list <- lapply(FTLID_list, tidy.vars)
 
 for(i in 1:41) {
-  FTLID_tidy_list[[i]]$variable <- factor(FTLID_tidy_list[[i]]$variable, levels = c("CAT_05", "CAT_07", "CAT_09", "CAT_13", "CAT_15", "CAT_17"))
+  FTLID_tidy_list[[i]]$variable <- factor(FTLID_tidy_list[[i]]$variable, levels = c("CAT_05", "CAT_07", "CAT_09", "CAT_11", "CAT_13", "CAT_15", "CAT_17"))
 } 
 
 set.ID.levels <- function(x){
