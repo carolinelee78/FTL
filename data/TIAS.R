@@ -1134,7 +1134,7 @@ write.csv2(TIAS_FTL, "TIASC_FTL.csv")
 # Create FTL/IAC Heatmaps
 #####################
 
-FTL_ID <- TIAS_FTL[,1:7]
+FTL_ID <- TIAS_FTL[,1:8]
 
 FTL_ID$CAT_05 <- with(FTL_ID, ifelse(
   CAT_05 == "FTL_05", 0, ifelse(
@@ -1175,7 +1175,7 @@ FTLID_list <- split(FTL_ID, r)
 length(FTLID_list)  
 
 tidy.vars <- function(x){
-  x %>% tidyr::gather(variable, met_FTL_crt, 2:7)
+  x %>% tidyr::gather(variable, met_FTL_crt, 2:8)
 }
 
 FTLID_tidy_list <- lapply(FTLID_list, tidy.vars)
