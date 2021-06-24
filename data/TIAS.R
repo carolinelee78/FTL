@@ -422,23 +422,24 @@ TIAS2009_plot2 <- ggarrange(T09.heatmaps(17) + rremove("legend"), T09.heatmaps(1
 TIAS2009_plot2 # view second aggregated plot, export manually as png with width 3500 height 2000
 
 #####################
-# TIAS 2011
+#TIAS 2011 HEATMAPS
 #####################
 
-# clear global environment
+# The below code clears your R environment (found on the right side of the console and includes data tables and values). Clearing the environment after you make 
+# heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2011 wave). 
 
 rm(list=ls())
 
-# import data again 
+# Now you import the TIAS data again. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
 
 TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
 TIAS$ID <- seq.int(nrow(TIAS))
 
-# subset for wave  
+# This selects the data only from the wave of interest, which in this case is 2011.   
 
 TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
 
-# manually paste in variable names and corresponding ftl criteria values from var table 
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
 
 TIAS2011$CAT <- with(TIAS2011, ifelse(
   TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
@@ -451,13 +452,13 @@ TIAS2011$CAT <- with(TIAS2011, ifelse(
 table(TIAS2011$CAT)
 TIAS2011_FTL <- subset(TIAS2011, CAT == "FTL_11")
 
-# manually paste in variable names from var table
+# Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria. 
 
 TIAS2011 <- TIAS2011 %>% select(ID, CAT, TA110044, TA110045, TA110699, TA110743, TA110137, TA110915, TA110829, TA110832, TA110833, TA110793, TA110931, 
                                 TA110952, TA110939, TA110923, TA110968, TA110960, TA110944, TA110462, TA110351) 
 
-# manually paste in ftl values for each variable from var table
 
+# We now store these variables under new names (their original PSID name with _M at the end). 
 TIAS2011$TA110044_M <- TIAS2011$TA110044 == 1 
 TIAS2011$TA110045_M <- TIAS2011$TA110045 %in% c("1", "96")
 TIAS2011$TA110699_M <- TIAS2011$TA110699 %in% c("5", "0")
@@ -485,15 +486,16 @@ T2011M <- TIAS2011 %>% select(TA110044_M, TA110045_M, TA110699_M, TA110743_M, TA
 cols <- sapply(T2011M, is.logical)
 T2011M[,cols] <- lapply(T2011M[,cols], as.numeric)
 
-ncol(T2011M) # last column is 'ID', so the column range to plug in tidy.vars would be 1:(ncol-1)
+ncol(T2011M) # This line helps you find the number of columns in the new dataset of FTL variables for the 2011 wave. Important note: the last column is 'ID', so the column range to plug into
+# the R function tidy.vars would be 1:(ncol-1).
 
-nrow(T2011M) # find out how many rows are in T2011M, value of the chunk should be the no. of columns (participants) you would want for each subplot 
+nrow(T2011M) # This line helps you find out how many rows are in T2011M. The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
 chunk <- 50 
 n <- nrow(T2011M)
 r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
 
 T2011M_list <- split(T2011M, r)
-length(T2011M_list) # find out how many chunks have been created, i for functions would be 1:(# of chunks)
+length(T2011M_list) # Now find out how many chunks of 50 have been created from the total number of pariticipants. i for functions would be 1:(# of chunks).
 
 tidy.vars <- function(x){
   x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
@@ -538,25 +540,25 @@ TIAS2011_plot1 <- ggarrange(T11.heatmaps(1) + rremove("legend"), T11.heatmaps(2)
                             T11.heatmaps(7) + rremove("legend"), T11.heatmaps(8) + rremove("legend") + rremove("y.title"), T11.heatmaps(9) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(10) + rremove("legend"), T11.heatmaps(11) + rremove("legend") + rremove("y.title"), T11.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
 
-TIAS2011_plot1 # view first aggregated plot, export manually as png with width 3000 height 2000
+TIAS2011_plot1 # This command lets us view the first heatmap. To see clearly, you export manually as png with width 3000 height 2000. This is done by selecting plots>export>png and entering the correct values for width and height.
 
 TIAS2011_plot2 <- ggarrange(T11.heatmaps(13) + rremove("legend"), T11.heatmaps(14) + rremove("legend") + rremove("y.title"), T11.heatmaps(15) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(16) + rremove("legend"), T11.heatmaps(17) + rremove("legend") + rremove("y.title"), T11.heatmaps(18) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(19) + rremove("legend"), T11.heatmaps(20) + rremove("legend") + rremove("y.title"), T11.heatmaps(21) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2011_plot2 # view second aggregated plot, export manually as png with width 3000 height 1500
+TIAS2011_plot2 # This command lets us view the second heatmap. To see clearly, you export manually as png with width 3000 height 2000. This is done by selecting plots>export>png and entering the correct values for width and height.
 
 TIAS2011_plot3 <- ggarrange(T11.heatmaps(22) + rremove("legend"), T11.heatmaps(23) + rremove("legend") + rremove("y.title"), T11.heatmaps(24) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(25) + rremove("legend"), T11.heatmaps(26) + rremove("legend") + rremove("y.title"), T11.heatmaps(27) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(28) + rremove("legend"), T11.heatmaps(29) + rremove("legend") + rremove("y.title"), T11.heatmaps(30) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2011_plot3 # view third aggregated plot, export manually as png with width 3000 height 1500
+TIAS2011_plot3 # This command lets us view the third heatmap. To see clearly, you export manually as png with width 3000 height 2000. This is done by selecting plots>export>png and entering the correct values for width and height.
 
 TIAS2011_plot4 <- ggarrange(T11.heatmaps(31) + rremove("legend"), T11.heatmaps(32) + rremove("legend") + rremove("y.title"), T11.heatmaps(33) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(34) + rremove("legend"), T11.heatmaps(35) + rremove("legend") + rremove("y.title"), T11.heatmaps(36) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(37) + rremove("legend"), T11.heatmaps(38) + rremove("legend") + rremove("y.title"), T11.heatmaps(39) + rremove("y.title"), ncol = 3, nrow = 3) 
 
-TIAS2011_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 1500
+TIAS2011_plot4 # This command lets us view the fourth heatmap. To see clearly, you export manually as png with width 3000 height 2000. This is done by selecting plots>export>png and entering the correct values for width and height.
 
 
 #####################
