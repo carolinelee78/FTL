@@ -1,8 +1,4 @@
-#####################
-# load libraries
-# set wd
-# clear global .envir
-#####################
+########### Setup Section ###########
 
 # clear global environment
 
@@ -51,9 +47,7 @@ setwd("/Users/kdlee/Desktop/Lebowitz_Lab/FTL")
 TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
 TIAS$ID <- seq.int(nrow(TIAS))
 
-#####################
-# TIAS 2005
-#####################
+########### TIAS 2005 ###########
 
 # subset for wave 
 
@@ -165,9 +159,7 @@ TIAS2005_plot <- ggarrange(T05.heatmaps(1) + rremove("legend"), T05.heatmaps(2) 
 
 TIAS2005_plot # view plot, export manually as png with width 3000 height 2800
 
-#####################
-# TIAS 2007 
-#####################
+########### TIAS 2007 ###########
 
 # clear global environment
 
@@ -293,9 +285,7 @@ TIAS2007_plot2 <- ggarrange(T07.heatmaps(13) + rremove("legend"), T07.heatmaps(1
 
 TIAS2007_plot2 # view second aggregated plot, export manually as png with width 3000 height 2000 
 
-#####################
-# TIAS 2009
-#####################
+########### TIAS 2009 ###########
 
 # clear global environment
 
@@ -421,9 +411,7 @@ TIAS2009_plot2 <- ggarrange(T09.heatmaps(17) + rremove("legend"), T09.heatmaps(1
 
 TIAS2009_plot2 # view second aggregated plot, export manually as png with width 3500 height 2000
 
-#####################
-# TIAS 2011
-#####################
+########### TIAS 2011 ###########
 
 # clear global environment
 
@@ -558,10 +546,7 @@ TIAS2011_plot4 <- ggarrange(T11.heatmaps(31) + rremove("legend"), T11.heatmaps(3
 
 TIAS2011_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 1500
 
-
-#####################
-# TIAS 2013
-#####################
+########### TIAS 2013 ###########
 
 # clear global environment
 
@@ -690,9 +675,7 @@ TIAS2013_plot3 <- ggarrange(T13.heatmaps(29) + rremove("legend"), T13.heatmaps(3
 
 TIAS2013_plot3 # view third aggregated plot, export manually as png with width 3500 height 1500
 
-#####################
-# TIAS 2015 
-#####################
+########### TIAS 2015 ###########
 
 # clear global environment
 
@@ -824,9 +807,7 @@ TIAS2015_plot3 <- ggarrange(T15.heatmaps(25) + rremove("legend"), T15.heatmaps(2
 
 TIAS2015_plot3 # view third aggregated plot, export manually as png with width 3000 height 1500   
 
-#####################
-# TIAS 2017
-#####################
+########### TIAS 2017 ###########
 
 # clear global environment
 
@@ -963,9 +944,7 @@ TIAS2017_plot5 <- ggarrange(T17.heatmaps(43) + rremove("legend"), T17.heatmaps(4
 
 TIAS2017_plot5 # view fifth aggregated plot, export manually as png with width 3000 height 1500   
 
-#####################
-# TIAS 2005-2017
-#####################
+########### TIAS 2005-2017 ###########
 
 # clear global environment
 
@@ -1124,15 +1103,9 @@ TIAS_FTL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_11, CAT_13, CAT_15, 
                               TA150043, TA150044, TA150731, TA150776, TA150128, TA150970, TA150869, TA150872, TA150873, TA150826, TA150986, TA151007, TA150994, TA150978, TA151023, TA151015, TA150999, TA150491, TA150352,
                               TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171840, TA170389)
 
-#####################
-# Export final TIAS-C FTL/IAC dataset  
-#####################
+write.csv2(TIAS_FTL, "TIASC_FTL.csv") # export final TIAS-C FTL/IAC dataset  
 
-write.csv2(TIAS_FTL, "TIASC_FTL.csv")
-
-#####################
-# Create FTL/IAC Heatmaps
-#####################
+########### Create FTL/IAC Heatmaps ########### 
 
 FTL_ID <- TIAS_FTL[,1:8]
 
