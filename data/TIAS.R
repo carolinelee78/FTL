@@ -126,7 +126,7 @@ nrow(T2005M) # Find out how many rows (participants) are in T2005M.
 
 chunk <- 50 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
 
-n <- nrow(T2005M) # Save the number of rows in T2011M. 
+n <- nrow(T2005M) # Save the number of rows in T2005M. 
 
 r <- rep(1:ceiling(n/chunk), each=chunk)[1:n] # This command loops through the dataframe to create chunks (if the total # of rows was not cleanly divisible by 50, the # of rows included in the last chunk would be the remainder)
 
@@ -190,7 +190,7 @@ T05.heatmaps <- function(x){
   create.heatmap(T2005M_tidy_list[[x]])
 }
 
-# To create fewer number of plots to save overall and for the sake of easier data visualization, we will combine the subplots to create aggregated plots. 
+# To create fewer plots to save overall and for the sake of easier data visualization, we will combine the subplots to create aggregated plots. 
 
 TIAS2005_plot <- ggarrange(T05.heatmaps(1) + rremove("legend"), T05.heatmaps(2) + rremove("legend") + rremove("y.title"), T05.heatmaps(3) + rremove("legend") + rremove("y.title"), 
                            T05.heatmaps(4) + rremove("legend"), T05.heatmaps(5) + rremove("legend") + rremove("y.title"), T05.heatmaps(6) + rremove("legend") + rremove("y.title"), 
@@ -202,20 +202,24 @@ TIAS2005_plot # This command lets us view the heatmap. To see clearly, you expor
 
 ########### TIAS 2007 ###########
 
-# clear global environment
+# The below code clears your R environment (found on the right side of the console and includes data tables and values). 
+# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2005 wave). 
 
 rm(list=ls())
 
-# import data again 
+# Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
 
 TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
-TIAS$ID <- seq.int(nrow(TIAS))
 
-# subset for wave  
+# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+
+TIAS$ID <- seq.int(nrow(TIAS)) 
+
+# This selects the data only from the wave of interest, which in this case is 2007.    
 
 TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
 
-# manually paste in variable names and corresponding ftl criteria values from var table 
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
 
 TIAS2007$CAT <- with(TIAS2007, ifelse(
     TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
@@ -225,15 +229,20 @@ TIAS2007$CAT <- with(TIAS2007, ifelse(
         TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
         TA070785 == 0 & TA070769 == 0 & TA070368 == 0 & TA070344 == 1, "FTL_07", "IAC_07")))
 
+# We can now view the number of FTL vs. IAC participants in the 2007 wave.
+
 table(TIAS2007$CAT)
+
+# We can also view a new dataframe (TIAS2007_FTL), which only includes data for participants who were identified as FTL. 
+
 TIAS2007_FTL <- subset(TIAS2007, CAT == "FTL_07")
 
-# manually paste in variable names from var table
+# Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria. 
 
 TIAS2007 <- TIAS2007 %>% select(ID, CAT, TA070042, TA070043, TA070570, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, TA070756, 
                                 TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368, TA070344) 
 
-# manually paste in ftl values for each variable from var table
+# Without altering the values of the variables in the original dataframe, we will create a new boolean variable (their original PSID name with _M at the end, M for match) for each variable (TRUE if matching FTL, FALSE if not).
 
 TIAS2007$TA070042_M <- TIAS2007$TA070042 == 1 
 TIAS2007$TA070043_M <- TIAS2007$TA070043 %in% c("1", "96")
@@ -256,45 +265,73 @@ TIAS2007$TA070368_M <- with(TIAS2007, ifelse(
   TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE, ifelse(
     TA070368 == 0 & TA070344 == 1, TRUE, FALSE)))
 
+# Here, we are creating a new dataframe with only the boolean variables.  
+
 T2007M <- TIAS2007 %>% select(TA070042_M, TA070043_M, TA070570_M, TA070602_M, TA070127_M, TA070740_M, TA070683_M, TA070686_M, TA070687_M, TA070649_M, TA070756_M, 
                               TA070777_M, TA070764_M, TA070748_M, TA070793_M, TA070785_M, TA070769_M, TA070368_M, ID) 
-  
+
+# We then have to convert the boolean values (FALSE/TRUE) to binary values (0/1), as we will be working with these to create our heatmaps. 
+
 cols <- sapply(T2007M, is.logical)
 T2007M[,cols] <- lapply(T2007M[,cols], as.numeric)
 
-ncol(T2007M) # this line helps you find the number of columns in the new dataset of FTL variables for the 2007 wave. important note: the last column is 'ID', so the column range to plug into the R function tidy.vars would be 1:(ncol-1).
+# Find the number of columns in the new dataset of FTL variables for the 2007 wave. Important note: the last column is 'ID', so the column range to plug into the R function tidy.vars would be 1:(ncol-1).
 
-nrow(T2007M) # find out how many rows are in T2007M, value of the chunk should be the no. of columns (participants) you would want for each subplot 
-chunk <- 50 
-n <- nrow(T2007M)
-r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
+ncol(T2007M)  
 
-T2007M_list <- split(T2007M, r)
-length(T2007M_list) # find out how many chunks have been created, i for functions would be 1:(# of chunks)
+# Since we can't create a single plot with thousands of columns (including all participants), we have to divide the dataframe into 'chunks' to create subplots before creating aggregated plots. 
+
+nrow(T2007M) # Find out how many rows (participants) are in T2007M. 
+
+chunk <- 50 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
+
+n <- nrow(T2007M) # Save the number of rows in T2007M. 
+
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n] # This command loops through the dataframe to create chunks (if the total # of rows was not cleanly divisible by 50, the # of rows included in the last chunk would be the remainder).
+
+T2007M_list <- split(T2007M, r) # This command splits the dataframe into chunks as calculated above. 
+
+length(T2007M_list) # Now find out how many chunks of 50 have been created from the total number of participants. i for functions would be 1:(# of chunks).
+
+# This function lets us tidy the data into the long format. 
 
 tidy.vars <- function(x){
   x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
 }
-  
+
+# Apply the function to T2007M chunks, tidying the data. 
+
 T2007M_tidy_list <- lapply(T2007M_list, tidy.vars)
+
+# This for-loop lets us create and assign factor levels for each variable in T2007M (excluding the last column 'ID'). 
 
 for(i in 1:23) {
   T2007M_tidy_list[[i]]$variable <- factor(T2007M_tidy_list[[i]]$variable, levels = c("TA070042_M", "TA070043_M", "TA070570_M", "TA070602_M", "TA070127_M", "TA070740_M", "TA070683_M", "TA070686_M", "TA070687_M", "TA070649_M", "TA070756_M", "TA070777_M", "TA070764_M", "TA070748_M", "TA070793_M", "TA070785_M", "TA070769_M", "TA070368_M"))
 }
 
+# This function lets us isolate and save the values for the 'ID' column.
+
 set.ID.levels <- function(x){
   dplyr::pull(x, ID)
 }
 
+# Apply the function, saving ID values for each chunk.
+
 T2007M_levels_list <- lapply(T2007M_list, set.ID.levels)
+
+# This for-loop lets us create and assign factor levels for IDs in each T2007M chunk (in tidy long format) as corresponding to all included variables.  
 
 for(i in 1:23) {
    T2007M_tidy_list[[i]]$ID <- factor(T2007M_tidy_list[[i]]$ID, levels = T2007M_levels_list[[i]])
 }
 
+# This for-loop lets us create and assign factor levels for the binary values (0/1; 0 = IAC, 1 = FTL) stored in each variable. 
+
 for(i in 1:23) {
   T2007M_tidy_list[[i]]$met_FTL_crt <- factor(T2007M_tidy_list[[i]]$met_FTL_crt)
 }
+
+# This function lets us create the heatmap itself.
 
 create.heatmap <- function(x){
   ggplot(x, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
@@ -306,25 +343,27 @@ create.heatmap <- function(x){
     scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
 }
 
+# This function lets us create the heatmap specifically with T2007M data. Now we just have to plug in the chunk/subsection # into the T07.heatmap function to view the plot.
+
 T07.heatmaps <- function(x){
   create.heatmap(T2007M_tidy_list[[x]])
 }
 
-# need to arrange plots with ggarrange manually - depending on how many plots you have for the wave, remove y.title for all plots except for the leftmost plots, remove legends for all plots except for the last plot
+# To create fewer plots to save overall and for the sake of easier data visualization, we will combine the subplots to create aggregated plots. 
 
 TIAS2007_plot1 <- ggarrange(T07.heatmaps(1) + rremove("legend"), T07.heatmaps(2) + rremove("legend") + rremove("y.title"), T07.heatmaps(3) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(4) + rremove("legend"), T07.heatmaps(5) + rremove("legend") + rremove("y.title"), T07.heatmaps(6) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(7) + rremove("legend"), T07.heatmaps(8) + rremove("legend") + rremove("y.title"), T07.heatmaps(9) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(10) + rremove("legend"), T07.heatmaps(11) + rremove("legend") + rremove("y.title"), T07.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
 
-TIAS2007_plot1 # view first aggregated plot, export manually as png with width 3000 height 2000
+TIAS2007_plot1 # This command lets us view the first heatmap. To see clearly, you export manually as png with width 3000 height 2000. This is done by selecting plots>export>png and entering the correct values for width and height.
 
 TIAS2007_plot2 <- ggarrange(T07.heatmaps(13) + rremove("legend"), T07.heatmaps(14) + rremove("legend") + rremove("y.title"), T07.heatmaps(15) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(16) + rremove("legend"), T07.heatmaps(17) + rremove("legend") + rremove("y.title"), T07.heatmaps(18) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(19) + rremove("legend"), T07.heatmaps(20) + rremove("legend") + rremove("y.title"), T07.heatmaps(21) + rremove("legend") + rremove("y.title"), 
                             T07.heatmaps(22) + rremove("legend"), T07.heatmaps(23) + rremove("y.title"), ncol = 3, nrow = 4) 
 
-TIAS2007_plot2 # view second aggregated plot, export manually as png with width 3000 height 2000 
+TIAS2007_plot2 # This command lets us view the second heatmap. To see clearly, you export manually as png with width 3000 height 2000. This is done by selecting plots>export>png and entering the correct values for width and height.
 
 ########### TIAS 2009 ###########
 
@@ -600,7 +639,7 @@ T11.heatmaps <- function(x){
   create.heatmap(T2011M_tidy_list[[x]])
 }
 
-# To create fewer number of plots to save overall and for the sake of easier data visualization, we will combine the subplots to create aggregated plots. 
+# To create fewer plots to save overall and for the sake of easier data visualization, we will combine the subplots to create aggregated plots. 
 
 TIAS2011_plot1 <- ggarrange(T11.heatmaps(1) + rremove("legend"), T11.heatmaps(2) + rremove("legend") + rremove("y.title"), T11.heatmaps(3) + rremove("legend") + rremove("y.title"), 
                             T11.heatmaps(4) + rremove("legend"), T11.heatmaps(5) + rremove("legend") + rremove("y.title"), T11.heatmaps(6) + rremove("legend") + rremove("y.title"), 
