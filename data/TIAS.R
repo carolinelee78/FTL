@@ -41,19 +41,26 @@ library(ggpubr)
 
 setwd("/Users/kdlee/Desktop/Lebowitz_Lab/FTL")
 
-# import data 
-
-TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
-TIAS$ID <- seq.int(nrow(TIAS))
-
 ########### TIAS 2005 ###########
 
-# subset for wave 
+# The below code clears your R environment (found on the right side of the console and includes data tables and values). 
+# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2005 wave). 
+
+rm(list=ls())
+
+# Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
+
+TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
+
+# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+
+TIAS$ID <- seq.int(nrow(TIAS)) 
+
+# This selects the data only from the wave of interest, which in this case is 2005.    
 
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
-nrow(TIAS2005)
 
-# manually paste in variable names and corresponding ftl criteria values from var table 
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
 
 TIAS2005$CAT <- with(TIAS2005, ifelse(
     TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
@@ -63,13 +70,20 @@ TIAS2005$CAT <- with(TIAS2005, ifelse(
         TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
         TA050817 == 0 & TA050798 == 0 & TA050394 == 0 & TA050371 == 1, "FTL_05", "IAC_05")))
 
+# We can now view the number of FTL vs. IAC participants in the 2005 wave.
+
 table(TIAS2005$CAT)
+
+# We can also view a new dataframe (TIAS2005_FTL), which only includes data for participants who were identified as FTL. 
+
 TIAS2005_FTL <- subset(TIAS2005, CAT == "FTL_05")
 
-# manually paste in variable names from var table
+# Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria. 
 
 TIAS2005 <- TIAS2005 %>% select(ID, CAT, TA050042, TA050043, TA050595, TA050631, TA050127, TA050769, TA050712, TA050715, TA050716, TA050678, 
                                 TA050785, TA050809, TA050793, TA050777, TA050825, TA050817, TA050798, TA050394, TA050371)
+
+# Without altering the values of the variables in the original dataframe, we will create a new boolean variable (their original PSID name with _M at the end, M for match) for each variable (TRUE if matching FTL, FALSE if not)
 
 TIAS2005$TA050042_M <- TIAS2005$TA050042 == 1 
 TIAS2005$TA050043_M <- TIAS2005$TA050043 %in% c("1", "96")
@@ -92,47 +106,73 @@ TIAS2005$TA050394_M <- with(TIAS2005, ifelse(
   TA050394 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE, ifelse(
     TA050394 == 0 & TA050371 == 1, TRUE, FALSE)))
 
+# Here, we are creating a new dataframe with only the boolean variables.  
+
 T2005M <- TIAS2005 %>% select(TA050042_M, TA050043_M, TA050595_M, TA050631_M, TA050127_M, TA050769_M, TA050712_M, TA050715_M, TA050716_M,
                               TA050678_M, TA050785_M, TA050809_M, TA050793_M, TA050777_M, TA050825_M, TA050817_M, TA050798_M, TA050394_M, ID)
+
+# We then have to convert the boolean values (FALSE/TRUE) to binary values (0/1), as we will be working with these to create our heatmaps. 
 
 cols <- sapply(T2005M, is.logical)
 T2005M[,cols] <- lapply(T2005M[,cols], as.numeric)
 
-ncol(T2005M) # this line helps you find the number of columns in the new dataset of FTL variables for the 2005 wave. important note: the last column is 'ID', so the column range to plug into the R function tidy.vars would be 1:(ncol-1).
+# Find the number of columns in the new dataset of FTL variables for the 2005 wave. Important note: the last column is 'ID', so the column range to plug into the R function tidy.vars would be 1:(ncol-1).
 
-nrow(T2005M) # find out how many rows are in T2007M, value of the chunk should the no. of columns (participants) you would want for each subplot 
-chunk <- 50 
-n <- nrow(T2005M)
-r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
+ncol(T2005M)  
 
-T2005M_list <- split(T2005M, r)
-length(T2005M_list) # find out how many chunks have been created, i for functions would be 1:# of chunks
+# Since we can't create a single plot with thousands of columns (including all participants), we have to divide the dataframe into 'chunks' to create subplots before creating aggregated plots. 
+
+nrow(T2005M) # Find out how many rows (participants) are in T2005M. 
+
+chunk <- 50 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
+
+n <- nrow(T2005M) # Save the number of rows in T2011M. 
+
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n] # This command loops through the dataframe to create chunks (if the total # of rows was not cleanly divisible by 50, the # of rows included in the last chunk would be the remainder)
+
+T2005M_list <- split(T2005M, r) # This command splits the dataframe into chunks as calculated above. 
+
+length(T2005M_list) # Now find out how many chunks of 50 have been created from the total number of participants. i for functions would be 1:(# of chunks).
+
+# This function lets us tidy the data into the long format. 
 
 tidy.vars <- function(x){
   x %>% tidyr::gather(variable, met_FTL_crt, 1:18)
 }
 
+# Apply the function to T2005M chunks, tidying the data. 
+
 T2005M_tidy_list <- lapply(T2005M_list, tidy.vars)
 
-# manually paste in variable names as strings to define levels for the factors 
+# This for-loop lets us create and assign factor levels for each variable in T2005M (excluding the last column 'ID'). 
 
 for(i in 1:15) {
   T2005M_tidy_list[[i]]$variable <- factor(T2005M_tidy_list[[i]]$variable, levels = c("TA050042_M", "TA050043_M", "TA050595_M", "TA050631_M", "TA050127_M", "TA050769_M", "TA050712_M", "TA050715_M", "TA050716_M", "TA050678_M", "TA050785_M", "TA050809_M", "TA050793_M", "TA050777_M", "TA050825_M", "TA050817_M", "TA050798_M", "TA050394_M"))
 } 
 
+# This function lets us isolate and save the values for the 'ID' column.
+
 set.ID.levels <- function(x){
   dplyr::pull(x, ID)
 }
 
+# Apply the function, saving ID values for each chunk.
+
 T2005M_levels_list <- lapply(T2005M_list, set.ID.levels)
+
+# This for-loop lets us create and assign factor levels for IDs in each T2005M chunk (in tidy long format) as corresponding to all included variables.  
 
 for(i in 1:15) {
   T2005M_tidy_list[[i]]$ID <- factor(T2005M_tidy_list[[i]]$ID, levels = T2005M_levels_list[[i]])
 }
 
+# This for-loop lets us create and assign factor levels for the binary values (0/1; 0 = IAC, 1 = FTL) stored in each variable. 
+
 for(i in 1:15) {
   T2005M_tidy_list[[i]]$met_FTL_crt <- factor(T2005M_tidy_list[[i]]$met_FTL_crt)
 }
+
+# This function lets us create the heatmap itself. 
 
 create.heatmap <- function(x){
   ggplot(x, aes(x=ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
@@ -144,11 +184,13 @@ create.heatmap <- function(x){
     scale_fill_discrete(name = "Met FTL Criteria", labels = c("No", "Yes"))
 }
 
+# This function lets us create the heatmap specifically with T2005M data. Now we just have to plug in the chunk/subsection # into the T05.heatmap function to view the plot.
+
 T05.heatmaps <- function(x){
   create.heatmap(T2005M_tidy_list[[x]])
 }
 
-# need to arrange plots with ggarrange manually, depending on how many plots you have for the wave, remove y.title for all plots except for the leftmost plots, remove legends for all plots except for the last plot
+# To create fewer number of plots to save overall and for the sake of easier data visualization, we will combine the subplots to create aggregated plots. 
 
 TIAS2005_plot <- ggarrange(T05.heatmaps(1) + rremove("legend"), T05.heatmaps(2) + rremove("legend") + rremove("y.title"), T05.heatmaps(3) + rremove("legend") + rremove("y.title"), 
                            T05.heatmaps(4) + rremove("legend"), T05.heatmaps(5) + rremove("legend") + rremove("y.title"), T05.heatmaps(6) + rremove("legend") + rremove("y.title"), 
@@ -156,7 +198,7 @@ TIAS2005_plot <- ggarrange(T05.heatmaps(1) + rremove("legend"), T05.heatmaps(2) 
                            T05.heatmaps(10) + rremove("legend"), T05.heatmaps(11) + rremove("legend") + rremove("y.title"), T05.heatmaps(12) + rremove("legend") + rremove("y.title"),
                            T05.heatmaps(13) + rremove("legend"), T05.heatmaps(14) + rremove("legend") + rremove("y.title"), T05.heatmaps(15) + rremove("y.title"), ncol = 3, nrow = 5) 
 
-TIAS2005_plot # view plot, export manually as png with width 3000 height 2800
+TIAS2005_plot # This command lets us view the heatmap. To see clearly, you export manually as png with width 3000 height 2800. This is done by selecting plots>export>png and entering the correct values for width and height.
 
 ########### TIAS 2007 ###########
 
@@ -421,7 +463,7 @@ rm(list=ls())
 
 TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
 
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to identify each row (participant)  
+# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to identify each row (participant).  
 
 TIAS$ID <- seq.int(nrow(TIAS)) 
 
@@ -491,7 +533,7 @@ ncol(T2011M)
 
 # Since we can't create a single plot with thousands of columns (including all participants), we have to divide the dataframe into 'chunks' to create subplots before creating aggregated plots. 
 
-nrow(T2011M) # Find out how many rows are in T2011M. 
+nrow(T2011M) # Find out how many rows (participants) are in T2011M. 
 
 chunk <- 50 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
 
