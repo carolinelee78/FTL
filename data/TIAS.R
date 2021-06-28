@@ -1241,7 +1241,6 @@ TIAS$ID <- seq.int(nrow(TIAS))
 #the number of IAC participants, and the participant IDs of all individuals who are FTL. 
 
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
-nrow(TIAS2005)
 
 TIAS2005$CAT <- with(TIAS2005, ifelse(
    TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
@@ -1399,9 +1398,11 @@ TIAS_FTL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_11, CAT_13, CAT_15, 
                               TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171840, TA170389)
 
 # Now, you can export final TIAS-C FTL/IAC dataset to a csv file.
+
 write.csv2(TIAS_FTL, "TIASC_FTL.csv")   
 
 ########### Create FTL/IAC Heatmaps for all waves ########### 
+
 #This next chunk of code allows you to view whether each participant was FTL or IAC for all waves 2005-2017. Get started by importing FTL IDs.
 
 FTL_ID <- TIAS_FTL[,1:8]
