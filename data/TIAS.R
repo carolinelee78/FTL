@@ -1476,7 +1476,7 @@ for(i in 1:41) {
   FTLID_tidy_list[[i]]$met_FTL_crt <- factor(FTLID_tidy_list[[i]]$met_FTL_crt)
 }
 
-#This dictates the aesthetics of our heatmaps, such as the colors, axis titles, and sizes of the squares. 
+# This dictates the aesthetics of our heatmaps, such as the colors, axis titles, and sizes of the squares. 
 legend_title <- "Met FTL Criteria"
 create.heatmap <- function(x){
   ggplot(x, aes(x=variable, y=ID, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
