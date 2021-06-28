@@ -1,4 +1,4 @@
-########### Setup Section ###########
+########### Setup Section ########### This section downloads the necessary R packages and functions we need to run the analysis and create visuals. 
 
 # clear global environment
 
@@ -1220,10 +1220,10 @@ TIAS2017_plot5 <- ggarrange(T17.heatmaps(43) + rremove("legend"), T17.heatmaps(4
 
 TIAS2017_plot5 # This command lets us view the fifth aggregated plot. To see clearly, you export manually as png with width 3000 height 1500. This is done by selecting plots>export>png and entering the correct values for width and height.
 
-########### TIAS 2005-2017 ###########
+########### ISOLATING TIAS FTL PARTICIPANTS IN WAVES 2005-2017 ###########
 
 # The below code clears your R environment (found on the right side of the console and includes data tables and values). 
-# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2007 wave). 
+# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from each wave). 
 
 rm(list=ls())
 
@@ -1236,6 +1236,9 @@ TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/
 TIAS$ID <- seq.int(nrow(TIAS)) 
 
 # TIAS 2005 IAC vs. FTL 
+
+#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2005 wave. You will be shown the number of FTL participants,
+#the number of IAC participants, and the participant IDs of all individuals who are FTL. 
 
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
 nrow(TIAS2005)
@@ -1257,6 +1260,8 @@ TIAS$CAT_05 <- with(TIAS, ifelse(
     ID %in% T05_ID, "IAC_05", "NA_05")))
 
 # TIAS 2007 IAC vs. FTL 
+#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2007 wave. You will be shown the number of FTL participants,
+#the number of IAC participants, and the participant IDs of all individuals who are FTL.
 
 TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
 
@@ -1277,6 +1282,8 @@ TIAS$CAT_07 <- with(TIAS, ifelse(
     ID %in% T07_ID, "IAC_07", "NA_07")))
 
 # TIAS 2009 IAC vs. FTL 
+#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2009 wave. You will be shown the number of FTL participants,
+#the number of IAC participants, and the participant IDs of all individuals who are FTL.
 
 TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
 
@@ -1297,6 +1304,8 @@ TIAS$CAT_09 <- with(TIAS, ifelse(
     ID %in% T09_ID, "IAC_09", "NA_09")))
 
 # TIAS 2011 IAC vs. FTL 
+#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2011 wave. You will be shown the number of FTL participants,
+#the number of IAC participants, and the participant IDs of all individuals who are FTL.
 
 TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
 
@@ -1317,6 +1326,8 @@ TIAS$CAT_11 <- with(TIAS, ifelse(
     ID %in% T11_ID, "IAC_11", "NA_11")))
 
 # TIAS 2013 IAC vs. FTL 
+#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2013 wave. You will be shown the number of FTL participants,
+#the number of IAC participants, and the participant IDs of all individuals who are FTL.
 
 TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
 
@@ -1337,6 +1348,8 @@ TIAS$CAT_13 <- with(TIAS, ifelse(
     ID %in% T13_ID, "IAC_13", "NA_13")))
 
 # TIAS 2015 IAC vs. FTL 
+#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2015 wave. You will be shown the number of FTL participants,
+#the number of IAC participants, and the participant IDs of all individuals who are FTL.
 
 TIAS2015 <- TIAS[!is.na(TIAS$TAS15),]
 
@@ -1357,6 +1370,8 @@ TIAS$CAT_15 <- with(TIAS, ifelse(
     ID %in% T15_ID, "IAC_15", "NA_15")))
 
 # TIAS 2017 IAC vs. FTL 
+#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2017 wave. You will be shown the number of FTL participants,
+#the number of IAC participants, and the participant IDs of all individuals who are FTL.
 
 TIAS2017 <- TIAS[!is.na(TIAS$TAS17),]
 
@@ -1373,7 +1388,7 @@ TIAS$CAT_17 <- with(TIAS, ifelse(
   ID %in% FTL17_ID, "FTL_17", ifelse(
     ID %in% T17_ID, "IAC_17", "NA_17")))
 
-# view final TIAS-C FTL/IAC dataset 
+# The following code allows you to view the final TIAS-C FTL/IAC dataset for all waves (2005-2017).
 
 TIAS_FTL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_11, CAT_13, CAT_15, CAT_17, TA050042, TA050043, TA050595, TA050631, TA050127, TA050769, TA050712, TA050715, TA050716, TA050678, TA050785, TA050809, TA050793, TA050777, TA050825, TA050817, TA050798, TA050394, TA050371,
                               TA070042, TA070043, TA070570, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, TA070756, TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368, TA070344,
@@ -1383,19 +1398,27 @@ TIAS_FTL <- TIAS %>% select(ID, CAT_05, CAT_07, CAT_09, CAT_11, CAT_13, CAT_15, 
                               TA150043, TA150044, TA150731, TA150776, TA150128, TA150970, TA150869, TA150872, TA150873, TA150826, TA150986, TA151007, TA150994, TA150978, TA151023, TA151015, TA150999, TA150491, TA150352,
                               TA170058, TA170059, TA170790, TA170416, TA170183, TA171827, TA170909, TA170912, TA170913, TA170866, TA171869, TA171885, TA171835, TA171861, TA171877, TA171840, TA170389)
 
-write.csv2(TIAS_FTL, "TIASC_FTL.csv") # export final TIAS-C FTL/IAC dataset  
+# Now, you can export final TIAS-C FTL/IAC dataset to a csv file.
+write.csv2(TIAS_FTL, "TIASC_FTL.csv")   
 
-########### Create FTL/IAC Heatmaps ########### 
+########### Create FTL/IAC Heatmaps for all waves ########### 
+#This next chunk of code allows you to view whether each participant was FTL or IAC for all waves 2005-2017. Get started by importing FTL IDs.
 
 FTL_ID <- TIAS_FTL[,1:8]
+
+#First, run the below lines to designate each participant ID as FTL or IAC for each wave, starting with 2005... 
 
 FTL_ID$CAT_05 <- with(FTL_ID, ifelse(
   CAT_05 == "FTL_05", 0, ifelse(
    CAT_05 == "IAC_05", 1, 2)))
 
+#...then 2007...
+
 FTL_ID$CAT_07 <- with(FTL_ID, ifelse(
   CAT_07 == "FTL_07", 0, ifelse(
     CAT_07 == "IAC_07", 1, 2)))
+
+#...then 2009, and etc...
 
 FTL_ID$CAT_09 <- with(FTL_ID, ifelse(
   CAT_09 == "FTL_09", 0, ifelse(
@@ -1417,6 +1440,7 @@ FTL_ID$CAT_17 <- with(FTL_ID, ifelse(
   CAT_17 == "FTL_17", 0, ifelse(
     CAT_17 == "IAC_17", 1, 2)))
 
+#These next few lines separate the data into chunks so that the heatmaps are easy to view and read. 
 ncol(FTL_ID)  
 
 nrow(FTL_ID)  
@@ -1451,6 +1475,7 @@ for(i in 1:41) {
   FTLID_tidy_list[[i]]$met_FTL_crt <- factor(FTLID_tidy_list[[i]]$met_FTL_crt)
 }
 
+#This dictates the aesthetics of our heatmaps, such as the colors, axis titles, and sizes of the squares. 
 legend_title <- "Met FTL Criteria"
 create.heatmap <- function(x){
   ggplot(x, aes(x=variable, y=ID, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
@@ -1466,29 +1491,34 @@ FTL.heatmaps <- function(x){
   create.heatmap(FTLID_tidy_list[[x]])
 }
 
+#We have to make 4 different plots because there are a large amount of participants. For the first plot, we make heat maps for chunks 1-10. 
+
 FTLID_plot1 <- ggarrange(FTL.heatmaps(1) + rremove("legend"), FTL.heatmaps(2) + rremove("legend") + rremove("y.title"), FTL.heatmaps(3) + rremove("legend") + rremove("y.title"), FTL.heatmaps(4) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(5) + rremove("legend") + rremove("y.title"), FTL.heatmaps(6) + rremove("legend") + rremove("y.title"), FTL.heatmaps(7) + rremove("legend") + rremove("y.title"), FTL.heatmaps(8) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(9) + rremove("legend") + rremove("y.title"), FTL.heatmaps(10) + rremove("y.title"), nrow = 1, ncol = 10)
 
-FTLID_plot1 # view first aggregated plot, export manually as png with width 3000 height 2000   
+FTLID_plot1 # This allows us to view the first aggregated plot. For best clarity, export manually as png with width 3000 height 2000.  
 
+#For the second plot, we make heat maps for chunks 11-20. 
 FTLID_plot2 <- ggarrange(FTL.heatmaps(11) + rremove("legend"), FTL.heatmaps(12) + rremove("legend") + rremove("y.title"), FTL.heatmaps(13) + rremove("legend") + rremove("y.title"), FTL.heatmaps(14) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(15) + rremove("legend") + rremove("y.title"), FTL.heatmaps(16) + rremove("legend") + rremove("y.title"), FTL.heatmaps(17) + rremove("legend") + rremove("y.title"), FTL.heatmaps(18) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(19) + rremove("legend") + rremove("y.title"), FTL.heatmaps(20) + rremove("y.title"), nrow = 1, ncol = 10)
 
-FTLID_plot2 # view second aggregated plot, export manually as png with width 3000 height 2000   
+FTLID_plot2 # This allows us to view the second aggregated plot. For best clarity, export manually as png with width 3000 height 2000.   
 
+#For the third plot, we make heat maps for chunks 21-30. 
 FTLID_plot3 <- ggarrange(FTL.heatmaps(21) + rremove("legend"), FTL.heatmaps(22) + rremove("legend") + rremove("y.title"), FTL.heatmaps(23) + rremove("legend") + rremove("y.title"), FTL.heatmaps(24) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(25) + rremove("legend") + rremove("y.title"), FTL.heatmaps(26) + rremove("legend") + rremove("y.title"), FTL.heatmaps(27) + rremove("legend") + rremove("y.title"), FTL.heatmaps(28) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(29) + rremove("legend") + rremove("y.title"), FTL.heatmaps(30) + rremove("y.title"), nrow = 1, ncol = 10)
 
-FTLID_plot3 # view third aggregated plot, export manually as png with width 3000 height 2000   
+FTLID_plot3 # This allows us to view the third aggregated plot. For best clarity, export manually as png with width 3000 height 2000.   
 
+#For the fourth plot, we make heat maps for chunks 31-41. 
 FTLID_plot4 <- ggarrange(FTL.heatmaps(31) + rremove("legend"), FTL.heatmaps(32) + rremove("legend") + rremove("y.title"), FTL.heatmaps(33) + rremove("legend") + rremove("y.title"), FTL.heatmaps(34) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(35) + rremove("legend") + rremove("y.title"), FTL.heatmaps(36) + rremove("legend") + rremove("y.title"), FTL.heatmaps(37) + rremove("legend") + rremove("y.title"), FTL.heatmaps(38) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(39) + rremove("legend") + rremove("y.title"), FTL.heatmaps(40) + rremove("legend") + rremove("y.title"), FTL.heatmaps(41) + rremove("y.title"), nrow = 1, ncol = 11)
 
-FTLID_plot4 # view fourth aggregated plot, export manually as png with width 3000 height 2000   
+FTLID_plot4 # This allows us to view the fourth and final aggregated plot. For best clarity, export manually as png with width 3000 height 2000.  
 
 
 
