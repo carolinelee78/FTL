@@ -1492,7 +1492,7 @@ FTL.heatmaps <- function(x){
   create.heatmap(FTLID_tidy_list[[x]])
 }
 
-#We have to make 4 different plots because there are a large amount of participants. For the first plot, we make heat maps for chunks 1-10. 
+# We have to make 4 different plots because there are a large amount of participants. For the first plot, we make heat maps for chunks 1-10. 
 
 FTLID_plot1 <- ggarrange(FTL.heatmaps(1) + rremove("legend"), FTL.heatmaps(2) + rremove("legend") + rremove("y.title"), FTL.heatmaps(3) + rremove("legend") + rremove("y.title"), FTL.heatmaps(4) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(5) + rremove("legend") + rremove("y.title"), FTL.heatmaps(6) + rremove("legend") + rremove("y.title"), FTL.heatmaps(7) + rremove("legend") + rremove("y.title"), FTL.heatmaps(8) + rremove("legend") + rremove("y.title"), 
@@ -1500,21 +1500,21 @@ FTLID_plot1 <- ggarrange(FTL.heatmaps(1) + rremove("legend"), FTL.heatmaps(2) + 
 
 FTLID_plot1 # This allows us to view the first aggregated plot. For best clarity, export manually as png with width 3000 height 2000.  
 
-#For the second plot, we make heat maps for chunks 11-20. 
+# For the second plot, we make heat maps for chunks 11-20. 
 FTLID_plot2 <- ggarrange(FTL.heatmaps(11) + rremove("legend"), FTL.heatmaps(12) + rremove("legend") + rremove("y.title"), FTL.heatmaps(13) + rremove("legend") + rremove("y.title"), FTL.heatmaps(14) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(15) + rremove("legend") + rremove("y.title"), FTL.heatmaps(16) + rremove("legend") + rremove("y.title"), FTL.heatmaps(17) + rremove("legend") + rremove("y.title"), FTL.heatmaps(18) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(19) + rremove("legend") + rremove("y.title"), FTL.heatmaps(20) + rremove("y.title"), nrow = 1, ncol = 10)
 
 FTLID_plot2 # This allows us to view the second aggregated plot. For best clarity, export manually as png with width 3000 height 2000.   
 
-#For the third plot, we make heat maps for chunks 21-30. 
+# For the third plot, we make heat maps for chunks 21-30. 
 FTLID_plot3 <- ggarrange(FTL.heatmaps(21) + rremove("legend"), FTL.heatmaps(22) + rremove("legend") + rremove("y.title"), FTL.heatmaps(23) + rremove("legend") + rremove("y.title"), FTL.heatmaps(24) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(25) + rremove("legend") + rremove("y.title"), FTL.heatmaps(26) + rremove("legend") + rremove("y.title"), FTL.heatmaps(27) + rremove("legend") + rremove("y.title"), FTL.heatmaps(28) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(29) + rremove("legend") + rremove("y.title"), FTL.heatmaps(30) + rremove("y.title"), nrow = 1, ncol = 10)
 
 FTLID_plot3 # This allows us to view the third aggregated plot. For best clarity, export manually as png with width 3000 height 2000.   
 
-#For the fourth plot, we make heat maps for chunks 31-41. 
+# For the fourth plot, we make heat maps for chunks 31-41. 
 FTLID_plot4 <- ggarrange(FTL.heatmaps(31) + rremove("legend"), FTL.heatmaps(32) + rremove("legend") + rremove("y.title"), FTL.heatmaps(33) + rremove("legend") + rremove("y.title"), FTL.heatmaps(34) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(35) + rremove("legend") + rremove("y.title"), FTL.heatmaps(36) + rremove("legend") + rremove("y.title"), FTL.heatmaps(37) + rremove("legend") + rremove("y.title"), FTL.heatmaps(38) + rremove("legend") + rremove("y.title"), 
                          FTL.heatmaps(39) + rremove("legend") + rremove("y.title"), FTL.heatmaps(40) + rremove("legend") + rremove("y.title"), FTL.heatmaps(41) + rremove("y.title"), nrow = 1, ncol = 11)
