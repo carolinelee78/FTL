@@ -15928,7 +15928,7 @@ TIAS2017_plot5 <span class="c1"># This command lets us view the fifth aggregated
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-R"><pre><span></span><span class="c1">########### ISOLATING TIAS FTL PARTICIPANTS IN WAVES 2005-2017 ###########</span>
@@ -15940,18 +15940,22 @@ TIAS2017_plot5 <span class="c1"># This command lets us view the fifth aggregated
 
 <span class="c1"># Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. </span>
 
-TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv&quot;</span><span class="p">)</span>
+TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS-C.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
 
 TIAS<span class="o">$</span>ID <span class="o">&lt;-</span> <span class="kp">seq.int</span><span class="p">(</span><span class="kp">nrow</span><span class="p">(</span>TIAS<span class="p">))</span> 
 
-<span class="c1"># TIAS 2005 IAC vs. FTL </span>
+<span class="c1">### TIAS 2005 IAC vs. FTL ###</span>
 
 <span class="c1">#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2005 wave. You will be shown the number of FTL participants,</span>
 <span class="c1">#the number of IAC participants, and the participant IDs of all individuals who are FTL. </span>
 
+<span class="c1"># This selects the data only from the wave of interest, which in this case is 2005. </span>
+
 TIAS2005 <span class="o">&lt;-</span> TIAS<span class="p">[</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>TIAS<span class="o">$</span>TAS05<span class="p">),]</span>
+
+<span class="c1"># Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. </span>
 
 TIAS2005<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS2005<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
    TA050042 <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> TA050043 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;96&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA050595 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA050631 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA050127 <span class="o">==</span> <span class="m">3</span> <span class="o">&amp;</span> TA050769 <span class="o">&lt;</span> <span class="m">60</span> <span class="o">&amp;</span> 
@@ -15961,8 +15965,16 @@ TIAS2005<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp
       TA050712 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050715 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050716 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050678 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA050785 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050809 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050793 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050777 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050825 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> 
       TA050817 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050798 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050394 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA050371 <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;FTL_05&quot;</span><span class="p">,</span> <span class="s">&quot;IAC_05&quot;</span><span class="p">)))</span>
 
+<span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
+
 T05_ID <span class="o">&lt;-</span> TIAS2005<span class="o">$</span>ID
+
+<span class="c1"># Extract IDs of participants who have been identified as FTL for the 2005 wave </span>
+
 FTL05_ID <span class="o">&lt;-</span> TIAS2005<span class="p">[</span>TIAS2005<span class="o">$</span>CAT <span class="o">==</span> <span class="s">&quot;FTL_05&quot;</span><span class="p">,</span> <span class="s">&quot;ID&quot;</span><span class="p">]</span>
+
+<span class="c1"># View the IDs of participants who have been identified as FTL for the 2005 wave </span>
+
 <span class="kp">print</span><span class="p">(</span>FTL05_ID<span class="p">)</span>
 </pre></div>
 
@@ -15993,10 +16005,12 @@ FTL05_ID <span class="o">&lt;-</span> TIAS2005<span class="p">[</span>TIAS2005<s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="kp">table</span><span class="p">(</span>TIAS2005<span class="o">$</span>CAT<span class="p">)</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># View the number of FTL vs. IAC participants for the 2005 wave </span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS2005<span class="o">$</span>CAT<span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16028,29 +16042,62 @@ FTL_05 IAC_05
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span>TIAS<span class="o">$</span>CAT_05 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># Create a new variable (&#39;CAT_05&#39;) for FTL vs. IAC vs. NA (no data) categorization in the 2005 wave </span>
+
+TIAS<span class="o">$</span>CAT_05 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   ID <span class="o">%in%</span> FTL05_ID<span class="p">,</span> <span class="s">&quot;FTL_05&quot;</span><span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
     ID <span class="o">%in%</span> T05_ID<span class="p">,</span> <span class="s">&quot;IAC_05&quot;</span><span class="p">,</span> <span class="s">&quot;NA_05&quot;</span><span class="p">)))</span>
+
+<span class="c1"># View the distribution for CAT_05</span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS<span class="o">$</span>CAT_05<span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+FTL_05 IAC_05  NA_05 
+    38    707   3313 </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="c1"># TIAS 2007 IAC vs. FTL </span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1">### TIAS 2007 IAC vs. FTL ###</span>
+
 <span class="c1">#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2007 wave. You will be shown the number of FTL participants,</span>
 <span class="c1">#the number of IAC participants, and the participant IDs of all individuals who are FTL.</span>
 
+<span class="c1"># This selects the data only from the wave of interest, which in this case is 2007. </span>
+
 TIAS2007 <span class="o">&lt;-</span> TIAS<span class="p">[</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>TIAS<span class="o">$</span>TAS07<span class="p">),]</span>
+
+<span class="c1"># Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. </span>
 
 TIAS2007<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS2007<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   TA070042 <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> TA070043 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;96&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA070570 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA070602 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA070127 <span class="o">==</span> <span class="m">3</span> <span class="o">&amp;</span> TA070740 <span class="o">&lt;</span> <span class="m">60</span> <span class="o">&amp;</span> 
@@ -16060,8 +16107,16 @@ TIAS2007<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp
       TA070683 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070686 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070687 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070649 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA070756 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070777 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070764 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070748 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070793 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> 
       TA070785 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070769 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070368 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA070344 <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;FTL_07&quot;</span><span class="p">,</span> <span class="s">&quot;IAC_07&quot;</span><span class="p">)))</span>
 
+<span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
+
 T07_ID <span class="o">&lt;-</span> TIAS2007<span class="o">$</span>ID
+
+<span class="c1"># Extract IDs of participants who have been identified as FTL for the 2007 wave </span>
+
 FTL07_ID <span class="o">&lt;-</span> TIAS2007<span class="p">[</span>TIAS2007<span class="o">$</span>CAT <span class="o">==</span> <span class="s">&quot;FTL_07&quot;</span><span class="p">,</span> <span class="s">&quot;ID&quot;</span><span class="p">]</span>
+
+<span class="c1"># View the IDs of participants who have been identified as FTL for the 2007 wave </span>
+
 <span class="kp">print</span><span class="p">(</span>FTL07_ID<span class="p">)</span>
 </pre></div>
 
@@ -16094,10 +16149,12 @@ FTL07_ID <span class="o">&lt;-</span> TIAS2007<span class="p">[</span>TIAS2007<s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="kp">table</span><span class="p">(</span>TIAS2007<span class="o">$</span>CAT<span class="p">)</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># View the number of FTL vs. IAC participants for the 2007 wave </span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS2007<span class="o">$</span>CAT<span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16129,29 +16186,62 @@ FTL_07 IAC_07
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span>TIAS<span class="o">$</span>CAT_07 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># Create a new variable (&#39;CAT_07&#39;) for FTL vs. IAC vs. NA (no data) categorization in the 2007 wave </span>
+
+TIAS<span class="o">$</span>CAT_07 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   ID <span class="o">%in%</span> FTL07_ID<span class="p">,</span> <span class="s">&quot;FTL_07&quot;</span><span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
     ID <span class="o">%in%</span> T07_ID<span class="p">,</span> <span class="s">&quot;IAC_07&quot;</span><span class="p">,</span> <span class="s">&quot;NA_07&quot;</span><span class="p">)))</span>
+
+<span class="c1"># View the distribution for CAT_07</span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS<span class="o">$</span>CAT_07<span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+FTL_07 IAC_07  NA_07 
+    68   1047   2943 </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="c1"># TIAS 2009 IAC vs. FTL </span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1">### TIAS 2009 IAC vs. FTL ###</span>
+
 <span class="c1">#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2009 wave. You will be shown the number of FTL participants,</span>
 <span class="c1">#the number of IAC participants, and the participant IDs of all individuals who are FTL.</span>
 
+<span class="c1"># This selects the data only from the wave of interest, which in this case is 2009. </span>
+
 TIAS2009 <span class="o">&lt;-</span> TIAS<span class="p">[</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>TIAS<span class="o">$</span>TAS09<span class="p">),]</span>
+
+<span class="c1"># Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. </span>
 
 TIAS2009<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS2009<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   TA090043 <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> TA090044 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;96&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA090612 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA090655 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA090136 <span class="o">==</span> <span class="m">3</span> <span class="o">&amp;</span> TA090799 <span class="o">&lt;</span> <span class="m">60</span> <span class="o">&amp;</span> 
@@ -16161,8 +16251,16 @@ TIAS2009<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp
       TA090739 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090742 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090743 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090705 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA090815 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090836 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090823 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090807 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090852 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> 
       TA090844 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090828 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090385 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA090361 <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;FTL_09&quot;</span><span class="p">,</span> <span class="s">&quot;IAC_07&quot;</span><span class="p">)))</span>
 
+<span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
+
 T09_ID <span class="o">&lt;-</span> TIAS2009<span class="o">$</span>ID
+
+<span class="c1"># Extract IDs of participants who have been identified as FTL for the 2009 wave </span>
+
 FTL09_ID <span class="o">&lt;-</span> TIAS2009<span class="p">[</span>TIAS2009<span class="o">$</span>CAT <span class="o">==</span> <span class="s">&quot;FTL_09&quot;</span><span class="p">,</span> <span class="s">&quot;ID&quot;</span><span class="p">]</span>
+
+<span class="c1"># View the IDs of participants who have been identified as FTL for the 2009 wave </span>
+
 <span class="kp">print</span><span class="p">(</span>FTL09_ID<span class="p">)</span>
 </pre></div>
 
@@ -16198,10 +16296,12 @@ FTL09_ID <span class="o">&lt;-</span> TIAS2009<span class="p">[</span>TIAS2009<s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="kp">table</span><span class="p">(</span>TIAS2009<span class="o">$</span>CAT<span class="p">)</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># View the number of FTL vs. IAC participants for the 2009 wave </span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS2009<span class="o">$</span>CAT<span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16233,29 +16333,62 @@ FTL_09 IAC_07
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span>TIAS<span class="o">$</span>CAT_09 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># Create a new variable (&#39;CAT_09&#39;) for FTL vs. IAC vs. NA (no data) categorization in the 2009 wave </span>
+
+TIAS<span class="o">$</span>CAT_09 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   ID <span class="o">%in%</span> FTL09_ID<span class="p">,</span> <span class="s">&quot;FTL_09&quot;</span><span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
     ID <span class="o">%in%</span> T09_ID<span class="p">,</span> <span class="s">&quot;IAC_09&quot;</span><span class="p">,</span> <span class="s">&quot;NA_09&quot;</span><span class="p">)))</span>
+
+<span class="c1"># View the distribution for CAT_09</span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS<span class="o">$</span>CAT_09<span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+FTL_09 IAC_09  NA_09 
+   107   1447   2504 </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="c1"># TIAS 2011 IAC vs. FTL </span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1">### TIAS 2011 IAC vs. FTL ###</span>
+
 <span class="c1">#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2011 wave. You will be shown the number of FTL participants,</span>
 <span class="c1">#the number of IAC participants, and the participant IDs of all individuals who are FTL.</span>
 
+<span class="c1"># This selects the data only from the wave of interest, which in this case is 2011. </span>
+
 TIAS2011 <span class="o">&lt;-</span> TIAS<span class="p">[</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>TIAS<span class="o">$</span>TAS11<span class="p">),]</span>
+
+<span class="c1"># Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. </span>
 
 TIAS2011<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS2011<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   TA110044 <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> TA110045 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;96&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA110699 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA110743 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA110137 <span class="o">==</span> <span class="m">3</span> <span class="o">&amp;</span> TA110915 <span class="o">&lt;</span> <span class="m">60</span> <span class="o">&amp;</span> 
@@ -16265,8 +16398,16 @@ TIAS2011<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp
       TA110829 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110832 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110833 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110793 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA110931 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110952 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110939 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110923 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110968 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> 
       TA110960 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110944 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110462 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA110351 <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;FTL_11&quot;</span><span class="p">,</span> <span class="s">&quot;IAC_11&quot;</span><span class="p">)))</span>
 
+<span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
+
 T11_ID <span class="o">&lt;-</span> TIAS2011<span class="o">$</span>ID
+
+<span class="c1"># Extract IDs of participants who have been identified as FTL for the 2011 wave </span>
+
 FTL11_ID <span class="o">&lt;-</span> TIAS2011<span class="p">[</span>TIAS2011<span class="o">$</span>CAT <span class="o">==</span> <span class="s">&quot;FTL_11&quot;</span><span class="p">,</span> <span class="s">&quot;ID&quot;</span><span class="p">]</span>
+
+<span class="c1"># View the IDs of participants who have been identified as FTL for the 2011 wave </span>
+
 <span class="kp">print</span><span class="p">(</span>FTL11_ID<span class="p">)</span>
 </pre></div>
 
@@ -16302,10 +16443,12 @@ FTL11_ID <span class="o">&lt;-</span> TIAS2011<span class="p">[</span>TIAS2011<s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="kp">table</span><span class="p">(</span>TIAS2011<span class="o">$</span>CAT<span class="p">)</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># View the number of FTL vs. IAC participants for the 2011 wave </span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS2011<span class="o">$</span>CAT<span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16337,29 +16480,62 @@ FTL_11 IAC_11
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span>TIAS<span class="o">$</span>CAT_11 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># Create a new variable (&#39;CAT_11&#39;) for FTL vs. IAC vs. NA (no data) categorization in the 2011 wave </span>
+
+TIAS<span class="o">$</span>CAT_11 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   ID <span class="o">%in%</span> FTL11_ID<span class="p">,</span> <span class="s">&quot;FTL_11&quot;</span><span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
     ID <span class="o">%in%</span> T11_ID<span class="p">,</span> <span class="s">&quot;IAC_11&quot;</span><span class="p">,</span> <span class="s">&quot;NA_11&quot;</span><span class="p">)))</span>
+
+<span class="c1"># View the distribution for CAT_11</span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS<span class="o">$</span>CAT_11<span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+FTL_11 IAC_11  NA_11 
+   106   1801   2151 </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="c1"># TIAS 2013 IAC vs. FTL </span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1">### TIAS 2013 IAC vs. FTL ###</span>
+
 <span class="c1">#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2013 wave. You will be shown the number of FTL participants,</span>
 <span class="c1">#the number of IAC participants, and the participant IDs of all individuals who are FTL.</span>
 
+<span class="c1"># This selects the data only from the wave of interest, which in this case is 2013. </span>
+
 TIAS2013 <span class="o">&lt;-</span> TIAS<span class="p">[</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>TIAS<span class="o">$</span>TAS13<span class="p">),]</span>
+
+<span class="c1"># Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. </span>
 
 TIAS2013<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS2013<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   TA130043 <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> TA130044 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;96&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA130719 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA130763 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA130136 <span class="o">==</span> <span class="m">3</span> <span class="o">&amp;</span> TA130948 <span class="o">&lt;</span> <span class="m">60</span> <span class="o">&amp;</span> 
@@ -16369,8 +16545,16 @@ TIAS2013<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp
       TA130852 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130855 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130856 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130813 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA130961 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130982 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130969 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130861 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130998 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> 
       TA130990 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130977 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130482 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA130350 <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;FTL_13&quot;</span><span class="p">,</span> <span class="s">&quot;IAC_13&quot;</span><span class="p">)))</span>
 
+<span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
+
 T13_ID <span class="o">&lt;-</span> TIAS2013<span class="o">$</span>ID
+
+<span class="c1"># Extract IDs of participants who have been identified as FTL for the 2013 wave </span>
+
 FTL13_ID <span class="o">&lt;-</span> TIAS2013<span class="p">[</span>TIAS2013<span class="o">$</span>CAT <span class="o">==</span> <span class="s">&quot;FTL_13&quot;</span><span class="p">,</span> <span class="s">&quot;ID&quot;</span><span class="p">]</span>
+
+<span class="c1"># View the IDs of participants who have been identified as FTL for the 2013 wave </span>
+
 <span class="kp">print</span><span class="p">(</span>FTL13_ID<span class="p">)</span>
 </pre></div>
 
@@ -16404,10 +16588,12 @@ FTL13_ID <span class="o">&lt;-</span> TIAS2013<span class="p">[</span>TIAS2013<s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="kp">table</span><span class="p">(</span>TIAS2013<span class="o">$</span>CAT<span class="p">)</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># View the number of FTL vs. IAC participants for the 2013 wave </span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS2013<span class="o">$</span>CAT<span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16439,29 +16625,62 @@ FTL_13 IAC_13
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span>TIAS<span class="o">$</span>CAT_13 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># Create a new variable (&#39;CAT_13&#39;) for FTL vs. IAC vs. NA (no data) categorization in the 2013 wave </span>
+
+TIAS<span class="o">$</span>CAT_13 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   ID <span class="o">%in%</span> FTL13_ID<span class="p">,</span> <span class="s">&quot;FTL_13&quot;</span><span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
     ID <span class="o">%in%</span> T13_ID<span class="p">,</span> <span class="s">&quot;IAC_13&quot;</span><span class="p">,</span> <span class="s">&quot;NA_13&quot;</span><span class="p">)))</span>
+
+<span class="c1"># View the distribution for CAT_13</span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS<span class="o">$</span>CAT_13<span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+FTL_13 IAC_13  NA_13 
+    90   1714   2254 </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="c1"># TIAS 2015 IAC vs. FTL </span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1">### TIAS 2015 IAC vs. FTL ###</span>
+
 <span class="c1">#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2015 wave. You will be shown the number of FTL participants,</span>
 <span class="c1">#the number of IAC participants, and the participant IDs of all individuals who are FTL.</span>
 
+<span class="c1"># This selects the data only from the wave of interest, which in this case is 2015. </span>
+
 TIAS2015 <span class="o">&lt;-</span> TIAS<span class="p">[</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>TIAS<span class="o">$</span>TAS15<span class="p">),]</span>
+
+<span class="c1"># Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. </span>
 
 TIAS2015<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS2015<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   TA150043 <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> TA150044 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;96&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA150731 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA150776 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA150128 <span class="o">==</span> <span class="m">3</span> <span class="o">&amp;</span> TA150970 <span class="o">&lt;</span> <span class="m">60</span> <span class="o">&amp;</span> 
@@ -16471,8 +16690,16 @@ TIAS2015<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp
         TA150869 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA150872 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA150873 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA150826 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA150986 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA151007 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA150994 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA150978 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA151023 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> 
         TA151015 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA150999 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA150491 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA150352 <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;FTL_15&quot;</span><span class="p">,</span> <span class="s">&quot;IAC_15&quot;</span><span class="p">)))</span>
 
+<span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
+
 T15_ID <span class="o">&lt;-</span> TIAS2015<span class="o">$</span>ID
+
+<span class="c1"># Extract IDs of participants who have been identified as FTL for the 2015 wave </span>
+
 FTL15_ID <span class="o">&lt;-</span> TIAS2015<span class="p">[</span>TIAS2015<span class="o">$</span>CAT <span class="o">==</span> <span class="s">&quot;FTL_15&quot;</span><span class="p">,</span> <span class="s">&quot;ID&quot;</span><span class="p">]</span>
+
+<span class="c1"># View the IDs of participants who have been identified as FTL for the 2015 wave </span>
+
 <span class="kp">print</span><span class="p">(</span>FTL15_ID<span class="p">)</span>
 </pre></div>
 
@@ -16507,10 +16734,12 @@ FTL15_ID <span class="o">&lt;-</span> TIAS2015<span class="p">[</span>TIAS2015<s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="kp">table</span><span class="p">(</span>TIAS2015<span class="o">$</span>CAT<span class="p">)</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># View the number of FTL vs. IAC participants for the 2015 wave </span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS2015<span class="o">$</span>CAT<span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16542,37 +16771,78 @@ FTL_15 IAC_15
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span>TIAS<span class="o">$</span>CAT_15 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># Create a new variable (&#39;CAT_15&#39;) for FTL vs. IAC vs. NA (no data) categorization in the 2015 wave </span>
+
+TIAS<span class="o">$</span>CAT_15 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   ID <span class="o">%in%</span> FTL15_ID<span class="p">,</span> <span class="s">&quot;FTL_15&quot;</span><span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
     ID <span class="o">%in%</span> T15_ID<span class="p">,</span> <span class="s">&quot;IAC_15&quot;</span><span class="p">,</span> <span class="s">&quot;NA_15&quot;</span><span class="p">)))</span>
+
+<span class="c1"># View the distribution for CAT_15</span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS<span class="o">$</span>CAT_15<span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+FTL_15 IAC_15  NA_15 
+    91   1550   2417 </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="c1"># TIAS 2017 IAC vs. FTL </span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1">### TIAS 2017 IAC vs. FTL ###</span>
+
 <span class="c1">#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2017 wave. You will be shown the number of FTL participants,</span>
 <span class="c1">#the number of IAC participants, and the participant IDs of all individuals who are FTL.</span>
 
+<span class="c1"># This selects the data only from the wave of interest, which in this case is 2017. </span>
+
 TIAS2017 <span class="o">&lt;-</span> TIAS<span class="p">[</span><span class="o">!</span><span class="kp">is.na</span><span class="p">(</span>TIAS<span class="o">$</span>TAS17<span class="p">),]</span>
+
+<span class="c1"># Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. </span>
 
 TIAS2017<span class="o">$</span>CAT <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS2017<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   TA170058 <span class="o">==</span> <span class="m">1</span> <span class="o">&amp;</span> TA170059 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;1&quot;</span><span class="p">,</span> <span class="s">&quot;96&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA170790 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA170416 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA170183 <span class="o">==</span> <span class="m">3</span> <span class="o">&amp;</span> TA171827 <span class="o">&lt;</span> <span class="m">60</span> <span class="o">&amp;</span> 
     TA170909 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA170912 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA170913 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA170866 <span class="o">%in%</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;3&quot;</span><span class="p">,</span> <span class="s">&quot;5&quot;</span><span class="p">,</span> <span class="s">&quot;7&quot;</span><span class="p">,</span> <span class="s">&quot;0&quot;</span><span class="p">)</span> <span class="o">&amp;</span> TA171869 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA171885 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA171835 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA171861 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA171877 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> 
     TA171835 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA171840 <span class="o">==</span> <span class="m">0</span> <span class="o">&amp;</span> TA170389 <span class="o">==</span> <span class="m">1</span><span class="p">,</span> <span class="s">&quot;FTL_17&quot;</span><span class="p">,</span> <span class="s">&quot;IAC_17&quot;</span><span class="p">))</span>
 
+<span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
+
 T17_ID <span class="o">&lt;-</span> TIAS2017<span class="o">$</span>ID
+
+<span class="c1"># Extract IDs of participants who have been identified as FTL for the 2017 wave </span>
+
 FTL17_ID <span class="o">&lt;-</span> TIAS2017<span class="p">[</span>TIAS2017<span class="o">$</span>CAT <span class="o">==</span> <span class="s">&quot;FTL_17&quot;</span><span class="p">,</span> <span class="s">&quot;ID&quot;</span><span class="p">]</span>
+
+<span class="c1"># View the IDs of participants who have been identified as FTL for the 2017 wave </span>
+
 <span class="kp">print</span><span class="p">(</span>FTL17_ID<span class="p">)</span>
 </pre></div>
 
@@ -16605,10 +16875,12 @@ FTL17_ID <span class="o">&lt;-</span> TIAS2017<span class="p">[</span>TIAS2017<s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="kp">table</span><span class="p">(</span>TIAS2017<span class="o">$</span>CAT<span class="p">)</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># View the number of FTL vs. IAC participants for the 2017 wave </span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS2017<span class="o">$</span>CAT<span class="p">)</span>
 </pre></div>
 
     </div>
@@ -16640,36 +16912,43 @@ FTL_17 IAC_17
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span>TIAS<span class="o">$</span>CAT_17 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1"># Create a new variable (&#39;CAT_17&#39;) for FTL vs. IAC vs. NA (no data) categorization in the 2017 wave </span>
+
+TIAS<span class="o">$</span>CAT_17 <span class="o">&lt;-</span> <span class="kp">with</span><span class="p">(</span>TIAS<span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
   ID <span class="o">%in%</span> FTL17_ID<span class="p">,</span> <span class="s">&quot;FTL_17&quot;</span><span class="p">,</span> <span class="kp">ifelse</span><span class="p">(</span>
     ID <span class="o">%in%</span> T17_ID<span class="p">,</span> <span class="s">&quot;IAC_17&quot;</span><span class="p">,</span> <span class="s">&quot;NA_17&quot;</span><span class="p">)))</span>
+
+<span class="c1"># View the distribution for CAT_17</span>
+
+<span class="kp">table</span><span class="p">(</span>TIAS<span class="o">$</span>CAT_17<span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+
+<div class="output_text output_subarea ">
+<pre>
+FTL_17 IAC_17  NA_17 
+    64   2462   1532 </pre>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="c1"># The following code allows you to view the final TIAS-C FTL/IAC dataset for all waves (2005-2017).</span>
 
-TIAS_FTL <span class="o">&lt;-</span> TIAS <span class="o">%&gt;%</span> select<span class="p">(</span>ID<span class="p">,</span> CAT_05<span class="p">,</span> CAT_07<span class="p">,</span> CAT_09<span class="p">,</span> CAT_11<span class="p">,</span> CAT_13<span class="p">,</span> CAT_15<span class="p">,</span> CAT_17<span class="p">,</span> TA050042<span class="p">,</span> TA050043<span class="p">,</span> TA050595<span class="p">,</span> TA050631<span class="p">,</span> TA050127<span class="p">,</span> TA050769<span class="p">,</span> TA050712<span class="p">,</span> TA050715<span class="p">,</span> TA050716<span class="p">,</span> TA050678<span class="p">,</span> TA050785<span class="p">,</span> TA050809<span class="p">,</span> TA050793<span class="p">,</span> TA050777<span class="p">,</span> TA050825<span class="p">,</span> TA050817<span class="p">,</span> TA050798<span class="p">,</span> TA050394<span class="p">,</span> TA050371<span class="p">,</span>
-                              TA070042<span class="p">,</span> TA070043<span class="p">,</span> TA070570<span class="p">,</span> TA070602<span class="p">,</span> TA070127<span class="p">,</span> TA070740<span class="p">,</span> TA070683<span class="p">,</span> TA070686<span class="p">,</span> TA070687<span class="p">,</span> TA070649<span class="p">,</span> TA070756<span class="p">,</span> TA070777<span class="p">,</span> TA070764<span class="p">,</span> TA070748<span class="p">,</span> TA070793<span class="p">,</span> TA070785<span class="p">,</span> TA070769<span class="p">,</span> TA070368<span class="p">,</span> TA070344<span class="p">,</span>
-                              TA090043<span class="p">,</span> TA090044<span class="p">,</span> TA090612<span class="p">,</span> TA090655<span class="p">,</span> TA090136<span class="p">,</span> TA090799<span class="p">,</span> TA090739<span class="p">,</span> TA090742<span class="p">,</span> TA090743<span class="p">,</span> TA090705<span class="p">,</span> TA090815<span class="p">,</span> TA090836<span class="p">,</span> TA090823<span class="p">,</span> TA090807<span class="p">,</span> TA090852<span class="p">,</span> TA090844<span class="p">,</span> TA090828<span class="p">,</span> TA090385<span class="p">,</span> TA090361<span class="p">,</span>
-                              TA110044<span class="p">,</span> TA110045<span class="p">,</span> TA110699<span class="p">,</span> TA110743<span class="p">,</span> TA110137<span class="p">,</span> TA110915<span class="p">,</span> TA110829<span class="p">,</span> TA110832<span class="p">,</span> TA110833<span class="p">,</span> TA110793<span class="p">,</span> TA110931<span class="p">,</span> TA110952<span class="p">,</span> TA110939<span class="p">,</span> TA110923<span class="p">,</span> TA110968<span class="p">,</span> TA110960<span class="p">,</span> TA110944<span class="p">,</span> TA110462<span class="p">,</span> TA110351<span class="p">,</span>
-                              TA130043<span class="p">,</span> TA130044<span class="p">,</span> TA130719<span class="p">,</span> TA130763<span class="p">,</span> TA130136<span class="p">,</span> TA130948<span class="p">,</span> TA130852<span class="p">,</span> TA130855<span class="p">,</span> TA130856<span class="p">,</span> TA130813<span class="p">,</span> TA130961<span class="p">,</span> TA130982<span class="p">,</span> TA130969<span class="p">,</span> TA130861<span class="p">,</span> TA130998<span class="p">,</span> TA130990<span class="p">,</span> TA130977<span class="p">,</span> TA130482<span class="p">,</span> TA130350<span class="p">,</span>
-                              TA150043<span class="p">,</span> TA150044<span class="p">,</span> TA150731<span class="p">,</span> TA150776<span class="p">,</span> TA150128<span class="p">,</span> TA150970<span class="p">,</span> TA150869<span class="p">,</span> TA150872<span class="p">,</span> TA150873<span class="p">,</span> TA150826<span class="p">,</span> TA150986<span class="p">,</span> TA151007<span class="p">,</span> TA150994<span class="p">,</span> TA150978<span class="p">,</span> TA151023<span class="p">,</span> TA151015<span class="p">,</span> TA150999<span class="p">,</span> TA150491<span class="p">,</span> TA150352<span class="p">,</span>
-                              TA170058<span class="p">,</span> TA170059<span class="p">,</span> TA170790<span class="p">,</span> TA170416<span class="p">,</span> TA170183<span class="p">,</span> TA171827<span class="p">,</span> TA170909<span class="p">,</span> TA170912<span class="p">,</span> TA170913<span class="p">,</span> TA170866<span class="p">,</span> TA171869<span class="p">,</span> TA171885<span class="p">,</span> TA171835<span class="p">,</span> TA171861<span class="p">,</span> TA171877<span class="p">,</span> TA171840<span class="p">,</span> TA170389<span class="p">)</span>
-</pre></div>
+</div>
 
-    </div>
 </div>
 </div>
 
