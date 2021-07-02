@@ -421,18 +421,53 @@ TIAS$GREQ1_FTL <- with(TIAS, ifelse(FTL_COUNT >= 1, "Yes", "No"))
 
 ### Mental Health: Non-Spec Psych Distress ###
 
-TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA050938 = 99))
+# Replacing 99 (value for 'all items are DK/NA/refused') with NA 
 
-table(TIAS$TA050938)
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050938 = 99)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050938 = 99)) 
+
+# Viewing distribution for TA050938 (score from NSPD scale; possible values: 0-24)
+
+table(TIAS2005$TA050938)
+
+# Viewing distribution of NSPD scale score across TIAS dataset 
+
+ggplot(TIAS2005, aes(TA050938), na.rm = T) + 
+  labs(x = "NSPD Scale Score (Min=0, Max=24)", y = "Count") +
+  geom_bar()
+
+# Aggregating mean NSPD scale scores for individuals with different total # of FTL wave match counts 
 
 nspd.ftl.count <- aggregate.data.frame(TIAS$TA050938, list(TIAS$FTL_COUNT), mean, na.rm=T)
 
+# Assigning column labels for resulting data frame 
+
 colnames(nspd.ftl.count) <- c("FTL_Wave_Count", "Mean_NSPD")
 
-barplot(Mean_NSPD ~ FTL_Wave_Count, nspd.ftl.count)
+# Viewing mean NSPD scale score for FTL wave match count total no. categories 
+
+ggplot(nspd.ftl.count, aes(x = FTL_Wave_Count, y = Mean_NSPD, fill = FTL_Wave_Count)) +
+  geom_bar(stat = "identity") +
+  labs(x = "# of Waves for Which Participant Identified as FTL", y = "Mean NSPD Scale Score") + 
+  scale_y_continuous(limits = c(0, 24), breaks = seq(0, 24, by = 2)) + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) +
+  theme(legend.position = "none") +
+  scale_fill_viridis_c() 
+
+# Aggregating mean NSPD scale scores for individuals who were FTL for at least one wave vs. never FTL 
 
 nspd.ftl.cat <- aggregate.data.frame(TIAS$TA050938, list(TIAS$GREQ1_FTL), mean, na.rm=T)
+
+colnames(nspd.ftl.cat) <- c("At_Least_One_FTL", "Mean_NSPD")
+
+ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = At_Least_One_FTL)) +
+  geom_bar(stat = "identity") +
+  labs(x = "Identified as FTL for at least one wave", y = "Mean NSPD Scale Score") + 
+  scale_y_continuous(limits = c(0, 24), breaks = seq(0, 24, by = 2)) + 
+  theme(legend.position = "none") 
 
 ### Mental Health: Social Anxiety ### 
 
