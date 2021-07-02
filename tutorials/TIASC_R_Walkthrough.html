@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>TIAS_R_Walkthrough</title>
+<title>TIASC_R_Walkthrough</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13163,7 +13163,9 @@ The code has been written and organized so that you would only need to run certa
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-R"><pre><span></span><span class="c1">########### Setup Section ########### This section downloads the necessary R packages and functions we need to run the analysis and create visuals. </span>
+<div class=" highlight hl-R"><pre><span></span><span class="c1">########### Setup Section ########### </span>
+
+<span class="c1"># This section downloads the necessary R packages and functions we need to run the analysis and create visuals. </span>
 
 <span class="c1"># clear global environment</span>
 
@@ -13389,7 +13391,7 @@ Loading required package: ggpubr
     <div class="input_area">
 <div class=" highlight hl-R"><pre><span></span><span class="c1"># Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. </span>
 
-TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv&quot;</span><span class="p">)</span>
+TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS-C.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
 
@@ -13710,7 +13712,7 @@ TIAS2005_plot <span class="c1"># This command lets us view the aggregated plot. 
     <div class="input_area">
 <div class=" highlight hl-R"><pre><span></span><span class="c1"># Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. </span>
 
-TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv&quot;</span><span class="p">)</span>
+TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS-C.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
 
@@ -14056,7 +14058,7 @@ TIAS2007_plot2 <span class="c1"># This command lets us view the second aggregate
     <div class="input_area">
 <div class=" highlight hl-R"><pre><span></span><span class="c1"># Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. </span>
 
-TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv&quot;</span><span class="p">)</span>
+TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS-C.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
 
@@ -14402,7 +14404,7 @@ TIAS2009_plot2 <span class="c1"># This command lets us view the second aggreagte
     <div class="input_area">
 <div class=" highlight hl-R"><pre><span></span><span class="c1"># Now you import the TIAS data again. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. </span>
 
-TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv&quot;</span><span class="p">)</span>
+TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS-C.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to identify each row (participant).  </span>
 
@@ -14796,7 +14798,7 @@ TIAS2011_plot4 <span class="c1"># This command lets us view the fourth aggregate
     <div class="input_area">
 <div class=" highlight hl-R"><pre><span></span><span class="c1"># Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. </span>
 
-TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv&quot;</span><span class="p">)</span>
+TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS-C.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
 
@@ -15166,7 +15168,7 @@ TIAS2013_plot3 <span class="c1"># This command lets us view the third aggregated
     <div class="input_area">
 <div class=" highlight hl-R"><pre><span></span><span class="c1"># Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. </span>
 
-TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv&quot;</span><span class="p">)</span>
+TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS-C.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
 
@@ -15536,7 +15538,7 @@ TIAS2015_plot3 <span class="c1"># This command lets us view the third aggregated
     <div class="input_area">
 <div class=" highlight hl-R"><pre><span></span><span class="c1"># Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. </span>
 
-TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv&quot;</span><span class="p">)</span>
+TIAS <span class="o">&lt;-</span> read.csv<span class="p">(</span><span class="s">&quot;https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS-C.csv&quot;</span><span class="p">)</span>
 
 <span class="c1"># Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column (&#39;ID&#39;) to consistently identify each row (participant).</span>
 
