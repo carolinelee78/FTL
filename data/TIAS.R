@@ -1,4 +1,6 @@
-########### Setup Section ########### This section downloads the necessary R packages and functions we need to run the analysis and create visuals. 
+########### Setup Section ########### 
+
+# This section downloads the necessary R packages and functions we need to run the analysis and create visuals. 
 
 # clear global environment
 
@@ -31,11 +33,13 @@ lapply(c("tidyverse"),  pkgTest)
 lapply(c("ggplot2"),  pkgTest)
 lapply(c("ggthemes"),  pkgTest)
 lapply(c("ggpubr"),  pkgTest)
+lapply(c("naniar"),  pkgTest)
 library(dplyr)
 library(tidyr)
-library(RColorBrewer)
 library(ggplot2)
 library(ggpubr)
+library(naniar)
+library(RColorBrewer)
 
 # set working directory 
 
@@ -367,3 +371,38 @@ TIAS$CAT_17 <- with(TIAS, ifelse(
 # View the distribution for CAT_17
 
 table(TIAS$CAT_17)
+
+### TIAS FTL Wave Count ### 
+
+# Creating a variable for the total number of waves that each participant identified as FTL (as opposed to IAC or NA)
+
+TIAS$FTL_COUNT <- as.integer(as.logical(TIAS$CAT_05 == "FTL_05")) + as.integer(as.logical(TIAS$CAT_07 == "FTL_07")) + as.integer(as.logical(TIAS$CAT_09 == "FTL_09")) +
+  as.integer(as.logical(TIAS$CAT_11 == "FTL_11")) + as.integer(as.logical(TIAS$CAT_13 == "FTL_13")) + as.integer(as.logical(TIAS$CAT_15 == "FTL_15")) + as.integer(as.logical(TIAS$CAT_17 == "FTL_17"))
+
+# Viewing the distribution of FTL wave counts 
+
+table(TIAS$FTL_COUNT)                        
+
+# Creating a variable distinguishing participants who identified as FTL for at least one wave (greater than or equal to 1; GREQ1) vs. who never identified as FTL
+
+TIAS$GREQ1_FTL <- with(TIAS, ifelse(FTL_COUNT >= 1, "Yes", "No"))      
+
+########### TIAS-D Analysis - TIAS 2005 ########### 
+
+### Mental Health: Non-Spec Psych Distress ###
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050938 = 99))
+
+aggregate(TIAS$TA050938, list(TIAS$FTL_COUNT), mean, na.rm=T)
+
+aggregate(TIAS$TA050938, list(TIAS$GREQ1_FTL), mean, na.rm=T)
+
+table(TIAS$TA050938)
+
+
+
+
+
+
+
