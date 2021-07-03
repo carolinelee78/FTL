@@ -29,11 +29,11 @@ pkgTest <- function(pkg){
 # ex: stringr
 # lapply(c("stringr"),  pkgTest)
 
-lapply(c("tidyverse"),  pkgTest)
-lapply(c("ggplot2"),  pkgTest)
-lapply(c("ggthemes"),  pkgTest)
-lapply(c("ggpubr"),  pkgTest)
-lapply(c("naniar"),  pkgTest)
+lapply(c("tidyverse"),pkgTest)
+lapply(c("ggplot2"), pkgTest)
+lapply(c("ggthemes"), pkgTest)
+lapply(c("ggpubr"), pkgTest)
+lapply(c("naniar"), pkgTest)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -68,6 +68,14 @@ TIAS$ID <- seq.int(nrow(TIAS))
 # This selects the data only from the wave of interest, which in this case is 2005. 
 
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
+
+# Creating a subsetted dataframe including only FTL participants for the 2005 wave 
+
+TIAS2005_FTL <- subset(TIAS2005, CAT == "FTL_05")
+
+# Creating a subsetted dataframe including only IAC participants for the 2005 wave 
+
+TIAS2005_IAC <- subset(TIAS2005, CAT == "IAC_05")
 
 # Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
 
@@ -407,6 +415,12 @@ TIAS$GREQ1_FTL <- with(TIAS, ifelse(FTL_COUNT >= 1, "Yes", "No"))
 
 ### Depression Over Past Year ### 
 
+####
+# H15. WTR>2 Wks Depressed In Past 12 MOS: “Now I want to ask you about periods of feeling sad, empty, or depressed. 
+# In the past 12 months, have you had two weeks or longer when nearly every day you felt sad, empty, or depressed for most of the day?”
+# Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA; Refused)
+####
+
 table(TIAS$TA050733)
 
 table(TIAS$TA050733, TIAS$FTL_COUNT)
@@ -419,13 +433,29 @@ ggplot(TIAS) +
 
 table(TIAS2005$TA050733, TIAS2005$CAT)
 
-legend_title <- "Depressed >2wks"
+legend_title <- "Depressed >2 Weeks"
 ggplot(TIAS2005) + 
   geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050733)), position = position_dodge(), na.rm = T) + 
   labs(x = "Category", y = "Count") +
   scale_fill_manual(legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused"))
 
+prop.table(table(TIAS2005_FTL$TA050733))
 
+depr.pie.ftl.05 <- ggplot(data = TIAS2005_FTL, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual(legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused")) + 
+  theme_void() 
+
+prop.table(table(TIAS2005_IAC$TA050733))
+
+depr.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual(legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused")) + 
+  theme_void() 
+
+ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Depression - Anhedonia ###
 
@@ -440,6 +470,12 @@ ggplot(TIAS2005) +
 ### OCD Diagnosis ### 
 
 ### Mental Health: Non-Spec Psych Distress ###
+
+####
+# Cumulative score from answers to NSPD scale questions: 
+# (how often felt nervous/hopeless/restless/everything as an effort/sad/worthless in past mo.)
+# Possible scores: 0-24; 99 (all items are DK/NA/refused)
+####
 
 # Replacing 99 (value for 'all items are DK/NA/refused') with NA in TIAS and TIAS2005
 
