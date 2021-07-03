@@ -407,6 +407,26 @@ TIAS$GREQ1_FTL <- with(TIAS, ifelse(FTL_COUNT >= 1, "Yes", "No"))
 
 ### Depression Over Past Year ### 
 
+table(TIAS$TA050733)
+
+table(TIAS$TA050733, TIAS$FTL_COUNT)
+
+ggplot(TIAS) + 
+  geom_bar(mapping = aes(x = TA050733, fill = as.factor(FTL_COUNT)), position = position_dodge(), na.rm = T) + 
+  scale_x_continuous(breaks = seq(1, 9, by = 4)) + 
+  labs(x = ">2 Weeks Depressed in Past 12 Months (1 = Yes; 5 = No; 9 = NA/Refused)", y = "Count") + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+table(TIAS2005$TA050733, TIAS2005$CAT)
+
+legend_title <- "Depressed >2wks"
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050733)), position = position_dodge(), na.rm = T) + 
+  labs(x = "Category", y = "Count") +
+  scale_fill_manual(legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused"))
+
+
+
 ### Depression - Anhedonia ###
 
 ### Depression Diagnosis ### 
@@ -421,7 +441,7 @@ TIAS$GREQ1_FTL <- with(TIAS, ifelse(FTL_COUNT >= 1, "Yes", "No"))
 
 ### Mental Health: Non-Spec Psych Distress ###
 
-# Replacing 99 (value for 'all items are DK/NA/refused') with NA 
+# Replacing 99 (value for 'all items are DK/NA/refused') with NA in TIAS and TIAS2005
 
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA050938 = 99)) 
@@ -435,10 +455,12 @@ table(TIAS2005$TA050938)
 
 # Viewing distribution of NSPD scale score across TIAS dataset 
 
-ggplot(TIAS2005, aes(TA050938), na.rm = T) + 
-  labs(x = "NSPD Scale Score (Min=0, Max=24)", y = "Count") +
-  geom_bar()
-
+ggplot(TIAS2005) +
+  geom_bar(mapping = aes(x = TA050938, fill = as.factor(TA050938)), na.rm = T) + 
+  labs(x = "NSPD Scale Score (Min=0, Max=24)", y = "Count") + 
+  theme(legend.position = "none") + 
+  scale_x_continuous(breaks = seq(0, 24, by = 1))
+  
 # Aggregating mean NSPD scale scores for individuals with different total # of FTL wave match counts 
 
 nspd.ftl.count <- aggregate.data.frame(TIAS$TA050938, list(TIAS$FTL_COUNT), mean, na.rm=T)
@@ -463,10 +485,11 @@ nspd.ftl.cat <- aggregate.data.frame(TIAS$TA050938, list(TIAS$GREQ1_FTL), mean, 
 
 colnames(nspd.ftl.cat) <- c("At_Least_One_FTL", "Mean_NSPD")
 
-ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = At_Least_One_FTL)) +
+ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(At_Least_One_FTL))) +
   geom_bar(stat = "identity") +
   labs(x = "Identified as FTL for at least one wave", y = "Mean NSPD Scale Score") + 
   scale_y_continuous(limits = c(0, 24), breaks = seq(0, 24, by = 2)) + 
+  scale_fill_brewer(palette = "Set2") +
   theme(legend.position = "none") 
 
 ### Mental Health: Social Anxiety ### 
