@@ -1,4 +1,9 @@
-########### Setup Section ########### 
+# There are three ways to collapse/expand sections: 
+# (1) Go to the 'Edit' tab, and select 'Folding' to collapse/expand certain sections or collapse/expand all sections 
+# (2) Shortcuts: collapse (option + command + L); expand (option + shift + command + L); collapse all (option + command + O); expand all (option + shift + command + O)
+# (3) Click on the small upside down triangles to the left of each section marker to collapse/expand each section 
+
+######################## Setup Section ######################## 
 
 # This section downloads the necessary R packages and functions we need to run the analysis and create visuals. 
 
@@ -45,7 +50,7 @@ library(RColorBrewer)
 
 setwd("/Users/kdlee/Desktop/Lebowitz_Lab/FTL/data")
 
-########### Isolating TIAS FTL Participants In Waves 2005-2017 ###########
+######################## Isolating TIAS FTL Participants In Waves 2005-2017 ######################## 
 
 # The below code clears your R environment (found on the right side of the console and includes data tables and values). 
 # Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from each wave). 
@@ -60,7 +65,7 @@ TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/
 
 TIAS$ID <- seq.int(nrow(TIAS)) 
 
-### TIAS 2005 IAC vs. FTL ###
+### TIAS 2005 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2005 wave. You will be shown the number of FTL participants,
 #the number of IAC participants, and the participant IDs of all individuals who are FTL. 
@@ -113,7 +118,7 @@ TIAS$CAT_05 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_05)
 
-### TIAS 2007 IAC vs. FTL ###
+### TIAS 2007 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2007 wave. You will be shown the number of FTL participants,
 #the number of IAC participants, and the participant IDs of all individuals who are FTL.
@@ -158,7 +163,7 @@ TIAS$CAT_07 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_07)
 
-### TIAS 2009 IAC vs. FTL ###
+### TIAS 2009 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2009 wave. You will be shown the number of FTL participants,
 #the number of IAC participants, and the participant IDs of all individuals who are FTL.
@@ -203,7 +208,7 @@ TIAS$CAT_09 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_09)
 
-### TIAS 2011 IAC vs. FTL ###
+### TIAS 2011 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2011 wave. You will be shown the number of FTL participants,
 #the number of IAC participants, and the participant IDs of all individuals who are FTL.
@@ -248,7 +253,7 @@ TIAS$CAT_11 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_11)
 
-### TIAS 2013 IAC vs. FTL ###
+### TIAS 2013 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2013 wave. You will be shown the number of FTL participants,
 #the number of IAC participants, and the participant IDs of all individuals who are FTL.
@@ -293,7 +298,7 @@ TIAS$CAT_13 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_13)
 
-### TIAS 2015 IAC vs. FTL ###
+### TIAS 2015 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2015 wave. You will be shown the number of FTL participants,
 #the number of IAC participants, and the participant IDs of all individuals who are FTL.
@@ -338,7 +343,7 @@ TIAS$CAT_15 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_15)
 
-### TIAS 2017 IAC vs. FTL ###
+### TIAS 2017 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2017 wave. You will be shown the number of FTL participants,
 #the number of IAC participants, and the participant IDs of all individuals who are FTL.
@@ -395,28 +400,46 @@ table(TIAS$FTL_COUNT)
 
 TIAS$GREQ1_FTL <- with(TIAS, ifelse(FTL_COUNT >= 1, "Yes", "No"))      
 
-########### TIAS-D Analysis - TIAS 2005 ########### 
+######################## TIAS-D Analysis - TIAS 2005 ######################## 
 
-### Amphetamine Usage ### 
-
-### Barbiturate Usage ### 
-
-### Marijuana Usage ### 
-
-### Steroid Usage ###
-
-### Tranquilizer Usage ### 
-
-### Average Alcohol Consumption Frequency Over Past Year ### 
-
-### Average Daily Alcohol Consumption ### 
-
-### Degree to Which Condition Limits Normal Daily Activities ### 
-
-### Depression Over Past Year ### 
+### Amphetamine Usage ===========================================================================================================
 
 ####
-# H15. WTR>2 Wks Depressed In Past 12 MOS: “Now I want to ask you about periods of feeling sad, empty, or depressed. 
+# H44B. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used amphetamine on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA050784)
+
+table(TIAS$TA050784, TIAS$FTL_COUNT)
+
+### Barbiturate Usage ===========================================================================================================
+
+####
+# H44E. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used barbiturates on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+### Marijuana Usage =============================================================================================================
+
+### Steroid Usage ===============================================================================================================
+
+### Tranquilizer Usage ==========================================================================================================
+
+### Cocaine Usage ===============================================================================================================
+
+### Average Alcohol Consumption Frequency Over Past Year ========================================================================
+
+### Average Daily Alcohol Consumption ===========================================================================================
+
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================
+
+### Depression Over Past Year ===================================================================================================
+
+####
+# H15. WTR>2 Wks Depressed In Past 12mos: “Now I want to ask you about periods of feeling sad, empty, or depressed. 
 # In the past 12 months, have you had two weeks or longer when nearly every day you felt sad, empty, or depressed for most of the day?”
 # Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA; Refused)
 ####
@@ -457,19 +480,31 @@ depr.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050733, fill =
 
 ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Depression - Anhedonia ###
+### Depression - Anhedonia =======================================================================================================
 
-### Depression Diagnosis ### 
+### Depression Diagnosis =========================================================================================================
 
-### Bipolar Disorder Diagnosis ### 
+### Bipolar Disorder Diagnosis ===================================================================================================
 
-### Phobia Diagnosis ###
+### Phobia Diagnosis =============================================================================================================
 
-### Anxiety Disorders Diagnosis ### 
+### Anxiety Disorders Diagnosis ==================================================================================================
 
-### OCD Diagnosis ### 
+#### 
+# H12B. What was the diagnosis? What is the emotional or psychiatric disorder? -- Anxiety 
+# Answers: 1 (Diagnosed w/ Anxiety); 8 (DK); 9 (NA/refused); 
+# 0 (Inap. Never Diagnosed w/ Anxiety or Never Diagnosed with Emotional/Nervous/Psychiatric Problems)
+####
 
-### Mental Health: Non-Spec Psych Distress ###
+table(TIAS$TA050713)
+
+table(TIAS$TA050713, TIAS$FTL_COUNT)
+
+table(TIAS2005$TA050713, TIAS2005$CAT)
+
+### OCD Diagnosis ================================================================================================================
+
+### Mental Health: Non-Spec Psych Distress =======================================================================================
 
 ####
 # Cumulative score from answers to NSPD scale questions: 
@@ -528,1392 +563,1407 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
   scale_fill_brewer(palette = "Set2") +
   theme(legend.position = "none") 
 
-### Mental Health: Social Anxiety ### 
+### Mental Health: Social Anxiety ================================================================================================
 
-### Mental Health: Worry ###
+### Mental Health: Worry =========================================================================================================
 
-### Paid Employment Since Jan 1 of Prior Year ### 
+### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
-### Paid Employment History ### 
+### Paid Employment History ======================================================================================================
 
-### Current Marital Status ### 
+### Current Marital Status =======================================================================================================
 
-### Romantic Relationships ###
+### Romantic Relationships =======================================================================================================
 
-### Number of Children ###
+### Number of Children ===========================================================================================================
 
-### High School Education ### 
+### High School Education ========================================================================================================
 
-### College Education ### 
+### College Education ============================================================================================================
 
-### Highest Education Level ### 
+### Highest Education Level ======================================================================================================
 
-### Responsibility - Earning Own Living  ### 
+### Responsibility - Earning Own Living ==========================================================================================
 
-### Responsibility - Paying Own Rent ### 
+### Responsibility - Paying Own Rent =============================================================================================
 
-### Responsibility - Paying Own Bills ### 
+### Responsibility - Paying Own Bills ============================================================================================
 
-### Responsibility - Managing Money ### 
+### Responsibility - Managing Money ==============================================================================================
 
-### How Good at Taking Responsibility for Actions ### 
+### How Good at Taking Responsibility for Actions ================================================================================
 
-### How Good at Money Management ### 
+### How Good at Money Management =================================================================================================
 
-### How Good at Paying Off Credit Card Balances ### 
+### How Good at Paying Off Credit Card Balances ==================================================================================
 
-### MIDUS M1 - Happiness ### 
+### MIDUS M1 - Happiness =========================================================================================================
 
-### MIDUS M2 - Interest in Life ### 
+### MIDUS M2 - Interest in Life ==================================================================================================
 
-### MIDUS M3 - Satisfaction ### 
+### MIDUS M3 - Satisfaction ======================================================================================================
 
-### MIDUS M4 - Contribution of Something Important to Society ### 
+### MIDUS M4 - Contribution of Something Important to Society ====================================================================
 
-### MIDUS M5 - Belonging to Community ### 
+### MIDUS M5 - Belonging to Community ============================================================================================
 
-### MIDUS M6 - Society Getting Better ### 
+### MIDUS M6 - Society Getting Better ============================================================================================
 
-### MIDUS M7 - People Basically Good ### 
+### MIDUS M7 - People Basically Good =============================================================================================
 
-### MIDUS M8 - Way Society Makes Sense ### 
+### MIDUS M8 - Way Society Makes Sense ===========================================================================================
 
-### MIDUS M9 - Managing Daily Responsibility ### 
+### MIDUS M9 - Managing Daily Responsibility =====================================================================================
 
-### MIDUS M10 - Trusting Relationships w/ Others ### 
+### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
 
-### MIDUS M11 - Challenged to Grow ### 
+### MIDUS M11 - Challenged to Grow ===============================================================================================
 
-### MIDUS M12 - Confident of Own Ideas ### 
+### MIDUS M12 - Confident of Own Ideas ===========================================================================================
 
-### MIDUS M13 - Liked Personality ### 
+### MIDUS M13 - Liked Personality ================================================================================================
 
-### MIDUS M14 - Life Had Direction ### 
+### MIDUS M14 - Life Had Direction ===============================================================================================
 
-### MIDUS Subscale - Emotional ###
+### MIDUS Subscale - Emotional ===================================================================================================
 
-### MIDUS Subscale - Psychological ###
+### MIDUS Subscale - Psychological ===============================================================================================
 
-### Time Use - Involved in Arts ### 
+### Time Use - Involved in Arts ==================================================================================================
 
-### Time Use - Type of Art (Involvement) ### 
+### Time Use - Type of Art (Involvement) =========================================================================================
 
-### Time Use - Art Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
 
-### Time Use - Involved in Sports ### 
+### Time Use - Involved in Sports ================================================================================================
 
-### Time Use - Watching/Reading News (Over 12 Mos) ### 
+### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ### 
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ### 
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
 
-### Time Use - Internet Usage ### 
+### Time Use - Internet Usage ====================================================================================================
 
-### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ###
+### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ==========================================================
 
-### Time Use - Internet Usage for School/Research (Over 12 Mos) ### 
+### Time Use - Internet Usage for School/Research (Over 12 Mos) ==================================================================
 
-### Time Use - Internet Usage for Shopping (Over 12 Mos) ### 
+### Time Use - Internet Usage for Shopping (Over 12 Mos) =========================================================================
 
-### Time Use - Internet Usage for Playing Games (Over 12 Mos) ### 
+### Time Use - Internet Usage for Playing Games (Over 12 Mos) ====================================================================
 
-### Time Use - Voted in Last Presidential Election ### 
+### Time Use - Voted in Last Presidential Election ===============================================================================
 
-### Time Use - Involvement in Social Action Groups ### 
+### Time Use - Involvement in Social Action Groups ===============================================================================
 
-### Time Use - Type of Social Action Group (If Involved) ### 
+### Time Use - Type of Social Action Group (If Involved) =========================================================================
 
-### Time Use - Social Action Group Involvement (Over 12 Mos) ### 
+### Time Use - Social Action Group Involvement (Over 12 Mos) =====================================================================
 
-### Time Use - School Club/Student Gov Involvement ### 
+### Time Use - School Club/Student Gov Involvement ===============================================================================
 
-### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) ### 
+### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
-### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ###
+### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
-### Time Use - Type of Volunteer Work ### 
+### Time Use - Type of Volunteer Work ============================================================================================
 
-### Time Use - How Often Volunteered (Over 12 Mos) ###
+### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
-### Self-Rating (Compared to Others) - Listening & Understanding Others ### 
+### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
-### Self-Rating (Compared to Others) - Teaching & Explaining to Others ###
+### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
 
-### Self-Rating (Compared to Others) - Supervising Others ### 
+### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
-### Self-Rating (Compared to Others) - Being a Leader ### 
+### Self-Rating (Compared to Others) - Being a Leader ============================================================================
 
-### Self-Rating (Compared to Others) - Logical/Analytic Thinking ### 
+### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
-### Self-Rating (Compared to Others) - Helping Others Solve Their Problems ### 
+### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
-### How Good at Problem Solving ### 
+### How Good at Problem Solving ==================================================================================================
 
-### Self-Rating (Compared to Others) - Intelligence ### 
+### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
-### Self-Rating (Compared to Others) - Independence ### 
+### Self-Rating (Compared to Others) - Independence ==============================================================================
 
-### Self-Rating (Compared to Others) - Confidence ### 
+### Self-Rating (Compared to Others) - Confidence ================================================================================
 
-### Self-Rating (Compared to Others) - Decisiveness ### 
+### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
-### Frequency - Snacking Instead of Consuming Regular Meals ### 
+### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
 
-### Binge Eating Frequency ### 
+### Binge Eating Frequency =======================================================================================================
 
-### Race - Hispanic ### 
+### Race - Hispanic ==============================================================================================================
 
-### Race Identification ### 
+### Race Identification ==========================================================================================================
 
-### Daily Cigarette Usage ### 
+### Daily Cigarette Usage ========================================================================================================
 
-### Body Mass Index (BMI) ### 
+### Body Mass Index (BMI) ========================================================================================================
 
-### Usual Amount of Daily Sleep ### 
+### Usual Amount of Daily Sleep ==================================================================================================
 
-########### TIAS-D Analysis - TIAS 2007 ########### 
+######################## TIAS-D Analysis - TIAS 2007 ######################## 
 
-### Amphetamine Usage ### 
+### Amphetamine Usage ===========================================================================================================
 
-### Barbiturate Usage ### 
+### Barbiturate Usage ===========================================================================================================
 
-### Marijuana Usage ### 
+### Marijuana Usage =============================================================================================================
 
-### Steroid Usage ###
+### Steroid Usage ===============================================================================================================
 
-### Tranquilizer Usage ### 
+### Tranquilizer Usage ==========================================================================================================
 
-### Average Alcohol Consumption Frequency Over Past Year ### 
+### Cocaine Usage ===============================================================================================================
 
-### Average Daily Alcohol Consumption ### 
+### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
-### Degree to Which Condition Limits Normal Daily Activities ### 
+### Average Daily Alcohol Consumption ===========================================================================================
 
-### Depression Over Past Year ### 
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
-### Depression - Anhedonia ###
+### Depression Over Past Year ===================================================================================================
 
-### Depression Diagnosis ### 
+### Depression - Anhedonia =======================================================================================================
 
-### Bipolar Disorder Diagnosis ### 
+### Depression Diagnosis =========================================================================================================
 
-### Phobia Diagnosis ###
+### Bipolar Disorder Diagnosis ===================================================================================================
 
-### Anxiety Disorders Diagnosis ### 
+### Phobia Diagnosis =============================================================================================================
 
-### OCD Diagnosis ### 
+### Anxiety Disorders Diagnosis ==================================================================================================
 
-### Mental Health: Non-Spec Psych Distress ###
+### OCD Diagnosis ================================================================================================================
 
-### Mental Health: Social Anxiety ### 
+### Mental Health: Non-Spec Psych Distress =======================================================================================
 
-### Mental Health: Worry ###
+### Mental Health: Social Anxiety ================================================================================================
 
-### Paid Employment Since Jan 1 of Prior Year ### 
+### Mental Health: Worry =========================================================================================================
 
-### Paid Employment History ### 
+### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
-### Current Marital Status ### 
+### Paid Employment History ======================================================================================================
 
-### Romantic Relationships ###
+### Current Marital Status =======================================================================================================
 
-### Number of Children ###
+### Romantic Relationships =======================================================================================================
 
-### High School Education ### 
+### Number of Children ===========================================================================================================
 
-### College Education ### 
+### High School Education ========================================================================================================
 
-### Highest Education Level ### 
+### College Education ============================================================================================================
 
-### Responsibility - Earning Own Living  ### 
+### Highest Education Level ======================================================================================================
 
-### Responsibility - Paying Own Rent ### 
+### Responsibility - Earning Own Living ==========================================================================================
 
-### Responsibility - Paying Own Bills ### 
+### Responsibility - Paying Own Rent =============================================================================================
 
-### Responsibility - Managing Money ### 
+### Responsibility - Paying Own Bills ============================================================================================
 
-### How Good at Taking Responsibility for Actions ### 
+### Responsibility - Managing Money ==============================================================================================
 
-### How Good at Money Management ### 
+### How Good at Taking Responsibility for Actions ================================================================================
 
-### How Good at Paying Off Credit Card Balances ### 
+### How Good at Money Management =================================================================================================
 
-### MIDUS M1 - Happiness ### 
+### How Good at Paying Off Credit Card Balances ==================================================================================
 
-### MIDUS M2 - Interest in Life ### 
+### MIDUS M1 - Happiness =========================================================================================================
 
-### MIDUS M3 - Satisfaction ### 
+### MIDUS M2 - Interest in Life ==================================================================================================
 
-### MIDUS M4 - Contribution of Something Important to Society ### 
+### MIDUS M3 - Satisfaction ======================================================================================================
 
-### MIDUS M5 - Belonging to Community ### 
+### MIDUS M4 - Contribution of Something Important to Society ====================================================================
 
-### MIDUS M6 - Society Getting Better ### 
+### MIDUS M5 - Belonging to Community ============================================================================================
 
-### MIDUS M7 - People Basically Good ### 
+### MIDUS M6 - Society Getting Better ============================================================================================
 
-### MIDUS M8 - Way Society Makes Sense ### 
+### MIDUS M7 - People Basically Good =============================================================================================
 
-### MIDUS M9 - Managing Daily Responsibility ### 
+### MIDUS M8 - Way Society Makes Sense ===========================================================================================
 
-### MIDUS M10 - Trusting Relationships w/ Others ### 
+### MIDUS M9 - Managing Daily Responsibility =====================================================================================
 
-### MIDUS M11 - Challenged to Grow ### 
+### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
 
-### MIDUS M12 - Confident of Own Ideas ### 
+### MIDUS M11 - Challenged to Grow ===============================================================================================
 
-### MIDUS M13 - Liked Personality ### 
+### MIDUS M12 - Confident of Own Ideas ===========================================================================================
 
-### MIDUS M14 - Life Had Direction ### 
+### MIDUS M13 - Liked Personality ================================================================================================
 
-### MIDUS Subscale - Emotional ###
+### MIDUS M14 - Life Had Direction ===============================================================================================
 
-### MIDUS Subscale - Psychological ###
+### MIDUS Subscale - Emotional ===================================================================================================
 
-### Time Use - Involved in Arts ### 
+### MIDUS Subscale - Psychological ===============================================================================================
 
-### Time Use - Type of Art (Involvement) ### 
+### Time Use - Involved in Arts ==================================================================================================
 
-### Time Use - Art Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Type of Art (Involvement) =========================================================================================
 
-### Time Use - Involved in Sports ### 
+### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
 
-### Time Use - Watching/Reading News (Over 12 Mos) ### 
+### Time Use - Involved in Sports ================================================================================================
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ### 
+### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ### 
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
 
-### Time Use - Internet Usage ### 
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
 
-### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ###
+### Time Use - Internet Usage ====================================================================================================
 
-### Time Use - Internet Usage for School/Research (Over 12 Mos) ### 
+### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ==========================================================
 
-### Time Use - Internet Usage for Shopping (Over 12 Mos) ### 
+### Time Use - Internet Usage for School/Research (Over 12 Mos) ==================================================================
 
-### Time Use - Internet Usage for Playing Games (Over 12 Mos) ### 
+### Time Use - Internet Usage for Shopping (Over 12 Mos) =========================================================================
 
-### Time Use - Voted in Last Presidential Election ### 
+### Time Use - Internet Usage for Playing Games (Over 12 Mos) ====================================================================
 
-### Time Use - Involvement in Social Action Groups ### 
+### Time Use - Voted in Last Presidential Election ===============================================================================
 
-### Time Use - Type of Social Action Group (If Involved) ### 
+### Time Use - Involvement in Social Action Groups ===============================================================================
 
-### Time Use - Social Action Group Involvement (Over 12 Mos) ### 
+### Time Use - Type of Social Action Group (If Involved) =========================================================================
 
-### Time Use - School Club/Student Gov Involvement ### 
+### Time Use - Social Action Group Involvement (Over 12 Mos) =====================================================================
 
-### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) ### 
+### Time Use - School Club/Student Gov Involvement ===============================================================================
 
-### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ###
+### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
-### Time Use - Type of Volunteer Work ### 
+### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
-### Time Use - How Often Volunteered (Over 12 Mos) ###
+### Time Use - Type of Volunteer Work ============================================================================================
 
-### Self-Rating (Compared to Others) - Listening & Understanding Others ### 
+### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
-### Self-Rating (Compared to Others) - Teaching & Explaining to Others ###
+### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
-### Self-Rating (Compared to Others) - Supervising Others ### 
+### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
 
-### Self-Rating (Compared to Others) - Being a Leader ### 
+### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
-### Self-Rating (Compared to Others) - Logical/Analytic Thinking ### 
+### Self-Rating (Compared to Others) - Being a Leader ============================================================================
 
-### Self-Rating (Compared to Others) - Helping Others Solve Their Problems ### 
+### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
-### How Good at Problem Solving ### 
+### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
-### Self-Rating (Compared to Others) - Intelligence ### 
+### How Good at Problem Solving ==================================================================================================
 
-### Self-Rating (Compared to Others) - Independence ### 
+### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
-### Self-Rating (Compared to Others) - Confidence ### 
+### Self-Rating (Compared to Others) - Independence ==============================================================================
 
-### Self-Rating (Compared to Others) - Decisiveness ### 
+### Self-Rating (Compared to Others) - Confidence ================================================================================
 
-### Frequency - Snacking Instead of Consuming Regular Meals ### 
+### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
-### Binge Eating Frequency ### 
+### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
 
-### Race - Hispanic ### 
+### Binge Eating Frequency =======================================================================================================
 
-### Race Identification ### 
+### Race - Hispanic ==============================================================================================================
 
-### Daily Cigarette Usage ### 
+### Race Identification ==========================================================================================================
 
-### Body Mass Index (BMI) ### 
+### Daily Cigarette Usage ========================================================================================================
 
-### Usual Amount of Daily Sleep ### 
+### Body Mass Index (BMI) ========================================================================================================
 
-########### TIAS-D Analysis - TIAS 2009 ###########
+### Usual Amount of Daily Sleep ==================================================================================================
 
-### Amphetamine Usage ### 
+######################## TIAS-D Analysis - TIAS 2009 ######################## 
 
-### Barbiturate Usage ### 
+### Amphetamine Usage ===========================================================================================================
 
-### Marijuana Usage ### 
+### Barbiturate Usage ===========================================================================================================
 
-### Steroid Usage ###
+### Marijuana Usage =============================================================================================================
 
-### Tranquilizer Usage ### 
+### Steroid Usage ===============================================================================================================
 
-### Average Alcohol Consumption Frequency Over Past Year ### 
+### Tranquilizer Usage ==========================================================================================================
 
-### Average Daily Alcohol Consumption ### 
+### Cocaine Usage ===============================================================================================================
 
-### Degree to Which Condition Limits Normal Daily Activities ### 
+### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
-### Depression Over Past Year ### 
+### Average Daily Alcohol Consumption ===========================================================================================
 
-### Depression - Anhedonia ###
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
-### Depression Diagnosis ### 
+### Depression Over Past Year ===================================================================================================
 
-### Bipolar Disorder Diagnosis ### 
+### Depression - Anhedonia =======================================================================================================
 
-### Phobia Diagnosis ###
+### Depression Diagnosis =========================================================================================================
 
-### Anxiety Disorders Diagnosis ### 
+### Bipolar Disorder Diagnosis ===================================================================================================
 
-### OCD Diagnosis ### 
+### Phobia Diagnosis =============================================================================================================
 
-### Mental Health: Non-Spec Psych Distress ###
+### Anxiety Disorders Diagnosis ==================================================================================================
 
-### Mental Health: Social Anxiety ### 
+### OCD Diagnosis ================================================================================================================
 
-### Mental Health: Worry ###
+### Mental Health: Non-Spec Psych Distress =======================================================================================
 
-### Paid Employment Since Jan 1 of Prior Year ### 
+### Mental Health: Social Anxiety ================================================================================================
 
-### Paid Employment History ### 
+### Mental Health: Worry =========================================================================================================
 
-### Current Marital Status ### 
+### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
-### Romantic Relationships ###
+### Paid Employment History ======================================================================================================
 
-### Number of Children ###
+### Current Marital Status =======================================================================================================
 
-### High School Education ### 
+### Romantic Relationships =======================================================================================================
 
-### College Education ### 
+### Number of Children ===========================================================================================================
 
-### Highest Education Level ### 
+### High School Education ========================================================================================================
 
-### Responsibility - Earning Own Living  ### 
+### College Education ============================================================================================================
 
-### Responsibility - Paying Own Rent ### 
+### Highest Education Level ======================================================================================================
 
-### Responsibility - Paying Own Bills ### 
+### Responsibility - Earning Own Living ==========================================================================================
 
-### Responsibility - Managing Money ### 
+### Responsibility - Paying Own Rent =============================================================================================
 
-### How Good at Taking Responsibility for Actions ### 
+### Responsibility - Paying Own Bills ============================================================================================
 
-### How Good at Money Management ### 
+### Responsibility - Managing Money ==============================================================================================
 
-### How Good at Paying Off Credit Card Balances ### 
+### How Good at Taking Responsibility for Actions ================================================================================
 
-### MIDUS M1 - Happiness ### 
+### How Good at Money Management =================================================================================================
 
-### MIDUS M2 - Interest in Life ### 
+### How Good at Paying Off Credit Card Balances ==================================================================================
 
-### MIDUS M3 - Satisfaction ### 
+### MIDUS M1 - Happiness =========================================================================================================
 
-### MIDUS M4 - Contribution of Something Important to Society ### 
+### MIDUS M2 - Interest in Life ==================================================================================================
 
-### MIDUS M5 - Belonging to Community ### 
+### MIDUS M3 - Satisfaction ======================================================================================================
 
-### MIDUS M6 - Society Getting Better ### 
+### MIDUS M4 - Contribution of Something Important to Society ====================================================================
 
-### MIDUS M7 - People Basically Good ### 
+### MIDUS M5 - Belonging to Community ============================================================================================
 
-### MIDUS M8 - Way Society Makes Sense ### 
+### MIDUS M6 - Society Getting Better ============================================================================================
 
-### MIDUS M9 - Managing Daily Responsibility ### 
+### MIDUS M7 - People Basically Good =============================================================================================
 
-### MIDUS M10 - Trusting Relationships w/ Others ### 
+### MIDUS M8 - Way Society Makes Sense ===========================================================================================
 
-### MIDUS M11 - Challenged to Grow ### 
+### MIDUS M9 - Managing Daily Responsibility =====================================================================================
 
-### MIDUS M12 - Confident of Own Ideas ### 
+### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
 
-### MIDUS M13 - Liked Personality ### 
+### MIDUS M11 - Challenged to Grow ===============================================================================================
 
-### MIDUS M14 - Life Had Direction ### 
+### MIDUS M12 - Confident of Own Ideas ===========================================================================================
 
-### MIDUS Subscale - Emotional ###
+### MIDUS M13 - Liked Personality ================================================================================================
 
-### MIDUS Subscale - Psychological ###
+### MIDUS M14 - Life Had Direction ===============================================================================================
 
-### Time Use - Involved in Arts ### 
+### MIDUS Subscale - Emotional ===================================================================================================
 
-### Time Use - Type of Art (Involvement) ### 
+### MIDUS Subscale - Psychological ===============================================================================================
 
-### Time Use - Art Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Involved in Arts ==================================================================================================
 
-### Time Use - Involved in Sports ### 
+### Time Use - Type of Art (Involvement) =========================================================================================
 
-### Time Use - Watching/Reading News (Over 12 Mos) ### 
+### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ### 
+### Time Use - Involved in Sports ================================================================================================
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ### 
+### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
 
-### Time Use - Internet Usage ### 
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
 
-### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ###
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
 
-### Time Use - Internet Usage for School/Research (Over 12 Mos) ### 
+### Time Use - Internet Usage ====================================================================================================
 
-### Time Use - Internet Usage for Shopping (Over 12 Mos) ### 
+### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ==========================================================
 
-### Time Use - Internet Usage for Playing Games (Over 12 Mos) ### 
+### Time Use - Internet Usage for School/Research (Over 12 Mos) ==================================================================
 
-### Time Use - Voted in Last Presidential Election ### 
+### Time Use - Internet Usage for Shopping (Over 12 Mos) =========================================================================
 
-### Time Use - Involvement in Social Action Groups ### 
+### Time Use - Internet Usage for Playing Games (Over 12 Mos) ====================================================================
 
-### Time Use - Type of Social Action Group (If Involved) ### 
+### Time Use - Voted in Last Presidential Election ===============================================================================
 
-### Time Use - Social Action Group Involvement (Over 12 Mos) ### 
+### Time Use - Involvement in Social Action Groups ===============================================================================
 
-### Time Use - School Club/Student Gov Involvement ### 
+### Time Use - Type of Social Action Group (If Involved) =========================================================================
 
-### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Social Action Group Involvement (Over 12 Mos) =====================================================================
 
-### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ###
+### Time Use - School Club/Student Gov Involvement ===============================================================================
 
-### Time Use - Type of Volunteer Work ### 
+### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
-### Time Use - How Often Volunteered (Over 12 Mos) ###
+### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
-### Self-Rating (Compared to Others) - Listening & Understanding Others ### 
+### Time Use - Type of Volunteer Work ============================================================================================
 
-### Self-Rating (Compared to Others) - Teaching & Explaining to Others ###
+### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
-### Self-Rating (Compared to Others) - Supervising Others ### 
+### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
-### Self-Rating (Compared to Others) - Being a Leader ### 
+### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
 
-### Self-Rating (Compared to Others) - Logical/Analytic Thinking ### 
+### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
-### Self-Rating (Compared to Others) - Helping Others Solve Their Problems ### 
+### Self-Rating (Compared to Others) - Being a Leader ============================================================================
 
-### How Good at Problem Solving ### 
+### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
-### Self-Rating (Compared to Others) - Intelligence ### 
+### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
-### Self-Rating (Compared to Others) - Independence ### 
+### How Good at Problem Solving ==================================================================================================
 
-### Self-Rating (Compared to Others) - Confidence ### 
+### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
-### Self-Rating (Compared to Others) - Decisiveness ### 
+### Self-Rating (Compared to Others) - Independence ==============================================================================
 
-### Frequency - Snacking Instead of Consuming Regular Meals ### 
+### Self-Rating (Compared to Others) - Confidence ================================================================================
 
-### Binge Eating Frequency ### 
+### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
-### Race - Hispanic ### 
+### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
 
-### Race Identification ### 
+### Binge Eating Frequency =======================================================================================================
 
-### Daily Cigarette Usage ### 
+### Race - Hispanic ==============================================================================================================
 
-### Body Mass Index (BMI) ### 
+### Race Identification ==========================================================================================================
 
-### Usual Amount of Daily Sleep ### 
+### Daily Cigarette Usage ========================================================================================================
 
-########### TIAS-D Analysis - TIAS 2011 ###########
+### Body Mass Index (BMI) ========================================================================================================
 
-### Amphetamine Usage ### 
+### Usual Amount of Daily Sleep ==================================================================================================
 
-### Barbiturate Usage ### 
 
-### Marijuana Usage ### 
+######################## TIAS-D Analysis - TIAS 2011 ######################## 
 
-### Steroid Usage ###
+### Amphetamine Usage ===========================================================================================================
 
-### Tranquilizer Usage ### 
+### Barbiturate Usage ===========================================================================================================
 
-### Average Alcohol Consumption Frequency Over Past Year ### 
+### Marijuana Usage =============================================================================================================
 
-### Average Daily Alcohol Consumption ### 
+### Steroid Usage ===============================================================================================================
 
-### Degree to Which Condition Limits Normal Daily Activities ### 
+### Tranquilizer Usage ==========================================================================================================
 
-### Depression Over Past Year ### 
+### Cocaine Usage ===============================================================================================================
 
-### Depression - Anhedonia ###
+### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
-### Depression Diagnosis ### 
+### Average Daily Alcohol Consumption ===========================================================================================
 
-### Bipolar Disorder Diagnosis ### 
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
-### Phobia Diagnosis ###
+### Depression Over Past Year ===================================================================================================
 
-### Anxiety Disorders Diagnosis ### 
+### Depression - Anhedonia =======================================================================================================
 
-### OCD Diagnosis ### 
+### Depression Diagnosis =========================================================================================================
 
-### Mental Health: Non-Spec Psych Distress ###
+### Bipolar Disorder Diagnosis ===================================================================================================
 
-### Mental Health: Social Anxiety ### 
+### Phobia Diagnosis =============================================================================================================
 
-### Mental Health: Worry ###
+### Anxiety Disorders Diagnosis ==================================================================================================
 
-### Paid Employment Since Jan 1 of Prior Year ### 
+### OCD Diagnosis ================================================================================================================
 
-### Paid Employment History ### 
+### Mental Health: Non-Spec Psych Distress =======================================================================================
 
-### Current Marital Status ### 
+### Mental Health: Social Anxiety ================================================================================================
 
-### Romantic Relationships ###
+### Mental Health: Worry =========================================================================================================
 
-### Number of Children ###
+### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
-### High School Education ### 
+### Paid Employment History ======================================================================================================
 
-### College Education ### 
+### Current Marital Status =======================================================================================================
 
-### Highest Education Level ### 
+### Romantic Relationships =======================================================================================================
 
-### Responsibility - Earning Own Living  ### 
+### Number of Children ===========================================================================================================
 
-### Responsibility - Paying Own Rent ### 
+### High School Education ========================================================================================================
 
-### Responsibility - Paying Own Bills ### 
+### College Education ============================================================================================================
 
-### Responsibility - Managing Money ### 
+### Highest Education Level ======================================================================================================
 
-### How Good at Taking Responsibility for Actions ### 
+### Responsibility - Earning Own Living ==========================================================================================
 
-### How Good at Money Management ### 
+### Responsibility - Paying Own Rent =============================================================================================
 
-### How Good at Paying Off Credit Card Balances ### 
+### Responsibility - Paying Own Bills ============================================================================================
 
-### MIDUS M1 - Happiness ### 
+### Responsibility - Managing Money ==============================================================================================
 
-### MIDUS M2 - Interest in Life ### 
+### How Good at Taking Responsibility for Actions ================================================================================
 
-### MIDUS M3 - Satisfaction ### 
+### How Good at Money Management =================================================================================================
 
-### MIDUS M4 - Contribution of Something Important to Society ### 
+### How Good at Paying Off Credit Card Balances ==================================================================================
 
-### MIDUS M5 - Belonging to Community ### 
+### MIDUS M1 - Happiness =========================================================================================================
 
-### MIDUS M6 - Society Getting Better ### 
+### MIDUS M2 - Interest in Life ==================================================================================================
 
-### MIDUS M7 - People Basically Good ### 
+### MIDUS M3 - Satisfaction ======================================================================================================
 
-### MIDUS M8 - Way Society Makes Sense ### 
+### MIDUS M4 - Contribution of Something Important to Society ====================================================================
 
-### MIDUS M9 - Managing Daily Responsibility ### 
+### MIDUS M5 - Belonging to Community ============================================================================================
 
-### MIDUS M10 - Trusting Relationships w/ Others ### 
+### MIDUS M6 - Society Getting Better ============================================================================================
 
-### MIDUS M11 - Challenged to Grow ### 
+### MIDUS M7 - People Basically Good =============================================================================================
 
-### MIDUS M12 - Confident of Own Ideas ### 
+### MIDUS M8 - Way Society Makes Sense ===========================================================================================
 
-### MIDUS M13 - Liked Personality ### 
+### MIDUS M9 - Managing Daily Responsibility =====================================================================================
 
-### MIDUS M14 - Life Had Direction ### 
+### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
 
-### MIDUS Subscale - Emotional ###
+### MIDUS M11 - Challenged to Grow ===============================================================================================
 
-### MIDUS Subscale - Psychological ###
+### MIDUS M12 - Confident of Own Ideas ===========================================================================================
 
-### Time Use - Involved in Arts ### 
+### MIDUS M13 - Liked Personality ================================================================================================
 
-### Time Use - Type of Art (Involvement) ### 
+### MIDUS M14 - Life Had Direction ===============================================================================================
 
-### Time Use - Art Involvement Frequency (Over 12 Mos) ### 
+### MIDUS Subscale - Emotional ===================================================================================================
 
-### Time Use - Involved in Sports ### 
+### MIDUS Subscale - Psychological ===============================================================================================
 
-### Time Use - Watching/Reading News (Over 12 Mos) ### 
+### Time Use - Involved in Arts ==================================================================================================
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ### 
+### Time Use - Type of Art (Involvement) =========================================================================================
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ### 
+### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
 
-### Time Use - Internet Usage ### 
+### Time Use - Involved in Sports ================================================================================================
 
-### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ###
+### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
 
-### Time Use - Internet Usage for School/Research (Over 12 Mos) ### 
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
 
-### Time Use - Internet Usage for Shopping (Over 12 Mos) ### 
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
 
-### Time Use - Internet Usage for Playing Games (Over 12 Mos) ### 
+### Time Use - Internet Usage ====================================================================================================
 
-### Time Use - Voted in Last Presidential Election ### 
+### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ==========================================================
 
-### Time Use - Involvement in Social Action Groups ### 
+### Time Use - Internet Usage for School/Research (Over 12 Mos) ==================================================================
 
-### Time Use - Type of Social Action Group (If Involved) ### 
+### Time Use - Internet Usage for Shopping (Over 12 Mos) =========================================================================
 
-### Time Use - Social Action Group Involvement (Over 12 Mos) ### 
+### Time Use - Internet Usage for Playing Games (Over 12 Mos) ====================================================================
 
-### Time Use - School Club/Student Gov Involvement ### 
+### Time Use - Voted in Last Presidential Election ===============================================================================
 
-### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Involvement in Social Action Groups ===============================================================================
 
-### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ###
+### Time Use - Type of Social Action Group (If Involved) =========================================================================
 
-### Time Use - Type of Volunteer Work ### 
+### Time Use - Social Action Group Involvement (Over 12 Mos) =====================================================================
 
-### Time Use - How Often Volunteered (Over 12 Mos) ###
+### Time Use - School Club/Student Gov Involvement ===============================================================================
 
-### Self-Rating (Compared to Others) - Listening & Understanding Others ### 
+### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
-### Self-Rating (Compared to Others) - Teaching & Explaining to Others ###
+### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
-### Self-Rating (Compared to Others) - Supervising Others ### 
+### Time Use - Type of Volunteer Work ============================================================================================
 
-### Self-Rating (Compared to Others) - Being a Leader ### 
+### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
-### Self-Rating (Compared to Others) - Logical/Analytic Thinking ### 
+### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
-### Self-Rating (Compared to Others) - Helping Others Solve Their Problems ### 
+### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
 
-### How Good at Problem Solving ### 
+### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
-### Self-Rating (Compared to Others) - Intelligence ### 
+### Self-Rating (Compared to Others) - Being a Leader ============================================================================
 
-### Self-Rating (Compared to Others) - Independence ### 
+### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
-### Self-Rating (Compared to Others) - Confidence ### 
+### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
-### Self-Rating (Compared to Others) - Decisiveness ### 
+### How Good at Problem Solving ==================================================================================================
 
-### Frequency - Snacking Instead of Consuming Regular Meals ### 
+### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
-### Binge Eating Frequency ### 
+### Self-Rating (Compared to Others) - Independence ==============================================================================
 
-### Race - Hispanic ### 
+### Self-Rating (Compared to Others) - Confidence ================================================================================
 
-### Race Identification ### 
+### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
-### Daily Cigarette Usage ### 
+### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
 
-### Body Mass Index (BMI) ### 
+### Binge Eating Frequency =======================================================================================================
 
-### Usual Amount of Daily Sleep ### 
+### Race - Hispanic ==============================================================================================================
 
-########### TIAS-D Analysis - TIAS 2013 ###########
+### Race Identification ==========================================================================================================
 
-### Amphetamine Usage ### 
+### Daily Cigarette Usage ========================================================================================================
 
-### Barbiturate Usage ### 
+### Body Mass Index (BMI) ========================================================================================================
 
-### Marijuana Usage ### 
+### Usual Amount of Daily Sleep ==================================================================================================
 
-### Steroid Usage ###
+######################## TIAS-D Analysis - TIAS 2013 ######################## 
 
-### Tranquilizer Usage ### 
+### Amphetamine Usage ===========================================================================================================
 
-### Average Alcohol Consumption Frequency Over Past Year ### 
+### Barbiturate Usage ===========================================================================================================
 
-### Average Daily Alcohol Consumption ### 
+### Marijuana Usage =============================================================================================================
 
-### Degree to Which Condition Limits Normal Daily Activities ### 
+### Steroid Usage ===============================================================================================================
 
-### Depression Over Past Year ### 
+### Tranquilizer Usage ==========================================================================================================
 
-### Depression - Anhedonia ###
+### Cocaine Usage ===============================================================================================================
 
-### Depression Diagnosis ### 
+### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
-### Bipolar Disorder Diagnosis ### 
+### Average Daily Alcohol Consumption ===========================================================================================
 
-### Phobia Diagnosis ###
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
-### Anxiety Disorders Diagnosis ### 
+### Depression Over Past Year ===================================================================================================
 
-### OCD Diagnosis ### 
+### Depression - Anhedonia =======================================================================================================
 
-### Mental Health: Non-Spec Psych Distress ###
+### Depression Diagnosis =========================================================================================================
 
-### Mental Health: Social Anxiety ### 
+### Bipolar Disorder Diagnosis ===================================================================================================
 
-### Mental Health: Worry ###
+### Phobia Diagnosis =============================================================================================================
 
-### Paid Employment Since Jan 1 of Prior Year ### 
+### Anxiety Disorders Diagnosis ==================================================================================================
 
-### Paid Employment History ### 
+### OCD Diagnosis ================================================================================================================
 
-### Current Marital Status ### 
+### Mental Health: Non-Spec Psych Distress =======================================================================================
 
-### Romantic Relationships ###
+### Mental Health: Social Anxiety ================================================================================================
 
-### Number of Children ###
+### Mental Health: Worry =========================================================================================================
 
-### High School Education ### 
+### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
-### College Education ### 
+### Paid Employment History ======================================================================================================
 
-### Highest Education Level ### 
+### Current Marital Status =======================================================================================================
 
-### Responsibility - Earning Own Living  ### 
+### Romantic Relationships =======================================================================================================
 
-### Responsibility - Paying Own Rent ### 
+### Number of Children ===========================================================================================================
 
-### Responsibility - Paying Own Bills ### 
+### High School Education ========================================================================================================
 
-### Responsibility - Managing Money ### 
+### College Education ============================================================================================================
 
-### How Good at Taking Responsibility for Actions ### 
+### Highest Education Level ======================================================================================================
 
-### How Good at Money Management ### 
+### Responsibility - Earning Own Living ==========================================================================================
 
-### How Good at Paying Off Credit Card Balances ### 
+### Responsibility - Paying Own Rent =============================================================================================
 
-### MIDUS M1 - Happiness ### 
+### Responsibility - Paying Own Bills ============================================================================================
 
-### MIDUS M2 - Interest in Life ### 
+### Responsibility - Managing Money ==============================================================================================
 
-### MIDUS M3 - Satisfaction ### 
+### How Good at Taking Responsibility for Actions ================================================================================
 
-### MIDUS M4 - Contribution of Something Important to Society ### 
+### How Good at Money Management =================================================================================================
 
-### MIDUS M5 - Belonging to Community ### 
+### How Good at Paying Off Credit Card Balances ==================================================================================
 
-### MIDUS M6 - Society Getting Better ### 
+### MIDUS M1 - Happiness =========================================================================================================
 
-### MIDUS M7 - People Basically Good ### 
+### MIDUS M2 - Interest in Life ==================================================================================================
 
-### MIDUS M8 - Way Society Makes Sense ### 
+### MIDUS M3 - Satisfaction ======================================================================================================
 
-### MIDUS M9 - Managing Daily Responsibility ### 
+### MIDUS M4 - Contribution of Something Important to Society ====================================================================
 
-### MIDUS M10 - Trusting Relationships w/ Others ### 
+### MIDUS M5 - Belonging to Community ============================================================================================
 
-### MIDUS M11 - Challenged to Grow ### 
+### MIDUS M6 - Society Getting Better ============================================================================================
 
-### MIDUS M12 - Confident of Own Ideas ### 
+### MIDUS M7 - People Basically Good =============================================================================================
 
-### MIDUS M13 - Liked Personality ### 
+### MIDUS M8 - Way Society Makes Sense ===========================================================================================
 
-### MIDUS M14 - Life Had Direction ### 
+### MIDUS M9 - Managing Daily Responsibility =====================================================================================
 
-### MIDUS Subscale - Emotional ###
+### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
 
-### MIDUS Subscale - Psychological ###
+### MIDUS M11 - Challenged to Grow ===============================================================================================
 
-### Time Use - Involved in Arts ### 
+### MIDUS M12 - Confident of Own Ideas ===========================================================================================
 
-### Time Use - Type of Art (Involvement) ### 
+### MIDUS M13 - Liked Personality ================================================================================================
 
-### Time Use - Art Involvement Frequency (Over 12 Mos) ### 
+### MIDUS M14 - Life Had Direction ===============================================================================================
 
-### Time Use - Involved in Sports ### 
+### MIDUS Subscale - Emotional ===================================================================================================
 
-### Time Use - Watching/Reading News (Over 12 Mos) ### 
+### MIDUS Subscale - Psychological ===============================================================================================
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ### 
+### Time Use - Involved in Arts ==================================================================================================
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ### 
+### Time Use - Type of Art (Involvement) =========================================================================================
 
-### Time Use - Internet Usage ### 
+### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
 
-### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ###
+### Time Use - Involved in Sports ================================================================================================
 
-### Time Use - Internet Usage for School/Research (Over 12 Mos) ### 
+### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
 
-### Time Use - Internet Usage for Shopping (Over 12 Mos) ### 
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
 
-### Time Use - Internet Usage for Playing Games (Over 12 Mos) ### 
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
 
-### Time Use - Voted in Last Presidential Election ### 
+### Time Use - Internet Usage ====================================================================================================
 
-### Time Use - Involvement in Social Action Groups ### 
+### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ==========================================================
 
-### Time Use - Type of Social Action Group (If Involved) ### 
+### Time Use - Internet Usage for School/Research (Over 12 Mos) ==================================================================
 
-### Time Use - Social Action Group Involvement (Over 12 Mos) ### 
+### Time Use - Internet Usage for Shopping (Over 12 Mos) =========================================================================
 
-### Time Use - School Club/Student Gov Involvement ### 
+### Time Use - Internet Usage for Playing Games (Over 12 Mos) ====================================================================
 
-### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Voted in Last Presidential Election ===============================================================================
 
-### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ###
+### Time Use - Involvement in Social Action Groups ===============================================================================
 
-### Time Use - Type of Volunteer Work ### 
+### Time Use - Type of Social Action Group (If Involved) =========================================================================
 
-### Time Use - How Often Volunteered (Over 12 Mos) ###
+### Time Use - Social Action Group Involvement (Over 12 Mos) =====================================================================
 
-### Self-Rating (Compared to Others) - Listening & Understanding Others ### 
+### Time Use - School Club/Student Gov Involvement ===============================================================================
 
-### Self-Rating (Compared to Others) - Teaching & Explaining to Others ###
+### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
-### Self-Rating (Compared to Others) - Supervising Others ### 
+### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
-### Self-Rating (Compared to Others) - Being a Leader ### 
+### Time Use - Type of Volunteer Work ============================================================================================
 
-### Self-Rating (Compared to Others) - Logical/Analytic Thinking ### 
+### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
-### Self-Rating (Compared to Others) - Helping Others Solve Their Problems ### 
+### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
-### How Good at Problem Solving ### 
+### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
 
-### Self-Rating (Compared to Others) - Intelligence ### 
+### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
-### Self-Rating (Compared to Others) - Independence ### 
+### Self-Rating (Compared to Others) - Being a Leader ============================================================================
 
-### Self-Rating (Compared to Others) - Confidence ### 
+### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
-### Self-Rating (Compared to Others) - Decisiveness ### 
+### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
-### Frequency - Snacking Instead of Consuming Regular Meals ### 
+### How Good at Problem Solving ==================================================================================================
 
-### Binge Eating Frequency ### 
+### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
-### Race - Hispanic ### 
+### Self-Rating (Compared to Others) - Independence ==============================================================================
 
-### Race Identification ### 
+### Self-Rating (Compared to Others) - Confidence ================================================================================
 
-### Daily Cigarette Usage ### 
+### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
-### Body Mass Index (BMI) ### 
+### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
 
-### Usual Amount of Daily Sleep ### 
+### Binge Eating Frequency =======================================================================================================
 
-########### TIAS-D Analysis - TIAS 2015 ###########
+### Race - Hispanic ==============================================================================================================
 
-### Amphetamine Usage ### 
+### Race Identification ==========================================================================================================
 
-### Barbiturate Usage ### 
+### Daily Cigarette Usage ========================================================================================================
 
-### Marijuana Usage ### 
+### Body Mass Index (BMI) ========================================================================================================
 
-### Steroid Usage ###
+### Usual Amount of Daily Sleep ==================================================================================================
 
-### Tranquilizer Usage ### 
+######################## TIAS-D Analysis - TIAS 2015 ######################## 
 
-### Average Alcohol Consumption Frequency Over Past Year ### 
+### Amphetamine Usage ===========================================================================================================
 
-### Average Daily Alcohol Consumption ### 
+### Barbiturate Usage ===========================================================================================================
 
-### Degree to Which Condition Limits Normal Daily Activities ### 
+### Marijuana Usage =============================================================================================================
 
-### Depression Over Past Year ### 
+### Steroid Usage ===============================================================================================================
 
-### Depression - Anhedonia ###
+### Tranquilizer Usage ==========================================================================================================
 
-### Depression Diagnosis ### 
+### Cocaine Usage ===============================================================================================================
 
-### Bipolar Disorder Diagnosis ### 
+### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
-### Phobia Diagnosis ###
+### Average Daily Alcohol Consumption ===========================================================================================
 
-### Anxiety Disorders Diagnosis ### 
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
-### OCD Diagnosis ### 
+### Depression Over Past Year ===================================================================================================
 
-### Mental Health: Non-Spec Psych Distress ###
+### Depression - Anhedonia =======================================================================================================
 
-### Mental Health: Social Anxiety ### 
+### Depression Diagnosis =========================================================================================================
 
-### Mental Health: Worry ###
+### Bipolar Disorder Diagnosis ===================================================================================================
 
-### Paid Employment Since Jan 1 of Prior Year ### 
+### Phobia Diagnosis =============================================================================================================
 
-### Paid Employment History ### 
+### Anxiety Disorders Diagnosis ==================================================================================================
 
-### Current Marital Status ### 
+### OCD Diagnosis ================================================================================================================
 
-### Romantic Relationships ###
+### Mental Health: Non-Spec Psych Distress =======================================================================================
 
-### Number of Children ###
+### Mental Health: Social Anxiety ================================================================================================
 
-### High School Education ### 
+### Mental Health: Worry =========================================================================================================
 
-### College Education ### 
+### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
-### Highest Education Level ### 
+### Paid Employment History ======================================================================================================
 
-### Responsibility - Earning Own Living  ### 
+### Current Marital Status =======================================================================================================
 
-### Responsibility - Paying Own Rent ### 
+### Romantic Relationships =======================================================================================================
 
-### Responsibility - Paying Own Bills ### 
+### Number of Children ===========================================================================================================
 
-### Responsibility - Managing Money ### 
+### High School Education ========================================================================================================
 
-### How Good at Taking Responsibility for Actions ### 
+### College Education ============================================================================================================
 
-### How Good at Money Management ### 
+### Highest Education Level ======================================================================================================
 
-### How Good at Paying Off Credit Card Balances ### 
+### Responsibility - Earning Own Living ==========================================================================================
 
-### MIDUS M1 - Happiness ### 
+### Responsibility - Paying Own Rent =============================================================================================
 
-### MIDUS M2 - Interest in Life ### 
+### Responsibility - Paying Own Bills ============================================================================================
 
-### MIDUS M3 - Satisfaction ### 
+### Responsibility - Managing Money ==============================================================================================
 
-### MIDUS M4 - Contribution of Something Important to Society ### 
+### How Good at Taking Responsibility for Actions ================================================================================
 
-### MIDUS M5 - Belonging to Community ### 
+### How Good at Money Management =================================================================================================
 
-### MIDUS M6 - Society Getting Better ### 
+### How Good at Paying Off Credit Card Balances ==================================================================================
 
-### MIDUS M7 - People Basically Good ### 
+### MIDUS M1 - Happiness =========================================================================================================
 
-### MIDUS M8 - Way Society Makes Sense ### 
+### MIDUS M2 - Interest in Life ==================================================================================================
 
-### MIDUS M9 - Managing Daily Responsibility ### 
+### MIDUS M3 - Satisfaction ======================================================================================================
 
-### MIDUS M10 - Trusting Relationships w/ Others ### 
+### MIDUS M4 - Contribution of Something Important to Society ====================================================================
 
-### MIDUS M11 - Challenged to Grow ### 
+### MIDUS M5 - Belonging to Community ============================================================================================
 
-### MIDUS M12 - Confident of Own Ideas ### 
+### MIDUS M6 - Society Getting Better ============================================================================================
 
-### MIDUS M13 - Liked Personality ### 
+### MIDUS M7 - People Basically Good =============================================================================================
 
-### MIDUS M14 - Life Had Direction ### 
+### MIDUS M8 - Way Society Makes Sense ===========================================================================================
 
-### MIDUS Subscale - Emotional ###
+### MIDUS M9 - Managing Daily Responsibility =====================================================================================
 
-### MIDUS Subscale - Psychological ###
+### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
 
-### Time Use - Involved in Arts ### 
+### MIDUS M11 - Challenged to Grow ===============================================================================================
 
-### Time Use - Type of Art (Involvement) ### 
+### MIDUS M12 - Confident of Own Ideas ===========================================================================================
 
-### Time Use - Art Involvement Frequency (Over 12 Mos) ### 
+### MIDUS M13 - Liked Personality ================================================================================================
 
-### Time Use - Involved in Sports ### 
+### MIDUS M14 - Life Had Direction ===============================================================================================
 
-### Time Use - Watching/Reading News (Over 12 Mos) ### 
+### MIDUS Subscale - Emotional ===================================================================================================
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ### 
+### MIDUS Subscale - Psychological ===============================================================================================
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ### 
+### Time Use - Involved in Arts ==================================================================================================
 
-### Time Use - Internet Usage ### 
+### Time Use - Type of Art (Involvement) =========================================================================================
 
-### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ###
+### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
 
-### Time Use - Internet Usage for School/Research (Over 12 Mos) ### 
+### Time Use - Involved in Sports ================================================================================================
 
-### Time Use - Internet Usage for Shopping (Over 12 Mos) ### 
+### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
 
-### Time Use - Internet Usage for Playing Games (Over 12 Mos) ### 
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
 
-### Time Use - Voted in Last Presidential Election ### 
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
 
-### Time Use - Involvement in Social Action Groups ### 
+### Time Use - Internet Usage ====================================================================================================
 
-### Time Use - Type of Social Action Group (If Involved) ### 
+### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ==========================================================
 
-### Time Use - Social Action Group Involvement (Over 12 Mos) ### 
+### Time Use - Internet Usage for School/Research (Over 12 Mos) ==================================================================
 
-### Time Use - School Club/Student Gov Involvement ### 
+### Time Use - Internet Usage for Shopping (Over 12 Mos) =========================================================================
 
-### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Internet Usage for Playing Games (Over 12 Mos) ====================================================================
 
-### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ###
+### Time Use - Voted in Last Presidential Election ===============================================================================
 
-### Time Use - Type of Volunteer Work ### 
+### Time Use - Involvement in Social Action Groups ===============================================================================
 
-### Time Use - How Often Volunteered (Over 12 Mos) ###
+### Time Use - Type of Social Action Group (If Involved) =========================================================================
 
-### Self-Rating (Compared to Others) - Listening & Understanding Others ### 
+### Time Use - Social Action Group Involvement (Over 12 Mos) =====================================================================
 
-### Self-Rating (Compared to Others) - Teaching & Explaining to Others ###
+### Time Use - School Club/Student Gov Involvement ===============================================================================
 
-### Self-Rating (Compared to Others) - Supervising Others ### 
+### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
-### Self-Rating (Compared to Others) - Being a Leader ### 
+### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
-### Self-Rating (Compared to Others) - Logical/Analytic Thinking ### 
+### Time Use - Type of Volunteer Work ============================================================================================
 
-### Self-Rating (Compared to Others) - Helping Others Solve Their Problems ### 
+### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
-### How Good at Problem Solving ### 
+### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
-### Self-Rating (Compared to Others) - Intelligence ### 
+### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
 
-### Self-Rating (Compared to Others) - Independence ### 
+### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
-### Self-Rating (Compared to Others) - Confidence ### 
+### Self-Rating (Compared to Others) - Being a Leader ============================================================================
 
-### Self-Rating (Compared to Others) - Decisiveness ### 
+### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
-### Frequency - Snacking Instead of Consuming Regular Meals ### 
+### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
-### Binge Eating Frequency ### 
+### How Good at Problem Solving ==================================================================================================
 
-### Race - Hispanic ### 
+### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
-### Race Identification ### 
+### Self-Rating (Compared to Others) - Independence ==============================================================================
 
-### Daily Cigarette Usage ### 
+### Self-Rating (Compared to Others) - Confidence ================================================================================
 
-### Body Mass Index (BMI) ### 
+### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
-### Usual Amount of Daily Sleep ### 
+### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
 
-########### TIAS-D Analysis - TIAS 2017 ###########
+### Binge Eating Frequency =======================================================================================================
 
-### Amphetamine Usage ### 
+### Race - Hispanic ==============================================================================================================
 
-### Barbiturate Usage ### 
+### Race Identification ==========================================================================================================
 
-### Marijuana Usage ### 
+### Daily Cigarette Usage ========================================================================================================
 
-### Steroid Usage ###
+### Body Mass Index (BMI) ========================================================================================================
 
-### Tranquilizer Usage ### 
+### Usual Amount of Daily Sleep ==================================================================================================
 
-### Average Alcohol Consumption Frequency Over Past Year ### 
+######################## TIAS-D Analysis - TIAS 2017 ######################## 
 
-### Average Daily Alcohol Consumption ### 
+### Amphetamine Usage ===========================================================================================================
 
-### Degree to Which Condition Limits Normal Daily Activities ### 
+### Barbiturate Usage ===========================================================================================================
 
-### Depression Over Past Year ### 
+### Marijuana Usage =============================================================================================================
 
-### Depression - Anhedonia ###
+### Steroid Usage ===============================================================================================================
 
-### Depression Diagnosis ### 
+### Tranquilizer Usage ==========================================================================================================
 
-### Bipolar Disorder Diagnosis ### 
+### Cocaine Usage ===============================================================================================================
 
-### Phobia Diagnosis ###
+### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
-### Anxiety Disorders Diagnosis ### 
+### Average Daily Alcohol Consumption ===========================================================================================
 
-### OCD Diagnosis ### 
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
-### Mental Health: Non-Spec Psych Distress ###
+### Depression Over Past Year ===================================================================================================
 
-### Mental Health: Social Anxiety ### 
+### Depression - Anhedonia =======================================================================================================
 
-### Mental Health: Worry ###
+### Depression Diagnosis =========================================================================================================
 
-### Paid Employment Since Jan 1 of Prior Year ### 
+### Bipolar Disorder Diagnosis ===================================================================================================
 
-### Paid Employment History ### 
+### Phobia Diagnosis =============================================================================================================
 
-### Current Marital Status ### 
+### Anxiety Disorders Diagnosis ==================================================================================================
 
-### Romantic Relationships ###
+### OCD Diagnosis ================================================================================================================
 
-### Number of Children ###
+### Mental Health: Non-Spec Psych Distress =======================================================================================
 
-### High School Education ### 
+### Mental Health: Social Anxiety ================================================================================================
 
-### College Education ### 
+### Mental Health: Worry =========================================================================================================
 
-### Highest Education Level ### 
+### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
-### Responsibility - Earning Own Living  ### 
+### Paid Employment History ======================================================================================================
 
-### Responsibility - Paying Own Rent ### 
+### Current Marital Status =======================================================================================================
 
-### Responsibility - Paying Own Bills ### 
+### Romantic Relationships =======================================================================================================
 
-### Responsibility - Managing Money ### 
+### Number of Children ===========================================================================================================
 
-### How Good at Taking Responsibility for Actions ### 
+### High School Education ========================================================================================================
 
-### How Good at Money Management ### 
+### College Education ============================================================================================================
 
-### How Good at Paying Off Credit Card Balances ### 
+### Highest Education Level ======================================================================================================
 
-### MIDUS M1 - Happiness ### 
+### Responsibility - Earning Own Living ==========================================================================================
 
-### MIDUS M2 - Interest in Life ### 
+### Responsibility - Paying Own Rent =============================================================================================
 
-### MIDUS M3 - Satisfaction ### 
+### Responsibility - Paying Own Bills ============================================================================================
 
-### MIDUS M4 - Contribution of Something Important to Society ### 
+### Responsibility - Managing Money ==============================================================================================
 
-### MIDUS M5 - Belonging to Community ### 
+### How Good at Taking Responsibility for Actions ================================================================================
 
-### MIDUS M6 - Society Getting Better ### 
+### How Good at Money Management =================================================================================================
 
-### MIDUS M7 - People Basically Good ### 
+### How Good at Paying Off Credit Card Balances ==================================================================================
 
-### MIDUS M8 - Way Society Makes Sense ### 
+### MIDUS M1 - Happiness =========================================================================================================
 
-### MIDUS M9 - Managing Daily Responsibility ### 
+### MIDUS M2 - Interest in Life ==================================================================================================
 
-### MIDUS M10 - Trusting Relationships w/ Others ### 
+### MIDUS M3 - Satisfaction ======================================================================================================
 
-### MIDUS M11 - Challenged to Grow ### 
+### MIDUS M4 - Contribution of Something Important to Society ====================================================================
 
-### MIDUS M12 - Confident of Own Ideas ### 
+### MIDUS M5 - Belonging to Community ============================================================================================
 
-### MIDUS M13 - Liked Personality ### 
+### MIDUS M6 - Society Getting Better ============================================================================================
 
-### MIDUS M14 - Life Had Direction ### 
+### MIDUS M7 - People Basically Good =============================================================================================
 
-### MIDUS Subscale - Emotional ###
+### MIDUS M8 - Way Society Makes Sense ===========================================================================================
 
-### MIDUS Subscale - Psychological ###
+### MIDUS M9 - Managing Daily Responsibility =====================================================================================
 
-### Time Use - Involved in Arts ### 
+### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
 
-### Time Use - Type of Art (Involvement) ### 
+### MIDUS M11 - Challenged to Grow ===============================================================================================
 
-### Time Use - Art Involvement Frequency (Over 12 Mos) ### 
+### MIDUS M12 - Confident of Own Ideas ===========================================================================================
 
-### Time Use - Involved in Sports ### 
+### MIDUS M13 - Liked Personality ================================================================================================
 
-### Time Use - Watching/Reading News (Over 12 Mos) ### 
+### MIDUS M14 - Life Had Direction ===============================================================================================
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ### 
+### MIDUS Subscale - Emotional ===================================================================================================
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ### 
+### MIDUS Subscale - Psychological ===============================================================================================
 
-### Time Use - Internet Usage ### 
+### Time Use - Involved in Arts ==================================================================================================
 
-### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ###
+### Time Use - Type of Art (Involvement) =========================================================================================
 
-### Time Use - Internet Usage for School/Research (Over 12 Mos) ### 
+### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
 
-### Time Use - Internet Usage for Shopping (Over 12 Mos) ### 
+### Time Use - Involved in Sports ================================================================================================
 
-### Time Use - Internet Usage for Playing Games (Over 12 Mos) ### 
+### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
 
-### Time Use - Voted in Last Presidential Election ### 
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
 
-### Time Use - Involvement in Social Action Groups ### 
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
 
-### Time Use - Type of Social Action Group (If Involved) ### 
+### Time Use - Internet Usage ====================================================================================================
 
-### Time Use - Social Action Group Involvement (Over 12 Mos) ### 
+### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ==========================================================
 
-### Time Use - School Club/Student Gov Involvement ### 
+### Time Use - Internet Usage for School/Research (Over 12 Mos) ==================================================================
 
-### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Internet Usage for Shopping (Over 12 Mos) =========================================================================
 
-### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ###
+### Time Use - Internet Usage for Playing Games (Over 12 Mos) ====================================================================
 
-### Time Use - Type of Volunteer Work ### 
+### Time Use - Voted in Last Presidential Election ===============================================================================
 
-### Time Use - How Often Volunteered (Over 12 Mos) ###
+### Time Use - Involvement in Social Action Groups ===============================================================================
 
-### Self-Rating (Compared to Others) - Listening & Understanding Others ### 
+### Time Use - Type of Social Action Group (If Involved) =========================================================================
 
-### Self-Rating (Compared to Others) - Teaching & Explaining to Others ###
+### Time Use - Social Action Group Involvement (Over 12 Mos) =====================================================================
 
-### Self-Rating (Compared to Others) - Supervising Others ### 
+### Time Use - School Club/Student Gov Involvement ===============================================================================
 
-### Self-Rating (Compared to Others) - Being a Leader ### 
+### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
-### Self-Rating (Compared to Others) - Logical/Analytic Thinking ### 
+### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
-### Self-Rating (Compared to Others) - Helping Others Solve Their Problems ### 
+### Time Use - Type of Volunteer Work ============================================================================================
 
-### How Good at Problem Solving ### 
+### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
-### Self-Rating (Compared to Others) - Intelligence ### 
+### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
-### Self-Rating (Compared to Others) - Independence ### 
+### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
 
-### Self-Rating (Compared to Others) - Confidence ### 
+### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
-### Self-Rating (Compared to Others) - Decisiveness ### 
+### Self-Rating (Compared to Others) - Being a Leader ============================================================================
 
-### Frequency - Snacking Instead of Consuming Regular Meals ### 
+### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
-### Binge Eating Frequency ### 
+### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
-### Race - Hispanic ### 
+### How Good at Problem Solving ==================================================================================================
 
-### Race Identification ### 
+### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
-### Daily Cigarette Usage ### 
+### Self-Rating (Compared to Others) - Independence ==============================================================================
 
-### Body Mass Index (BMI) ### 
+### Self-Rating (Compared to Others) - Confidence ================================================================================
 
-### Usual Amount of Daily Sleep ### 
+### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
-########### TIAS-D Analysis - TIAS 2005-2017 ###########
+### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
 
-### Amphetamine Usage ### 
+### Binge Eating Frequency =======================================================================================================
 
-### Barbiturate Usage ### 
+### Race - Hispanic ==============================================================================================================
 
-### Marijuana Usage ### 
+### Race Identification ==========================================================================================================
 
-### Steroid Usage ###
+### Daily Cigarette Usage ========================================================================================================
 
-### Tranquilizer Usage ### 
+### Body Mass Index (BMI) ========================================================================================================
 
-### Average Alcohol Consumption Frequency Over Past Year ### 
+### Usual Amount of Daily Sleep ==================================================================================================
 
-### Average Daily Alcohol Consumption ### 
+######################## TIAS-D Analysis - TIAS 2005-2017 ######################## 
 
-### Degree to Which Condition Limits Normal Daily Activities ### 
+### Amphetamine Usage ===========================================================================================================
 
-### Depression Over Past Year ### 
+### Barbiturate Usage ===========================================================================================================
 
-### Depression - Anhedonia ###
+### Marijuana Usage =============================================================================================================
 
-### Depression Diagnosis ### 
+### Steroid Usage ===============================================================================================================
 
-### Bipolar Disorder Diagnosis ### 
+### Tranquilizer Usage ==========================================================================================================
 
-### Phobia Diagnosis ###
+### Cocaine Usage ===============================================================================================================
 
-### Anxiety Disorders Diagnosis ### 
+### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
-### OCD Diagnosis ### 
+### Average Daily Alcohol Consumption ===========================================================================================
 
-### Mental Health: Non-Spec Psych Distress ###
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
-### Mental Health: Social Anxiety ### 
+### Depression Over Past Year ===================================================================================================
 
-### Mental Health: Worry ###
+### Depression - Anhedonia =======================================================================================================
 
-### Paid Employment Since Jan 1 of Prior Year ### 
+### Depression Diagnosis =========================================================================================================
 
-### Paid Employment History ### 
+### Bipolar Disorder Diagnosis ===================================================================================================
 
-### Current Marital Status ### 
+### Phobia Diagnosis =============================================================================================================
 
-### Romantic Relationships ###
+### Anxiety Disorders Diagnosis ==================================================================================================
 
-### Number of Children ###
+### OCD Diagnosis ================================================================================================================
 
-### High School Education ### 
+### Mental Health: Non-Spec Psych Distress =======================================================================================
 
-### College Education ### 
+### Mental Health: Social Anxiety ================================================================================================
 
-### Highest Education Level ### 
+### Mental Health: Worry =========================================================================================================
 
-### Responsibility - Earning Own Living  ### 
+### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
-### Responsibility - Paying Own Rent ### 
+### Paid Employment History ======================================================================================================
 
-### Responsibility - Paying Own Bills ### 
+### Current Marital Status =======================================================================================================
 
-### Responsibility - Managing Money ### 
+### Romantic Relationships =======================================================================================================
 
-### How Good at Taking Responsibility for Actions ### 
+### Number of Children ===========================================================================================================
 
-### How Good at Money Management ### 
+### High School Education ========================================================================================================
 
-### How Good at Paying Off Credit Card Balances ### 
+### College Education ============================================================================================================
 
-### MIDUS M1 - Happiness ### 
+### Highest Education Level ======================================================================================================
 
-### MIDUS M2 - Interest in Life ### 
+### Responsibility - Earning Own Living ==========================================================================================
 
-### MIDUS M3 - Satisfaction ### 
+### Responsibility - Paying Own Rent =============================================================================================
 
-### MIDUS M4 - Contribution of Something Important to Society ### 
+### Responsibility - Paying Own Bills ============================================================================================
 
-### MIDUS M5 - Belonging to Community ### 
+### Responsibility - Managing Money ==============================================================================================
 
-### MIDUS M6 - Society Getting Better ### 
+### How Good at Taking Responsibility for Actions ================================================================================
 
-### MIDUS M7 - People Basically Good ### 
+### How Good at Money Management =================================================================================================
 
-### MIDUS M8 - Way Society Makes Sense ### 
+### How Good at Paying Off Credit Card Balances ==================================================================================
 
-### MIDUS M9 - Managing Daily Responsibility ### 
+### MIDUS M1 - Happiness =========================================================================================================
 
-### MIDUS M10 - Trusting Relationships w/ Others ### 
+### MIDUS M2 - Interest in Life ==================================================================================================
 
-### MIDUS M11 - Challenged to Grow ### 
+### MIDUS M3 - Satisfaction ======================================================================================================
 
-### MIDUS M12 - Confident of Own Ideas ### 
+### MIDUS M4 - Contribution of Something Important to Society ====================================================================
 
-### MIDUS M13 - Liked Personality ### 
+### MIDUS M5 - Belonging to Community ============================================================================================
 
-### MIDUS M14 - Life Had Direction ### 
+### MIDUS M6 - Society Getting Better ============================================================================================
 
-### MIDUS Subscale - Emotional ###
+### MIDUS M7 - People Basically Good =============================================================================================
 
-### MIDUS Subscale - Psychological ###
+### MIDUS M8 - Way Society Makes Sense ===========================================================================================
 
-### Time Use - Involved in Arts ### 
+### MIDUS M9 - Managing Daily Responsibility =====================================================================================
 
-### Time Use - Type of Art (Involvement) ### 
+### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
 
-### Time Use - Art Involvement Frequency (Over 12 Mos) ### 
+### MIDUS M11 - Challenged to Grow ===============================================================================================
 
-### Time Use - Involved in Sports ### 
+### MIDUS M12 - Confident of Own Ideas ===========================================================================================
 
-### Time Use - Watching/Reading News (Over 12 Mos) ### 
+### MIDUS M13 - Liked Personality ================================================================================================
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ### 
+### MIDUS M14 - Life Had Direction ===============================================================================================
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ### 
+### MIDUS Subscale - Emotional ===================================================================================================
 
-### Time Use - Internet Usage ### 
+### MIDUS Subscale - Psychological ===============================================================================================
 
-### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ###
+### Time Use - Involved in Arts ==================================================================================================
 
-### Time Use - Internet Usage for School/Research (Over 12 Mos) ### 
+### Time Use - Type of Art (Involvement) =========================================================================================
 
-### Time Use - Internet Usage for Shopping (Over 12 Mos) ### 
+### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
 
-### Time Use - Internet Usage for Playing Games (Over 12 Mos) ### 
+### Time Use - Involved in Sports ================================================================================================
 
-### Time Use - Voted in Last Presidential Election ### 
+### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
 
-### Time Use - Involvement in Social Action Groups ### 
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
 
-### Time Use - Type of Social Action Group (If Involved) ### 
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
 
-### Time Use - Social Action Group Involvement (Over 12 Mos) ### 
+### Time Use - Internet Usage ====================================================================================================
 
-### Time Use - School Club/Student Gov Involvement ### 
+### Time Use - Internet Usage for Email/Instant Messenger (Over 12 Mos) ==========================================================
 
-### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) ### 
+### Time Use - Internet Usage for School/Research (Over 12 Mos) ==================================================================
 
-### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ###
+### Time Use - Internet Usage for Shopping (Over 12 Mos) =========================================================================
 
-### Time Use - Type of Volunteer Work ### 
+### Time Use - Internet Usage for Playing Games (Over 12 Mos) ====================================================================
 
-### Time Use - How Often Volunteered (Over 12 Mos) ###
+### Time Use - Voted in Last Presidential Election ===============================================================================
 
-### Self-Rating (Compared to Others) - Listening & Understanding Others ### 
+### Time Use - Involvement in Social Action Groups ===============================================================================
 
-### Self-Rating (Compared to Others) - Teaching & Explaining to Others ###
+### Time Use - Type of Social Action Group (If Involved) =========================================================================
 
-### Self-Rating (Compared to Others) - Supervising Others ### 
+### Time Use - Social Action Group Involvement (Over 12 Mos) =====================================================================
 
-### Self-Rating (Compared to Others) - Being a Leader ### 
+### Time Use - School Club/Student Gov Involvement ===============================================================================
 
-### Self-Rating (Compared to Others) - Logical/Analytic Thinking ### 
+### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
-### Self-Rating (Compared to Others) - Helping Others Solve Their Problems ### 
+### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
-### How Good at Problem Solving ### 
+### Time Use - Type of Volunteer Work ============================================================================================
 
-### Self-Rating (Compared to Others) - Intelligence ### 
+### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
-### Self-Rating (Compared to Others) - Independence ### 
+### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
-### Self-Rating (Compared to Others) - Confidence ### 
+### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
 
-### Self-Rating (Compared to Others) - Decisiveness ### 
+### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
-### Frequency - Snacking Instead of Consuming Regular Meals ### 
+### Self-Rating (Compared to Others) - Being a Leader ============================================================================
 
-### Binge Eating Frequency ### 
+### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
-### Race - Hispanic ### 
+### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
-### Race Identification ### 
+### How Good at Problem Solving ==================================================================================================
 
-### Daily Cigarette Usage ### 
+### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
-### Body Mass Index (BMI) ### 
+### Self-Rating (Compared to Others) - Independence ==============================================================================
 
-### Usual Amount of Daily Sleep ### 
+### Self-Rating (Compared to Others) - Confidence ================================================================================
+
+### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
+
+### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
+
+### Binge Eating Frequency =======================================================================================================
+
+### Race - Hispanic ==============================================================================================================
+
+### Race Identification ==========================================================================================================
+
+### Daily Cigarette Usage ========================================================================================================
+
+### Body Mass Index (BMI) ========================================================================================================
+
+### Usual Amount of Daily Sleep ==================================================================================================
