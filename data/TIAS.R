@@ -422,17 +422,92 @@ table(TIAS$TA050784, TIAS$FTL_COUNT)
 # Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
 #### 
 
+table(TIAS$TA050808)
+
+table(TIAS$TA050808, TIAS$FTL_COUNT)
+
 ### Marijuana Usage =============================================================================================================
+
+####
+# H44C. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used marijuana on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA050792)
+
+table(TIAS$TA050792, TIAS$FTL_COUNT)
+
+### Diet Pill Usage =============================================================================================================
+
+####
+# H44A. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used diet pills on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA050776)
+
+table(TIAS$TA050776, TIAS$FTL_COUNT)
 
 ### Steroid Usage ===============================================================================================================
 
+####
+# H44G. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used steroids on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA050824)
+
+table(TIAS$TA050824, TIAS$FTL_COUNT)
+
 ### Tranquilizer Usage ==========================================================================================================
+
+####
+# H44F. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used tranquilizers on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA050816)
+
+table(TIAS$TA050816, TIAS$FTL_COUNT)
 
 ### Cocaine Usage ===============================================================================================================
 
+####
+# H42D_B. # of Occasions in Past 12mos: "On how many occasions (if any) have you used cocaine in the past 12 months?"
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA050797)
+
+table(TIAS$TA050797, TIAS$FTL_COUNT)
+
 ### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
+#### 
+# H37. How Often Have Drinks-HD: “In the last year, on average, how often did you have any alcohol to drink? Would you say: 
+# less than once a month, about once a month, several times a month, about once a week, several times a week, or every day?”
+# Answers: 1 (Less than once a month); 2 (About once a month); 3 (Several times a month); 4 (About once a week); 5 (Several times a week); 
+# 6 (Every day); 8 (DK); 9 (NA/refused); 0 (Inap: Does not drink alcohol)
+####
+
+table(TIAS$TA050767)
+
+table(TIAS$TA050767, TIAS$FTL_COUNT)
+
 ### Average Daily Alcohol Consumption ===========================================================================================
+
+#### 
+# H38. # Alcoholic Drinks Per Day: "In the last year, on the days you drank, about how many drinks did you have?”
+# Answers: 1 (One drink or fewer); 2-50 (Actual number of drinks); 98 (DK); 99 (NA/refused); 0 (Inap.: Does not drink alcohol or drinks alcohol but frequency of drinking is DK or NA)
+####
+
+table(TIAS$TA050768)
+
+table(TIAS$TA050768, TIAS$FTL_COUNT)
 
 ### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
@@ -441,7 +516,7 @@ table(TIAS$TA050784, TIAS$FTL_COUNT)
 ####
 # H15. WTR>2 Wks Depressed In Past 12mos: “Now I want to ask you about periods of feeling sad, empty, or depressed. 
 # In the past 12 months, have you had two weeks or longer when nearly every day you felt sad, empty, or depressed for most of the day?”
-# Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA; Refused)
+# Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused)
 ####
 
 table(TIAS$TA050733)
@@ -715,6 +790,8 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 
 ### Marijuana Usage =============================================================================================================
 
+### Diet Pill Usage =============================================================================================================
+
 ### Steroid Usage ===============================================================================================================
 
 ### Tranquilizer Usage ==========================================================================================================
@@ -895,6 +972,8 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 
 ### Marijuana Usage =============================================================================================================
 
+### Diet Pill Usage =============================================================================================================
+
 ### Steroid Usage ===============================================================================================================
 
 ### Tranquilizer Usage ==========================================================================================================
@@ -1067,7 +1146,6 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 
 ### Usual Amount of Daily Sleep ==================================================================================================
 
-
 ######################## TIAS-D Analysis - TIAS 2011 ######################## 
 
 ### Amphetamine Usage ===========================================================================================================
@@ -1075,6 +1153,8 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 ### Barbiturate Usage ===========================================================================================================
 
 ### Marijuana Usage =============================================================================================================
+
+### Diet Pill Usage =============================================================================================================
 
 ### Steroid Usage ===============================================================================================================
 
@@ -1256,6 +1336,8 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 
 ### Marijuana Usage =============================================================================================================
 
+### Diet Pill Usage =============================================================================================================
+
 ### Steroid Usage ===============================================================================================================
 
 ### Tranquilizer Usage ==========================================================================================================
@@ -1435,6 +1517,8 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 ### Barbiturate Usage ===========================================================================================================
 
 ### Marijuana Usage =============================================================================================================
+
+### Diet Pill Usage =============================================================================================================
 
 ### Steroid Usage ===============================================================================================================
 
@@ -1616,6 +1700,8 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 
 ### Marijuana Usage =============================================================================================================
 
+### Diet Pill Usage =============================================================================================================
+
 ### Steroid Usage ===============================================================================================================
 
 ### Tranquilizer Usage ==========================================================================================================
@@ -1795,6 +1881,8 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 ### Barbiturate Usage ===========================================================================================================
 
 ### Marijuana Usage =============================================================================================================
+
+### Diet Pill Usage =============================================================================================================
 
 ### Steroid Usage ===============================================================================================================
 
