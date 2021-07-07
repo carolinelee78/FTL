@@ -385,7 +385,7 @@ TIAS$CAT_17 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_17)
 
-### TIAS FTL Wave Count ### 
+### TIAS FTL Wave Count =========================================================================================================
 
 # Creating a variable for the total number of waves that each participant identified as FTL (as opposed to IAC or NA)
 
@@ -433,6 +433,12 @@ table(TIAS$TA050808)
 table(TIAS$TA050808, TIAS$FTL_COUNT)
 
 table(TIAS2005$TA050808, TIAS2005$CAT)
+
+barb_legend_title <- "Barbiturate Usage (Prev. Year)"
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050808)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual(barb_legend_title, values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightpink1"), labels = c("Never", "3-5 times", "10-19 times", "40 or more times"))
 
 ### Marijuana Usage =============================================================================================================
 
@@ -539,11 +545,11 @@ ggplot(TIAS) +
 
 table(TIAS2005$TA050733, TIAS2005$CAT)
 
-legend_title <- "Depressed >2 Weeks"
+depr_legend_title <- "Depressed >2 Weeks"
 ggplot(TIAS2005) + 
   geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050733)), position = position_dodge(), na.rm = T) + 
   labs(x = "Category", y = "Count") +
-  scale_fill_manual(legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused"))
+  scale_fill_manual(depr_legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused"))
 
 prop.table(table(TIAS2005_FTL$TA050733))
 
@@ -611,7 +617,7 @@ table(TIAS2005$TA050938)
 
 ggplot(TIAS2005) +
   geom_bar(mapping = aes(x = TA050938, fill = as.factor(TA050938)), na.rm = T) + 
-  labs(x = "NSPD Scale Score (Min=0, Max=24)", y = "Count") + 
+  labs(title = "TIAS 2005", x = "NSPD Scale Score (Min=0, Max=24)", y = "Count") + 
   theme(legend.position = "none") + 
   scale_x_continuous(breaks = seq(0, 24, by = 1))
   
@@ -627,7 +633,7 @@ colnames(nspd.ftl.count) <- c("FTL_Wave_Count", "Mean_NSPD")
 
 ggplot(nspd.ftl.count, aes(x = FTL_Wave_Count, y = Mean_NSPD, fill = FTL_Wave_Count)) +
   geom_bar(stat = "identity") +
-  labs(x = "# of Waves for Which Participant Identified as FTL", y = "Mean NSPD Scale Score") + 
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Mean NSPD Scale Score") + 
   scale_y_continuous(limits = c(0, 24), breaks = seq(0, 24, by = 2)) + 
   scale_x_continuous(breaks = seq(0, 5, by = 1)) +
   theme(legend.position = "none") +
@@ -641,7 +647,7 @@ colnames(nspd.ftl.cat) <- c("At_Least_One_FTL", "Mean_NSPD")
 
 ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(At_Least_One_FTL))) +
   geom_bar(stat = "identity") +
-  labs(x = "Identified as FTL for at least one wave", y = "Mean NSPD Scale Score") + 
+  labs(title = "TIAS 2005", x = "Identified as FTL for at least one wave", y = "Mean NSPD Scale Score") + 
   scale_y_continuous(limits = c(0, 24), breaks = seq(0, 24, by = 2)) + 
   scale_fill_brewer(palette = "Set2") +
   theme(legend.position = "none") 
