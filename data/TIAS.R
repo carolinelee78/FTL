@@ -74,14 +74,6 @@ TIAS$ID <- seq.int(nrow(TIAS))
 
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
 
-# Creating a subsetted dataframe including only FTL participants for the 2005 wave 
-
-TIAS2005_FTL <- subset(TIAS2005, CAT == "FTL_05")
-
-# Creating a subsetted dataframe including only IAC participants for the 2005 wave 
-
-TIAS2005_IAC <- subset(TIAS2005, CAT == "IAC_05")
-
 # Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
 
 TIAS2005$CAT <- with(TIAS2005, ifelse(
@@ -117,6 +109,14 @@ TIAS$CAT_05 <- with(TIAS, ifelse(
 # View the distribution for CAT_05
 
 table(TIAS$CAT_05)
+
+# Creating a subsetted dataframe including only FTL participants for the 2005 wave 
+
+TIAS2005_FTL <- subset(TIAS2005, CAT_05 == "FTL_05")
+
+# Creating a subsetted dataframe including only IAC participants for the 2005 wave 
+
+TIAS2005_IAC <- subset(TIAS2005, CAT_05 == "IAC_05")
 
 ### TIAS 2007 IAC vs. FTL ============================================================================================================
 
@@ -414,6 +414,12 @@ table(TIAS$TA050784)
 
 table(TIAS$TA050784, TIAS$FTL_COUNT)
 
+ggplot(TIAS) + 
+  geom_bar(mapping = aes(x = TA050784, fill = as.factor(FTL_COUNT)), position = position_dodge(), na.rm = T) + 
+  scale_x_continuous(breaks = seq(0, 6, by = 1)) + 
+  labs(title = "TIAS 2005", x = "Amphetamine Usage", y = "Count") + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
 ### Barbiturate Usage ===========================================================================================================
 
 ####
@@ -425,6 +431,8 @@ table(TIAS$TA050784, TIAS$FTL_COUNT)
 table(TIAS$TA050808)
 
 table(TIAS$TA050808, TIAS$FTL_COUNT)
+
+table(TIAS2005$TA050808, TIAS2005$CAT)
 
 ### Marijuana Usage =============================================================================================================
 
