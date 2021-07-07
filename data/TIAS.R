@@ -112,11 +112,11 @@ table(TIAS$CAT_05)
 
 # Creating a subsetted dataframe including only FTL participants for the 2005 wave 
 
-TIAS2005_FTL <- subset(TIAS2005, CAT_05 == "FTL_05")
+TIAS2005_FTL <- subset(TIAS2005, CAT == "FTL_05")
 
 # Creating a subsetted dataframe including only IAC participants for the 2005 wave 
 
-TIAS2005_IAC <- subset(TIAS2005, CAT_05 == "IAC_05")
+TIAS2005_IAC <- subset(TIAS2005, CAT == "IAC_05")
 
 ### TIAS 2007 IAC vs. FTL ============================================================================================================
 
