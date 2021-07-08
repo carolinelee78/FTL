@@ -400,6 +400,8 @@ table(TIAS$FTL_COUNT)
 
 TIAS$GREQ1_FTL <- with(TIAS, ifelse(FTL_COUNT >= 1, "Yes", "No"))      
 
+table(TIAS$GREQ1_FTL)
+
 ######################## TIAS-D Analysis - TIAS 2005 ######################## 
 
 ### Amphetamine Usage ===========================================================================================================
@@ -414,11 +416,19 @@ table(TIAS$TA050784)
 
 table(TIAS$TA050784, TIAS$FTL_COUNT)
 
+table(TIAS2005$TA050784, TIAS2005$CAT)
+
 ggplot(TIAS) + 
   geom_bar(mapping = aes(x = TA050784, fill = as.factor(FTL_COUNT)), position = position_dodge(), na.rm = T) + 
   scale_x_continuous(breaks = seq(0, 6, by = 1)) + 
   labs(title = "TIAS 2005", x = "Amphetamine Usage", y = "Count") + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050784)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "20-39 times", "40 or more times"))
 
 ### Barbiturate Usage ===========================================================================================================
 
@@ -434,11 +444,11 @@ table(TIAS$TA050808, TIAS$FTL_COUNT)
 
 table(TIAS2005$TA050808, TIAS2005$CAT)
 
-barb_legend_title <- "Barbiturate Usage (Prev. Year)"
 ggplot(TIAS2005) + 
   geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050808)), position = position_dodge(), na.rm = T) + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
-  scale_fill_manual(barb_legend_title, values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightpink1"), labels = c("Never", "3-5 times", "10-19 times", "40 or more times"))
+  scale_fill_manual("Barbiturate Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightpink1"), 
+                    labels = c("Never", "3-5 times", "10-19 times", "40 or more times"))
 
 ### Marijuana Usage =============================================================================================================
 
@@ -452,6 +462,13 @@ table(TIAS$TA050792)
 
 table(TIAS$TA050792, TIAS$FTL_COUNT)
 
+table(TIAS2005$TA050792, TIAS2005$CAT)
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050792)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "40 or more times"))
+
 ### Diet Pill Usage =============================================================================================================
 
 ####
@@ -463,6 +480,13 @@ table(TIAS$TA050792, TIAS$FTL_COUNT)
 table(TIAS$TA050776)
 
 table(TIAS$TA050776, TIAS$FTL_COUNT)
+
+table(TIAS2005$TA050776, TIAS2005$CAT)
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050776)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Diet Pill Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "1-2 times")) 
 
 ### Steroid Usage ===============================================================================================================
 
@@ -476,6 +500,13 @@ table(TIAS$TA050824)
 
 table(TIAS$TA050824, TIAS$FTL_COUNT)
 
+table(TIAS2005$TA050824, TIAS2005$CAT)
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050824)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Steroid Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "20-39 times")) 
+
 ### Tranquilizer Usage ==========================================================================================================
 
 ####
@@ -486,7 +517,18 @@ table(TIAS$TA050824, TIAS$FTL_COUNT)
 
 table(TIAS$TA050816)
 
+table(TIAS2005$TA050816)
+
 table(TIAS$TA050816, TIAS$FTL_COUNT)
+
+table(TIAS2005$TA050816, TIAS2005$CAT)
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050816)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times"))
+
 
 ### Cocaine Usage ===============================================================================================================
 
@@ -497,7 +539,27 @@ table(TIAS$TA050816, TIAS$FTL_COUNT)
 
 table(TIAS$TA050797)
 
+table(TIAS2005$TA050797, TIAS2005$CAT)
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050797)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Cocaine Usage (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times", "20-39 times", "40 or more times"))
+
 table(TIAS$TA050797, TIAS$FTL_COUNT)
+
+T05_COCAI <- TIAS[, c("TA050797", "FTL_COUNT")]
+
+T05_COCAI_C <- T05_COCAI %>% group_by(TA050797, FTL_COUNT) %>% summarise(Count = n())
+
+T05_COCAI_C <- data.frame(T05_COCAI_C[1:15, ]) 
+
+ggplot(data = T05_COCAI_C, aes(x = TA050797, y = Count, fill = as.factor(FTL_COUNT))) + 
+  geom_bar(stat = "identity", position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 6, by = 1)) + 
+  labs(title = "TIAS 2005", x = "Cocaine Usage (Prev. Year)", y = "Count") + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
 
 ### Average Alcohol Consumption Frequency Over Past Year ========================================================================
 
@@ -510,7 +572,25 @@ table(TIAS$TA050797, TIAS$FTL_COUNT)
 
 table(TIAS$TA050767)
 
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050767)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
+                    labels = c("Never", "Less than once a month", "About once a month", "Several times a month", "About once a week", "Several times a week", "Every day"))
+
 table(TIAS$TA050767, TIAS$FTL_COUNT)
+
+T05_ALCYR <- TIAS[, c("TA050767", "FTL_COUNT")]
+
+T05_ALCYR_C <- T05_ALCYR %>% group_by(TA050767, FTL_COUNT) %>% summarise(Count = n())
+
+T05_ALCYR_C <- data.frame(T05_ALCYR_C[1:23, ])
+
+ggplot(data = T05_ALCYR_C, aes(x = TA050767, y = Count, fill = as.factor(FTL_COUNT))) + 
+  geom_bar(stat = "identity", position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 6, by = 1)) + 
+  labs(title = "TIAS 2005", x = "Avg. Alcohol Consumption (Prev. Year)", y = "Count") + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
 
 ### Average Daily Alcohol Consumption ===========================================================================================
 
@@ -545,18 +625,17 @@ ggplot(TIAS) +
 
 table(TIAS2005$TA050733, TIAS2005$CAT)
 
-depr_legend_title <- "Depressed >2 Weeks"
 ggplot(TIAS2005) + 
   geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050733)), position = position_dodge(), na.rm = T) + 
   labs(x = "Category", y = "Count") +
-  scale_fill_manual(depr_legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused"))
+  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused"))
 
 prop.table(table(TIAS2005_FTL$TA050733))
 
 depr.pie.ftl.05 <- ggplot(data = TIAS2005_FTL, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual(legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused")) + 
+  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused")) + 
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050733))
@@ -564,7 +643,7 @@ prop.table(table(TIAS2005_IAC$TA050733))
 depr.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual(legend_title, values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused")) + 
+  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused")) + 
   theme_void() 
 
 ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
