@@ -599,11 +599,35 @@ ggplot(data = T05_ALCYR_C, aes(x = TA050767, y = Count, fill = as.factor(FTL_COU
 # Answers: 1 (One drink or fewer); 2-50 (Actual number of drinks); 98 (DK); 99 (NA/refused); 0 (Inap.: Does not drink alcohol or drinks alcohol but frequency of drinking is DK or NA)
 ####
 
-table(TIAS$TA050768)
+# Replacing 98 (DK) with NA in TIAS and TIAS2005
 
+table(TIAS2005$TA050768, TIAS2005$CAT)
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050768)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("#E69F00", "#56B4E9", "#009E73", "gold", "#0072B2", "#D55E00", "#CC79A7", "lightcoral", "wheat", "green3", "mediumturquoise", 
+      "deepskyblue", "mediumpurple1", "hotpink", "khaki1", "blue"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", 
+      "9 drinks", "10 drinks", "11 drinks", "12 drinks", "15 drinks", "20 drinks", "Don't know"))
+                    
 table(TIAS$TA050768, TIAS$FTL_COUNT)
 
 ### Degree to Which Condition Limits Normal Daily Activities ====================================================================
+
+####
+# H13B. How much limits normal activities: "How much does this condition limit your normal daily activities? Would you say: A lot, somewhat, just a little, or not at all?”
+# Answers: 1 (A lot); 3 (Somewhat); 5 (Just a little); 7 (Not at all); 8 (DK); 9 (NA; refused); 0 (Inap: Never diagnosed with any serious chronic condition)
+####
+
+table(TIAS$TA050723)
+
+table(TIAS2005$TA050723, TIAS2005$CAT)
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050723)), position = position_dodge(), na.rm = T) + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
+                    labels = c("Inap: No chronic condition", "A lot", "Somewhat", "Just a little", "Not at all", "Refused Answer"))
 
 ### Depression Over Past Year ===================================================================================================
 
@@ -648,13 +672,60 @@ depr.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050733, fill =
 
 ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
+prop.test(x = c(8, 110), n = c(30, 596))
+
 ### Depression - Anhedonia =======================================================================================================
+
+####
+# H16. WTR>2 Wks No Interest in Life: “In the past 12 months, have you had two weeks or longer when you lost interest in most things 
+# like work, hobbies, and other things you usually enjoyed?”
+# Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused)
+
+table(TIAS$TA050734)
+
+table(TIAS2005$TA050734, TIAS2005$CAT)
+
+ggplot(TIAS2005) + 
+  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050734)), position = position_dodge(), na.rm = T) + 
+  labs(x = "Category", y = "Count") +
+  scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No"))
+
+prop.table(table(TIAS2005_FTL$TA050734))
+
+anhe.pie.ftl.05 <- ggplot(data = TIAS2005_FTL, aes(x = " ", y = TA050734, fill = as.factor(TA050734))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No")) + 
+  theme_void() 
+
+prop.table(table(TIAS2005_IAC$TA050734))
+
+anhe.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050734, fill = as.factor(TA050734))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No")) + 
+  theme_void() 
+
+ggarrange(anhe.pie.ftl.05, anhe.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+
+prop.test(x = c(11, 141), n = c(27, 566))
 
 ### Depression Diagnosis =========================================================================================================
 
+####
+# H12B. WTR Depression: "What was the diagnosis? What is the emotional or psychiatric disorder?--DEPRESSION"
+# Answers: 1 (Diagnosed); 8 (DK); 9 (NA/refused); 0 (Not Diagnosed)
+####
+
+table(TIAS2005$TA050710, TIAS2005$CAT)
+
 ### Bipolar Disorder Diagnosis ===================================================================================================
 
+table(TIAS2005$TA050711, TIAS2005$CAT)
+
 ### Phobia Diagnosis =============================================================================================================
+
+table(TIAS2005$TA050714, TIAS2005$CAT)
 
 ### Anxiety Disorders Diagnosis ==================================================================================================
 
@@ -671,6 +742,8 @@ table(TIAS$TA050713, TIAS$FTL_COUNT)
 table(TIAS2005$TA050713, TIAS2005$CAT)
 
 ### OCD Diagnosis ================================================================================================================
+
+table(TIAS2005$TA050717, TIAS2005$CAT)
 
 ### Mental Health: Non-Spec Psych Distress =======================================================================================
 
@@ -733,7 +806,11 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 
 ### Mental Health: Social Anxiety ================================================================================================
 
+table(TIAS2005$TA050933, TIAS2005$CAT)
+
 ### Mental Health: Worry =========================================================================================================
+
+table(TIAS2005$TA050932, TIAS2005$CAT)
 
 ### Paid Employment Since Jan 1 of Prior Year ====================================================================================
 
