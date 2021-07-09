@@ -672,8 +672,6 @@ depr.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050733, fill =
 
 ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-prop.test(x = c(8, 110), n = c(30, 596))
-
 ### Depression - Anhedonia =======================================================================================================
 
 ####
@@ -707,8 +705,6 @@ anhe.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050734, fill =
   theme_void() 
 
 ggarrange(anhe.pie.ftl.05, anhe.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-prop.test(x = c(11, 27), n = c(141, 566))
 
 ### Depression Diagnosis =========================================================================================================
 
