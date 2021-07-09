@@ -647,6 +647,14 @@ ggplot(TIAS) +
   labs(x = ">2 Weeks Depressed in Past 12 Months (1 = Yes; 5 = No; 9 = NA/Refused)", y = "Count") + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
+table(TIAS$TA050733, TIAS$FTL_COUNT)
+
+T05_DEPYR <- TIAS[, c("TA050733", "FTL_COUNT")]
+
+T05_DEPYR_C <- T05_DEPYR %>% group_by(TA050733, FTL_COUNT) %>% summarise(Count = n())
+
+T05_DEPYR_C <- data.frame(T05_DEPYR_C[1:23, ])
+
 table(TIAS2005$TA050733, TIAS2005$CAT)
 
 ggplot(TIAS2005) + 
