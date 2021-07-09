@@ -700,18 +700,24 @@ ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 
 # like work, hobbies, and other things you usually enjoyed?”
 # Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused)
 
-table(TIAS$TA050734)
+T05_ANH_FTLW <- TIAS[, c("TA050734", "FTL_COUNT")] %>% group_by(TA050734, FTL_COUNT) %>% summarise(Count = n())
 
-table(TIAS2005$TA050734, TIAS2005$CAT)
+T05_ANH_FTLW <- T05_ANH_FTLW[1:10,]
 
-ggplot(TIAS2005) + 
-  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050734)), position = position_dodge(), na.rm = T) + 
+T05_ANH_CAT <- TIAS2005[, c("TA050734", "CAT")] %>% group_by(TA050734, CAT) %>% summarise(Count = n())
+
+T05_ANH_FTLCAT <- TIAS2005_FTL[, c("TA050734", "CAT")] %>% group_by(TA050734, CAT) %>% summarise(Count = n())
+
+T05_ANH_IACCAT <- TIAS2005_IAC[, c("TA050734", "CAT")] %>% group_by(TA050734, CAT) %>% summarise(Count = n())
+
+ggplot(T05_ANH_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050734)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(x = "Category", y = "Count") +
   scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No"))
 
 prop.table(table(TIAS2005_FTL$TA050734))
 
-anhe.pie.ftl.05 <- ggplot(data = TIAS2005_FTL, aes(x = " ", y = TA050734, fill = as.factor(TA050734))) + 
+anhe.pie.ftl.05 <- ggplot(data = T05_ANH_FTLCAT, aes(x = " ", y = TA050734, fill = as.factor(TA050734))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No")) + 
@@ -719,7 +725,7 @@ anhe.pie.ftl.05 <- ggplot(data = TIAS2005_FTL, aes(x = " ", y = TA050734, fill =
 
 prop.table(table(TIAS2005_IAC$TA050734))
 
-anhe.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050734, fill = as.factor(TA050734))) + 
+anhe.pie.iac.05 <- ggplot(data = T05_ANH_IACCAT, aes(x = " ", y = TA050734, fill = as.factor(TA050734))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No")) + 
