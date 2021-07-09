@@ -708,7 +708,7 @@ anhe.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050734, fill =
 
 ggarrange(anhe.pie.ftl.05, anhe.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-prop.test(x = c(11, 141), n = c(27, 566))
+prop.test(x = c(11, 27), n = c(141, 566))
 
 ### Depression Diagnosis =========================================================================================================
 
@@ -805,6 +805,14 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
   theme(legend.position = "none") 
 
 ### Mental Health: Social Anxiety ================================================================================================
+
+####
+# Cumulative score from answers to SA scale questions: 
+# (how often nervous meeting others/feel shy/feel self-conscious/feel nervous performing)
+# Possible scores: 1-7; 9 (all items are DK/NA/refused)
+####
+
+table(TIAS$TA050933)
 
 table(TIAS2005$TA050933, TIAS2005$CAT)
 
