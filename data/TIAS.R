@@ -661,7 +661,7 @@ T05_DEP_FTLCAT <- TIAS2005_FTL[, c("TA050733", "CAT")] %>% group_by(TA050733, CA
 
 T05_DEP_IACCAT <- TIAS2005_IAC[, c("TA050733", "CAT")] %>% group_by(TA050733, CAT) %>% summarise(Count = n())
 
-T05_DEP_CAT <- T05_DEP_CAT[1:2, ]
+T05_DEP_IACCAT <- T05_DEP_IACCAT[1:2, ]
 
 ggplot(T05_DEP_FTLW, aes(x = TA050733, y = Count, fill = as.factor(FTL_COUNT)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
