@@ -637,45 +637,58 @@ ggplot(TIAS2005) +
 # Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused)
 ####
 
-table(TIAS$TA050733)
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050733 = 9)) 
 
-table(TIAS$TA050733, TIAS$FTL_COUNT)
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050733 = 9)) 
 
-ggplot(TIAS) + 
-  geom_bar(mapping = aes(x = TA050733, fill = as.factor(FTL_COUNT)), position = position_dodge(), na.rm = T) + 
-  scale_x_continuous(breaks = seq(1, 9, by = 4)) + 
-  labs(x = ">2 Weeks Depressed in Past 12 Months (1 = Yes; 5 = No; 9 = NA/Refused)", y = "Count") + 
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050733 = 9)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050733 = 9)) 
+
+T05_DEP_FTLW <- TIAS[, c("TA050733", "FTL_COUNT")] %>% group_by(TA050733, FTL_COUNT) %>% summarise(Count = n())
+
+T05_DEP_FTLW <- T05_DEP_FTLW[1:10, ]
+
+T05_DEP_CAT <- TIAS2005[, c("TA050733", "CAT")] %>% group_by(TA050733, CAT) %>% summarise(Count = n())
+
+T05_DEP_CAT <- T05_DEP_CAT[1:4, ]
+
+T05_DEP_FTLCAT <- TIAS2005_FTL[, c("TA050733", "CAT")] %>% group_by(TA050733, CAT) %>% summarise(Count = n())
+
+T05_DEP_IACCAT <- TIAS2005_IAC[, c("TA050733", "CAT")] %>% group_by(TA050733, CAT) %>% summarise(Count = n())
+
+T05_DEP_CAT <- T05_DEP_CAT[1:2, ]
+
+ggplot(T05_DEP_FTLW, aes(x = TA050733, y = Count, fill = as.factor(FTL_COUNT)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = c(1, 5)) + 
+  labs(x = ">2 Weeks Depressed in Past 12 Months (1 = Yes; 5 = No)", y = "Count") + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-table(TIAS$TA050733, TIAS$FTL_COUNT)
-
-T05_DEPYR <- TIAS[, c("TA050733", "FTL_COUNT")]
-
-T05_DEPYR_C <- T05_DEPYR %>% group_by(TA050733, FTL_COUNT) %>% summarise(Count = n())
-
-T05_DEPYR_C <- data.frame(T05_DEPYR_C[1:23, ])
-
-table(TIAS2005$TA050733, TIAS2005$CAT)
-
-ggplot(TIAS2005) + 
-  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050733)), position = position_dodge(), na.rm = T) + 
-  labs(x = "Category", y = "Count") +
-  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused"))
+ggplot(T05_DEP_CAT, aes(x = TA050733, y = Count, fill = as.factor(CAT)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = c(1, 5)) + 
+  labs(title = "TIAS 2005", x = "Depressed >2 Weeks (1 = Yes; 5 = No)", y = "Count") +
+  scale_fill_manual("Category", values = c("aquamarine3", "cadetblue2"), labels = c("FTL", "IAC"))
 
 prop.table(table(TIAS2005_FTL$TA050733))
 
-depr.pie.ftl.05 <- ggplot(data = TIAS2005_FTL, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
+depr.pie.ftl.05 <- ggplot(data = T05_DEP_FTLCAT, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused")) + 
+  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No")) + 
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050733))
 
-depr.pie.iac.05 <- ggplot(data = TIAS2005_IAC, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
+depr.pie.iac.05 <- ggplot(data = T05_DEP_IACCAT, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2", "cornflowerblue"), labels = c("Yes", "No", "NA/Refused")) + 
+  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No")) + 
   theme_void() 
 
 ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
