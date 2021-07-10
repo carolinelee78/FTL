@@ -804,29 +804,37 @@ table(TIAS2005$TA050717, TIAS2005$CAT)
 # Possible scores: 0-24; 99 (all items are DK/NA/refused)
 ####
 
-# Replacing 99 (value for 'all items are DK/NA/refused') with NA in TIAS and TIAS2005
-
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA050938 = 99)) 
 
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050938 = 99)) 
 
-# Viewing distribution for TA050938 (score from NSPD scale; possible values: 0-24)
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050938 = 99)) 
 
-table(TIAS2005$TA050938)
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050938 = 99)) 
 
-# Viewing distribution of NSPD scale score across TIAS dataset 
+T05_NPD_FTLW <- TIAS[, c("TA050938", "FTL_COUNT")] %>% group_by(TA050938, FTL_COUNT) %>% summarise(Count = n())
 
-ggplot(TIAS2005) +
-  geom_bar(mapping = aes(x = TA050938, fill = as.factor(TA050938)), na.rm = T) + 
-  labs(title = "TIAS 2005", x = "NSPD Scale Score (Min=0, Max=24)", y = "Count") + 
-  theme(legend.position = "none") + 
-  scale_x_continuous(breaks = seq(0, 24, by = 1))
-  
+T05_NPD_FTLW <- T05_NPD_FTLW[1:55, ]
+
+T05_NPD_CAT <- TIAS2005[, c("TA050938", "CAT")] %>% group_by(TA050938, CAT) %>% summarise(Count = n())
+
+T05_NPD_CAT <- T05_NPD_CAT[1:36, ]
+
+T05_NPD_FTLCAT <- TIAS2005_FTL[, c("TA050938", "CAT")] %>% group_by(TA050938, CAT) %>% summarise(Count = n())
+
+T05_NPD_IACCAT <- TIAS2005_IAC[, c("TA050938", "CAT")] %>% group_by(TA050938, CAT) %>% summarise(Count = n())
+
+T05_NPD_IACCAT <- T05_NPD_IACCAT[1:21, ]
+
+table(TIAS$TA050938, TIAS$FTL_COUNT)
+
 # Aggregating mean NSPD scale scores for individuals with different total # of FTL wave match counts 
 
-nspd.ftl.count <- aggregate.data.frame(TIAS$TA050938, list(TIAS$FTL_COUNT), mean, na.rm=T)
+nspd.ftl.count <- aggregate.data.frame(T05_NPD_FTLW$TA050938, list(T05_NPD_FTLW$FTL_COUNT), mean, na.rm=T)
 
 # Assigning column labels for resulting data frame 
 
@@ -842,18 +850,12 @@ ggplot(nspd.ftl.count, aes(x = FTL_Wave_Count, y = Mean_NSPD, fill = FTL_Wave_Co
   theme(legend.position = "none") +
   scale_fill_viridis_c() 
 
-# Aggregating mean NSPD scale scores for individuals who were FTL for at least one wave vs. never FTL 
-
-nspd.ftl.cat <- aggregate.data.frame(TIAS$TA050938, list(TIAS$GREQ1_FTL), mean, na.rm=T)
-
-colnames(nspd.ftl.cat) <- c("At_Least_One_FTL", "Mean_NSPD")
-
-ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(At_Least_One_FTL))) +
-  geom_bar(stat = "identity") +
-  labs(title = "TIAS 2005", x = "Identified as FTL for at least one wave", y = "Mean NSPD Scale Score") + 
-  scale_y_continuous(limits = c(0, 24), breaks = seq(0, 24, by = 2)) + 
-  scale_fill_brewer(palette = "Set2") +
-  theme(legend.position = "none") 
+ggplot(T05_NPD_FTLW, aes(x = FTL_COUNT, y = TA050938, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "NSPD Scale Score") + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
 
 ### Mental Health: Social Anxiety ================================================================================================
 
@@ -863,9 +865,48 @@ ggplot(nspd.ftl.cat, aes(x = At_Least_One_FTL, y = Mean_NSPD, fill = as.factor(A
 # Possible scores: 1-7; 9 (all items are DK/NA/refused)
 ####
 
-table(TIAS$TA050933)
+T05_SOA_FTLW <- TIAS[, c("TA050933", "FTL_COUNT")] %>% group_by(TA050933, FTL_COUNT) %>% summarise(Count = n())
 
-table(TIAS2005$TA050933, TIAS2005$CAT)
+T05_SOA_FTLW <- T05_SOA_FTLW[1:24, ]
+
+T05_SOA_CAT <- TIAS2005[, c("TA050933", "CAT")] %>% group_by(TA050933, CAT) %>% summarise(Count = n())
+
+T05_SOA_FTLCAT <- TIAS2005_FTL[, c("TA050933", "CAT")] %>% group_by(TA050933, CAT) %>% summarise(Count = n())
+
+T05_SOA_IACCAT <- TIAS2005_IAC[, c("TA050933", "CAT")] %>% group_by(TA050933, CAT) %>% summarise(Count = n())
+
+table(TIAS$TA050933, TIAS$FTL_COUNT)
+
+# Aggregating mean SA scale scores for individuals with different total # of FTL wave match counts 
+
+sanx.ftl.count <- aggregate.data.frame(T05_SOA_FTLW$TA050933, list(T05_SOA_FTLW$FTL_COUNT), mean, na.rm=T)
+
+# Assigning column labels for resulting data frame 
+
+colnames(sanx.ftl.count) <- c("FTL_Wave_Count", "Mean_SANX")
+
+# Viewing mean SA scale score for FTL wave match count total no. categories 
+
+ggplot(sanx.ftl.count, aes(x = FTL_Wave_Count, y = Mean_SANX, fill = FTL_Wave_Count)) +
+  geom_bar(stat = "identity") +
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Mean SA Scale Score") + 
+  scale_y_continuous(limits = c(0, 7), breaks = seq(0, 7, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) +
+  theme(legend.position = "none") +
+  scale_fill_viridis_c() 
+
+ggplot(T05_SOA_FTLW, aes(x = FTL_COUNT, y = TA050933, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Mean SA Scale Score") + 
+  scale_y_continuous(limits = c(1, 7), breaks = seq(1, 7, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) +
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T05_SOA_CAT, aes(x = CAT, y = TA050933, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "Category", y = "SA Scale Score") + 
+  scale_y_continuous(limits = c(1, 7), breaks = seq(1, 7, by = 1)) +
+  guides(fill = guide_legend(title = "Category"))
 
 ### Mental Health: Worry =========================================================================================================
 
