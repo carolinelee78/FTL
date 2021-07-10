@@ -517,18 +517,47 @@ ggplot(TIAS2005) +
 
 table(TIAS$TA050816)
 
-table(TIAS2005$TA050816)
-
 table(TIAS$TA050816, TIAS$FTL_COUNT)
 
-table(TIAS2005$TA050816, TIAS2005$CAT)
+T05_TRQ_FTLW <- TIAS[, c("TA050816", "FTL_COUNT")] %>% group_by(TA050816, FTL_COUNT) %>% summarise(Count = n())
 
-ggplot(TIAS2005) + 
-  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050816)), position = position_dodge(), na.rm = T) + 
-  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+T05_TRQ_FTLW <- T05_TRQ_FTLW[1:11, ]
+
+T05_TRQ_CAT <- TIAS2005[, c("TA050816", "CAT")] %>% group_by(TA050816, CAT) %>% summarise(Count = n())
+
+T05_TRQ_FTLCAT <- TIAS2005_FTL[, c("TA050816", "CAT")] %>% group_by(TA050816, CAT) %>% summarise(Count = n())
+
+T05_TRQ_IACCAT <- TIAS2005_IAC[, c("TA050816", "CAT")] %>% group_by(TA050816, CAT) %>% summarise(Count = n())
+
+ggplot(T05_TRQ_FTLW, aes(x = TA050816, y = Count, fill = as.factor(FTL_COUNT)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2005", x = "Tranquilizer Usage (Prev. Year)", y = "Count") + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T05_TRQ_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050816)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
                     labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times"))
 
+prop.table(table(TIAS2005_FTL$TA050816))
+
+trql.pie.ftl.05 <- ggplot(data = T05_TRQ_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050816))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0)  + 
+  scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "lightgoldenrod1"), labels = c("Never", "3-5 times")) + 
+  theme_void() 
+
+prop.table(table(TIAS2005_IAC$TA050816))
+
+trql.pie.iac.05 <- ggplot(data = T05_TRQ_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050816))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times"))                    
+
+ggarrange(trql.pie.ftl.05, trql.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Cocaine Usage ===============================================================================================================
 
@@ -669,15 +698,14 @@ ggplot(T05_DEP_FTLW, aes(x = TA050733, y = Count, fill = as.factor(FTL_COUNT)), 
   labs(x = ">2 Weeks Depressed in Past 12 Months (1 = Yes; 5 = No)", y = "Count") + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-ggplot(T05_DEP_CAT, aes(x = TA050733, y = Count, fill = as.factor(CAT)), xlab="Category") +
+ggplot(T05_DEP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050733)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = c(1, 5)) + 
-  labs(title = "TIAS 2005", x = "Depressed >2 Weeks (1 = Yes; 5 = No)", y = "Count") +
-  scale_fill_manual("Category", values = c("aquamarine3", "cadetblue2"), labels = c("FTL", "IAC"))
+  labs(title = "TIAS 2005", x = "Category", y = "Count") +
+  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No"))
 
 prop.table(table(TIAS2005_FTL$TA050733))
 
-depr.pie.ftl.05 <- ggplot(data = T05_DEP_FTLCAT, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
+depr.pie.ftl.05 <- ggplot(data = T05_DEP_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050733))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No")) + 
@@ -685,7 +713,7 @@ depr.pie.ftl.05 <- ggplot(data = T05_DEP_FTLCAT, aes(x = " ", y = TA050733, fill
 
 prop.table(table(TIAS2005_IAC$TA050733))
 
-depr.pie.iac.05 <- ggplot(data = T05_DEP_IACCAT, aes(x = " ", y = TA050733, fill = as.factor(TA050733))) + 
+depr.pie.iac.05 <- ggplot(data = T05_DEP_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050733))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No")) + 
@@ -717,7 +745,7 @@ ggplot(T05_ANH_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050734)), xlab="C
 
 prop.table(table(TIAS2005_FTL$TA050734))
 
-anhe.pie.ftl.05 <- ggplot(data = T05_ANH_FTLCAT, aes(x = " ", y = TA050734, fill = as.factor(TA050734))) + 
+anhe.pie.ftl.05 <- ggplot(data = T05_ANH_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050734))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No")) + 
@@ -725,7 +753,7 @@ anhe.pie.ftl.05 <- ggplot(data = T05_ANH_FTLCAT, aes(x = " ", y = TA050734, fill
 
 prop.table(table(TIAS2005_IAC$TA050734))
 
-anhe.pie.iac.05 <- ggplot(data = T05_ANH_IACCAT, aes(x = " ", y = TA050734, fill = as.factor(TA050734))) + 
+anhe.pie.iac.05 <- ggplot(data = T05_ANH_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050734))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No")) + 
