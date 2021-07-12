@@ -507,7 +507,7 @@ ggplot(TIAS2005) +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Steroid Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "20-39 times")) 
 
-### Tranquilizer Usage ==========================================================================================================
+### Tranquilizer Usage ========================================================================================================== REVISED
 
 ####
 # H44F. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used tranquilizers on your own
@@ -621,25 +621,68 @@ ggplot(data = T05_ALCYR_C, aes(x = TA050767, y = Count, fill = as.factor(FTL_COU
   labs(title = "TIAS 2005", x = "Avg. Alcohol Consumption (Prev. Year)", y = "Count") + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-### Average Daily Alcohol Consumption ===========================================================================================
+### Average Daily Alcohol Consumption =========================================================================================== REVISED
 
 #### 
 # H38. # Alcoholic Drinks Per Day: "In the last year, on the days you drank, about how many drinks did you have?”
 # Answers: 1 (One drink or fewer); 2-50 (Actual number of drinks); 98 (DK); 99 (NA/refused); 0 (Inap.: Does not drink alcohol or drinks alcohol but frequency of drinking is DK or NA)
 ####
 
-# Replacing 98 (DK) with NA in TIAS and TIAS2005
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050768 = 98)) 
 
-table(TIAS2005$TA050768, TIAS2005$CAT)
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050768 = 98)) 
 
-ggplot(TIAS2005) + 
-  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050768)), position = position_dodge(), na.rm = T) + 
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050768 = 98)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050768 = 98))  
+
+T05_DAC_FTLW <- TIAS[, c("TA050768", "FTL_COUNT")] %>% group_by(TA050768, FTL_COUNT) %>% summarise(Count = n())
+
+T05_DAC_FTLW <- T05_DAC_FTLW[1:32, ]
+
+T05_DAC_CAT <- TIAS2005[, c("TA050768", "CAT")] %>% group_by(TA050768, CAT) %>% summarise(Count = n())
+
+T05_DAC_CAT <- T05_DAC_CAT[1:20, ]
+
+T05_DAC_FTLCAT <- TIAS2005_FTL[, c("TA050768", "CAT")] %>% group_by(TA050768, CAT) %>% summarise(Count = n())
+
+T05_DAC_FTLCAT <- T05_DAC_FTLCAT[1:5, ]
+
+T05_DAC_IACCAT <- TIAS2005_IAC[, c("TA050768", "CAT")] %>% group_by(TA050768, CAT) %>% summarise(Count = n())
+
+T05_DAC_IACCAT <- T05_DAC_IACCAT[1:15, ]
+
+ggplot(T05_DAC_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050768))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("#E69F00", "#56B4E9", "#009E73", "gold", "#0072B2", "#D55E00", "#CC79A7", "lightcoral", "wheat", "green3", "mediumturquoise", 
-      "deepskyblue", "mediumpurple1", "hotpink", "khaki1", "blue"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", 
-      "9 drinks", "10 drinks", "11 drinks", "12 drinks", "15 drinks", "20 drinks", "Don't know"))
-                    
-table(TIAS$TA050768, TIAS$FTL_COUNT)
+  "deepskyblue", "mediumpurple1", "hotpink", "khaki1"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", 
+  "9 drinks", "10 drinks", "11 drinks", "12 drinks", "15 drinks", "20 drinks"))
+
+prop.table(table(TIAS2005_FTL$TA050768))
+
+adac.pie.ftl.05 <- ggplot(data = T05_DAC_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050768))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("#E69F00", "#56B4E9", "#009E73", "gold", "#D55E00"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "5 drinks")) +
+  theme_void() 
+
+prop.table(table(TIAS2005_IAC$TA050768))
+
+adac.pie.iac.05 <- ggplot(data = T05_DAC_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050768))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) +
+  scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("#E69F00", "#56B4E9", "#009E73", "gold", "#0072B2", "#D55E00", "#CC79A7", "lightcoral", "wheat", "green3", "mediumturquoise", 
+  "deepskyblue", "mediumpurple1", "hotpink", "khaki1"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", 
+  "9 drinks", "10 drinks", "11 drinks", "12 drinks", "15 drinks", "20 drinks")) +
+  theme_void() 
+
+ggarrange(adac.pie.ftl.05, adac.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))          
+
 
 ### Degree to Which Condition Limits Normal Daily Activities ====================================================================
 
@@ -647,6 +690,16 @@ table(TIAS$TA050768, TIAS$FTL_COUNT)
 # H13B. How much limits normal activities: "How much does this condition limit your normal daily activities? Would you say: A lot, somewhat, just a little, or not at all?”
 # Answers: 1 (A lot); 3 (Somewhat); 5 (Just a little); 7 (Not at all); 8 (DK); 9 (NA; refused); 0 (Inap: Never diagnosed with any serious chronic condition)
 ####
+
+T05_DCN_FTLW <- TIAS[, c("TA050723", "FTL_COUNT")] %>% group_by(TA050723, FTL_COUNT) %>% summarise(Count = n())
+
+T05_DCN_CAT <- TIAS2005[, c("TA050723", "CAT")] %>% group_by(TA050723, CAT) %>% summarise(Count = n())
+
+T05_DCN_FTLCAT <- TIAS2005_FTL[, c("TA050723", "CAT")] %>% group_by(TA050723, CAT) %>% summarise(Count = n())
+
+T05_DCN_IACCAT <- TIAS2005_IAC[, c("TA050723", "CAT")] %>% group_by(TA050723, CAT) %>% summarise(Count = n())
+
+### 
 
 table(TIAS$TA050723)
 
@@ -658,7 +711,7 @@ ggplot(TIAS2005) +
   scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
                     labels = c("Inap: No chronic condition", "A lot", "Somewhat", "Just a little", "Not at all", "Refused Answer"))
 
-### Depression Over Past Year ===================================================================================================
+### Depression Over Past Year =================================================================================================== REVISED
 
 ####
 # H15. WTR>2 Wks Depressed In Past 12mos: “Now I want to ask you about periods of feeling sad, empty, or depressed. 
@@ -721,7 +774,7 @@ depr.pie.iac.05 <- ggplot(data = T05_DEP_IACCAT, aes(x = " ", y = Count, fill = 
 
 ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Depression - Anhedonia =======================================================================================================
+### Depression - Anhedonia ======================================================================================================= REVISED
 
 ####
 # H16. WTR>2 Wks No Interest in Life: “In the past 12 months, have you had two weeks or longer when you lost interest in most things 
@@ -796,7 +849,7 @@ table(TIAS2005$TA050713, TIAS2005$CAT)
 
 table(TIAS2005$TA050717, TIAS2005$CAT)
 
-### Mental Health: Non-Spec Psych Distress =======================================================================================
+### Mental Health: Non-Spec Psych Distress ======================================================================================= REVISED
 
 ####
 # Cumulative score from answers to NSPD scale questions: 
@@ -857,7 +910,7 @@ ggplot(T05_NPD_FTLW, aes(x = FTL_COUNT, y = TA050938, group = FTL_COUNT, fill = 
   labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "NSPD Scale Score") + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-### Mental Health: Social Anxiety ================================================================================================
+### Mental Health: Social Anxiety ================================================================================================ REVISED
 
 ####
 # Cumulative score from answers to SA scale questions: 
