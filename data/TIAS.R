@@ -404,7 +404,7 @@ table(TIAS$GREQ1_FTL)
 
 ######################## TIAS-D Analysis - TIAS 2005 ######################## 
 
-### Amphetamine Usage ===========================================================================================================
+### Amphetamine Usage =========================================================================================================== REVISED
 
 ####
 # H44B. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used amphetamine on your own
@@ -414,23 +414,30 @@ table(TIAS$GREQ1_FTL)
 
 table(TIAS$TA050784)
 
-table(TIAS$TA050784, TIAS$FTL_COUNT)
+T05_AMP_FTLW <- TIAS[, c("TA050784", "FTL_COUNT")] %>% group_by(TA050784, FTL_COUNT) %>% summarise(Count = n())
+
+T05_AMP_FTLW <- T05_AMP_FTLW[1:11,]
+
+T05_AMP_CAT <- TIAS2005[, c("TA050784", "CAT")] %>% group_by(TA050784, CAT) %>% summarise(Count = n())
 
 table(TIAS2005$TA050784, TIAS2005$CAT)
 
-ggplot(TIAS) + 
-  geom_bar(mapping = aes(x = TA050784, fill = as.factor(FTL_COUNT)), position = position_dodge(), na.rm = T) + 
-  scale_x_continuous(breaks = seq(0, 6, by = 1)) + 
-  labs(title = "TIAS 2005", x = "Amphetamine Usage", y = "Count") + 
-  guides(fill = guide_legend(title = "# of FTL Waves"))
-
-ggplot(TIAS2005) + 
-  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050784)), position = position_dodge(), na.rm = T) + 
+ggplot(T05_AMP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050784)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple1"), 
                     labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "20-39 times", "40 or more times"))
 
-### Barbiturate Usage ===========================================================================================================
+table(TIAS$TA050784, TIAS$FTL_COUNT)
+
+ggplot(T05_AMP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050784)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "20-39 times", "40 or more times"))
+
+### Barbiturate Usage =========================================================================================================== REVISED
 
 ####
 # H44E. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used barbiturates on your own
@@ -440,17 +447,30 @@ ggplot(TIAS2005) +
 
 table(TIAS$TA050808)
 
-table(TIAS$TA050808, TIAS$FTL_COUNT)
+T05_BRB_FTLW <- TIAS[, c("TA050808", "FTL_COUNT")] %>% group_by(TA050808, FTL_COUNT) %>% summarise(Count = n())
+
+T05_BRB_FTLW <- T05_BRB_FTLW[1:9, ]
+
+T05_BRB_CAT <- TIAS2005[, c("TA050808", "CAT")] %>% group_by(TA050808, CAT) %>% summarise(Count = n())
 
 table(TIAS2005$TA050808, TIAS2005$CAT)
 
-ggplot(TIAS2005) + 
-  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050808)), position = position_dodge(), na.rm = T) + 
+ggplot(T05_BRB_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050808)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Barbiturate Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightpink1"), 
                     labels = c("Never", "3-5 times", "10-19 times", "40 or more times"))
 
-### Marijuana Usage =============================================================================================================
+table(TIAS$TA050808, TIAS$FTL_COUNT)
+
+ggplot(T05_BRB_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050808)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Barbiturate Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightpink1"), 
+                    labels = c("Never", "3-5 times", "10-19 times", "40 or more times"))
+
+### Marijuana Usage ============================================================================================================= REVISED
 
 ####
 # H44C. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used marijuana on your own
@@ -460,16 +480,28 @@ ggplot(TIAS2005) +
 
 table(TIAS$TA050792)
 
-table(TIAS$TA050792, TIAS$FTL_COUNT)
+T05_MAR_FTLW <- TIAS[, c("TA050792", "FTL_COUNT")] %>% group_by(TA050792, FTL_COUNT) %>% summarise(Count = n())
+
+T05_MAR_FTLW <- T05_MAR_FTLW[1:7, ]
+
+T05_MAR_CAT <- TIAS2005[, c("TA050792", "CAT")] %>% group_by(TA050792, CAT) %>% summarise(Count = n())
 
 table(TIAS2005$TA050792, TIAS2005$CAT)
 
-ggplot(TIAS2005) + 
-  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050792)), position = position_dodge(), na.rm = T) + 
+ggplot(T05_MAR_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050792)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "40 or more times"))
 
-### Diet Pill Usage =============================================================================================================
+table(TIAS$TA050792, TIAS$FTL_COUNT)
+
+ggplot(T05_MAR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050792)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") +
+  scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "40 or more times"))
+
+### Diet Pill Usage ============================================================================================================= REVISED
 
 ####
 # H44A. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used diet pills on your own
@@ -479,15 +511,27 @@ ggplot(TIAS2005) +
 
 table(TIAS$TA050776)
 
-table(TIAS$TA050776, TIAS$FTL_COUNT)
+T05_DIP_FTLW <- TIAS[, c("TA050776", "FTL_COUNT")] %>% group_by(TA050776, FTL_COUNT) %>% summarise(Count = n())
+
+T05_DIP_FTLW <- T05_DIP_FTLW[1:7, ]
+
+T05_DIP_CAT <- TIAS2005[, c("TA050776", "CAT")] %>% group_by(TA050776, CAT) %>% summarise(Count = n())
 
 table(TIAS2005$TA050776, TIAS2005$CAT)
 
-ggplot(TIAS2005) + 
-  geom_bar(mapping = aes(x = CAT, fill = as.factor(TA050776)), position = position_dodge(), na.rm = T) + 
+ggplot(T05_DIP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050776)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Diet Pill Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "1-2 times")) 
 
+table(TIAS$TA050776, TIAS$FTL_COUNT)
+
+ggplot(T05_DIP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050776)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") +
+  scale_fill_manual("Diet Pill Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "1-2 times")) 
+  
 ### Steroid Usage =============================================================================================================== REVISED
 
 ####
@@ -503,10 +547,6 @@ T05_STR_FTLW <- TIAS[, c("TA050824", "FTL_COUNT")] %>% group_by(TA050824, FTL_CO
 T05_STR_FTLW <- T05_STR_FTLW[1:7, ]
 
 T05_STR_CAT <- TIAS2005[, c("TA050824", "CAT")] %>% group_by(TA050824, CAT) %>% summarise(Count = n())
-
-T05_STR_FTLCAT <- TIAS2005_FTL[, c("TA050824", "CAT")] %>% group_by(TA050824, CAT) %>% summarise(Count = n())
-
-T05_STR_IACCAT <- TIAS2005_IAC[, c("TA050824", "CAT")] %>% group_by(TA050824, CAT) %>% summarise(Count = n())
 
 table(TIAS2005$TA050824, TIAS2005$CAT)
 
