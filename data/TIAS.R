@@ -874,6 +874,8 @@ ggarrange(clda.pie.ftl.05, clda.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 
 # Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused)
 ####
 
+table(TIAS$TA050733)
+
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA050733 = 9)) 
 
@@ -940,6 +942,8 @@ ggarrange(depr.pie.ftl.05, depr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 
 # like work, hobbies, and other things you usually enjoyed?”
 # Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused)
 
+table(TIAS$TA050734)
+
 T05_ANH_FTLW <- TIAS[, c("TA050734", "FTL_COUNT")] %>% group_by(TA050734, FTL_COUNT) %>% summarise(Count = n())
 
 T05_ANH_FTLW <- T05_ANH_FTLW[1:10,]
@@ -950,9 +954,11 @@ T05_ANH_FTLCAT <- TIAS2005_FTL[, c("TA050734", "CAT")] %>% group_by(TA050734, CA
 
 T05_ANH_IACCAT <- TIAS2005_IAC[, c("TA050734", "CAT")] %>% group_by(TA050734, CAT) %>% summarise(Count = n())
 
+table(TIAS2005$TA050734, TIAS2005$CAT)
+
 ggplot(T05_ANH_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050734)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
-  labs(x = "Category", y = "Count") +
+  labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No"))
 
 prop.table(table(TIAS2005_FTL$TA050734))
@@ -973,22 +979,141 @@ anhe.pie.iac.05 <- ggplot(data = T05_ANH_IACCAT, aes(x = " ", y = Count, fill = 
 
 ggarrange(anhe.pie.ftl.05, anhe.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Depression Diagnosis =========================================================================================================
+### Depression Diagnosis ========================================================================================================= REVISED
 
 ####
 # H12B. WTR Depression: "What was the diagnosis? What is the emotional or psychiatric disorder?--DEPRESSION"
 # Answers: 1 (Diagnosed); 8 (DK); 9 (NA/refused); 0 (Not Diagnosed)
 ####
 
-table(TIAS2005$TA050710, TIAS2005$CAT)
+table(TIAS$TA050710)
 
-### Bipolar Disorder Diagnosis ===================================================================================================
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050710 = c(8, 9))) 
 
-table(TIAS2005$TA050711, TIAS2005$CAT)
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050710 = c(8, 9))) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050710 = c(8, 9)))  
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050710 = c(8, 9))) 
+
+T05_DPD_FTLW <- TIAS[, c("TA050710", "FTL_COUNT")] %>% group_by(TA050710, FTL_COUNT) %>% summarise(Count = n())
+
+T05_DPD_FTLW <- T05_DPD_FTLW[1:9, ]
+
+T05_DPD_CAT <- TIAS2005[, c("TA050710", "CAT")] %>% group_by(TA050710, CAT) %>% summarise(Count = n())
+
+T05_DPD_CAT <- T05_DPD_CAT[1:3, ]
+
+T05_DPD_FTLCAT <- TIAS2005_FTL[, c("TA050710", "CAT")] %>% group_by(TA050710, CAT) %>% summarise(Count = n())
+
+T05_DPD_IACCAT <- TIAS2005_IAC[, c("TA050710", "CAT")] %>% group_by(TA050710, CAT) %>% summarise(Count = n())
+
+T05_DPD_IACCAT <- T05_DPD_IACCAT[1:2, ]
+  
+head(T05_DPD_CAT, 3)
+
+ggplot(T05_DPD_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050710)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") +
+  scale_fill_manual("Depression Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
+
+head(T05_DPD_FTLW, 9)
+
+ggplot(T05_DPD_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050710)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Depression Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
+
+### Bipolar Disorder Diagnosis =================================================================================================== REVISED
+
+####
+# H12B. WTR Bipolar: "What was the diagnosis? What is the emotional or psychiatric disorder?--BIPOLAR DISORDER"
+# Answers: 1 (Diagnosed); 8 (DK); 9 (NA/refused); 0 (Not Diagnosed)
+####
+
+table(TIAS$TA050711)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050711 = c(8, 9))) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050711 = c(8, 9))) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050711 = c(8, 9)))  
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050711 = c(8, 9))) 
+
+T05_BIP_FTLW <- TIAS[, c("TA050711", "FTL_COUNT")] %>% group_by(TA050711, FTL_COUNT) %>% summarise(Count = n())
+
+T05_BIP_FTLW <- T05_BIP_FTLW[1:7, ]
+
+T05_BIP_CAT <- TIAS2005[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
+
+T05_BIP_CAT <- T05_BIP_CAT[1:3, ]
+
+T05_BIP_FTLCAT <- TIAS2005_FTL[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
+
+T05_BIP_IACCAT <- TIAS2005_IAC[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
+
+T05_BIP_IACCAT <- T05_BIP_IACCAT[1:2, ]
+
+head(T05_BIP_CAT, 3)
+
+ggplot(T05_BIP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050711)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") +
+  scale_fill_manual("Bipolar Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
+
+head(T05_BIP_FTLW, 7)
+
+ggplot(T05_BIP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050711)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Bipolar Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
 ### Phobia Diagnosis =============================================================================================================
 
-table(TIAS2005$TA050714, TIAS2005$CAT)
+####
+# H12B. WTR Phobia: "What was the diagnosis? What is the emotional or psychiatric disorder?--PHOBIAS"
+# Answers: 1 (Diagnosed); 8 (DK); 9 (NA/refused); 0 (Not Diagnosed)
+####
+
+table(TIAS$TA050714)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050714 = c(8, 9))) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050714 = c(8, 9))) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050714 = c(8, 9)))  
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050714 = c(8, 9))) 
+
+T05_PHB_FTLW <- TIAS[, c("TA050711", "FTL_COUNT")] %>% group_by(TA050711, FTL_COUNT) %>% summarise(Count = n())
+
+T05_PHB_FTLW <- T05_BIP_FTLW[1:7, ]
+
+T05_BIP_CAT <- TIAS2005[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
+
+T05_BIP_CAT <- T05_BIP_CAT[1:3, ]
+
+T05_BIP_FTLCAT <- TIAS2005_FTL[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
+
+T05_BIP_IACCAT <- TIAS2005_IAC[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
+
+T05_BIP_IACCAT <- T05_BIP_IACCAT[1:2, ]
+
 
 ### Anxiety Disorders Diagnosis ==================================================================================================
 
