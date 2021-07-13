@@ -1265,52 +1265,37 @@ table(TIAS2005$TA050932, TIAS2005$CAT)
 
 ### Highest Education Level ======================================================================================================
 
-### Responsibility - Earning Own Living: As people get older they begin to take more responsibility for themselves. How much responsibility do you currently take for earning your own living?  Would you say:  somebody else does this for me all of the time, somebody else does this for me most of the time, I do this half of the time, I do this most of the time, or I am completely responsible for this all of the time? 
-##Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 5 (I am completely responsible for this all the time); 8 (DK); 9 (NA; refused)
-==========================================================================================
-T05_REOL_FTLW <- TIAS[, c("TA050044", "FTL_COUNT")] %>% group_by(TA050044, FTL_COUNT) %>% summarise(Count = n())
+### Responsibility - Earning Own Living ==========================================================================================
+
+####
+# B5A. How Much Responsibility Earning Own Living: “As people get older they begin to take more responsibility for themselves. How much responsibility do you currently take for earning your own living?”
+# Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 
+# 5 (I am completely responsible for this all the time); 8 (DK); 9 (NA; refused)
+####
 
 table(TIAS$TA050044)
 
-TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA050044 = 9)) 
+T05_REO_FTLW <- TIAS[, c("TA050044", "FTL_COUNT")] %>% group_by(TA050044, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005 <- TIAS2005 %>% 
-  replace_with_na(replace = list(TA050044 = 9)) 
+T05_REO_FTLW <- T05_REO_FTLW[1:19, ]
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050044 = 9)) 
+T05_REO_CAT <- TIAS2005[, c("TA050044", "CAT")] %>% group_by(TA050044, CAT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050044 = 9)) 
+T05_REO_FTLCAT <- TIAS2005_FTL[, c("TA050044", "CAT")] %>% group_by(TA050044, CAT) %>% summarise(Count = n())
 
-T05_REOL_FTLW <- TIAS[, c("TA050044", "FTL_COUNT")] %>% group_by(TA050044, FTL_COUNT) %>% summarise(Count = n())
+T05_REO_IACCAT <- TIAS2005_IAC[, c("TA050044", "CAT")] %>% group_by(TA050044, CAT) %>% summarise(Count = n())
 
-T05_REOL_FTLW <- T05_DCN_FTLW[1:19, ]
+head(T05_REO_CAT, 10)
 
-T05_REOL_CAT <- TIAS2005[, c("TA050044", "CAT")] %>% group_by(TA050044, CAT) %>% summarise(Count = n())
-
-T05_REOL_CAT <- T05_DCN_CAT[1:10, ]
-
-T05_REOL_FTLCAT <- TIAS2005_FTL[, c("TA050044", "CAT")] %>% group_by(TA050044, CAT) %>% summarise(Count = n())
-
-T05_REOL_FTLCAT <- T05_DCN_FTLCAT[1:5, ]
-
-T05_REOL_IACCAT <- TIAS2005_IAC[, c("TA050044", "CAT")] %>% group_by(TA050044, CAT) %>% summarise(Count = n())
-
-T05_REOL_IACCAT <- T05_DCN_IACCAT[1:5, ]
-
-table(TIAS2005$TA050723, TIAS2005$CAT)
-
-ggplot(T05_REOL_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050044)), xlab="Category") +
+ggplot(T05_REO_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050044)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Responsibility - Earning Own Living", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
                     labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time"))
 
-table(TIAS$TA050044, TIAS$FTL_COUNT)
+head(T05_REQ_FTLW, 19)
 
-ggplot(T05_REOL_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050044)), xlab="Category") +
+ggplot(T05_REO_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050044)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
@@ -1319,21 +1304,23 @@ ggplot(T05_REOL_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050044)),
 
 prop.table(table(TIAS2005_FTL$TA050044))
 
-clda.pie.ftl.05 <- ggplot(data = T05_REOL_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050044))) + 
+reol.pie.ftl.05 <- ggplot(data = T05_REO_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050044))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Responsibility - Earning Own Living", values = c("lightcoral", "mediumturquoise", "deepskyblue", "gold", "green3"), 
-  labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time")) 
+  scale_fill_manual("Responsibility - Earning Own Living", values = c("lightcoral", "mediumturquoise", "deepskyblue", "gold", "green3"),
+  labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time")) +
+  theme_void()
 
 prop.table(table(TIAS2005_IAC$TA050723))
 
-clda.pie.iac.05 <- ggplot(data = T05_REOL_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050044))) + 
+reol.pie.iac.05 <- ggplot(data = T05_REO_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050044))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Responsibility - Earning Own Living", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
-  labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time"))
+  scale_fill_manual("Responsibility - Earning Own Living", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"),
+  labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time")) + 
+  theme_void()
 
-ggarrange(clda.pie.ftl.05, clda.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+ggarrange(reol.pie.ftl.05, reol.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Responsibility - Paying Own Rent =============================================================================================
 
