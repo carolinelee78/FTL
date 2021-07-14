@@ -1202,6 +1202,8 @@ ggplot(T05_NPD_FTLW, aes(x = FTL_COUNT, y = TA050938, group = FTL_COUNT, fill = 
 # Possible scores: 1-7; 9 (all items are DK/NA/refused)
 ####
 
+table(TIAS$TA050933)
+
 T05_SOA_FTLW <- TIAS[, c("TA050933", "FTL_COUNT")] %>% group_by(TA050933, FTL_COUNT) %>% summarise(Count = n())
 
 T05_SOA_FTLW <- T05_SOA_FTLW[1:24, ]
