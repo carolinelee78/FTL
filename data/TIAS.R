@@ -1324,7 +1324,55 @@ reol.pie.iac.05 <- ggplot(data = T05_REO_IACCAT, aes(x = " ", y = Count, fill = 
 
 ggarrange(reol.pie.ftl.05, reol.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Paying Own Rent =============================================================================================
+### Responsibility - Paying Own Rent (TA050045): How much responsibility do you currently take for paying your rent or mortgage?  (Would yousay:  somebody else does this for me all of the time, somebody else does this for me most of thetime, I do this half of the time, I do this most of the time, or I am completely responsible for this all of the time?)
+## Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 5 (I am completely responsible for this all the time); 6 (No rent or mortgage to pay); 8 (DK); 9 (NA; refused)
+=============================================================================================
+table(TIAS$TA050045)
+
+T05_POR_FTLW <- TIAS[, c("TA050045", "FTL_COUNT")] %>% group_by(TA050045, FTL_COUNT) %>% summarise(Count = n())
+
+T05_POR_FTLW <- T05_POR_FTLW[1:24, ]
+
+T05_POR_CAT <- TIAS2005[, c("TA050045", "CAT")] %>% group_by(TA050045, CAT) %>% summarise(Count = n())
+
+T05_POR_FTLCAT <- TIAS2005_FTL[, c("TA050045", "CAT")] %>% group_by(TA050045, CAT) %>% summarise(Count = n())
+
+T05_POR_IACCAT <- TIAS2005_IAC[, c("TA050045", "CAT")] %>% group_by(TA050045, CAT) %>% summarise(Count = n())
+
+head(T05_POR_CAT, 13)
+
+ggplot(T05_POR_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050045)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Responsibility - Paying Own Rent", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
+                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No payments", "NA"))
+
+head(T05_POR_FTLW, 24)
+
+ggplot(T05_POR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050045)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Responsibility - Paying Own Rent", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
+                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No payments", "NA"))
+
+prop.table(table(TIAS2005_FTL$TA050045))
+
+por.pie.ftl.05 <- ggplot(data = T05_POR_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050045))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Responsibility - Paying Own Rent", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
+                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No payments", "NA"))  + theme_void()
+
+prop.table(table(TIAS2005_IAC$TA050045))
+
+por.pie.iac.05 <- ggplot(data = T05_POR_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050045))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+ scale_fill_manual("Responsibility - Paying Own Rent", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
+                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No payments", "NA"))  + theme_void()
+
+ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Responsibility - Paying Own Bills ============================================================================================
 
