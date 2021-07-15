@@ -2009,9 +2009,15 @@ por.pie.iac.05 <- ggplot(data = T05_POR_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Paying Own Bills (TA050046): How much responsibility do you currently take for paying your bills?  (Would you say:  somebody else does this for me all of the time, somebody else does this for me most of the time, I do this half of the time, I do this most of the time, or I am completely responsible for this all of the time?)
-##Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 5 (I am completely responsible for this all the time); 6 (No bills; 8 (DK); 9 (NA; refused)
-============================================================================================
+### Responsibility - Paying Own Bills ============================================================================================
+
+####
+# How much responsibility do you currently take for paying your bills?  (Would you say:  somebody else does this for me all of the time, somebody else does this for me most of the time, 
+# I do this half of the time, I do this most of the time, or I am completely responsible for this all of the time?)
+# Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 
+# 5 (I am completely responsible for this all the time); 6 (No bills; 8 (DK); 9 (NA; refused)
+####
+
 table(TIAS$TA050046)
 
 T05_POB_FTLW <- TIAS[, c("TA050046", "FTL_COUNT")] %>% group_by(TA050046, FTL_COUNT) %>% summarise(Count = n())
@@ -2059,9 +2065,14 @@ pob.pie.iac.05 <- ggplot(data = T05_POB_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(pob.pie.ftl.05, pob.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Managing Money (TA050047): How much responsibility do you currently take for managing your money?  (Would you say: somebody else does this for me all of the time, somebody else does this for me most of the time, I do this half of the time, I do this most of the time, or I am completely responsible for this all of the time?) 
-###Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 5 (I am completely responsible for this all the time); 8 (DK); 9 (NA; refused)
-==============================================================================================
+### Responsibility - Managing Money ============================================================================================== 
+
+####
+# How much responsibility do you currently take for managing your money? (Would you say: somebody else does this for me all of the time, 
+# somebody else does this for me most of the time, I do this half of the time, I do this most of the time, or I am completely responsible for this all of the time?) 
+# Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 
+# 5 (I am completely responsible for this all the time); 8 (DK); 9 (NA; refused)
+####
 
 table(TIAS$TA050047)
 
@@ -2111,9 +2122,12 @@ rmm.pie.iac.05 <- ggplot(data = T05_RMM_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(rmm.pie.ftl.05, rmm.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### How Good at Taking Responsibility for Actions (TA050048): On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at taking responsibility for your actions?
-###Answers: 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
-================================================================================
+### How Good at Taking Responsibility for Actions ================================================================================
+
+####
+# On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at taking responsibility for your actions?
+# Answers: 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
+####
 
 table(TIAS$TA050048)
 
@@ -2160,9 +2174,12 @@ roa.pie.iac.05 <- ggplot(data = T05_ROA_IACCAT, aes(x = " ", y = Count, fill = a
                     
 ggarrange(roa.pie.ftl.05, roa.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### How Good at Money Management: (On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well",) how good are you at managing money?
-###Answers: 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
-=================================================================================================
+### How Good at Money Management =================================================================================================
+
+####
+# On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at managing money?
+# Answers: 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
+####
 
 table(TIAS$TA050050)
 
@@ -2211,9 +2228,13 @@ gmm.pie.iac.05 <- ggplot(data = T05_GMM_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(gmm.pie.ftl.05, gmm.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### How Good at Paying Off Credit Card Balances: (On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well",) how good are you at paying off credit card balances each month?
-###Answers: 0 (does not have a credit card); 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
-==================================================================================
+### How Good at Paying Off Credit Card Balances ==================================================================================
+
+####
+# On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well",) how good are you at paying off credit card balances each month?
+# Answers: 0 (does not have a credit card); 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
+####
+
 table(TIAS$TA050051)
 
 T05_CCB_FTLW <- TIAS[, c("TA050051", "FTL_COUNT")] %>% group_by(TA050051, FTL_COUNT) %>% summarise(Count = n())
