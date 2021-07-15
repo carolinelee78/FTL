@@ -1267,7 +1267,7 @@ ggplot(T05_OCD_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050717)), 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("OCD Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-### Mental Health: Non-Spec Psych Distress ======================================================================================= REVISED
+### Mental Health: Non-Spec Psych Distress ======================================================================================= 
 
 ####
 # Cumulative score from answers to NSPD scale questions: 
@@ -1325,7 +1325,7 @@ ggplot(T05_NPD_CAT, aes(x = CAT, y = TA050938, group = CAT, fill = as.factor(CAT
   labs(title = "TIAS 2005", x = "Category", y = "NSPD Scale Score") + 
   guides(fill = guide_legend(title = "Category"))
 
-### Mental Health: Social Anxiety ================================================================================================ REVISED
+### Mental Health: Social Anxiety ================================================================================================ 
 
 ####
 # Cumulative score from answers to SA scale questions: 
