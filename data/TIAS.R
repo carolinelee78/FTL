@@ -1487,7 +1487,7 @@ empy.pie.iac.05 <- ggplot(data = T05_EPJ_IACCAT, aes(x = " ", y = Count, fill = 
 
 ggarrange(empy.pie.ftl.05, empy.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Paid Employment History ====================================================================================================== *****
+### Paid Employment History ====================================================================================================== 
 
 ####
 # E62. WTR Ever Worked: “Have you ever done any work for money?”
@@ -1573,7 +1573,7 @@ ggplot(T05_CMS_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050069)), 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Current Marital Status", values = c("lightcoral", "khaki1", "mediumaquamarine", "lightskyblue"), labels = c("Married", "Never Married", "Divorced", "Separated"))
 
-### Romantic Relationships ======================================================================================================= *****
+### Romantic Relationships ======================================================================================================= 
 
 ####
 # D8. WTR Romantic Relationship Now: “Are you currently involved in a romantic relationship?”
@@ -1665,7 +1665,7 @@ ggplot(T05_CHL_CAT, aes(x = CAT, y = TA050091, group = CAT, fill = as.factor(CAT
   labs(title = "TIAS 2005", x = "Category", y = "Number of Children") + 
   guides(fill = guide_legend(title = "Category"))
 
-### High School Education ======================================================================================================== *****
+### High School Education ======================================================================================================== 
 
 ####
 # G1. WTR Graduated High School: “Now I would like to talk about the education you have received. Did you graduate from high school, get a GED, or neither?”
@@ -1801,7 +1801,7 @@ hred.pie.iac.05 <- ggplot(data = T05_CLG_IACCAT, aes(x = " ", y = Count, fill = 
 
 ggarrange(hred.pie.ftl.05, hred.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Highest Education Level ====================================================================================================== *****
+### Highest Education Level ====================================================================================================== 
 
 ####
 # Enrollment Status 
@@ -2420,7 +2420,7 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050883 = 9)) 
 
-### Race Identification ========================================================================================================== *****
+### Race Identification ========================================================================================================== 
 
 ####
 # L7. Race Mention #1: “What is your race? Are you white, black, American Indian, Alaska Native, Asian, Native Hawaiian or Other Pacific Islander?--1ST MENTION”
