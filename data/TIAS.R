@@ -2091,43 +2091,228 @@ ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 ### Time Use - Type of Volunteer Work ============================================================================================
 
+#### 
+# A14 Type Volunteer ORG--FIRST MENTION: “Which types of organizations have you been involved with in your volunteer or community 
+# service work in the last 12 months?--(FIRST MENTION) [PROBE: Anything else?]”
+# Answers: 1 (Organizations for children and youth); 2 (Service organizations, such as Big Brothers-Big Sisters or Junior league); 
+# 3 (Organized volunteer groups in hospitals or nursing homes); 4 (Religious groups, not including worship); 
+# 5 (Conservation, recycling, or environmental groups, such as the Sierra Club or Nature Conservancy); 6 (Shelters, soup kitchens, 
+# Habitat for Humanity, or other organizations helping families in need); 7 (Other); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050035)
+
+#### 
+# A14 Type Volunteer ORG--SECOND MENTION: “Which types of organizations have you been involved with in your volunteer or community 
+# service work in the last 12 months?--(SECOND MENTION) [PROBE: Anything else?]”
+####
+
+table(TIAS$TA050036)
+
+#### 
+# A14 Type Volunteer ORG--THIRD MENTION: “Which types of organizations have you been involved with in your volunteer or community 
+# service work in the last 12 months?--(THIRD MENTION) [PROBE: Anything else?]”
+####
+
+table(TIAS$TA050037)
+
+#### 
+# A14 Type Volunteer ORG--FOURTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
+# service work in the last 12 months?--(FOURTH MENTION) [PROBE: Anything else?]”
+####
+
+table(TIAS$TA050038)
+
+#### 
+# A14 Type Volunteer ORG--FIFTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
+# service work in the last 12 months?--(FIFTH MENTION) [PROBE: Anything else?]”
+####
+
+table(TIAS$TA050039)
+
+#### 
+# A14 Type Volunteer ORG--SIXTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
+# service work in the last 12 months?--(SIXTH MENTION) [PROBE: Anything else?]”
+####
+
+table(TIAS$TA050040)
+
 ### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
+
+####
+# A14B. How Often Volunteered: “During the last 12 months, about how often did you participate in volunteer or community service work? 
+# Would you say: less than once a month, at least once a month, once a week, several times a week, almost every day, or every day?”
+# Answers: 1 (Less than once a month); 2 (At least once a month); 3 (Once a week); 4 (Several times a week); 5 (Almost every day); 
+# 6 (Every day); 8 (DK); 9 (NA/refused); 0 (Inap: no unpaid volunteer or community service work)
+####
+
+table(TIAS$TA050041)
 
 ### Self-Rating (Compared to Others) - Listening & Understanding Others ==========================================================
 
+####
+# C1J. How Well Listen Compared w/ Others: “Compared to other people, how good are you at listening to and understanding others? 
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050060)
+
 ### Self-Rating (Compared to Others) - Teaching & Explaining to Others ===========================================================
+
+####
+# C1K. How Good At Teaching Compared w/ Others: “Compared to other people, how good are you at teaching and explaining to others?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050061)
 
 ### Self-Rating (Compared to Others) - Supervising Others ========================================================================
 
+####
+# C1A. How Good At Supervising Comp: "Compared to other people, how good are you at supervising others?"
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050052)
+
 ### Self-Rating (Compared to Others) - Being a Leader ============================================================================
+
+####
+# C1B. How Good At Leading Comp w/ Others: “Compared to other people, how good are you at being a leader?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050053)
 
 ### Self-Rating (Compared to Others) - Logical/Analytic Thinking =================================================================
 
+####
+# C1C. How Good At Logic Comp w/ Others: “Compared to other people, how good are you at logical, analytical thinking?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050054)
+
 ### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
+
+####
+# C1D. How Good At Helping Comp w/ Others: “Compared to other people, how good are you at helping others solve their problems?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050055)
 
 ### How Good at Problem Solving ==================================================================================================
 
+####
+# B6B. How Good At Problem Solving: “(On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well",) how good are you at solving problems you encounter?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050049)
+
 ### Self-Rating (Compared to Others) - Intelligence ==============================================================================
+
+####
+# C1E How Intelligent Compared w/ Others: “Compared to other people, how would you rate your intelligence? (On a scale of 1 to 7, 
+# where 1 means ‘A lot worse than other people’ and 7 means ‘A lot better than other people’)”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050056)
 
 ### Self-Rating (Compared to Others) - Independence ==============================================================================
 
+####
+# C1F. How Independent Compared w/ Others: “Compared to other people, how would you rate your independence?
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050057)
+
 ### Self-Rating (Compared to Others) - Confidence ================================================================================
+
+####
+# C1G. How Confident Compared w/ Others: “Compared to other people, how would you rate your self-confidence?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050058)
 
 ### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
+####
+# C1H. How Decisive Compared w/ Others: “Compared to other people, how would you rate your decisiveness?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050059)
+
 ### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
+
+####
+# H28A. Freq of Snack Instead of Regular Meal: “How often do you snack instead of eating regular meals? Would you say: Never, hardly ever, 
+# less than once a month, a couple of times a month, more than once a week, or every day?”
+# Answers: 1 (Never); 2 (Hardly ever); 3 (Less than once a month); 4 (A couple of times a month); 5 (More than once a week); 6 (Every day); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050755)
 
 ### Binge Eating Frequency =======================================================================================================
 
+####
+# H28B. Frequency of Binge Eating: “How often do you eat abnormally large amounts of food within a few hours, that is eat in binges?”
+# Answers: 1 (Never); 2 (Hardly ever); 3 (Less than once a month); 4 (A couple of times a month); 5 (More than once a week); 6 (Every day); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050756)
+
 ### Race - Hispanic ==============================================================================================================
+
+####
+# L6. Hispanicity: “In order to get an idea of the different races and ethnic groups that participate in the study, I would like to ask you 
+# about your background. Are you Spanish, Hispanic, or Latino? That is, Mexican, Mexican American, Chicano, Puerto Rican, Cuban, or other Spanish?”
+# Answers: 0 (Not Spanish, Hispanic, or Latino); 1 (Mexican); 2 (Mexican-American); 3 (Chicano); 4 (Puerto Rican); 5 (Cuban); 7 (Other Spanish); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050883)
 
 ### Race Identification ==========================================================================================================
 
+####
+# L7. Race Mention #1: “What is your race? Are you white, black, American Indian, Alaska Native, Asian, Native Hawaiian or Other Pacific Islander?--1ST MENTION”
+# Answers: 1 (White); 2 (Black, African-American); 3 (American Indian or Alaska Native); 4 (Asian); 5 (Native Hawaiian or Pacific Islander);
+# 7 (Some other race); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050884)
+
 ### Daily Cigarette Usage ========================================================================================================
+
+#### 
+# H30. # Cigarettes Per Day: “On the average, how many cigarettes per day do you usually smoke?”
+# Answers (One cigarette per day or fewer); 2-100 (Actual Number); 998 (DK)
+####
+
+table(TIAS$TA050759)
 
 ### Body Mass Index (BMI) ========================================================================================================
 
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA050944)
+
 ### Usual Amount of Daily Sleep ==================================================================================================
+
+####
+# Number of Hours Sleep in 24-HR period: “How many hours do you usually sleep in a 24-hour period?”
+# Answers: 1-24 (Actual Hours); 98 (DK); 99 (NA/refused)
+#### 
+
+table(TIAS$TA050754)
 
 ######################## TIAS-D Analysis - TIAS 2007 ######################## 
 
