@@ -2087,6 +2087,15 @@ ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 ### Time Use - School Club/Student Gov Involvement Frequency (Over 12 Mos) =======================================================
 
+####
+# A12B. How Often Did School Clubs: “During the last 12 months, about how often were you involved in school clubs or student government? (Would you say: 
+# less than once a month, at least once a month, once a week, several times a week, almost every day, or every day?)”
+# Answers: 1 (Less than once a month); 2 (At least once a month) 2 (At least once a month); 3 (Once a week); 4 (Several times a week)
+# 5 (Almost every day); 6 (Every day); 8 (DK); 9 (NA/refused); 0 (Inap.: not involved with school clubs or student government
+####
+
+table(TIAS$TA050033)
+
 ### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
 ####
@@ -2095,8 +2104,6 @@ ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 ####
 
 table(TIAS$TA050034)
-
-
 
 ### Time Use - Type of Volunteer Work ============================================================================================
 
@@ -2424,16 +2431,69 @@ TIAS2005_IAC <- TIAS2005_IAC %>%
 table(TIAS$TA050884)
 
 TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA050884 = 9)) 
+  replace_with_na(replace = list(TA050884 = c(8, 9)))
 
 TIAS2005 <- TIAS2005 %>% 
-  replace_with_na(replace = list(TA050884 = 9)) 
+  replace_with_na(replace = list(TA050884 = c(8, 9)))
 
 TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050884 = 9)) 
+  replace_with_na(replace = list(TA050884 = c(8, 9)))
 
 TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050884 = 9)) 
+  replace_with_na(replace = list(TA050884 = c(8, 9)))
+
+T05_RAC_FTLW <- TIAS[, c("TA050884", "FTL_COUNT")] %>% group_by(TA050884, FTL_COUNT) %>% summarise(Count = n())
+
+T05_RAC_FTLW <- T05_RAC_FTLW[1:17, ]
+
+T05_RAC_CAT <- TIAS2005[, c("TA050884", "CAT")] %>% group_by(TA050884, CAT) %>% summarise(Count = n())
+
+T05_RAC_CAT <- T05_RAC_CAT[1:11, ]
+
+T05_RAC_FTLCAT <- TIAS2005_FTL[, c("TA050884", "CAT")] %>% group_by(TA050884, CAT) %>% summarise(Count = n())
+
+T05_RAC_FTLCAT <- T05_RAC_FTLCAT[1:5, ]
+
+T05_RAC_IACCAT <- TIAS2005_IAC[, c("TA050884", "CAT")] %>% group_by(TA050884, CAT) %>% summarise(Count = n())
+
+T05_RAC_IACCAT <- T05_RAC_IACCAT[1:6, ]
+
+head(T05_RAC_CAT, 11)
+
+ggplot(T05_RAC_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050884))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Race", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("White", "Black", "American Indian or Alaska Native", "Asian", "Native Hawaiian or Pacific Islander", "Other"))
+
+head(T05_RAC_FTLW, 17)
+
+ggplot(T05_RAC_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050884)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Race", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("White", "Black", "American Indian or Alaska Native", "Asian", "Native Hawaiian or Pacific Islander", "Other"))
+
+prop.table(table(TIAS2005_FTL$TA050884))
+
+race.pie.ftl.05 <- ggplot(data = T05_RAC_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050884))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Race", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("White", "Black", "American Indian or Alaska Native", "Asian", "Native Hawaiian or Pacific Islander", "Other"))
+
+prop.table(table(TIAS2005_IAC$TA050884))
+
+race.pie.iac.05 <- ggplot(data = T05_RAC_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050884))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Race", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("White", "Black", "American Indian or Alaska Native", "Asian", "Native Hawaiian or Pacific Islander", "Other"))
+
+ggarrange(race.pie.ftl.05, race.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Daily Cigarette Usage ========================================================================================================
 
@@ -2456,6 +2516,25 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050759 = 998)) 
 
+T05_CIG_FTLW <- TIAS[, c("TA050759", "FTL_COUNT")] %>% group_by(TA050759, FTL_COUNT) %>% summarise(Count = n())
+
+T05_CIG_FTLW <- T05_CIG_FTLW[1:37, ]
+
+T05_CIG_CAT <- TIAS2005[, c("TA050759", "CAT")] %>% group_by(TA050759, CAT) %>% summarise(Count = n())
+
+T05_CIG_CAT <- T05_CIG_CAT[1:27, ]
+
+ggplot(T05_CIG_FTLW, aes(x = FTL_COUNT, y = TA050759, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Usual # of Cigarettes Per Day") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T05_CIG_CAT, aes(x = CAT, y = TA050759, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "Category", y = "Usual # of Cigarettes Per Day") + 
+  guides(fill = guide_legend(title = "Category"))
+
 ### Body Mass Index (BMI) ========================================================================================================
 
 ####
@@ -2477,6 +2556,25 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050944 = 99)) 
 
+T05_BMI_FTLW <- TIAS[, c("TA050944", "FTL_COUNT")] %>% group_by(TA050944, FTL_COUNT) %>% summarise(Count = n())
+
+T05_BMI_FTLW <- T05_BMI_FTLW[1:253, ]
+
+T05_BMI_CAT <- TIAS2005[, c("TA050944", "CAT")] %>% group_by(TA050944, CAT) %>% summarise(Count = n())
+
+T05_BMI_CAT <- T05_BMI_CAT[1:213, ]
+
+ggplot(T05_BMI_FTLW, aes(x = FTL_COUNT, y = TA050944, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Body Mass Index (BMI)") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T05_BMI_CAT, aes(x = CAT, y = TA050944, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category"))
+
 ### Usual Amount of Daily Sleep ==================================================================================================
 
 ####
@@ -2497,6 +2595,25 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050754 = 98)) 
+
+T05_SLP_FTLW <- TIAS[, c("TA050754", "FTL_COUNT")] %>% group_by(TA050754, FTL_COUNT) %>% summarise(Count = n())
+
+T05_SLP_FTLW <- T05_SLP_FTLW[1:36, ]
+
+T05_SLP_CAT <- TIAS2005[, c("TA050754", "CAT")] %>% group_by(TA050754, CAT) %>% summarise(Count = n())
+
+T05_SLP_CAT <- T05_SLP_CAT[1:22, ]
+
+ggplot(T05_SLP_FTLW, aes(x = FTL_COUNT, y = TA050754, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Usual Hours of Sleep Per Night") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T05_SLP_CAT, aes(x = CAT, y = TA050754, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "Category", y = "Usual Hours of Sleep Per Night") + 
+  guides(fill = guide_legend(title = "Category"))
 
 ######################## TIAS-D Analysis - TIAS 2007 ######################## 
 
