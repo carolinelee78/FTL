@@ -1941,7 +1941,7 @@ ggarrange(reol.pie.ftl.05, reol.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 
 ### Responsibility - Paying Own Rent =============================================================================================
 
 ####
-# How much responsibility do you currently take for paying your rent or mortgage?   
+# B5B. How Much Responsibility Paying Own Rent: “How much responsibility do you currently take for paying your rent or mortgage?"  
 # Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 
 # 4 (I do this most of the time); 5 (I am completely responsible for this all the time); 6 (No rent or mortgage to pay); 8 (DK); 9 (NA; refused)
 ####
@@ -1993,7 +1993,7 @@ ggplot(T05_POR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050045)), 
 
 prop.table(table(TIAS2005_FTL$TA050045))
 
-por.pie.ftl.05 <- ggplot(data = T05_POR_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050045))) + 
+rpor.pie.ftl.05 <- ggplot(data = T05_POR_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050045))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   scale_fill_manual("Responsibility - Paying Own Rent", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
@@ -2001,19 +2001,18 @@ por.pie.ftl.05 <- ggplot(data = T05_POR_FTLCAT, aes(x = " ", y = Count, fill = a
 
 prop.table(table(TIAS2005_IAC$TA050045))
 
-por.pie.iac.05 <- ggplot(data = T05_POR_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050045))) + 
+rpor.pie.iac.05 <- ggplot(data = T05_POR_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050045))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
- scale_fill_manual("Responsibility - Paying Own Rent", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
+  scale_fill_manual("Responsibility - Paying Own Rent", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
                     labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No payments"))  + theme_void()
 
-ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+ggarrange(rpor.pie.ftl.05, rpor.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Responsibility - Paying Own Bills ============================================================================================
 
 ####
-# How much responsibility do you currently take for paying your bills?  (Would you say:  somebody else does this for me all of the time, somebody else does this for me most of the time, 
-# I do this half of the time, I do this most of the time, or I am completely responsible for this all of the time?)
+# B5C. How Much Responsibility for Own Bills: How much responsibility do you currently take for paying your bills?  
 # Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 
 # 5 (I am completely responsible for this all the time); 6 (No bills; 8 (DK); 9 (NA; refused)
 ####
@@ -2035,8 +2034,8 @@ head(T05_POB_CAT, 12)
 ggplot(T05_POB_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050046)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
-  scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills", "NA"))
+  scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
+                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills"))
 
 head(T05_POB_FTLW, 24)
 
@@ -2044,32 +2043,33 @@ ggplot(T05_POB_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050046)), 
   geom_bar(stat="identity", width=1, position = "dodge") +
   scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
-  scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills", "NA"))
+  scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
+                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills"))
 
 prop.table(table(TIAS2005_FTL$TA050046))
 
-pob.pie.ftl.05 <- ggplot(data = T05_POB_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050046))) + 
+rpob.pie.ftl.05 <- ggplot(data = T05_POB_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050046))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills", "NA"))  + theme_void()
+  theme_void() +
+  scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
+                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills"))  
 
 prop.table(table(TIAS2005_IAC$TA050046))
 
-pob.pie.iac.05 <- ggplot(data = T05_POB_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050046))) + 
+rpob.pie.iac.05 <- ggplot(data = T05_POB_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050046))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
- scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills", "NA"))  + theme_void()
+  theme_void() +
+  scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
+                    labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills"))  
 
-ggarrange(pob.pie.ftl.05, pob.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+ggarrange(rpob.pie.ftl.05, rpob.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Responsibility - Managing Money ============================================================================================== 
 
 ####
-# How much responsibility do you currently take for managing your money? (Would you say: somebody else does this for me all of the time, 
-# somebody else does this for me most of the time, I do this half of the time, I do this most of the time, or I am completely responsible for this all of the time?) 
+# B5D. How Much Responsibility Managing Money: "How much responsibility do you currently take for managing your money?"
 # Answers: 1 (Somebody else does this for me all of the time); 2 (Somebody else does this most of the time); 3 (I do this half of the time); 4 (I do this most of the time); 
 # 5 (I am completely responsible for this all the time); 8 (DK); 9 (NA; refused)
 ####
@@ -2105,27 +2105,26 @@ ggplot(T05_RMM_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050047)), 
 
 prop.table(table(TIAS2005_FTL$TA050047))
 
-rmm.pie.ftl.05 <- ggplot(data = T05_RMM_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050047))) +  geom_bar(width = 1, stat = "identity") +
+rmmn.pie.ftl.05 <- ggplot(data = T05_RMM_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050047))) +  geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Responsibility - Managing Money", values = c("lightcoral", "mediumturquoise", "deepskyblue", "gold", "green3"),
+  scale_fill_manual("Responsibility - Managing Money", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"),
   labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time")) +
   theme_void()
 
 prop.table(table(TIAS2005_IAC$TA050047))
 
-rmm.pie.iac.05 <- ggplot(data = T05_RMM_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050047))) + geom_bar(width = 1, stat = "identity") +
+rmmn.pie.iac.05 <- ggplot(data = T05_RMM_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050047))) + geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   scale_fill_manual("Responsibility - Managing Money", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"),
   labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time")) + 
   theme_void()
 
-
-ggarrange(rmm.pie.ftl.05, rmm.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+ggarrange(rmmn.pie.ftl.05, rmmn.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### How Good at Taking Responsibility for Actions ================================================================================
 
 ####
-# On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at taking responsibility for your actions?
+# B6A. On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at taking responsibility for your actions?
 # Answers: 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
 ####
 
@@ -2137,47 +2136,23 @@ T05_ROA_FTLW <- T05_ROA_FTLW[1:21, ]
 
 T05_ROA_CAT <- TIAS2005[, c("TA050048", "CAT")] %>% group_by(TA050048, CAT) %>% summarise(Count = n())
 
-T05_ROA_FTLCAT <- TIAS2005_FTL[, c("TA050048", "CAT")] %>% group_by(TA050048, CAT) %>% summarise(Count = n())
+ggplot(T05_ROA_FTLW, aes(x = FTL_COUNT, y = TA050048, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Taking Responsibility for Actions - Self-Rating (1 = Not at all well; 7 = Extremely Well)") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) +
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) +
+  guides(fill = guide_legend(title = "# of FTL Waves"))
 
-T05_ROA_IACCAT <- TIAS2005_IAC[, c("TA050048", "CAT")] %>% group_by(TA050048, CAT) %>% summarise(Count = n())
-
-head(T05_ROA_CAT, 13)
-
-ggplot(T05_ROA_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050048)), xlab="Category") +
-  geom_bar(stat="identity", width=1, position = "dodge") +
-  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
-  scale_fill_manual("Responsibility - Accountable for Actions", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Not well at all", "2", "3", "4", "5", "6", " Extremely well"))
-
-head(T05_POB_FTLW, 21)
-
-ggplot(T05_ROA_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050048)), xlab="Category") +
-  geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
-  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
-  scale_fill_manual("Responsibility - Accountable for Actions", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Not well at all", "2", "3", "4", "5", "6", " Extremely well"))
-
-prop.table(table(TIAS2005_FTL$TA050048))
-
-roa.pie.ftl.05 <- ggplot(data = T05_ROA_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050048))) +  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Responsibility - Accountable for Actions", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Not well at all", "2", "3", "4", "5", "6", " Extremely well")) + theme_void()
-
-prop.table(table(TIAS2005_IAC$TA050048))
-
-roa.pie.iac.05 <- ggplot(data = T05_ROA_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050048))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
- scale_fill_manual("Responsibility - Accountable for Actions", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Not well at all", "2", "3", "4", "5", "6", " Extremely well")) + theme_void()
-                    
-ggarrange(roa.pie.ftl.05, roa.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+ggplot(T05_ROA_CAT, aes(x = CAT, y = TA050048, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Taking Responsibility for Actions - Self-Rating (1 = Not at all well; 7 = Extremely Well)") + 
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) +
+  guides(fill = guide_legend(title = "Category"))
 
 ### How Good at Money Management =================================================================================================
 
 ####
-# On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at managing money?
+# B6C. On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at managing money?
 # Answers: 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
 ####
 
@@ -2189,98 +2164,54 @@ T05_GMM_FTLW <- T05_GMM_FTLW[1:22, ]
 
 T05_GMM_CAT <- TIAS2005[, c("TA050050", "CAT")] %>% group_by(TA050050, CAT) %>% summarise(Count = n())
 
-T05_GMM_FTLCAT <- TIAS2005_FTL[, c("TA050050", "CAT")] %>% group_by(TA050050, CAT) %>% summarise(Count = n())
+ggplot(T05_GMM_FTLW, aes(x = FTL_COUNT, y = TA050050, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "How Good at Money Management - Self-Rating (1 = Not at all well; 7 = Extremely Well)") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) +
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) +
+  guides(fill = guide_legend(title = "# of FTL Waves"))
 
-T05_GMM_IACCAT <- TIAS2005_IAC[, c("TA050050", "CAT")] %>% group_by(TA050050, CAT) %>% summarise(Count = n())
-
-head(T05_GMM_CAT, 13)
-
-ggplot(T05_GMM_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050050)), xlab="Category") +
-  geom_bar(stat="identity", width=1, position = "dodge") +
-  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
-  scale_fill_manual("Responsibility - Good at Money Management?", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Not good at all", "2", "3", "4", "5", "6", "Extremely good"))
-
-head(T05_GMM_FTLW, 22)
-
-ggplot(T05_GMM_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050050)), xlab="Category") +
-  geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
-  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
-  scale_fill_manual("Responsibility - Good at Money Management?", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Not good at all", "2", "3", "4", "5", "6", "Extremely good"))
-
-prop.table(table(TIAS2005_FTL$TA050050))
-
-gmm.pie.ftl.05 <- ggplot(data = T05_GMM_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050050))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Good at Money Management?", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                    labels = c("Not good at all", "2", "3", "4", "5", "6", " Extremely good")) + theme_void()
-                    
-
-prop.table(table(TIAS2005_IAC$TA050050))
-
-gmm.pie.iac.05 <- ggplot(data = T05_GMM_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050050))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
- scale_fill_manual("Good at Money Management?", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet"), 
-                   labels = c("Not good at all", "2", "3", "4", "5", "6", " Extremely good")) + theme_void()
-                    
-
-ggarrange(gmm.pie.ftl.05, gmm.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+ggplot(T05_GMM_CAT, aes(x = CAT, y = TA050050, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "How Good at Money Management - Self-Rating (1 = Not at all well; 7 = Extremely Well)") + 
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) +
+  guides(fill = guide_legend(title = "Category"))
 
 ### How Good at Paying Off Credit Card Balances ==================================================================================
 
 ####
-# On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well",) how good are you at paying off credit card balances each month?
+# B6D. On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at paying off credit card balances each month?
 # Answers: 0 (does not have a credit card); 1-7 (Values range from 1 to 7; 1 represents "not at all well" and 7 represents "extremely well"); 8 (DK); 9 (NA; refused)
 ####
 
 table(TIAS$TA050051)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050051 = 8)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050051 = 8)) 
+
 T05_CCB_FTLW <- TIAS[, c("TA050051", "FTL_COUNT")] %>% group_by(TA050051, FTL_COUNT) %>% summarise(Count = n())
 
-T05_CCB_FTLW <- T05_CCB_FTLW[1:27, ]
+T05_CCB_FTLW <- T05_CCB_FTLW[1:26, ]
 
 T05_CCB_CAT <- TIAS2005[, c("TA050051", "CAT")] %>% group_by(TA050051, CAT) %>% summarise(Count = n())
 
-T05_CCB_FTLCAT <- TIAS2005_FTL[, c("TA050051", "CAT")] %>% group_by(TA050051, CAT) %>% summarise(Count = n())
+T05_CCB_CAT <- T05_CCB_CAT[1:16, ]
 
-T05_CCB_IACCAT <- TIAS2005_IAC[, c("TA050051", "CAT")] %>% group_by(TA050051, CAT) %>% summarise(Count = n())
+ggplot(T05_CCB_FTLW, aes(x = FTL_COUNT, y = TA050051, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Paying off Credit Card Balances - Self-Rating (1 = Not at all well; 7 = Extremely Well)") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) +
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) +
+  guides(fill = guide_legend(title = "# of FTL Waves"))
 
-head(T05_CCB_CAT, 9)
-
-ggplot(T05_CCB_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050051)), xlab="Category") +
-  geom_bar(stat="identity", width=1, position = "dodge") +
-  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
-  scale_fill_manual("Responsibility - Good at Paying Off Credit Card Bills?", values = c("deeppink", "lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet", "olivedrab1"), 
-                    labels = c("No card", "Not good at all", "2", "3", "4", "5", "6", "Extremely good"))
-
-head(T05_CCB_FTLW, 27)
-
-ggplot(T05_CCB_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050051)), xlab="Category") +
-  geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
-  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
-  scale_fill_manual("Responsibility - Good at Paying Off Credit Card Bills?", values = c("deeppink", "lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet", "olivedrab1"), 
-                    labels = c("No card", "Not good at all", "2", "3", "4", "5", "6", "Extremely good"))
-
-prop.table(table(TIAS2005_FTL$TA050051))
-
-ccb.pie.ftl.05 <- ggplot(data = T05_CCB_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050051))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Responsibility - Good at Paying Off Credit Card Bills?", values = c("deeppink", "lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet", "olivedrab1"), 
-                    labels = c("No card", "Not good at all", "2", "3", "4", "5", "6", "Extremely good")) + theme_void()
-                    
-
-prop.table(table(TIAS2005_IAC$TA050051))
-
-ccb.pie.iac.05 <- ggplot(data = T05_CCB_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050051))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
- scale_fill_manual("Responsibility - Good at Paying Off Credit Card Bills?", values = c("deeppink", "lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "aliceblue", "blueviolet", "olivedrab1"), 
-                   labels = c("No card", "Not good at all", "2", "3", "4", "5", "6", "Extremely good")) + theme_void()
-                    
-
-ggarrange(ccb.pie.ftl.05, ccb.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+ggplot(T05_CCB_CAT, aes(x = CAT, y = TA050051, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "How Good at Money Management - Self-Rating (1 = Not at all well; 7 = Extremely Well)") + 
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) +
+  guides(fill = guide_legend(title = "Category"))
 
 ### MIDUS M1 - Happiness =========================================================================================================
 
