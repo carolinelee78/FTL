@@ -743,6 +743,8 @@ ggarrange(avac.pie.ftl.05, avac.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 
 # Answers: 1 (One drink or fewer); 2-50 (Actual number of drinks); 98 (DK); 99 (NA/refused); 0 (Inap.: Does not drink alcohol or drinks alcohol but frequency of drinking is DK or NA)
 ####
 
+table(TIAS$TA050768)
+
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA050768 = 98)) 
 
@@ -1573,15 +1575,311 @@ ggplot(T05_CMS_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050069)), 
 
 ### Romantic Relationships =======================================================================================================
 
+####
+# D8. WTR Romantic Relationship Now: “Are you currently involved in a romantic relationship?”
+# Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused); 0 (Inap: Married)
+####
 
+table(TIAS$TA050078)
+
+T05_RRN_FTLW <- TIAS[, c("TA050078", "FTL_COUNT")] %>% group_by(TA050078, FTL_COUNT) %>% summarise(Count = n())
+
+T05_RRN_FTLW <- T05_RRN_FTLW[1:11, ]
+
+T05_RRN_CAT <- TIAS2005[, c("TA050078", "CAT")] %>% group_by(TA050078, CAT) %>% summarise(Count = n())
+
+T05_RRN_FTLCAT <- TIAS2005_FTL[, c("TA050078", "CAT")] %>% group_by(TA050078, CAT) %>% summarise(Count = n())
+
+T05_RRN_IACCAT <- TIAS2005_IAC[, c("TA050078", "CAT")] %>% group_by(TA050078, CAT) %>% summarise(Count = n())
+
+head(T05_RRN_CAT, 6)
+
+ggplot(T05_RRN_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050078)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") +
+  scale_fill_manual("Involved in Romantic Rel.", values = c("darkturquoise", "darkviolet", "deeppink"), labels = c("Inap: Married", "Yes", "No"))
+
+head(T05_RRN_FTLW, 11)
+
+ggplot(T05_RRN_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050078)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Involved in Romantic Rel.", values = c("darkturquoise", "darkviolet", "deeppink"), labels = c("Inap: Married", "Yes", "No"))
+
+prop.table(table(TIAS2005_FTL$TA050078))
+
+roma.pie.ftl.05 <- ggplot(data = T05_RRN_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050078))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Involved in Romantic Rel.", values = c("darkturquoise", "darkviolet", "deeppink"), labels = c("Inap: Married", "Yes", "No")) +
+  theme_void() 
+
+prop.table(table(TIAS2005_IAC$TA050078))
+
+roma.pie.iac.05 <- ggplot(data = T05_RRN_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050078))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Involved in Romantic Rel.", values = c("darkturquoise", "darkviolet", "deeppink"), labels = c("Inap: Married", "Yes", "No")) +
+  theme_void() 
+
+ggarrange(roma.pie.ftl.05, roma.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Number of Children ===========================================================================================================
 
+####
+# D28A. Number of Children: “How many (biological,) adopted, or step- children do you have?”
+# Answers: 0-20 (# of Children); 98 (DK); 99 (NA/refused)
+####
+
+table(TIAS$TA050091)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050091 = 99)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050091 = 99)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050091 = 99)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050091 = 99)) 
+
+T05_CHL_FTLW <- TIAS[, c("TA050091", "FTL_COUNT")] %>% group_by(TA050091, FTL_COUNT) %>% summarise(Count = n())
+
+T05_CHL_FTLW <- T05_CHL_FTLW[1:14, ]
+
+T05_CHL_CAT <- TIAS2005[, c("TA050091", "CAT")] %>% group_by(TA050091, CAT) %>% summarise(Count = n())
+
+T05_CHL_CAT <- T05_CHL_CAT[1:8, ]
+
+ggplot(T05_CHL_FTLW, aes(x = FTL_COUNT, y = TA050091, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Number of Children") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T05_CHL_CAT, aes(x = CAT, y = TA050091, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "Category", y = "Number of Children") + 
+  guides(fill = guide_legend(title = "Category"))
+
 ### High School Education ========================================================================================================
+
+####
+# G1. WTR Graduated High School: “Now I would like to talk about the education you have received. Did you graduate from high school, get a GED, or neither?”
+# Answers: 1 (Graduated from high school); 2 (Got a GED); 3 (Neither); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050573)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050573 = 9)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050573 = 9)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050573 = 9)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050573 = 9)) 
+
+T05_HSG_FTLW <- TIAS[, c("TA050573", "FTL_COUNT")] %>% group_by(TA050573, FTL_COUNT) %>% summarise(Count = n())
+
+T05_HSG_FTLW <- T05_HSG_FTLW[1:13, ]
+
+T05_HSG_CAT <- TIAS2005[, c("TA050573", "CAT")] %>% group_by(TA050573, CAT) %>% summarise(Count = n())
+
+T05_HSG_CAT <- T05_HSG_CAT[1:6, ]
+
+T05_HSG_FTLCAT <- TIAS2005_FTL[, c("TA050573", "CAT")] %>% group_by(TA050573, CAT) %>% summarise(Count = n())
+
+T05_HSG_IACCAT <- TIAS2005_IAC[, c("TA050573", "CAT")] %>% group_by(TA050573, CAT) %>% summarise(Count = n())
+
+T05_HSG_IACCAT <- T05_HSG_IACCAT[1:3, ]
+
+head(T05_HSG_CAT, 6)
+
+ggplot(T05_HSG_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050573)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") +
+  scale_fill_manual("High School Education", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("HS Diploma", "GED", "Neither"))
+
+head(T05_HSG_FTLW, 13)
+
+ggplot(T05_HSG_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050573)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("High School Education", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("HS Diploma", "GED", "Neither"))
+
+prop.table(table(TIAS2005_FTL$TA050573))
+
+hsgr.pie.ftl.05 <- ggplot(data = T05_HSG_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050573))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("High School Education", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("HS Diploma", "GED", "Neither")) +
+  theme_void() 
+
+prop.table(table(TIAS2005_IAC$TA050573))
+
+hsgr.pie.iac.05 <- ggplot(data = T05_HSG_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050573))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("High School Education", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("HS Diploma", "GED", "Neither")) +
+  theme_void() 
+
+ggarrange(hsgr.pie.ftl.05, hsgr.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### College Education ============================================================================================================
 
+####
+# G10. WTR Ever Attended College: “Have you ever attended college?” 
+# Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused); 0 (Inap: did not complete high school or receive a GED)
+####
+
+table(TIAS$TA050594)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050594 = 9)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050594 = 9)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050594 = 9)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050594 = 9)) 
+
+T05_CLG_FTLW <- TIAS[, c("TA050594", "FTL_COUNT")] %>% group_by(TA050594, FTL_COUNT) %>% summarise(Count = n())
+
+T05_CLG_FTLW <- T05_CLG_FTLW[1:14, ]
+
+T05_CLG_CAT <- TIAS2005[, c("TA050594", "CAT")] %>% group_by(TA050594, CAT) %>% summarise(Count = n())
+
+T05_CLG_CAT <- T05_CLG_CAT[1:6, ]
+
+T05_CLG_FTLCAT <- TIAS2005_FTL[, c("TA050594", "CAT")] %>% group_by(TA050594, CAT) %>% summarise(Count = n())
+
+T05_CLG_IACCAT <- TIAS2005_IAC[, c("TA050594", "CAT")] %>% group_by(TA050594, CAT) %>% summarise(Count = n())
+
+T05_CLG_IACCAT <- T05_CLG_IACCAT[1:3, ]
+
+head(T05_CLG_CAT, 6)
+
+ggplot(T05_CLG_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050594)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") +
+  scale_fill_manual("Higher Education", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("Attended College", "Graduated HS", "No HS Diploma or GED"))
+
+head(T05_CLG_FTLW, 13)
+
+ggplot(T05_CLG_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050594)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Higher Education", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("Attended College", "Graduated HS", "No HS Diploma or GED"))
+
+prop.table(table(TIAS2005_FTL$TA050594))
+
+hred.pie.ftl.05 <- ggplot(data = T05_CLG_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050594))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Higher Education", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("Attended College", "Graduated HS", "No HS Diploma or GED")) +
+  theme_void() 
+
+prop.table(table(TIAS2005_IAC$TA050594))
+
+hred.pie.iac.05 <- ggplot(data = T05_CLG_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050594))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Higher Education", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("Attended College", "Graduated HS", "No HS Diploma or GED")) +
+  theme_void() 
+
+ggarrange(hred.pie.ftl.05, hred.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+
 ### Highest Education Level ======================================================================================================
+
+####
+# Enrollment Status 
+# Answers: 1 (No high school diploma and no GED); 2 (no high school diploma but has GED); 3 (Has high school diploma); 4 (Not enrolled, some college);
+# 5 (Not enrolled, 2-yr college graduate); 6 (Not enrolled, 4-yr college graduate); 7 (Not enrolled, graduate degree); 9 (Enrolled, has no prior degree);
+# 10 (Enrolled, has a prior degree); 11 (Enrolled, graduate program); 99 (NA/DK)
+####
+
+table(TIAS$TA050946)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050946 = 99)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050946 = 99)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050946 = 99)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050946 = 99))  
+
+T05_HEL_FTLW <- TIAS[, c("TA050946", "FTL_COUNT")] %>% group_by(TA050946, FTL_COUNT) %>% summarise(Count = n())
+
+T05_HEL_FTLW <- T05_HEL_FTLW[1:24, ]
+
+T05_HEL_CAT <- TIAS2005[, c("TA050946", "CAT")] %>% group_by(TA050946, CAT) %>% summarise(Count = n())
+
+T05_HEL_CAT <- T05_HEL_CAT[1:12, ]
+
+T05_HEL_FTLCAT <- TIAS2005_FTL[, c("TA050946", "CAT")] %>% group_by(TA050946, CAT) %>% summarise(Count = n())
+
+T05_HEL_FTLCAT <- T05_HEL_FTLCAT[1:4, ]
+
+T05_HEL_IACCAT <- TIAS2005_IAC[, c("TA050946", "CAT")] %>% group_by(TA050946, CAT) %>% summarise(Count = n())
+
+T05_HEL_IACCAT <- T05_HEL_IACCAT[1:8, ]
+
+head(T05_HEL_CAT, 12)
+
+ggplot(T05_HEL_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050946))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2005", x = "Category", y = "Count") + 
+  scale_fill_manual("Highest Education Level", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumspringgreen", "mediumslateblue"), 
+  labels = c("No HS Diploma, No GED", "No HS Diploma, GED", "HS Diploma", "Not Enrolled, Some College", "Not Enrolled, 2-yr College Graduate", "Enrolled in College, No Prior Degree", 
+             "Enrolled in College, Has Prior Degree", "Enrolled in Graduate Program"))
+
+head(T05_HEL_FTLW, 24)
+
+ggplot(T05_HEL_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050946)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Highest Education Level", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumspringgreen", "mediumslateblue"), 
+  labels = c("No HS Diploma, No GED", "No HS Diploma, GED", "HS Diploma", "Not Enrolled, Some College", "Not Enrolled, 2-yr College Graduate", "Enrolled in College, No Prior Degree", 
+            "Enrolled in College, Has Prior Degree", "Enrolled in Graduate Program"))
+
+prop.table(table(TIAS2005_FTL$TA050946))
+
+helv.pie.ftl.05 <- ggplot(data = T05_HEL_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050946))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Highest Education Level", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumspringgreen", "mediumslateblue"), 
+  labels = c("No HS Diploma, No GED", "No HS Diploma, GED", "HS Diploma", "Not Enrolled, Some College", "Not Enrolled, 2-yr College Graduate", "Enrolled in College, No Prior Degree", 
+            "Enrolled in College, Has Prior Degree", "Enrolled in Graduate Program"))
+
+prop.table(table(TIAS2005_IAC$TA050946))
+
+helv.pie.iac.05 <- ggplot(data = T05_HEL_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050946))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Highest Education Level", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumspringgreen", "mediumslateblue"), 
+  labels = c("No HS Diploma, No GED", "No HS Diploma, GED", "HS Diploma", "Not Enrolled, Some College", "Not Enrolled, 2-yr College Graduate", "Enrolled in College, No Prior Degree", 
+            "Enrolled in College, Has Prior Degree", "Enrolled in Graduate Program"))
+
+ggarrange(helv.pie.ftl.05, helv.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Responsibility - Earning Own Living ==========================================================================================
 
