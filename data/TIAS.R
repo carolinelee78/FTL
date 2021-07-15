@@ -2089,10 +2089,19 @@ ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 ### Time Use - Unpaid Volunteer/Community Sevice Work (Over 12 Mos) ==============================================================
 
+####
+# A13. WTR Did OTR Volunteer Work: “During the last 12 months, did you do any unpaid volunteer or community service work that you have not told me about?”
+# Answers: 1 (Yes); 5 (No); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA050034)
+
+
+
 ### Time Use - Type of Volunteer Work ============================================================================================
 
 #### 
-# A14 Type Volunteer ORG--FIRST MENTION: “Which types of organizations have you been involved with in your volunteer or community 
+# A14. Type Volunteer ORG--FIRST MENTION: “Which types of organizations have you been involved with in your volunteer or community 
 # service work in the last 12 months?--(FIRST MENTION) [PROBE: Anything else?]”
 # Answers: 1 (Organizations for children and youth); 2 (Service organizations, such as Big Brothers-Big Sisters or Junior league); 
 # 3 (Organized volunteer groups in hospitals or nursing homes); 4 (Religious groups, not including worship); 
@@ -2102,12 +2111,36 @@ ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050035)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050035 = 0)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050035 = 0)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050035 = 0)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050035 = 0)) 
+
 #### 
 # A14 Type Volunteer ORG--SECOND MENTION: “Which types of organizations have you been involved with in your volunteer or community 
 # service work in the last 12 months?--(SECOND MENTION) [PROBE: Anything else?]”
 ####
 
 table(TIAS$TA050036)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050036 = 0)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050036 = 0)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050036 = 0)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050036 = 0)) 
 
 #### 
 # A14 Type Volunteer ORG--THIRD MENTION: “Which types of organizations have you been involved with in your volunteer or community 
@@ -2116,12 +2149,37 @@ table(TIAS$TA050036)
 
 table(TIAS$TA050037)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050037 = 0)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050037 = 0)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050037 = 0)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050037 = 0)) 
+
 #### 
 # A14 Type Volunteer ORG--FOURTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
 # service work in the last 12 months?--(FOURTH MENTION) [PROBE: Anything else?]”
 ####
 
 table(TIAS$TA050038)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050038 = 0)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050038 = 0)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050038 = 0)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050038 = 0)) 
+
 
 #### 
 # A14 Type Volunteer ORG--FIFTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
@@ -2130,12 +2188,18 @@ table(TIAS$TA050038)
 
 table(TIAS$TA050039)
 
-#### 
-# A14 Type Volunteer ORG--SIXTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
-# service work in the last 12 months?--(SIXTH MENTION) [PROBE: Anything else?]”
-####
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050039 = 0)) 
 
-table(TIAS$TA050040)
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050039 = 0)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050039 = 0)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050039 = 0)) 
+
 
 ### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
@@ -2193,6 +2257,18 @@ table(TIAS$TA050053)
 
 table(TIAS$TA050054)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050054 = c(8, 9))) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050054 = c(8, 9))) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050054 = c(8, 9)))  
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050054 = c(8, 9))) 
+
 ### Self-Rating (Compared to Others) - Helping Others Solve Their Problems =======================================================
 
 ####
@@ -2210,6 +2286,18 @@ table(TIAS$TA050055)
 ####
 
 table(TIAS$TA050049)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050049 = 8)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050049 = 8)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050049 = 8)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050049 = 8)) 
 
 ### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
@@ -2248,6 +2336,18 @@ table(TIAS$TA050058)
 
 table(TIAS$TA050059)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050059 = c(8, 9))) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050059 = c(8, 9))) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050059 = c(8, 9)))  
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050059 = c(8, 9))) 
+
 ### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
 
 ####
@@ -2258,6 +2358,18 @@ table(TIAS$TA050059)
 
 table(TIAS$TA050755)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050755 = 8)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050755 = 8)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050755 = 8)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050755 = 8)) 
+
 ### Binge Eating Frequency =======================================================================================================
 
 ####
@@ -2266,6 +2378,18 @@ table(TIAS$TA050755)
 ####
 
 table(TIAS$TA050756)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050756 = 8)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050756 = 8)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050756 = 8)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050756 = 8)) 
 
 ### Race - Hispanic ==============================================================================================================
 
@@ -2277,6 +2401,18 @@ table(TIAS$TA050756)
 
 table(TIAS$TA050883)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050883 = 9)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050883 = 9)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050883 = 9)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050883 = 9)) 
+
 ### Race Identification ==========================================================================================================
 
 ####
@@ -2287,6 +2423,18 @@ table(TIAS$TA050883)
 
 table(TIAS$TA050884)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050884 = 9)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050884 = 9)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050884 = 9)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050884 = 9)) 
+
 ### Daily Cigarette Usage ========================================================================================================
 
 #### 
@@ -2295,6 +2443,18 @@ table(TIAS$TA050884)
 ####
 
 table(TIAS$TA050759)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050759 = 998)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050759 = 998)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050759 = 998)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050759 = 998)) 
 
 ### Body Mass Index (BMI) ========================================================================================================
 
@@ -2305,6 +2465,18 @@ table(TIAS$TA050759)
 
 table(TIAS$TA050944)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050944 = 99)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050944 = 99)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050944 = 99)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050944 = 99)) 
+
 ### Usual Amount of Daily Sleep ==================================================================================================
 
 ####
@@ -2313,6 +2485,18 @@ table(TIAS$TA050944)
 #### 
 
 table(TIAS$TA050754)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050754 = 98)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050754 = 98)) 
+
+TIAS2005_FTL <- TIAS2005_FTL %>% 
+  replace_with_na(replace = list(TA050754 = 98)) 
+
+TIAS2005_IAC <- TIAS2005_IAC %>% 
+  replace_with_na(replace = list(TA050754 = 98)) 
 
 ######################## TIAS-D Analysis - TIAS 2007 ######################## 
 
