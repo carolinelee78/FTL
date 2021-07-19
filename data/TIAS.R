@@ -5813,24 +5813,489 @@ ggplot(T05_SLP_CAT, aes(x = CAT, y = TA050754, group = CAT, fill = as.factor(CAT
 ### Self-Rating (Compared to Others) - Intelligence ==============================================================================
 
 ### Self-Rating (Compared to Others) - Independence ==============================================================================
-
 ### Self-Rating (Compared to Others) - Confidence ================================================================================
+
+####
+# C1G. How Confident Compared w/ Others: “Compared to other people, how would you rate your self-confidence?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA130059)
+
+T13_SRC_FTLW <- TIAS[, c("TA130059", "FTL_COUNT")] %>% group_by(TA130059, FTL_COUNT) %>% summarise(Count = n())
+
+T13_SRC_FTLW <- T13_SRC_FTLW[1:24, ]
+
+T13_SRC_CAT <- TIAS2013[, c("TA130059", "CAT")] %>% group_by(TA130059, CAT) %>% summarise(Count = n())
+
+ggplot(T13_SRC_FTLW, aes(x = FTL_COUNT, y = TA130059, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2013", x = "# of Waves for Which Participant Identified as FTL", y = "Self-Rating - Confidence (1 = a lot worse than others <=> 7 = a lot better than others)") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T13_SRC_CAT, aes(x = CAT, y = TA130059, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2013", x = "# of Waves for Which Participant Identified as FTL", y = "Self-Rating - Confidence (1 = a lot worse than others <=> 7 = a lot better than others)") + 
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) + 
+  guides(fill = guide_legend(title = "Category"))
 
 ### Self-Rating (Compared to Others) - Decisiveness ==============================================================================
 
+####
+# C1H. How Decisive Compared w/ Others: “Compared to other people, how would you rate your decisiveness?”
+# Answers: 1-7 (1 = a lot worse than others <=> 7 = a lot better than others); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA130060)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130060 = c(8, 9))) 
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130060 = c(8, 9))) 
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130060 = c(8, 9)))  
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130060 = c(8, 9))) 
+
+T13_SRD_FTLW <- TIAS[, c("TA130060", "FTL_COUNT")] %>% group_by(TA130060, FTL_COUNT) %>% summarise(Count = n())
+
+T13_SRD_FTLW <- T13_SRD_FTLW[1:23, ]
+
+T13_SRD_CAT <- TIAS2013[, c("TA130060", "CAT")] %>% group_by(TA130060, CAT) %>% summarise(Count = n())
+
+T13_SRD_CAT <- T13_SRD_CAT[1:14, ]
+
+ggplot(T13_SRD_FTLW, aes(x = FTL_COUNT, y = TA130060, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2013", x = "# of Waves for Which Participant Identified as FTL", y = "Self-Rating - Decisiveness (1 = a lot worse than others <=> 7 = a lot better than others)") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T13_SRD_CAT, aes(x = CAT, y = TA130060, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2013", x = "# of Waves for Which Participant Identified as FTL", y = "Self-Rating - Decisiveness (1 = a lot worse than others <=> 7 = a lot better than others)") + 
+  scale_y_continuous(breaks = seq(1, 7, by = 1)) + 
+  guides(fill = guide_legend(title = "Category"))
+
 ### Frequency - Snacking Instead of Consuming Regular Meals ======================================================================
+
+####
+# H28A. Freq of Snack Instead of Regular Meal: “How often do you snack instead of eating regular meals? Would you say: Never, hardly ever, 
+# less than once a month, a couple of times a month, more than once a week, or every day?”
+# Answers: 1 (Never); 2 (Hardly ever); 3 (Less than once a month); 4 (A couple of times a month); 5 (More than once a week); 6 (Every day); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA130934)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130934 = 8)) 
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130934 = 8)) 
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130934 = 8)) 
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130934 = 8)) 
+
+T13_FSI_FTLW <- TIAS[, c("TA130934", "FTL_COUNT")] %>% group_by(TA130934, FTL_COUNT) %>% summarise(Count = n())
+
+T13_FSI_FTLW <- T13_FSI_FTLW[1:27, ]
+
+T13_FSI_CAT <- TIAS2013[, c("TA130934", "CAT")] %>% group_by(TA130934, CAT) %>% summarise(Count = n())
+
+T13_FSI_CAT <- T13_FSI_CAT[1:12, ]
+
+T13_FSI_FTLCAT <- TIAS2013_FTL[, c("TA130934", "CAT")] %>% group_by(TA130934, CAT) %>% summarise(Count = n())
+
+T13_FSI_IACCAT <- TIAS2013_IAC[, c("TA130934", "CAT")] %>% group_by(TA130934, CAT) %>% summarise(Count = n())
+
+T13_FSI_IACCAT <- T13_FSI_IACCAT[1:6, ]
+
+head(T13_FSI_CAT, 11)
+
+ggplot(T13_FSI_CAT, aes(x = CAT, y = Count, fill = as.factor(TA130934))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2013", x = "Category", y = "Count") + 
+  scale_fill_manual("Snacking Instead of Regular Meals", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("Never", "Hardly ever", "Less than once a month", "A couple of times a month", "More than once a week", "Every day"))
+
+head(T13_FSI_FTLW, 27)
+
+ggplot(T13_FSI_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA130934)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2013", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Snacking Instead of Regular Meals", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("Never", "Hardly ever", "Less than once a month", "A couple of times a month", "More than once a week", "Every day"))
+
+prop.table(table(TIAS2013_FTL$TA130934))
+
+fsi.pie.ftl.13 <- ggplot(data = T13_FSI_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA130934))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() + 
+  scale_fill_manual("Snacking Instead of Regular Meals", values =  c("lightcoral", "lightskyblue", "gold", "#0072B2", "turquoise", "#009E73"),
+                    labels = c("Never", "Hardly ever", "A couple of times a month", "More than once a week", "Every day"))
+
+prop.table(table(TIAS2013_IAC$TA130934))
+
+fsi.pie.iac.13 <- ggplot(data = T13_FSI_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA130934))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Snacking Instead of Regular Meals", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("Never", "Hardly ever", "Less than once a month", "A couple of times a month", "More than once a week", "Every day"))
+
+ggarrange(fsi.pie.ftl.13, fsi.pie.iac.13, ncol = 2, nrow = 1, labels = c("FTL 2013", "IAC 2013"))
 
 ### Binge Eating Frequency =======================================================================================================
 
+####
+# H28B. Frequency of Binge Eating: “How often do you eat abnormally large amounts of food within a few hours, that is eat in binges?”
+# Answers: 1 (Never); 2 (Hardly ever); 3 (Less than once a month); 4 (A couple of times a month); 5 (More than once a week); 6 (Every day); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA130935)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130935 = 8)) 
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130935 = 8)) 
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130935 = 8)) 
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130935 = 8)) 
+
+T13_BEF_FTLW <- TIAS[, c("TA130935", "FTL_COUNT")] %>% group_by(TA130935, FTL_COUNT) %>% summarise(Count = n())
+
+T13_BEF_FTLW <- T13_BEF_FTLW[1:22, ]
+
+T13_BEF_CAT <- TIAS2013[, c("TA130935", "CAT")] %>% group_by(TA130935, CAT) %>% summarise(Count = n())
+
+T13_BEF_CAT <- T13_BEF_CAT[1:12, ]
+
+T13_BEF_FTLCAT <- TIAS2013_FTL[, c("TA130935", "CAT")] %>% group_by(TA130935, CAT) %>% summarise(Count = n())
+
+T13_BEF_IACCAT <- TIAS2013_IAC[, c("TA130935", "CAT")] %>% group_by(TA130935, CAT) %>% summarise(Count = n())
+
+T13_BEF_IACCAT <- T13_BEF_IACCAT[1:6, ]
+
+head(T13_BEF_CAT, 12)
+
+ggplot(T13_BEF_CAT, aes(x = CAT, y = Count, fill = as.factor(TA130935))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2013", x = "Category", y = "Count") + 
+  scale_fill_manual("Binge Eating Frequency", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("Never", "Hardly ever", "Less than once a month", "A couple of times a month", "More than once a week", "Every day"))
+
+head(T13_BEF_FTLW, 22)
+
+ggplot(T13_BEF_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA130935)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2013", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Binge Eating Frequency", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("Never", "Hardly ever", "Less than once a month", "A couple of times a month", "More than once a week", "Every day"))
+
+prop.table(table(TIAS2013_FTL$TA130935))
+
+bef.pie.ftl.13 <- ggplot(data = T13_BEF_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA130935))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Binge Eating Frequency", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("Never", "Hardly ever", "Less than once a month", "A couple of times a month", "More than once a week", "Every day"))
+
+prop.table(table(TIAS2013_IAC$TA130935))
+
+bef.pie.iac.13 <- ggplot(data = T13_BEF_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA130935))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Binge Eating Frequency", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("Never", "Hardly ever", "Less than once a month", "A couple of times a month", "More than once a week", "Every day"))
+
+ggarrange(bef.pie.ftl.13, bef.pie.iac.13, ncol = 2, nrow = 1, labels = c("FTL 2013", "IAC 2013"))
+
 ### Race - Hispanic ==============================================================================================================
 
-### Race Identification ==========================================================================================================
+####
+# L6. Hispanicity: “In order to get an idea of the different races and ethnic groups that participate in the study, I would like to ask you 
+# about your background. Are you Spanish, Hispanic, or Latino? That is, Mexican, Mexican American, Chicano, Puerto Rican, Cuban, or other Spanish?”
+# Answers: 0 (Not Spanish, Hispanic, or Latino); 1 (Mexican); 2 (Mexican-American); 3 (Chicano); 4 (Puerto Rican); 5 (Cuban); 7 (Other Spanish); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA131091)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA131091 = c(8, 9)))
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA131091 = c(8, 9))) 
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA131091 = c(8, 9)))
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA131091 = c(8, 9)))
+
+T13_HIS_FTLW <- TIAS[, c("TA131091", "FTL_COUNT")] %>% group_by(TA131091, FTL_COUNT) %>% summarise(Count = n())
+
+T13_HIS_FTLW <- T13_HIS_FTLW[1:18, ]
+
+T13_HIS_CAT <- TIAS2013[, c("TA131091", "CAT")] %>% group_by(TA131091, CAT) %>% summarise(Count = n())
+
+T13_HIS_CAT <- T13_HIS_CAT[1:11, ]
+
+T13_HIS_FTLCAT <- TIAS2013_FTL[, c("TA131091", "CAT")] %>% group_by(TA131091, CAT) %>% summarise(Count = n())
+
+T13_HIS_IACCAT <- TIAS2013_IAC[, c("TA131091", "CAT")] %>% group_by(TA131091, CAT) %>% summarise(Count = n())
+
+T13_HIS_IACCAT <- T13_HIS_IACCAT[1:7, ]
+
+head(T13_HIS_CAT, 11)
+
+ggplot(T13_HIS_CAT, aes(x = CAT, y = Count, fill = as.factor(TA131091))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2013", x = "Category", y = "Count") + 
+  scale_fill_manual("Race - Hispanicity", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumpurple1"), 
+                    labels = c("Not Spanish, Hispanic, or Latino", "Mexican", "Mexican-American", "Chicano", "Puerto Rican", "Cuban", "Other Spanish"))
+
+head(T13_HIS_FTLW, 18)
+
+ggplot(T13_HIS_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA131091)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2013", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Race - Hispanicity", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumpurple1"), 
+                    labels = c("Not Spanish, Hispanic, or Latino", "Mexican", "Mexican-American", "Chicano", "Puerto Rican", "Cuban", "Other Spanish"))
+
+prop.table(table(TIAS2013_FTL$TA131091))
+
+his.pie.ftl.13 <- ggplot(data = T13_HIS_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA131091))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Race - Hispanicity", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumpurple1"), 
+                    labels = c("Not Spanish, Hispanic, or Latino", "Mexican", "Mexican-American", "Puerto Rican"))
+
+prop.table(table(TIAS2013_IAC$TA131091))
+
+his.pie.iac.13 <- ggplot(data = T13_HIS_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA131091))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Race - Hispanicity", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumpurple1"), 
+                    labels = c("Not Spanish, Hispanic, or Latino", "Mexican", "Mexican-American", "Chicano", "Puerto Rican", "Cuban", "Other Spanish"))
+
+ggarrange(his.pie.ftl.13, his.pie.iac.13, ncol = 2, nrow = 1, labels = c("FTL 2013", "IAC 2013"))
+
+### Race Identification ========================================================================================================== 
+
+####
+# L7. Race Mention #1: “What is your race? Are you white, black, American Indian, Alaska Native, Asian, Native Hawaiian or Other Pacific Islander?--1ST MENTION”
+# Answers: 1 (White); 2 (Black, African-American); 3 (American Indian or Alaska Native); 4 (Asian); 5 (Native Hawaiian or Pacific Islander);
+# 7 (Some other race); 8 (DK); 9 (NA/refused)
+####
+
+table(TIAS$TA131092)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA131092 = c(8, 9)))
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA131092 = c(8, 9)))
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA131092 = c(8, 9)))
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA131092 = c(8, 9)))
+
+T13_RAC_FTLW <- TIAS[, c("TA131092", "FTL_COUNT")] %>% group_by(TA131092, FTL_COUNT) %>% summarise(Count = n())
+
+T13_RAC_FTLW <- T13_RAC_FTLW[1:17, ]
+
+T13_RAC_CAT <- TIAS2013[, c("TA131092", "CAT")] %>% group_by(TA131092, CAT) %>% summarise(Count = n())
+
+T13_RAC_CAT <- T13_RAC_CAT[1:11, ]
+
+T13_RAC_FTLCAT <- TIAS2013_FTL[, c("TA131092", "CAT")] %>% group_by(TA131092, CAT) %>% summarise(Count = n())
+
+T13_RAC_FTLCAT <- T13_RAC_FTLCAT[1:5, ]
+
+T13_RAC_IACCAT <- TIAS2013_IAC[, c("TA131092", "CAT")] %>% group_by(TA131092, CAT) %>% summarise(Count = n())
+
+T13_RAC_IACCAT <- T13_RAC_IACCAT[1:6, ]
+
+head(T13_RAC_CAT, 11)
+
+ggplot(T13_RAC_CAT, aes(x = CAT, y = Count, fill = as.factor(TA131092))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2013", x = "Category", y = "Count") + 
+  scale_fill_manual("Race", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("White", "Black", "American Indian or Alaska Native", "Asian", "Native Hawaiian or Pacific Islander", "Other"))
+
+head(T13_RAC_FTLW, 17)
+
+ggplot(T13_RAC_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA131092)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2013", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Race", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("White", "Black", "American Indian or Alaska Native", "Asian", "Native Hawaiian or Pacific Islander", "Other"))
+
+prop.table(table(TIAS2013_FTL$TA131092))
+
+rac.pie.ftl.13 <- ggplot(data = T13_RAC_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA131092))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Race", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "turquoise"), 
+                    labels = c("White", "Black", "American Indian or Alaska Native", "Asian", "Other"))
+
+prop.table(table(TIAS2013_IAC$TA131092))
+
+rac.pie.iac.13 <- ggplot(data = T13_RAC_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA131092))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Race", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
+                    labels = c("White", "Black", "American Indian or Alaska Native", "Asian", "Native Hawaiian or Pacific Islander", "Other"))
+
+ggarrange(rac.pie.ftl.13, rac.pie.iac.13, ncol = 2, nrow = 1, labels = c("FTL 2013", "IAC 2013"))
 
 ### Daily Cigarette Usage ========================================================================================================
 
+#### 
+# H30. # Cigarettes Per Day: “On the average, how many cigarettes per day do you usually smoke?”
+# Answers (One cigarette per day or fewer); 2-100 (Actual Number); 998 (DK)
+####
+
+table(TIAS$TA130938)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130938 = 998)) 
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130938 = 998)) 
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130938 = 998)) 
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130938 = 998)) 
+
+T13_CIG_FTLW <- TIAS[, c("TA130938", "FTL_COUNT")] %>% group_by(TA130938, FTL_COUNT) %>% summarise(Count = n())
+
+T13_CIG_FTLW <- T13_CIG_FTLW[1:37, ]
+
+T13_CIG_CAT <- TIAS2013[, c("TA130938", "CAT")] %>% group_by(TA130938, CAT) %>% summarise(Count = n())
+
+T13_CIG_CAT <- T13_CIG_CAT[1:27, ]
+
+ggplot(T13_CIG_FTLW, aes(x = FTL_COUNT, y = TA130938, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2013", x = "# of Waves for Which Participant Identified as FTL", y = "Usual # of Cigarettes Per Day") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T13_CIG_CAT, aes(x = CAT, y = TA130938, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2013", x = "Category", y = "Usual # of Cigarettes Per Day") + 
+  guides(fill = guide_legend(title = "Category"))
+
 ### Body Mass Index (BMI) ========================================================================================================
 
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA131223)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA131223 = 99)) 
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA131223 = 99)) 
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA131223 = 99)) 
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA131223 = 99)) 
+
+T13_BMI_FTLW <- TIAS[, c("TA131223", "FTL_COUNT")] %>% group_by(TA131223, FTL_COUNT) %>% summarise(Count = n())
+
+T13_BMI_FTLW <- T13_BMI_FTLW[1:253, ]
+
+T13_BMI_CAT <- TIAS2013[, c("TA131223", "CAT")] %>% group_by(TA131223, CAT) %>% summarise(Count = n())
+
+T13_BMI_CAT <- T13_BMI_CAT[1:213, ]
+
+ggplot(T13_BMI_FTLW, aes(x = FTL_COUNT, y = TA131223, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2013", x = "# of Waves for Which Participant Identified as FTL", y = "Body Mass Index (BMI)") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T13_BMI_CAT, aes(x = CAT, y = TA131223, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2013", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category"))
+
 ### Usual Amount of Daily Sleep ==================================================================================================
+
+####
+# Number of Hours Sleep in 24-HR period: “How many hours do you usually sleep in a 24-hour period?”
+# Answers: 1-24 (Actual Hours); 98 (DK); 99 (NA/refused)
+#### 
+
+table(TIAS$TA130933)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130933 = 98)) 
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130933 = 98)) 
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130933 = 98)) 
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130933 = 98)) 
+
+T13_SLP_FTLW <- TIAS[, c("TA130933", "FTL_COUNT")] %>% group_by(TA130933, FTL_COUNT) %>% summarise(Count = n())
+
+T13_SLP_FTLW <- T13_SLP_FTLW[1:36, ]
+
+T13_SLP_CAT <- TIAS2013[, c("TA130933", "CAT")] %>% group_by(TA130933, CAT) %>% summarise(Count = n())
+
+T13_SLP_CAT <- T13_SLP_CAT[1:22, ]
+
+ggplot(T13_SLP_FTLW, aes(x = FTL_COUNT, y = TA130933, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
+  geom_boxplot() + 
+  labs(title = "TIAS 2013", x = "# of Waves for Which Participant Identified as FTL", y = "Usual Hours of Sleep Per Night") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+
+ggplot(T13_SLP_CAT, aes(x = CAT, y = TA130933, group = CAT, fill = as.factor(CAT))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2013", x = "Category", y = "Usual Hours of Sleep Per Night") + 
+  guides(fill = guide_legend(title = "Category"))
+
 
 ######################## TIAS-D Analysis - TIAS 2015 ######################## 
 
