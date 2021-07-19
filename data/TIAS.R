@@ -298,6 +298,14 @@ TIAS$CAT_13 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_13)
 
+# Creating a subsetted dataframe including only FTL participants for the 2013 wave 
+
+TIAS2013_FTL <- subset(TIAS2013, CAT == "FTL_13")
+
+# Creating a subsetted dataframe including only IAC participants for the 2013 wave 
+
+TIAS2013_IAC <- subset(TIAS2013, CAT == "IAC_13")
+
 ### TIAS 2015 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2015 wave. You will be shown the number of FTL participants,
@@ -343,6 +351,15 @@ TIAS$CAT_15 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_15)
 
+# Creating a subsetted dataframe including only FTL participants for the 2015 wave 
+
+TIAS2015_FTL <- subset(TIAS2015, CAT == "FTL_15")
+
+# Creating a subsetted dataframe including only IAC participants for the 2015 wave 
+
+TIAS2015_IAC <- subset(TIAS2015, CAT == "IAC_15")
+
+
 ### TIAS 2017 IAC vs. FTL ============================================================================================================
 
 #The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2017 wave. You will be shown the number of FTL participants,
@@ -384,6 +401,15 @@ TIAS$CAT_17 <- with(TIAS, ifelse(
 # View the distribution for CAT_17
 
 table(TIAS$CAT_17)
+
+# Creating a subsetted dataframe including only FTL participants for the 2017 wave 
+
+TIAS2017_FTL <- subset(TIAS2017, CAT == "FTL_17")
+
+# Creating a subsetted dataframe including only IAC participants for the 2017 wave 
+
+TIAS2017_IAC <- subset(TIAS2017, CAT == "IAC_17")
+
 
 ### TIAS FTL Wave Count =========================================================================================================
 
