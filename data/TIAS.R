@@ -4235,10 +4235,10 @@ for(i in 1:7) {
   A14_IAC05_tidylist[[i]]$volunteer_type <- factor(A14_IAC05_tidylist[[i]]$volunteer_type)
 }
 
-create.heatmap <- function(x){
+create.A14.IAC05.heatmap <- function(x){
   ggplot(x, aes(x=variable, y=ID, fill=volunteer_type)) + geom_tile(color="white", size=0.5) +
     coord_equal() +
-    labs(x="Order of Mention", y="ID") +
+    labs(x="Order of Mention", y="TIAS 2005 IAC ID") +
     theme_tufte(base_family="Helvetica") +
     theme(axis.ticks=element_blank()) + 
     theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
@@ -4246,13 +4246,15 @@ create.heatmap <- function(x){
     labels = c("Did Not Mention", "Youth Organization", "Service Organization", "Hospital/Nursing Home", "Religious Organization", "Environmental Organization", "Shelters/Soup Kitchen/Habitat for Humanity", "Other")) 
 }
 
-A14IAC.heatmaps <- function(x){
+A14.IAC05.heatmaps <- function(x){
   create.heatmap(A14_IAC05_tidylist[[x]])
 }
 
-ggarrange(A14IAC.heatmaps(1) + rremove("legend"), A14IAC.heatmaps(2) + rremove("legend") + rremove("y.title"), A14IAC.heatmaps(3) + rremove("legend") + rremove("y.title"), A14IAC.heatmaps(4) + rremove("y.title"), ncol = 4, nrow = 1) 
+# save or view in a horizontally wide frame to view all graphs properly
 
-ggarrange(A14IAC.heatmaps(5) + rremove("legend"), A14IAC.heatmaps(6) + rremove("legend") + rremove("y.title"), A14IAC.heatmaps(7) + rremove("y.title"), ncol = 3, nrow = 1) 
+ggarrange(A14.IAC05.heatmaps(1) + rremove("legend"), A14.IAC05.heatmaps(2) + rremove("legend") + rremove("y.title"), A14.IAC05.heatmaps(3) + rremove("legend") + rremove("y.title"), A14.IAC05.heatmaps(4) + rremove("y.title"), ncol = 4, nrow = 1) 
+
+ggarrange(A14.IAC05.heatmaps(5) + rremove("legend"), A14.IAC05.heatmaps(6) + rremove("legend") + rremove("y.title"), A14.IAC05.heatmaps(7) + rremove("y.title"), ncol = 3, nrow = 1) 
 
 ### Time Use - How Often Volunteered (Over 12 Mos) ===============================================================================
 
