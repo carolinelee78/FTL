@@ -196,7 +196,7 @@ TIAS2009$CAT <- with(TIAS2009, ifelse(
     TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_09", ifelse(
       TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
         TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
-        TA090844 == 0 & TA090828 == 0 & TA090385 == 0 & TA090361 == 1, "FTL_09", "IAC_07")))
+        TA090844 == 0 & TA090828 == 0 & TA090385 == 0 & TA090361 == 1, "FTL_09", "IAC_09")))
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
@@ -10047,6 +10047,76 @@ ggplot(T07_SLP_CAT, aes(x = CAT, y = TA070725, group = CAT, fill = as.factor(CAT
 
 ### Amphetamine Usage ===========================================================================================================
 
+####
+# H44B. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used amphetamine on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA090814)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA090814 = 9))
+
+TIAS2009 <- TIAS2009 %>% 
+  replace_with_na(replace = list(TA090814 = 9))
+
+TIAS2009_FTL <- TIAS2009_FTL %>% 
+  replace_with_na(replace = list(TA090814 = 9))
+
+TIAS2009_IAC <- TIAS2009_IAC %>% 
+  replace_with_na(replace = list(TA090814 = 9))
+
+T09_AMP_FTLW <- TIAS[, c("TA090814", "FTL_COUNT")] %>% group_by(TA090814, FTL_COUNT) %>% summarise(Count = n())
+
+T09_AMP_FTLW <- T09_AMP_FTLW[1:11,]
+
+T09_AMP_CAT <- TIAS2009[, c("TA090814", "CAT")] %>% group_by(TA090814, CAT) %>% summarise(Count = n())
+
+T09_AMP_CAT <- T09_AMP_CAT[1:7, ]
+
+T09_AMP_FTLCAT <- TIAS2009_FTL[, c("TA090814", "CAT")] %>% group_by(TA090814, CAT) %>% summarise(Count = n())
+
+T09_AMP_IACCAT <- TIAS2009_IAC[, c("TA090814", "CAT")] %>% group_by(TA090814, CAT) %>% summarise(Count = n())
+
+T09_AMP_IACCAT <- T09_AMP_IACCAT[1:5, ]
+
+head(T09_AMP_CAT, 7)
+
+ggplot(T09_AMP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA090814)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2009", x = "Category", y = "Count") + 
+  scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "40 or more times"))
+
+head(T09_AMP_FTLW, 11)
+
+ggplot(T09_AMP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA090814)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS 2009", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "40 or more times"))
+
+prop.table(table(TIAS2009_FTL$TA090814))
+
+amp.pie.ftl.09 <- ggplot(data = T09_AMP_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA090814))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "1-2 times"))
+                    
+prop.table(table(TIAS2009_IAC$TA090814))
+
+amp.pie.iac.09 <- ggplot(data = T09_AMP_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA090814))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() +
+  scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "40 or more times"))
+
+ggarrange(amp.pie.ftl.09, amp.pie.iac.09, ncol = 2, nrow = 1, labels = c("FTL 2009", "IAC 2009"))
+
 ### Barbiturate Usage ===========================================================================================================
 
 ### Marijuana Usage =============================================================================================================
@@ -10508,7 +10578,7 @@ ggplot(T13_MAR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA130971)), 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
   labs(title = "TIAS 2013", x = "# of FTL Waves", y = "Count") +
-  scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightpink1", "maroon2", "orangered", "mediumorchid", "rosybrown1"), labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times", "20-39 times", "40 or more times"))
+  scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightpink1", "maroon2", "orangered", "gold", "sienna1"), labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times", "20-39 times", "40 or more times"))
 
 ### Diet Pill Usage ============================================================================================================= 
 
@@ -14080,16 +14150,16 @@ ggarrange(uvw.pie.ftl.13, uvw.pie.iac.13, ncol = 2, nrow = 1, labels = c("FTL 20
 table(TIAS$TA130036)
 
 TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA130036 = 8)) 
+  replace_with_na(replace = list(TA130036 = c(8, 9)))
 
 TIAS2013 <- TIAS2013 %>% 
-  replace_with_na(replace = list(TA130036 = 8)) 
+  replace_with_na(replace = list(TA130036 = c(8, 9)))
 
 TIAS2013_FTL <- TIAS2013_FTL %>% 
-  replace_with_na(replace = list(TA130036 = 8)) 
+  replace_with_na(replace = list(TA130036 = c(8, 9)))
 
 TIAS2013_IAC <- TIAS2013_IAC %>% 
-  replace_with_na(replace = list(TA130036 = 8)) 
+  replace_with_na(replace = list(TA130036 = c(8, 9)))
 
 #### 
 # A14 Type Volunteer ORG--SECOND MENTION: “Which types of organizations have you been involved with in your volunteer or community 
@@ -14098,12 +14168,36 @@ TIAS2013_IAC <- TIAS2013_IAC %>%
 
 table(TIAS$TA130037)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130037 = 9))
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130037 = 9))
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130037 = 9))
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130037 = 9))
+
 #### 
 # A14 Type Volunteer ORG--THIRD MENTION: “Which types of organizations have you been involved with in your volunteer or community 
 # service work in the last 12 months?--(THIRD MENTION) [PROBE: Anything else?]”
 ####
 
 table(TIAS$TA130038)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130038 = 9))
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130038 = 9))
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130038 = 9))
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130038 = 9))
 
 #### 
 # A14 Type Volunteer ORG--FOURTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
@@ -14112,6 +14206,18 @@ table(TIAS$TA130038)
 
 table(TIAS$TA130039)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130039 = 9))
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130039 = 9))
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130039 = 9))
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130039 = 9))
+
 #### 
 # A14 Type Volunteer ORG--FIFTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
 # service work in the last 12 months?--(FIFTH MENTION) [PROBE: Anything else?]”
@@ -14119,12 +14225,36 @@ table(TIAS$TA130039)
 
 table(TIAS$TA130040)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130040 = 9))
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130040 = 9))
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130040 = 9))
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130040 = 9))
+
 #### 
 # A14 Type Volunteer ORG--SIXTH MENTION: “Which types of organizations have you been involved with in your volunteer or community 
 # service work in the last 12 months?--(SIXTH MENTION) [PROBE: Anything else?]”
 ####
 
 table(TIAS$TA130041)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA130041 = 9))
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA130041 = 9))
+
+TIAS2013_FTL <- TIAS2013_FTL %>% 
+  replace_with_na(replace = list(TA130041 = 9))
+
+TIAS2013_IAC <- TIAS2013_IAC %>% 
+  replace_with_na(replace = list(TA130041 = 9))
 
 ####
 # Creating A14 Heatmaps 
@@ -14282,7 +14412,7 @@ T13_SRU_FTLW <- TIAS[, c("TA130061", "FTL_COUNT")] %>% group_by(TA130061, FTL_CO
 
 T13_SRU_FTLW <- T13_SRU_FTLW[1:28, ]
 
-T13_SRU_CAT <- TIAS2013[, c("TA130061", "CAT")] %>% group_by(TA13006`, CAT) %>% summarise(Count = n())
+T13_SRU_CAT <- TIAS2013[, c("TA130061", "CAT")] %>% group_by(TA130061, CAT) %>% summarise(Count = n())
 
 ggplot(T13_SRU_FTLW, aes(x = FTL_COUNT, y = TA130061, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
   geom_boxplot() + 
