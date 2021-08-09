@@ -96,6 +96,10 @@ TIAS2005$CAT <- with(TIAS2005, ifelse(
 
 T05_ID <- TIAS2005$ID
 
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2005$PSID_ID <- (TIAS2005$ER30001 * 1000) + TIAS2005$ER30002
+  
 # Extract IDs of participants who have been identified as FTL for the 2005 wave 
 
 FTL05_ID <- TIAS2005[TIAS2005$CAT == "FTL_05", "ID"]
@@ -153,6 +157,10 @@ TIAS2007$CAT <- with(TIAS2007, ifelse(
 
 T07_ID <- TIAS2007$ID
 
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2007$PSID_ID <- (TIAS2007$ER30001 * 1000) + TIAS2007$ER30002
+
 # Extract IDs of participants who have been identified as FTL for the 2007 wave 
 
 FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "ID"]
@@ -189,8 +197,8 @@ TIAS2007_IAC <- subset(TIAS2007, CAT == "IAC_07")
 
 ### TIAS 2009 IAC vs. FTL ============================================================================================================
 
-#The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2009 wave. You will be shown the number of FTL participants,
-#the number of IAC participants, and the participant IDs of all individuals who are FTL.
+# The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2009 wave. You will be shown the number of FTL participants,
+# the number of IAC participants, and the participant IDs of all individuals who are FTL.
 
 # This selects the data only from the wave of interest, which in this case is 2009. 
 
@@ -206,10 +214,13 @@ TIAS2009$CAT <- with(TIAS2009, ifelse(
        TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
        TA090844 == 0 & TA090828 == 0 & TA090385 == 0 & TA090361 == 1 & TA090100 == 0, "FTL_09", "IAC_09")))
       
-
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
 T09_ID <- TIAS2009$ID
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2009$PSID_ID <- (TIAS2009$ER30001 * 1000) + TIAS2009$ER30002
 
 # Extract IDs of participants who have been identified as FTL for the 2009 wave 
 
@@ -272,6 +283,10 @@ T11_ID <- TIAS2011$ID
 
 FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "ID"]
 
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2011$PSID_ID <- (TIAS2011$ER30001 * 1000) + TIAS2011$ER30002
+
 # View the IDs of participants who have been identified as FTL for the 2011 wave 
 
 print(FTL11_ID)
@@ -315,16 +330,19 @@ TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
 
 TIAS2013$CAT <- with(TIAS2013, ifelse(
   TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
-  TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130961 == 0 & TA130982 == 0 & TA130972 == 0 & 
+  TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130964 == 0 & TA130982 == 0 & TA130972 == 0 & 
   TA130956 == 0 & TA131001 == 0 & TA130993 == 0 & TA130977 == 0 & TA130482 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), "FTL_13", ifelse(
     TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
-    TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130961 == 0 & TA130982 == 0 & TA130969 == 0 & TA130861 == 0 & TA130998 == 0 & 
-    TA130990 == 0 & TA130977 == 0 & TA130482 == 0 & TA130350 == 1 & TA130100 == 0, "FTL_13", "IAC_13")))
-
-      
+    TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130964 == 0 & TA130982 == 0 & TA130972 == 0 & 
+    TA130956 == 0 & TA131001 == 0 & TA130993 == 0 & TA130977 == 0 & TA130482 == 0 & TA130350 == 1 & TA130100 == 0, "FTL_13", "IAC_13")))
+    
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
 T13_ID <- TIAS2013$ID
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2013$PSID_ID <- (TIAS2013$ER30001 * 1000) + TIAS2013$ER30002
 
 # Extract IDs of participants who have been identified as FTL for the 2013 wave 
 
@@ -379,8 +397,6 @@ TIAS2015$CAT <- with(TIAS2015, ifelse(
       TA150869 == 0 & TA150872 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 == 0 & 
       TA150978 == 0 & TA151023 == 0 & TA151015 == 0 & TA150999 == 0 & TA150491 == 0 & TA150352 == 1 & TA150092 == 0, "FTL_15", "IAC_15")))
       
-
-     
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
 T15_ID <- TIAS2015$ID
@@ -388,6 +404,10 @@ T15_ID <- TIAS2015$ID
 # Extract IDs of participants who have been identified as FTL for the 2015 wave 
 
 FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "ID"]
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2015$PSID_ID <- (TIAS2015$ER30001 * 1000) + TIAS2015$ER30002
 
 # View the IDs of participants who have been identified as FTL for the 2015 wave 
 
@@ -439,6 +459,10 @@ TIAS2017$CAT <- with(TIAS2017, ifelse(
 
 T17_ID <- TIAS2017$ID
 
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2017$PSID_ID <- (TIAS2017$ER30001 * 1000) + TIAS2017$ER30002
+
 # Extract IDs of participants who have been identified as FTL for the 2017 wave 
 
 FTL17_ID <- TIAS2017[TIAS2017$CAT == "FTL_17", "ID"]
@@ -472,7 +496,6 @@ TIAS2017_FTL <- subset(TIAS2017, CAT == "FTL_17")
 # Creating a subsetted dataframe including only IAC participants for the 2017 wave 
 
 TIAS2017_IAC <- subset(TIAS2017, CAT == "IAC_17")
-
 
 ### TIAS FTL Wave Count =========================================================================================================
 
