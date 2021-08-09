@@ -1,5 +1,5 @@
 ****** PSID DATA CENTER ************************* 
-****** Variable labels for JobID = 296272 ******* 
+****** Variable labels for JobID = 296274 ******* 
 
 Variable    Labels
 
@@ -82,6 +82,17 @@ ER32053    WTR INDIVIDUAL HAS CENSUS MATCH RECORD
 ER33801    2005 INTERVIEW NUMBER                   
 ER33802    SEQUENCE NUMBER                       05
 ER33803    RELATION TO HEAD                      05
+ER33804    AGE OF INDIVIDUAL                     05
+ER33805    MONTH INDIVIDUAL BORN                 05
+ER33806    YEAR INDIVIDUAL BORN                  05
+ER33807    MARITAL PAIRS INDICATOR               05
+ER33813    EMPLOYMENT STATUS                     05
+ER33814    MONTH LAST IN SCHOOL                  05
+ER33815    YEAR LAST IN SCHOOL                   05
+ER33816    WHETHER STUDENT                       05
+ER33817    YEARS COMPLETED EDUCATION             05
+ER33818    HEALTH GOOD?                          05
+ER33847    WHY NONRESPONSE                       05
 TA050001   RELEASE NUMBER                          
 TA050015   A1 WTR INVOLVED IN ARTS                 
 TA050016   A2 TYPE OF ARTS                         
@@ -202,6 +213,18 @@ TA050946   ENROLLMENT STATUS
 ER33901    2007 INTERVIEW NUMBER                   
 ER33902    SEQUENCE NUMBER                       07
 ER33903    RELATION TO HEAD                      07
+ER33904    AGE OF INDIVIDUAL                     07
+ER33905    MONTH INDIVIDUAL BORN                 07
+ER33906    YEAR INDIVIDUAL BORN                  07
+ER33907    MARITAL PAIRS INDICATOR               07
+ER33911    RESPONDENT?                           07
+ER33913    EMPLOYMENT STATUS                     07
+ER33914    MONTH LAST IN SCHOOL                  07
+ER33915    YEAR LAST IN SCHOOL                   07
+ER33916    WHETHER STUDENT                       07
+ER33917    YEARS COMPLETED EDUCATION             07
+ER33918    HEALTH GOOD?                          07
+ER33949    WHY NONRESPONSE                       07
 TA070001   RELEASE NUMBER                          
 TA070015   A1 WTR INVOLVED IN ARTS                 
 TA070016   A2 TYPE OF ARTS                         
@@ -322,6 +345,18 @@ TA070927   ENROLLMENT STATUS
 ER34001    2009 INTERVIEW NUMBER                   
 ER34002    SEQUENCE NUMBER                       09
 ER34003    RELATION TO HEAD                      09
+ER34004    AGE OF INDIVIDUAL                     09
+ER34005    MONTH INDIVIDUAL BORN                 09
+ER34006    YEAR INDIVIDUAL BORN                  09
+ER34007    MARITAL PAIRS INDICATOR               09
+ER34011    RESPONDENT?                           09
+ER34016    EMPLOYMENT STATUS                     09
+ER34017    MONTH LAST IN SCHOOL                  09
+ER34018    YEAR LAST IN SCHOOL                   09
+ER34019    WHETHER STUDENT                       09
+ER34020    YEARS COMPLETED EDUCATION             09
+ER34021    HEALTH GOOD?                          09
+ER34044    WHY NONRESPONSE                       09
 TA090001   RELEASE NUMBER                          
 TA090016   A1 WTR INVOLVED IN ARTS                 
 TA090017   A2 TYPE OF ARTS                         
@@ -442,6 +477,17 @@ TA090991   ENROLLMENT STATUS
 ER34101    2011 INTERVIEW NUMBER                   
 ER34102    SEQUENCE NUMBER                       11
 ER34103    RELATION TO HEAD                      11
+ER34104    AGE OF INDIVIDUAL                     11
+ER34105    MONTH INDIVIDUAL BORN                 11
+ER34106    YEAR INDIVIDUAL BORN                  11
+ER34107    MARITAL PAIRS INDICATOR               11
+ER34111    RESPONDENT?                           11
+ER34116    EMPLOYMENT STATUS                     11
+ER34117    MONTH LAST IN SCHOOL                  11
+ER34118    YEAR LAST IN SCHOOL                   11
+ER34119    YEARS COMPLETED EDUCATION             11
+ER34120    HEALTH GOOD?                          11
+ER34153    WHY NONRESPONSE                       11
 TA110001   RELEASE NUMBER                          
 TA110016   A1 WTR INVOLVED IN ARTS                 
 TA110017   A2 TYPE OF ARTS                         
@@ -562,6 +608,17 @@ TA111133   ENROLLMENT STATUS
 ER34201    2013 INTERVIEW NUMBER                   
 ER34202    SEQUENCE NUMBER                       13
 ER34203    RELATION TO HEAD                      13
+ER34204    AGE OF INDIVIDUAL                     13
+ER34205    MONTH INDIVIDUAL BORN                 13
+ER34206    YEAR INDIVIDUAL BORN                  13
+ER34207    MARITAL PAIRS INDICATOR               13
+ER34211    RESPONDENT?                           13
+ER34216    EMPLOYMENT STATUS                     13
+ER34217    MONTH LAST IN SCHOOL                  13
+ER34218    YEAR LAST IN SCHOOL                   13
+ER34230    YEARS COMPLETED EDUCATION             13
+ER34231    HEALTH GOOD?                          13
+ER34267    WHY NONRESPONSE                       13
 TA130001   RELEASE NUMBER                          
 TA130016   A1 WTR INVOLVED IN ARTS                 
 TA130017   A2 TYPE OF ARTS                         
@@ -681,6 +738,18 @@ TA131225   ENROLLMENT STATUS
 ER34301    2015 INTERVIEW NUMBER                   
 ER34302    SEQUENCE NUMBER                       15
 ER34303    RELATION TO HEAD                      15
+ER34304    WTR SAME SEX PARTNER OF HD            15
+ER34305    AGE OF INDIVIDUAL                     15
+ER34306    MONTH INDIVIDUAL BORN                 15
+ER34307    YEAR INDIVIDUAL BORN                  15
+ER34308    MARITAL PAIRS INDICATOR               15
+ER34312    RESPONDENT?                           15
+ER34317    EMPLOYMENT STATUS                     15
+ER34344    YEAR GRADUATED HIGHEST DEGREE         15
+ER34349    YEARS COMPLETED EDUCATION             15
+ER34368    UP: TYPE OF HIGHEST DEGREE            15
+ER34381    HEALTH GOOD?                          15
+ER34412    WHY NONRESPONSE                       15
 TA150001   RELEASE NUMBER                          
 TA150016   A1 WTR INVOLVED IN ARTS                 
 TA150017   A2 TYPE OF ARTS                         
@@ -800,6 +869,17 @@ TA151285   ENROLLMENT STATUS
 ER34501    2017 INTERVIEW NUMBER                   
 ER34502    SEQUENCE NUMBER                       17
 ER34503    RELATION TO REFERENCE PERSON          17
+ER34504    AGE OF INDIVIDUAL                     17
+ER34505    MONTH INDIVIDUAL BORN                 17
+ER34506    YEAR INDIVIDUAL BORN                  17
+ER34507    MARITAL PAIRS INDICATOR               17
+ER34511    RESPONDENT?                           17
+ER34516    EMPLOYMENT STATUS                     17
+ER34535    TYPE OF HIGHEST DEGREE                17
+ER34543    YEAR GRADUATED HIGHEST DEGREE         17
+ER34548    YEARS COMPLETED EDUCATION             17
+ER34580    HEALTH GOOD?                          17
+ER34649    WHY NONRESPONSE                       17
 TA170001   RELEASE NUMBER                          
 TA170016   A2 WTR INVOLVED IN ARTS                 
 TA170017   A3 TYPE OF ARTS                         
