@@ -540,6 +540,8 @@ table(TIAS$GREQ1_FTL)
 
 TIAS_FTL <- subset(TIAS, GREQ1_FTL == "Yes")
 
+TIAS_IAC <- subset(TIAS, GREQ1_FTL == "No")
+
 ######################## TIAS-D Analysis - TIAS 2005 ######################## 
 
 ### Amphetamine Usage =========================================================================================================== 
@@ -1632,7 +1634,7 @@ table(TIAS$TA050368)
 
 T05_EPH_FTLW <- TIAS[, c("TA050368", "FTL_COUNT")] %>% group_by(TA050368, FTL_COUNT) %>% summarise(Count = n())
 
-T05_EPH_FTLW <- T05_EPH_FTLW[1:13, ]
+T05_EPH_FTLW <- T05_EPH_FTLW[1:7, ]
 
 T05_EPH_CAT <- TIAS2005[, c("TA050368", "CAT")] %>% group_by(TA050368, CAT) %>% summarise(Count = n())
 
@@ -1640,14 +1642,14 @@ T05_EPH_FTLCAT <- TIAS2005_FTL[, c("TA050368", "CAT")] %>% group_by(TA050368, CA
 
 T05_EPH_IACCAT <- TIAS2005_IAC[, c("TA050368", "CAT")] %>% group_by(TA050368, CAT) %>% summarise(Count = n())
 
-head(T05_EPH_CAT, 6)
+head(T05_EPH_CAT, 5)
 
 ggplot(T05_EPH_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050368)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Paid Employment History", values = c("darkturquoise", "darkviolet", "deeppink"), labels = c("Yes (Employed Since 2003 or Before)", "Yes (Not Now)", "No"))
 
-head(T05_EPH_FTLW, 13)
+head(T05_EPH_FTLW, 7)
 
 ggplot(T05_EPH_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050368)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -1660,7 +1662,7 @@ prop.table(table(TIAS2005_FTL$TA050368))
 eph.pie.ftl.05 <- ggplot(data = T05_EPH_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050368))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Paid Employment History", values = c("darkturquoise", "darkviolet", "deeppink"), labels = c("Yes (Employed Since 2003 or Before)", "Yes (Not Now)", "No")) +
+  scale_fill_manual("Paid Employment History", values = c("darkturquoise", "darkviolet"), labels = c("Yes (Employed Since 2003 or Before)", "Yes (Not Now)")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050368))
@@ -14603,7 +14605,6 @@ table(TIAS$TA130048)
 
 T13_RMM_FTLW <- TIAS[, c("TA130048", "FTL_COUNT")] %>% group_by(TA130048, FTL_COUNT) %>% summarise(Count = n())
 
-
 T13_RMM_CAT <- TIAS2013[, c("TA130048", "CAT")] %>% group_by(TA130048, CAT) %>% summarise(Count = n())
 
 T13_RMM_FTLCAT <- TIAS2013_FTL[, c("TA130048", "CAT")] %>% group_by(TA130048, CAT) %>% summarise(Count = n())
@@ -27093,7 +27094,6 @@ T17_vsm_FTLW <- T17_vsm_FTLW[1:21, ]
 
 T17_vsm_CAT <- T17_vsm_CAT[1:13, ]
 
-
 ggplot(T17_vsm_CAT, aes(x = CAT, y = Count, fill = as.factor(TA170030))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2017", x = "Category", y = "Count") + 
@@ -27374,7 +27374,6 @@ tuh.pie.iac.17 <- ggplot(data = T17_TUH_IACCAT, aes(x = " ", y = Count, fill = a
   theme_void() +
   scale_fill_manual("How Often Volunteered (Over 12mos)", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise", "mediumpurple1"), 
                     labels = c("Did not volunteer", "Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day"))
-
 
 ggarrange(tuh.pie.ftl.17, tuh.pie.iac.17, ncol = 2, nrow = 1, labels = c("FTL 2017", "IAC 2017"))
 
@@ -27745,6 +27744,89 @@ RTH_S5_PLOT <- ggplot(RTH_FTL_S5_TIDY, aes(x=variable, y=PSID_ID, fill=rel_to_he
 
 ggarrange(RTH_S1_PLOT, RTH_S2_PLOT, RTH_S3_PLOT, RTH_S4_PLOT, RTH_S5_PLOT, ncol = 5, nrow = 1)
 
+### Sex of Individual =============================================================================================================
+
+table(TIAS$ER32000)
+
+TIAS_SEX_FTLW <- TIAS[, c("ER32000", "FTL_COUNT")] %>% group_by(ER32000, FTL_COUNT) %>% summarise(Count = n())
+
+TIAS_SEX_CAT <- TIAS[, c("ER32000", "GREQ1_FTL")] %>% group_by(ER32000, GREQ1_FTL) %>% summarise(Count = n())
+
+TIAS_SEX_FTLCAT <- TIAS_FTL[, c("ER32000", "GREQ1_FTL")] %>% group_by(ER32000, GREQ1_FTL) %>% summarise(Count = n())
+
+TIAS_SEX_IACCAT <- TIAS_IAC[, c("ER32000", "GREQ1_FTL")] %>% group_by(ER32000, GREQ1_FTL) %>% summarise(Count = n())
+
+ggplot(TIAS_SEX_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(ER32000)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  labs(title = "TIAS", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Sex", values =  c("turquoise", "mediumpurple1"))
+
+ggplot(TIAS_SEX_CAT, aes(x = GREQ1_FTL, y = Count, fill = as.factor(ER32000))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS", x = "WTR FTL", y = "Count") + 
+  scale_fill_manual("Sex", values =  c("turquoise", "mediumpurple1"), labels = c("Male", "Female"))
+
+prop.table(table(TIAS_FTL$ER32000))
+
+sex.pie.ftl.tias <- ggplot(data = TIAS_SEX_FTLCAT, aes(x = " ", y = Count, fill = as.factor(ER32000))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() + 
+  scale_fill_manual("Sex", values =  c("turquoise", "mediumpurple1"), labels = c("Male", "Female"))
+
+prop.table(table(TIAS_IAC$ER32000))
+
+sex.pie.iac.tias <- ggplot(data = TIAS_SEX_IACCAT, aes(x = " ", y = Count, fill = as.factor(ER32000))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() + 
+  scale_fill_manual("Sex", values =  c("turquoise", "mediumpurple1"), labels = c("Male", "Female"))
+
+ggarrange(sex.pie.ftl.tias, sex.pie.iac.tias, ncol = 2, nrow = 1, labels = c("FTL", "IAC"))
+
+### Age of Individual (2005) =============================================================================================================
+
+table(TIAS2005$ER33804)
+
+table(TIAS2005_FTL$ER33804)
+
+### Age of Individual (2007) =============================================================================================================
+
+table(TIAS2007$ER33904)
+
+table(TIAS2007_FTL$ER33904)
+
+### Age of Individual (2009) =============================================================================================================
+
+table(TIAS2009$ER34004)
+
+table(TIAS2009_FTL$ER34004)
+
+### Age of Individual (2011) =============================================================================================================
+
+table(TIAS2011$ER34104)
+
+table(TIAS2011_FTL$ER34104)
+
+### Age of Individual (2013) =============================================================================================================
+
+table(TIAS2013$ER34204)
+
+table(TIAS2013_FTL$ER34204)
+
+### Age of Individual (2015) =============================================================================================================
+
+table(TIAS2015$ER34305)
+
+table(TIAS2015_FTL$ER34305)
+
+### Age of Individual (2017) =============================================================================================================
+
+table(TIAS2017$ER34504)
+
+table(TIAS2017_FTL$ER34504)
+
 ############################ TIAS-D Regression Analysis - TIAS 2005 ############################
 
 TIAS2005_DEP <- TIAS2005 %>% dplyr::select(FTLCAT,TA050784,TA050808,TA050792,TA050776,TA050824, TA050816,TA050797,TA050767,TA050768,TA050723,TA050938,TA050733,TA050734,TA050710,TA050711,
@@ -27779,31 +27861,14 @@ step(FULL.T05) # warning: takes a really long time to run
 
 STEP.T05 <- glm(formula = FTLCAT ~ TA050131 + TA050368 + TA050023 + TA050055, data = TIAS2005_DEP, family = binomial(link="logit")) 
 
-hoslem.test(TIAS2005_DEP$FTLCAT, fitted(STEP.T05))
+print(STEP.T05)
 
 influencePlot(STEP.T05) 
 
 outlierTest(STEP.T05)
 
-attributes(alias(FULL.T05)$Complete)$dimnames[[1]]
 
-TIAS2005_CLE <- TIAS2005_DEP %>% dplyr::select(-c(TA050808, TA050824, TA050816, TA050768, TA050711, TA050714, TA050713, TA050717, TA050594, TA050946, TA050024, TA050025, TA050026, TA050027, TA050895, 
-                                                  TA050935, TA050019, TA050033, TA050030, TA050035))
 
-factorcols.cle.05 <- c("FTLCAT","TA050784","TA050792","TA050776","TA050797","TA050767","TA050723","TA050938", "TA050733","TA050734","TA050710",
-                   "TA050708","TA050933","TA050932","TA050131","TA050368","TA050069","TA050078","TA050573","TA050044","TA050045",
-                   "TA050046","TA050047","TA050048","TA050050","TA050051","TA050020","TA050021","TA050022","TA050023","TA050060","TA050061","TA050888",
-                   "TA050889","TA050890","TA050891","TA050892","TA050893","TA050894","TA050896","TA050897","TA050898","TA050899","TA050900","TA050901","TA050937","TA050015",
-                   "TA050016","TA050017","TA050018","TA050049","TA050032","TA050028","TA050029","TA050031","TA050034",
-                   "TA050041","TA050052","TA050053","TA050054","TA050055","TA050056","TA050057","TA050058","TA050059","TA050755","TA050756","TA050883","TA050884","TA050759")
-
-TIAS2005_CLE[factorcols.05] <- lapply(TIAS2005_CLE[factorcols.05], factor)
-
-FULL.T05 <- glm(FTLCAT ~ ., family = binomial(link="logit"), data = TIAS2005_CLE)
-
-plot(FULL.T05)
-
-plot(STEP.T05)
 
 ######################## TIAS-D FTL/IAC Difference Analysis - TIAS 2005 ######################## 
 
@@ -27848,7 +27913,7 @@ CramerV(T05_EPH_MTBL) # calculate Cramer's V
 
 phi(as.matrix(T05_EPH_MTBL)) # calculate phi coefficient (as we have a 2x2 contingency table)
 
-ctrb.eph.05 <- 100*chisq.eph.05$residuals^2/chisq.eph.05$statistic # calculating contribution (in %) of given cell to total x-square score 
+ctrb.eph.05 <- 100*chisq.eph.05$residuals^2/chisq.eph.05$statistic # calculating contribution (in %) of given cell to total x-square score   
 
 corrplot(ctrb.eph.05, is.cor = FALSE) # visualizing the contribution 
 
