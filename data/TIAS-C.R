@@ -57,6 +57,10 @@ TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/
 
 TIAS$ID <- seq.int(nrow(TIAS)) 
 
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS$PSID_ID <- (TIAS$ER30001 * 1000) + TIAS$ER30002
+
 # This selects the data only from the wave of interest, which in this case is 2005.    
 
 TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
