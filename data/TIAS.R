@@ -83,13 +83,11 @@ rm(list=ls())
 
 TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
 
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
-
-TIAS$ID <- seq.int(nrow(TIAS)) 
-
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
 TIAS$PSID_ID <- (TIAS$ER30001 * 1000) + TIAS$ER30002
+
+ALL_PSID_ID <- TIAS$PSID_ID
 
 ### TIAS 2005 IAC vs. FTL ============================================================================================================
 
@@ -112,17 +110,17 @@ TIAS2005$FTLCAT <- with(TIAS2005, ifelse(
     TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
     TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA050371 == 5 & TA050091 == 0, 1, 0))  
 
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
-
-T05_ID <- TIAS2005$ID
-
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
 TIAS2005$PSID_ID <- (TIAS2005$ER30001 * 1000) + TIAS2005$ER30002
+
+# Before subsetting the data to only include data for the wave of interest, we are adding PSID IDs for each participant
+
+T05_ID <- TIAS2005$PSID_ID
   
 # Extract IDs of participants who have been identified as FTL for the 2005 wave 
 
-FTL05_ID <- TIAS2005[TIAS2005$CAT == "FTL_05", "ID"]
+FTL05_ID <- TIAS2005[TIAS2005$CAT == "FTL_05", "PSID_ID"]
 
 # Count the number of participants who have been identified as FTL for the 2005 wave 
 
@@ -135,26 +133,16 @@ table(TIAS2005$CAT)
 # Create a new variable ('CAT_05') for FTL vs. IAC vs. NA (no data) categorization in the 2005 wave 
 
 TIAS$CAT_05 <- with(TIAS, ifelse(
-  ID %in% FTL05_ID, "FTL_05", ifelse(
-    ID %in% T05_ID, "IAC_05", "NA_05")))
+  PSID_ID %in% FTL05_ID, "FTL_05", ifelse(
+    PSID_ID %in% T05_ID, "IAC_05", "NA_05")))
 
 # View the distribution for CAT_05
 
 table(TIAS$CAT_05)
 
-# Creating a subsetted dataframe including only FTL participants for the 2005 wave 
-
-TIAS2005_FTL <- subset(TIAS2005, CAT == "FTL_05")
-
-# Creating a subsetted dataframe including only IAC participants for the 2005 wave 
-
-TIAS2005_IAC <- subset(TIAS2005, CAT == "IAC_05")
-
 # View the IDs of participants who have been identified as FTL for the 2005 wave 
 
 print(FTL05_ID)
-
-print(TIAS2005_FTL$PSID_ID)
 
 ### TIAS 2007 IAC vs. FTL ============================================================================================================
 
@@ -172,9 +160,9 @@ TIAS2007$CAT <- with(TIAS2007, ifelse(
     TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
     TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA070344 == 5 & TA070091 == 0, "FTL_07", "IAC_07"))  
 
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+# Before subsetting the data to only include data for the wave of interest, we are adding PSID IDs for each participant
 
-T07_ID <- TIAS2007$ID
+T07_ID <- TIAS2007$PSID_ID
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -182,7 +170,7 @@ TIAS2007$PSID_ID <- (TIAS2007$ER30001 * 1000) + TIAS2007$ER30002
 
 # Extract IDs of participants who have been identified as FTL for the 2007 wave 
 
-FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "ID"]
+FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "PSID_ID"]
 
 # Count the number of participants who have been identified as FTL for the 2007 wave 
 
@@ -195,26 +183,16 @@ table(TIAS2007$CAT)
 # Create a new variable ('CAT_07') for FTL vs. IAC vs. NA (no data) categorization in the 2007 wave 
 
 TIAS$CAT_07 <- with(TIAS, ifelse(
-  ID %in% FTL07_ID, "FTL_07", ifelse(
-    ID %in% T07_ID, "IAC_07", "NA_07")))
+  PSID_ID %in% FTL07_ID, "FTL_07", ifelse(
+    PSID_ID %in% T07_ID, "IAC_07", "NA_07")))
 
 # View the distribution for CAT_07
 
 table(TIAS$CAT_07)
 
-# Creating a subsetted dataframe including only FTL participants for the 2007 wave 
-
-TIAS2007_FTL <- subset(TIAS2007, CAT == "FTL_07")
-
-# Creating a subsetted dataframe including only IAC participants for the 2007 wave 
-
-TIAS2007_IAC <- subset(TIAS2007, CAT == "IAC_07")
-
 # View the IDs of participants who have been identified as FTL for the 2007 wave 
 
 print(FTL07_ID)
-
-print(TIAS2007_FTL$PSID_ID)
 
 ### TIAS 2009 IAC vs. FTL ============================================================================================================
 
@@ -239,7 +217,7 @@ TIAS2009$FTLCAT <- with(TIAS2009, ifelse(
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T09_ID <- TIAS2009$ID
+T09_ID <- TIAS2009$PSID_ID
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -247,7 +225,7 @@ TIAS2009$PSID_ID <- (TIAS2009$ER30001 * 1000) + TIAS2009$ER30002
 
 # Extract IDs of participants who have been identified as FTL for the 2009 wave 
 
-FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "ID"]
+FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "PSID_ID"]
 
 # Count the number of participants who have been identified as FTL for the 2009 wave 
 
@@ -260,26 +238,16 @@ table(TIAS2009$CAT)
 # Create a new variable ('CAT_09') for FTL vs. IAC vs. NA (no data) categorization in the 2009 wave 
 
 TIAS$CAT_09 <- with(TIAS, ifelse(
-  ID %in% FTL09_ID, "FTL_09", ifelse(
-    ID %in% T09_ID, "IAC_09", "NA_09")))
+  PSID_ID %in% FTL09_ID, "FTL_09", ifelse(
+    PSID_ID %in% T09_ID, "IAC_09", "NA_09")))
 
 # View the distribution for CAT_09
 
 table(TIAS$CAT_09)
 
-# Creating a subsetted dataframe including only FTL participants for the 2009 wave 
-
-TIAS2009_FTL <- subset(TIAS2009, CAT == "FTL_09")
-
-# Creating a subsetted dataframe including only IAC participants for the 2009 wave 
-
-TIAS2009_IAC <- subset(TIAS2009, CAT == "IAC_09")
-
 # View the IDs of participants who have been identified as FTL for the 2009 wave 
 
 print(FTL09_ID)
-
-print(TIAS2009_FTL$PSID_ID)
 
 ### TIAS 2011 IAC vs. FTL ============================================================================================================
 
@@ -299,11 +267,11 @@ TIAS2011$CAT <- with(TIAS2011, ifelse(
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T11_ID <- TIAS2011$ID
+T11_ID <- TIAS2011$PSID_ID
 
 # Extract IDs of participants who have been identified as FTL for the 2011 wave 
 
-FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "ID"]
+FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "PSID_ID"]
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -320,26 +288,16 @@ table(TIAS2011$CAT)
 # Create a new variable ('CAT_11') for FTL vs. IAC vs. NA (no data) categorization in the 2011 wave 
 
 TIAS$CAT_11 <- with(TIAS, ifelse(
-  ID %in% FTL11_ID, "FTL_11", ifelse(
-    ID %in% T11_ID, "IAC_11", "NA_11")))
+  PSID_ID %in% FTL11_ID, "FTL_11", ifelse(
+    PSID_ID %in% T11_ID, "IAC_11", "NA_11")))
 
 # View the distribution for CAT_11
 
 table(TIAS$CAT_11)
 
-# Creating a subsetted dataframe including only FTL participants for the 2011 wave 
-
-TIAS2011_FTL <- subset(TIAS2011, CAT == "FTL_11")
-
-# Creating a subsetted dataframe including only IAC participants for the 2011 wave 
-
-TIAS2011_IAC <- subset(TIAS2011, CAT == "IAC_11")
-
 # View the IDs of participants who have been identified as FTL for the 2011 wave 
 
 print(FTL11_ID)
-
-print(TIAS2011_FTL$PSID_ID)
 
 ### TIAS 2013 IAC vs. FTL ============================================================================================================
 
@@ -359,7 +317,7 @@ TIAS2013$CAT <- with(TIAS2013, ifelse(
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T13_ID <- TIAS2013$ID
+T13_ID <- TIAS2013$PSID_ID
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -367,7 +325,7 @@ TIAS2013$PSID_ID <- (TIAS2013$ER30001 * 1000) + TIAS2013$ER30002
 
 # Extract IDs of participants who have been identified as FTL for the 2013 wave 
 
-FTL13_ID <- TIAS2013[TIAS2013$CAT == "FTL_13", "ID"]
+FTL13_ID <- TIAS2013[TIAS2013$CAT == "FTL_13", "PSID_ID"]
 
 # Count the number of participants who have been identified as FTL for the 2013 wave 
 
@@ -380,26 +338,16 @@ table(TIAS2013$CAT)
 # Create a new variable ('CAT_13') for FTL vs. IAC vs. NA (no data) categorization in the 2013 wave 
 
 TIAS$CAT_13 <- with(TIAS, ifelse(
-  ID %in% FTL13_ID, "FTL_13", ifelse(
-    ID %in% T13_ID, "IAC_13", "NA_13")))
+  PSID_ID %in% FTL13_ID, "FTL_13", ifelse(
+    PSID_ID %in% T13_ID, "IAC_13", "NA_13")))
 
 # View the distribution for CAT_13
 
 table(TIAS$CAT_13)
 
-# Creating a subsetted dataframe including only FTL participants for the 2013 wave 
-
-TIAS2013_FTL <- subset(TIAS2013, CAT == "FTL_13")
-
-# Creating a subsetted dataframe including only IAC participants for the 2013 wave 
-
-TIAS2013_IAC <- subset(TIAS2013, CAT == "IAC_13")
-
 # View the IDs of participants who have been identified as FTL for the 2013 wave 
 
 print(FTL13_ID)
-
-print(TIAS2013_FTL$PSID_ID)
 
 ### TIAS 2015 IAC vs. FTL ============================================================================================================
 
@@ -419,11 +367,11 @@ TIAS2015$CAT <- with(TIAS2015, ifelse(
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T15_ID <- TIAS2015$ID
+T15_ID <- TIAS2015$PSID_ID
 
 # Extract IDs of participants who have been identified as FTL for the 2015 wave 
 
-FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "ID"]
+FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "PSID_ID"]
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -440,26 +388,16 @@ table(TIAS2015$CAT)
 # Create a new variable ('CAT_15') for FTL vs. IAC vs. NA (no data) categorization in the 2015 wave 
 
 TIAS$CAT_15 <- with(TIAS, ifelse(
-  ID %in% FTL15_ID, "FTL_15", ifelse(
-    ID %in% T15_ID, "IAC_15", "NA_15")))
+  PSID_ID %in% FTL15_ID, "FTL_15", ifelse(
+    PSID_ID %in% T15_ID, "IAC_15", "NA_15")))
 
 # View the distribution for CAT_15
 
 table(TIAS$CAT_15)
 
-# Creating a subsetted dataframe including only FTL participants for the 2015 wave 
-
-TIAS2015_FTL <- subset(TIAS2015, CAT == "FTL_15")
-
-# Creating a subsetted dataframe including only IAC participants for the 2015 wave 
-
-TIAS2015_IAC <- subset(TIAS2015, CAT == "IAC_15")
-
 # View the IDs of participants who have been identified as FTL for the 2015 wave 
 
 print(FTL15_ID)
-
-print(TIAS2015_FTL$PSID_ID)
 
 ### TIAS 2017 IAC vs. FTL ============================================================================================================
 
@@ -479,7 +417,7 @@ TIAS2017$CAT <- with(TIAS2017, ifelse(
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T17_ID <- TIAS2017$ID
+T17_ID <- TIAS2017$PSID_ID
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -487,7 +425,7 @@ TIAS2017$PSID_ID <- (TIAS2017$ER30001 * 1000) + TIAS2017$ER30002
 
 # Extract IDs of participants who have been identified as FTL for the 2017 wave 
 
-FTL17_ID <- TIAS2017[TIAS2017$CAT == "FTL_17", "ID"]
+FTL17_ID <- TIAS2017[TIAS2017$CAT == "FTL_17", "PSID_ID"]
 
 # Count the number of participants who have been identified as FTL for the 2017 wave 
 
@@ -500,43 +438,123 @@ table(TIAS2017$CAT)
 # Create a new variable ('CAT_17') for FTL vs. IAC vs. NA (no data) categorization in the 2017 wave 
 
 TIAS$CAT_17 <- with(TIAS, ifelse(
-  ID %in% FTL17_ID, "FTL_17", ifelse(
-    ID %in% T17_ID, "IAC_17", "NA_17")))
+  PSID_ID %in% FTL17_ID, "FTL_17", ifelse(
+    PSID_ID %in% T17_ID, "IAC_17", "NA_17")))
 
 # View the distribution for CAT_17
 
 table(TIAS$CAT_17)
 
-# Creating a subsetted dataframe including only FTL participants for the 2017 wave 
-
-TIAS2017_FTL <- subset(TIAS2017, CAT == "FTL_17")
-
-# Creating a subsetted dataframe including only IAC participants for the 2017 wave 
-
-TIAS2017_IAC <- subset(TIAS2017, CAT == "IAC_17")
-
 # View the IDs of participants who have been identified as FTL for the 2017 wave 
 
 print(FTL17_ID)
 
-print(TIAS2017_FTL$PSID_ID)
-
 ### TIAS FTL Wave Count =========================================================================================================
 
-# Creating a variable for the total number of waves that each participant identified as FTL (as opposed to IAC or NA)
+count.ftlwave <- function(x){
+  as.integer(as.logical(x %in% FTL05_ID)) + as.integer(as.logical(x %in% FTL07_ID)) + as.integer(as.logical(x %in% FTL09_ID)) +
+    as.integer(as.logical(x %in% FTL11_ID)) + as.integer(as.logical(x %in% FTL13_ID)) + as.integer(as.logical(x %in% FTL15_ID)) + as.integer(as.logical(x %in% FTL17_ID))
+}
 
-TIAS$FTL_COUNT <- as.integer(as.logical(TIAS$CAT_05 == "FTL_05")) + as.integer(as.logical(TIAS$CAT_07 == "FTL_07")) + as.integer(as.logical(TIAS$CAT_09 == "FTL_09")) +
-  as.integer(as.logical(TIAS$CAT_11 == "FTL_11")) + as.integer(as.logical(TIAS$CAT_13 == "FTL_13")) + as.integer(as.logical(TIAS$CAT_15 == "FTL_15")) + as.integer(as.logical(TIAS$CAT_17 == "FTL_17"))
+PSID_LIST <- lapply(ALL_PSID_ID, count.ftlwave)
 
-# Viewing the distribution of FTL wave counts 
+TIAS$FTL_COUNT <- unlist(PSID_LIST)
 
-table(TIAS$FTL_COUNT)                        
+table(TIAS$FTL_COUNT)
+
+TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
+
+table(TIAS2005$FTL_COUNT)
+
+TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
+
+table(TIAS2007$FTL_COUNT)
+
+TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
+
+table(TIAS2009$FTL_COUNT)
+
+TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
+
+table(TIAS2011$FTL_COUNT)
+
+TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
+
+table(TIAS2013$FTL_COUNT)
+
+TIAS2015 <- TIAS[!is.na(TIAS$TAS15),]
+
+table(TIAS2015$FTL_COUNT)
+
+TIAS2017 <- TIAS[!is.na(TIAS$TAS17),]
+
+table(TIAS2017$FTL_COUNT)
+
+# Creating a subsetted dataframe including only FTL participants for the 2005 wave 
+
+TIAS2005_FTL <- subset(TIAS, CAT_05 == "FTL_05")
+
+# Creating a subsetted dataframe including only IAC participants for the 2005 wave 
+
+TIAS2005_IAC <- subset(TIAS, CAT_05 == "IAC_05")
+
+# Creating a subsetted dataframe including only FTL participants for the 2007 wave 
+
+TIAS2007_FTL <- subset(TIAS, CAT_07 == "FTL_07")
+
+# Creating a subsetted dataframe including only IAC participants for the 2007 wave 
+
+TIAS2007_IAC <- subset(TIAS, CAT_07 == "IAC_07")
+
+# Creating a subsetted dataframe including only FTL participants for the 2009 wave 
+
+TIAS2009_FTL <- subset(TIAS, CAT_09 == "FTL_09")
+
+# Creating a subsetted dataframe including only IAC participants for the 2009 wave 
+
+TIAS2009_IAC <- subset(TIAS, CAT_09 == "IAC_09")
+
+# Creating a subsetted dataframe including only FTL participants for the 2011 wave 
+
+TIAS2011_FTL <- subset(TIAS, CAT_11 == "FTL_11")
+
+# Creating a subsetted dataframe including only IAC participants for the 2011 wave 
+
+TIAS2011_IAC <- subset(TIAS, CAT_11 == "IAC_11")
+
+# Creating a subsetted dataframe including only FTL participants for the 2013 wave 
+
+TIAS2013_FTL <- subset(TIAS, CAT_13 == "FTL_13")
+
+# Creating a subsetted dataframe including only IAC participants for the 2013 wave 
+
+TIAS2013_IAC <- subset(TIAS, CAT_13 == "IAC_13")
+
+# Creating a subsetted dataframe including only FTL participants for the 2015 wave 
+
+TIAS2015_FTL <- subset(TIAS, CAT_15 == "FTL_15")
+
+# Creating a subsetted dataframe including only IAC participants for the 2015 wave 
+
+TIAS2015_IAC <- subset(TIAS, CAT_15 == "IAC_15")
+
+# Creating a subsetted dataframe including only FTL participants for the 2017 wave 
+
+TIAS2017_FTL <- subset(TIAS, CAT_17 == "FTL_17")
+
+# Creating a subsetted dataframe including only IAC participants for the 2017 wave 
+
+TIAS2017_IAC <- subset(TIAS, CAT_17 == "IAC_17")
+
+ALL_FTL_ID <- c(FTL05_ID, FTL07_ID, FTL09_ID, FTL11_ID, FTL13_ID, FTL15_ID, FTL17_ID)
+
+length(ALL_FTL_ID)
+
+FTL_ID <- unique(ALL_FTL_ID)
 
 # Creating a variable distinguishing participants who identified as FTL for at least one wave (greater than or equal to 1; GREQ1) vs. who never identified as FTL
 
-TIAS$GREQ1_FTL <- with(TIAS, ifelse(FTL_COUNT >= 1, "Yes", "No"))      
-
-table(TIAS$GREQ1_FTL)
+TIAS$GREQ1_FTL <- with(TIAS, ifelse(PSID_ID %in% FTL_ID, "Yes", "No"))      
 
 TIAS_FTL <- subset(TIAS, GREQ1_FTL == "Yes")
 
@@ -544,7 +562,7 @@ TIAS_IAC <- subset(TIAS, GREQ1_FTL == "No")
 
 ######################## TIAS-D Analysis - TIAS 2005 ######################## 
 
-### Amphetamine Usage =========================================================================================================== 
+### Amphetamine Usage =========================================================================================================== EDITED
 
 ####
 # H44B. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used amphetamine on your own
@@ -554,30 +572,28 @@ TIAS_IAC <- subset(TIAS, GREQ1_FTL == "No")
 
 table(TIAS$TA050784)
 
-T05_AMP_FTLW <- TIAS[, c("TA050784", "FTL_COUNT")] %>% group_by(TA050784, FTL_COUNT) %>% summarise(Count = n())
+T05_AMP_FTLW <- TIAS2005[, c("TA050784", "FTL_COUNT")] %>% group_by(TA050784, FTL_COUNT) %>% summarise(Count = n())
 
-T05_AMP_FTLW <- T05_AMP_FTLW[1:11,]
-
-T05_AMP_CAT <- TIAS2005[, c("TA050784", "CAT")] %>% group_by(TA050784, CAT) %>% summarise(Count = n())
+T05_AMP_CAT <- TIAS2005[, c("TA050784", "CAT_05")] %>% group_by(TA050784, CAT_05) %>% summarise(Count = n())
 
 head(T05_AMP_CAT, 7)
 
-ggplot(T05_AMP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050784)), xlab="Category") +
+ggplot(T05_AMP_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050784)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple1"), 
                     labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "20-39 times", "40 or more times"))
 
-head(T05_AMP_FTLW, 11)
+head(T05_AMP_FTLW, 8)
 
 ggplot(T05_AMP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050784)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple1"), 
                     labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "20-39 times", "40 or more times"))
 
-### Barbiturate Usage =========================================================================================================== 
+### Barbiturate Usage =========================================================================================================== EDITED
 
 ####
 # H44E. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used barbiturates on your own
@@ -587,30 +603,28 @@ ggplot(T05_AMP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050784)), 
 
 table(TIAS$TA050808)
 
-T05_BRB_FTLW <- TIAS[, c("TA050808", "FTL_COUNT")] %>% group_by(TA050808, FTL_COUNT) %>% summarise(Count = n())
+T05_BRB_FTLW <- TIAS2005[, c("TA050808", "FTL_COUNT")] %>% group_by(TA050808, FTL_COUNT) %>% summarise(Count = n())
 
-T05_BRB_FTLW <- T05_BRB_FTLW[1:9, ]
-
-T05_BRB_CAT <- TIAS2005[, c("TA050808", "CAT")] %>% group_by(TA050808, CAT) %>% summarise(Count = n())
+T05_BRB_CAT <- TIAS2005[, c("TA050808", "CAT_05")] %>% group_by(TA050808, CAT_05) %>% summarise(Count = n())
 
 head(T05_BRB_CAT, 5)
 
-ggplot(T05_BRB_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050808)), xlab="Category") +
+ggplot(T05_BRB_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050808)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Barbiturate Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightpink1"), 
                     labels = c("Never", "3-5 times", "10-19 times", "40 or more times"))
 
-head(T05_BRB_FTLW, 9)
+head(T05_BRB_FTLW, 6)
 
 ggplot(T05_BRB_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050808)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Barbiturate Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightpink1"), 
                     labels = c("Never", "3-5 times", "10-19 times", "40 or more times"))
 
-### Marijuana Usage ============================================================================================================= 
+### Marijuana Usage ============================================================================================================= EDITED
 
 ####
 # H44C. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used marijuana on your own
@@ -620,28 +634,26 @@ ggplot(T05_BRB_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050808)), 
 
 table(TIAS$TA050792)
 
-T05_MAR_FTLW <- TIAS[, c("TA050792", "FTL_COUNT")] %>% group_by(TA050792, FTL_COUNT) %>% summarise(Count = n())
+T05_MAR_FTLW <- TIAS2005[, c("TA050792", "FTL_COUNT")] %>% group_by(TA050792, FTL_COUNT) %>% summarise(Count = n())
 
-T05_MAR_FTLW <- T05_MAR_FTLW[1:7, ]
-
-T05_MAR_CAT <- TIAS2005[, c("TA050792", "CAT")] %>% group_by(TA050792, CAT) %>% summarise(Count = n())
+T05_MAR_CAT <- TIAS2005[, c("TA050792", "CAT_05")] %>% group_by(TA050792, CAT_05) %>% summarise(Count = n())
 
 head(T05_MAR_CAT, 3)
 
-ggplot(T05_MAR_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050792)), xlab="Category") +
+ggplot(T05_MAR_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050792)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "40 or more times"))
 
-head(T05_MAR_FTLW, 7)
+head(T05_MAR_FTLW, 4)
 
 ggplot(T05_MAR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050792)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") +
   scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "40 or more times"))
 
-### Diet Pill Usage ============================================================================================================= 
+### Diet Pill Usage ============================================================================================================= EDITED
 
 ####
 # H44A. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used diet pills on your own
@@ -651,28 +663,26 @@ ggplot(T05_MAR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050792)), 
 
 table(TIAS$TA050776)
 
-T05_DIP_FTLW <- TIAS[, c("TA050776", "FTL_COUNT")] %>% group_by(TA050776, FTL_COUNT) %>% summarise(Count = n())
+T05_DIP_FTLW <- TIAS2005[, c("TA050776", "FTL_COUNT")] %>% group_by(TA050776, FTL_COUNT) %>% summarise(Count = n())
 
-T05_DIP_FTLW <- T05_DIP_FTLW[1:7, ]
-
-T05_DIP_CAT <- TIAS2005[, c("TA050776", "CAT")] %>% group_by(TA050776, CAT) %>% summarise(Count = n())
+T05_DIP_CAT <- TIAS2005[, c("TA050776", "CAT_05")] %>% group_by(TA050776, CAT_05) %>% summarise(Count = n())
 
 head(T05_DIP_CAT, 3)
 
-ggplot(T05_DIP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050776)), xlab="Category") +
+ggplot(T05_DIP_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050776)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Diet Pill Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "1-2 times")) 
 
-head(T05_DIP_FTLW, 7)
+head(T05_DIP_FTLW, 4)
 
 ggplot(T05_DIP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050776)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") +
   scale_fill_manual("Diet Pill Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "1-2 times")) 
   
-### Steroid Usage =============================================================================================================== 
+### Steroid Usage =============================================================================================================== EDITED
 
 ####
 # H44G. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used steroids on your own
@@ -682,28 +692,26 @@ ggplot(T05_DIP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050776)), 
 
 table(TIAS$TA050824)
 
-T05_STR_FTLW <- TIAS[, c("TA050824", "FTL_COUNT")] %>% group_by(TA050824, FTL_COUNT) %>% summarise(Count = n())
+T05_STR_FTLW <- TIAS2005[, c("TA050824", "FTL_COUNT")] %>% group_by(TA050824, FTL_COUNT) %>% summarise(Count = n())
 
-T05_STR_FTLW <- T05_STR_FTLW[1:7, ]
-
-T05_STR_CAT <- TIAS2005[, c("TA050824", "CAT")] %>% group_by(TA050824, CAT) %>% summarise(Count = n())
+T05_STR_CAT <- TIAS2005[, c("TA050824", "CAT_05")] %>% group_by(TA050824, CAT_05) %>% summarise(Count = n())
 
 head(T05_STR_CAT, 3)
 
-ggplot(T05_STR_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050824)), xlab="Category") +
+ggplot(T05_STR_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050824)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Steroid Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "20-39 times")) 
 
-head(T05_STR_FTLW, 7)
+head(T05_STR_FTLW, 4)
 
 ggplot(T05_STR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050824)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   scale_fill_manual("Steroid Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), labels = c("Never", "20-39 times")) +
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") 
 
-### Tranquilizer Usage ========================================================================================================== 
+### Tranquilizer Usage ========================================================================================================== EDITED
 
 ####
 # H44F. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used tranquilizers on your own
@@ -713,53 +721,28 @@ ggplot(T05_STR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050824)), 
 
 table(TIAS$TA050816)
 
-T05_TRQ_FTLW <- TIAS[, c("TA050816", "FTL_COUNT")] %>% group_by(TA050816, FTL_COUNT) %>% summarise(Count = n())
+T05_TRQ_FTLW <- TIAS2005[, c("TA050816", "FTL_COUNT")] %>% group_by(TA050816, FTL_COUNT) %>% summarise(Count = n())
 
-T05_TRQ_FTLW <- T05_TRQ_FTLW[1:11, ]
+T05_TRQ_CAT <- TIAS2005[, c("TA050816", "CAT_05")] %>% group_by(TA050816, CAT_05) %>% summarise(Count = n())
 
-T05_TRQ_CAT <- TIAS2005[, c("TA050816", "CAT")] %>% group_by(TA050816, CAT) %>% summarise(Count = n())
+head(T05_TRQ_CAT, 6)
 
-T05_TRQ_FTLCAT <- TIAS2005_FTL[, c("TA050816", "CAT")] %>% group_by(TA050816, CAT) %>% summarise(Count = n())
-
-T05_TRQ_IACCAT <- TIAS2005_IAC[, c("TA050816", "CAT")] %>% group_by(TA050816, CAT) %>% summarise(Count = n())
-
-head(T05_TRQ_CAT, 7)
-
-ggplot(T05_TRQ_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050816)), xlab="Category") +
+ggplot(T05_TRQ_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050816)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
                     labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times"))
 
-head(T05_TRQ_FTLW, 11)
+head(T05_TRQ_FTLW, 7)
 
 ggplot(T05_TRQ_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050816)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
                     labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times"))
 
-prop.table(table(TIAS2005_FTL$TA050816))
-
-trq.pie.ftl.05 <- ggplot(data = T05_TRQ_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050816))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0)  + 
-  scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "lightgoldenrod1"), labels = c("Never", "3-5 times")) + 
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050816))
-
-trq.pie.iac.05 <- ggplot(data = T05_TRQ_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050816))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() +
-  scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
-                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times"))                    
-
-ggarrange(trq.pie.ftl.05, trq.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### Cocaine Usage =============================================================================================================== 
+### Cocaine Usage =============================================================================================================== EDITED
 
 ####
 # H42D_B. # of Occasions in Past 12mos: "On how many occasions (if any) have you used cocaine in the past 12 months?"
@@ -768,53 +751,28 @@ ggarrange(trq.pie.ftl.05, trq.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050797)
 
-T05_CCN_FTLW <- TIAS[, c("TA050797", "FTL_COUNT")] %>% group_by(TA050797, FTL_COUNT) %>% summarise(Count = n())
+T05_CCN_FTLW <- TIAS2005[, c("TA050797", "FTL_COUNT")] %>% group_by(TA050797, FTL_COUNT) %>% summarise(Count = n())
 
-T05_CCN_FTLW <- T05_CCN_FTLW[1:15, ]
+T05_CCN_CAT <- TIAS2005[, c("TA050797", "CAT_05")] %>% group_by(TA050797, CAT_05) %>% summarise(Count = n())
 
-T05_CCN_CAT <- TIAS2005[, c("TA050797", "CAT")] %>% group_by(TA050797, CAT) %>% summarise(Count = n())
+head(T05_CCN_CAT, 8)
 
-T05_CCN_FTLCAT <- TIAS2005_FTL[, c("TA050797", "CAT")] %>% group_by(TA050797, CAT) %>% summarise(Count = n())
-
-T05_CCN_IACCAT <- TIAS2005_IAC[, c("TA050797", "CAT")] %>% group_by(TA050797, CAT) %>% summarise(Count = n())
-
-head(T05_CCN_CAT, 9)
-
-ggplot(T05_CCN_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050797))) + 
+ggplot(T05_CCN_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050797))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Cocaine Usage (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
                     labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times", "20-39 times", "40 or more times"))
 
-head(T05_CCN_FTLW, 15)
+head(T05_CCN_FTLW, 9)
 
 ggplot(T05_CCN_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050797)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Cocaine Usage (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
                     labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times", "20-39 times", "40 or more times"))
 
-prop.table(table(TIAS2005_FTL$TA050797))
-
-ccn.pie.ftl.05 <- ggplot(data = T05_CCN_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050797))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) +
-  scale_fill_manual("Cocaine Usage (Prev. Year)", values = c("lightcoral", "gold"), labels = c("Never", "1-2 times")) +
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050797))
-
-ccn.pie.iac.05 <- ggplot(data = T05_CCN_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050797))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) +
-  scale_fill_manual("Cocaine Usage (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
-  labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times", "20-39 times", "40 or more times")) + 
-  theme_void() 
-
-ggarrange(ccn.pie.ftl.05, ccn.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))      
-
-### Average Alcohol Consumption Frequency Over Past Year ======================================================================== 
+### Average Alcohol Consumption Frequency Over Past Year ======================================================================== EDITED
 
 #### 
 # H37. How Often Have Drinks-HD: “In the last year, on average, how often did you have any alcohol to drink? Would you say: 
@@ -825,54 +783,28 @@ ggarrange(ccn.pie.ftl.05, ccn.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050767)
 
-T05_AAC_FTLW <- TIAS[, c("TA050767", "FTL_COUNT")] %>% group_by(TA050767, FTL_COUNT) %>% summarise(Count = n())
+T05_AAC_FTLW <- TIAS2005[, c("TA050767", "FTL_COUNT")] %>% group_by(TA050767, FTL_COUNT) %>% summarise(Count = n())
 
-T05_AAC_FTLW <- T05_AAC_FTLW[1:23, ]
+T05_AAC_CAT <- TIAS2005[, c("TA050767", "CAT_05")] %>% group_by(TA050767, CAT_05) %>% summarise(Count = n())
 
-T05_AAC_CAT <- TIAS2005[, c("TA050767", "CAT")] %>% group_by(TA050767, CAT) %>% summarise(Count = n())
+head(T05_AAC_CAT, 8)
 
-T05_AAC_FTLCAT <- TIAS2005_FTL[, c("TA050767", "CAT")] %>% group_by(TA050767, CAT) %>% summarise(Count = n())
-
-T05_AAC_IACCAT <- TIAS2005_IAC[, c("TA050767", "CAT")] %>% group_by(TA050767, CAT) %>% summarise(Count = n())
-
-head(T05_AAC_CAT, 12)
-
-ggplot(T05_AAC_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050767))) + 
+ggplot(T05_AAC_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050767))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
                     labels = c("Never", "Less than once a month", "About once a month", "Several times a month", "About once a week", "Several times a week", "Every day"))
 
-head(T05_AAC_FTLW, 23)
+head(T05_AAC_FTLW, 11)
 
 ggplot(T05_AAC_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050767)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
                     labels = c("Never", "Less than once a month", "About once a month", "Several times a month", "About once a week", "Several times a week", "Every day"))
 
-prop.table(table(TIAS2005_FTL$TA050767))
-
-aac.pie.ftl.05 <- ggplot(data = T05_AAC_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050767))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
-  labels = c("Never", "Less than once a month", "About once a month", "Several times a month", "About once a week")) +
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050767))
-
-aac.pie.iac.05 <- ggplot(data = T05_AAC_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050767))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) +
-  scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
-  labels = c("Never", "Less than once a month", "About once a month", "Several times a month", "About once a week", "Several times a week", "Every day")) +
-  theme_void() 
-
-ggarrange(aac.pie.ftl.05, aac.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))        
-
-### Average Daily Alcohol Consumption =========================================================================================== 
+### Average Daily Alcohol Consumption =========================================================================================== EDITED
 
 #### 
 # H38. # Alcoholic Drinks Per Day: "In the last year, on the days you drank, about how many drinks did you have?”
@@ -893,60 +825,38 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050768 = 98))  
 
-T05_DAC_FTLW <- TIAS[, c("TA050768", "FTL_COUNT")] %>% group_by(TA050768, FTL_COUNT) %>% summarise(Count = n())
+T05_DAC_FTLW <- TIAS2005[, c("TA050768", "FTL_COUNT")] %>% group_by(TA050768, FTL_COUNT) %>% summarise(Count = n())
 
-T05_DAC_FTLW <- T05_DAC_FTLW[1:32, ]
+T05_DAC_FTLW <- T05_DAC_FTLW[1:18, ]
 
-T05_DAC_CAT <- TIAS2005[, c("TA050768", "CAT")] %>% group_by(TA050768, CAT) %>% summarise(Count = n())
+T05_DAC_CAT <- TIAS2005[, c("TA050768", "CAT_05")] %>% group_by(TA050768, CAT_05) %>% summarise(Count = n())
 
-T05_DAC_CAT <- T05_DAC_CAT[1:20, ]
+T05_DAC_CAT <- T05_DAC_CAT[1:16, ]
 
-T05_DAC_FTLCAT <- TIAS2005_FTL[, c("TA050768", "CAT")] %>% group_by(TA050768, CAT) %>% summarise(Count = n())
+T05_DAC_FTLCAT <- TIAS2005_FTL[, c("TA050768", "CAT_05")] %>% group_by(TA050768, CAT_05) %>% summarise(Count = n())
 
-T05_DAC_FTLCAT <- T05_DAC_FTLCAT[1:5, ]
-
-T05_DAC_IACCAT <- TIAS2005_IAC[, c("TA050768", "CAT")] %>% group_by(TA050768, CAT) %>% summarise(Count = n())
+T05_DAC_IACCAT <- TIAS2005_IAC[, c("TA050768", "CAT_05")] %>% group_by(TA050768, CAT_05) %>% summarise(Count = n())
 
 T05_DAC_IACCAT <- T05_DAC_IACCAT[1:15, ]
 
-head(T05_DAC_CAT, 20)
+head(T05_DAC_CAT, 16)
 
-ggplot(T05_DAC_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050768))) + 
+ggplot(T05_DAC_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050768))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("#E69F00", "#56B4E9", "#009E73", "gold", "#0072B2", "#D55E00", "#CC79A7", "lightcoral", "wheat", "green3", "mediumturquoise", 
   "deepskyblue", "mediumpurple1", "hotpink", "khaki1"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", 
   "9 drinks", "10 drinks", "11 drinks", "12 drinks", "15 drinks", "20 drinks"))
 
-head(T05_DAC_FTLW, 32)
+head(T05_DAC_FTLW, 18)
 
 ggplot(T05_DAC_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050768)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("#E69F00", "#56B4E9", "#009E73", "gold", "#0072B2", "#D55E00", "#CC79A7", "lightcoral", "wheat", "green3", "mediumturquoise", 
   "deepskyblue", "mediumpurple1", "hotpink", "khaki1"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", 
   "9 drinks", "10 drinks", "11 drinks", "12 drinks", "15 drinks", "20 drinks"))
-
-prop.table(table(TIAS2005_FTL$TA050768))
-
-dac.pie.ftl.05 <- ggplot(data = T05_DAC_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050768))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("#E69F00", "#56B4E9", "#009E73", "gold", "#D55E00"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "5 drinks")) +
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050768))
-
-dac.pie.iac.05 <- ggplot(data = T05_DAC_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050768))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) +
-  scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("#E69F00", "#56B4E9", "#009E73", "gold", "#0072B2", "#D55E00", "#CC79A7", "lightcoral", "wheat", "green3", "mediumturquoise", 
-  "deepskyblue", "mediumpurple1", "hotpink", "khaki1"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", 
-  "9 drinks", "10 drinks", "11 drinks", "12 drinks", "15 drinks", "20 drinks")) +
-  theme_void() 
-
-ggarrange(dac.pie.ftl.05, dac.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))          
 
 ### Degree to Which Condition Limits Normal Daily Activities ==================================================================== 
 
@@ -969,23 +879,23 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050723 = 9)) 
 
-T05_DCN_FTLW <- TIAS[, c("TA050723", "FTL_COUNT")] %>% group_by(TA050723, FTL_COUNT) %>% summarise(Count = n())
+T05_DCN_FTLW <- TIAS2005[, c("TA050723", "FTL_COUNT")] %>% group_by(TA050723, FTL_COUNT) %>% summarise(Count = n())
 
 T05_DCN_FTLW <- T05_DCN_FTLW[1:14, ]
 
-T05_DCN_CAT <- TIAS2005[, c("TA050723", "CAT")] %>% group_by(TA050723, CAT) %>% summarise(Count = n())
+T05_DCN_CAT <- TIAS2005[, c("TA050723", "CAT_05")] %>% group_by(TA050723, CAT_05) %>% summarise(Count = n())
 
 T05_DCN_CAT <- T05_DCN_CAT[1:8, ]
 
-T05_DCN_FTLCAT <- TIAS2005_FTL[, c("TA050723", "CAT")] %>% group_by(TA050723, CAT) %>% summarise(Count = n())
+T05_DCN_FTLCAT <- TIAS2005_FTL[, c("TA050723", "CAT_05")] %>% group_by(TA050723, CAT_05) %>% summarise(Count = n())
 
-T05_DCN_IACCAT <- TIAS2005_IAC[, c("TA050723", "CAT")] %>% group_by(TA050723, CAT) %>% summarise(Count = n())
+T05_DCN_IACCAT <- TIAS2005_IAC[, c("TA050723", "CAT_05")] %>% group_by(TA050723, CAT_05) %>% summarise(Count = n())
 
 T05_DCN_IACCAT <- T05_DCN_IACCAT[1:5, ]
 
 head(T05_DCN_CAT, 8)
 
-ggplot(T05_DCN_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050723)), xlab="Category") +
+ggplot(T05_DCN_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050723)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
@@ -1042,23 +952,23 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050733 = 9)) 
 
-T05_DEP_FTLW <- TIAS[, c("TA050733", "FTL_COUNT")] %>% group_by(TA050733, FTL_COUNT) %>% summarise(Count = n())
+T05_DEP_FTLW <- TIAS2005[, c("TA050733", "FTL_COUNT")] %>% group_by(TA050733, FTL_COUNT) %>% summarise(Count = n())
 
 T05_DEP_FTLW <- T05_DEP_FTLW[1:10, ]
 
-T05_DEP_CAT <- TIAS2005[, c("TA050733", "CAT")] %>% group_by(TA050733, CAT) %>% summarise(Count = n())
+T05_DEP_CAT <- TIAS2005[, c("TA050733", "CAT_05")] %>% group_by(TA050733, CAT_05) %>% summarise(Count = n())
 
 T05_DEP_CAT <- T05_DEP_CAT[1:4, ]
 
-T05_DEP_FTLCAT <- TIAS2005_FTL[, c("TA050733", "CAT")] %>% group_by(TA050733, CAT) %>% summarise(Count = n())
+T05_DEP_FTLCAT <- TIAS2005_FTL[, c("TA050733", "CAT_05")] %>% group_by(TA050733, CAT_05) %>% summarise(Count = n())
 
-T05_DEP_IACCAT <- TIAS2005_IAC[, c("TA050733", "CAT")] %>% group_by(TA050733, CAT) %>% summarise(Count = n())
+T05_DEP_IACCAT <- TIAS2005_IAC[, c("TA050733", "CAT_05")] %>% group_by(TA050733, CAT_05) %>% summarise(Count = n())
 
 T05_DEP_IACCAT <- T05_DEP_IACCAT[1:2, ]
 
 head(T05_DEP_CAT, 4)
 
-ggplot(T05_DEP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050733)), xlab="Category") +
+ggplot(T05_DEP_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050733)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No"))
@@ -1102,13 +1012,13 @@ T05_ANH_FTLW <- TIAS[, c("TA050734", "FTL_COUNT")] %>% group_by(TA050734, FTL_CO
 
 T05_ANH_FTLW <- T05_ANH_FTLW[1:10,]
 
-T05_ANH_CAT <- TIAS2005[, c("TA050734", "CAT")] %>% group_by(TA050734, CAT) %>% summarise(Count = n())
+T05_ANH_CAT <- TIAS2005[, c("TA050734", "CAT_05")] %>% group_by(TA050734, CAT_05) %>% summarise(Count = n())
 
-T05_ANH_FTLCAT <- TIAS2005_FTL[, c("TA050734", "CAT")] %>% group_by(TA050734, CAT) %>% summarise(Count = n())
+T05_ANH_FTLCAT <- TIAS2005_FTL[, c("TA050734", "CAT_05")] %>% group_by(TA050734, CAT_05) %>% summarise(Count = n())
 
-T05_ANH_IACCAT <- TIAS2005_IAC[, c("TA050734", "CAT")] %>% group_by(TA050734, CAT) %>% summarise(Count = n())
+T05_ANH_IACCAT <- TIAS2005_IAC[, c("TA050734", "CAT_05")] %>% group_by(TA050734, CAT_05) %>% summarise(Count = n())
 
-ggplot(T05_ANH_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050734)), xlab="Category") +
+ggplot(T05_ANH_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050734)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No"))
@@ -1156,19 +1066,19 @@ T05_DPD_FTLW <- TIAS[, c("TA050710", "FTL_COUNT")] %>% group_by(TA050710, FTL_CO
 
 T05_DPD_FTLW <- T05_DPD_FTLW[1:9, ]
 
-T05_DPD_CAT <- TIAS2005[, c("TA050710", "CAT")] %>% group_by(TA050710, CAT) %>% summarise(Count = n())
+T05_DPD_CAT <- TIAS2005[, c("TA050710", "CAT_05")] %>% group_by(TA050710, CAT_05) %>% summarise(Count = n())
 
 T05_DPD_CAT <- T05_DPD_CAT[1:3, ]
 
-T05_DPD_FTLCAT <- TIAS2005_FTL[, c("TA050710", "CAT")] %>% group_by(TA050710, CAT) %>% summarise(Count = n())
+T05_DPD_FTLCAT <- TIAS2005_FTL[, c("TA050710", "CAT_05")] %>% group_by(TA050710, CAT_05) %>% summarise(Count = n())
 
-T05_DPD_IACCAT <- TIAS2005_IAC[, c("TA050710", "CAT")] %>% group_by(TA050710, CAT) %>% summarise(Count = n())
+T05_DPD_IACCAT <- TIAS2005_IAC[, c("TA050710", "CAT_05")] %>% group_by(TA050710, CAT_05) %>% summarise(Count = n())
 
 T05_DPD_IACCAT <- T05_DPD_IACCAT[1:2, ]
   
 head(T05_DPD_CAT, 3)
 
-ggplot(T05_DPD_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050710)), xlab="Category") +
+ggplot(T05_DPD_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050710)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Depression Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
