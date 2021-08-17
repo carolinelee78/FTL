@@ -50,6 +50,9 @@ lapply(c("mplot"), pkgTest)
 lapply(c("bestglm"), pkgTest)
 lapply(c("BayesVarSel"), pkgTest)
 lapply(c("ResourceSelection"), pkgTest)
+lapply(c("lmtest"), pkgTest)
+lapply(c("lattice"), pkgTest)
+lapply(c("lme4"), pkgTest)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -66,6 +69,9 @@ library(mplot)
 library(bestglm)
 library(BayesVarSel)
 library(ResourceSelection)
+library(lmtest)
+library(lattice)
+library(lme4)
 library(RColorBrewer)
 
 # set working directory 
@@ -819,12 +825,6 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050768 = 98)) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050768 = 98)) 
-
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050768 = 98))  
-
 T05_DAC_FTLW <- TIAS2005[, c("TA050768", "FTL_COUNT")] %>% group_by(TA050768, FTL_COUNT) %>% summarise(Count = n())
 
 T05_DAC_FTLW <- T05_DAC_FTLW[1:18, ]
@@ -832,12 +832,6 @@ T05_DAC_FTLW <- T05_DAC_FTLW[1:18, ]
 T05_DAC_CAT <- TIAS2005[, c("TA050768", "CAT_05")] %>% group_by(TA050768, CAT_05) %>% summarise(Count = n())
 
 T05_DAC_CAT <- T05_DAC_CAT[1:16, ]
-
-T05_DAC_FTLCAT <- TIAS2005_FTL[, c("TA050768", "CAT_05")] %>% group_by(TA050768, CAT_05) %>% summarise(Count = n())
-
-T05_DAC_IACCAT <- TIAS2005_IAC[, c("TA050768", "CAT_05")] %>% group_by(TA050768, CAT_05) %>% summarise(Count = n())
-
-T05_DAC_IACCAT <- T05_DAC_IACCAT[1:15, ]
 
 head(T05_DAC_CAT, 16)
 
@@ -858,7 +852,7 @@ ggplot(T05_DAC_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050768)), 
   "deepskyblue", "mediumpurple1", "hotpink", "khaki1"), labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", 
   "9 drinks", "10 drinks", "11 drinks", "12 drinks", "15 drinks", "20 drinks"))
 
-### Degree to Which Condition Limits Normal Daily Activities ==================================================================== 
+### Degree to Which Condition Limits Normal Daily Activities ==================================================================== EDITED
 
 ####
 # H13B. How much limits normal activities: "How much does this condition limit your normal daily activities? Would you say: A lot, somewhat, just a little, or not at all?”
@@ -873,27 +867,15 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050723 = 9)) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050723 = 9)) 
-
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050723 = 9)) 
-
 T05_DCN_FTLW <- TIAS2005[, c("TA050723", "FTL_COUNT")] %>% group_by(TA050723, FTL_COUNT) %>% summarise(Count = n())
 
-T05_DCN_FTLW <- T05_DCN_FTLW[1:14, ]
+T05_DCN_FTLW <- T05_DCN_FTLW[1:7, ]
 
 T05_DCN_CAT <- TIAS2005[, c("TA050723", "CAT_05")] %>% group_by(TA050723, CAT_05) %>% summarise(Count = n())
 
-T05_DCN_CAT <- T05_DCN_CAT[1:8, ]
+T05_DCN_CAT <- T05_DCN_CAT[1:6, ]
 
-T05_DCN_FTLCAT <- TIAS2005_FTL[, c("TA050723", "CAT_05")] %>% group_by(TA050723, CAT_05) %>% summarise(Count = n())
-
-T05_DCN_IACCAT <- TIAS2005_IAC[, c("TA050723", "CAT_05")] %>% group_by(TA050723, CAT_05) %>% summarise(Count = n())
-
-T05_DCN_IACCAT <- T05_DCN_IACCAT[1:5, ]
-
-head(T05_DCN_CAT, 8)
+head(T05_DCN_CAT, 6)
 
 ggplot(T05_DCN_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050723)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -901,36 +883,16 @@ ggplot(T05_DCN_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050723)), xlab
   scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
                     labels = c("Inap: No chronic condition", "A lot", "Somewhat", "Just a little", "Not at all"))
 
-head(T05_DCN_FTLW, 14)
+head(T05_DCN_FTLW, 7)
 
 ggplot(T05_DCN_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050723)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
                     labels = c("Inap: No chronic condition", "A lot", "Somewhat", "Just a little", "Not at all"))
 
-prop.table(table(TIAS2005_FTL$TA050723))
-
-dcn.pie.ftl.05 <- ggplot(data = T05_DCN_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050723))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "mediumturquoise", "deepskyblue"), 
-  labels = c("Inap: No chronic condition", "Just a little", "Not at all")) +
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050723))
-
-dcn.pie.iac.05 <- ggplot(data = T05_DCN_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050723))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
-  labels = c("Inap: No chronic condition", "A lot", "Somewhat", "Just a little", "Not at all")) +
-  theme_void() 
-
-ggarrange(dcn.pie.ftl.05, dcn.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### Depression Over Past Year =================================================================================================== 
+### Depression Over Past Year =================================================================================================== EDITED
 
 ####
 # H15. WTR>2 Wks Depressed In Past 12mos: “Now I want to ask you about periods of feeling sad, empty, or depressed. 
@@ -946,60 +908,30 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050733 = 9)) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050733 = 9)) 
-
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050733 = 9)) 
-
 T05_DEP_FTLW <- TIAS2005[, c("TA050733", "FTL_COUNT")] %>% group_by(TA050733, FTL_COUNT) %>% summarise(Count = n())
 
-T05_DEP_FTLW <- T05_DEP_FTLW[1:10, ]
+T05_DEP_FTLW <- T05_DEP_FTLW[1:4, ]
 
 T05_DEP_CAT <- TIAS2005[, c("TA050733", "CAT_05")] %>% group_by(TA050733, CAT_05) %>% summarise(Count = n())
 
-T05_DEP_CAT <- T05_DEP_CAT[1:4, ]
+T05_DEP_CAT <- T05_DEP_CAT[1:3, ]
 
-T05_DEP_FTLCAT <- TIAS2005_FTL[, c("TA050733", "CAT_05")] %>% group_by(TA050733, CAT_05) %>% summarise(Count = n())
-
-T05_DEP_IACCAT <- TIAS2005_IAC[, c("TA050733", "CAT_05")] %>% group_by(TA050733, CAT_05) %>% summarise(Count = n())
-
-T05_DEP_IACCAT <- T05_DEP_IACCAT[1:2, ]
-
-head(T05_DEP_CAT, 4)
+head(T05_DEP_CAT, 3)
 
 ggplot(T05_DEP_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050733)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No"))
 
-head(T05_DEP_FTLW, 10)
+head(T05_DEP_FTLW, 4)
 
 ggplot(T05_DEP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050733)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") +
   scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No"))
 
-prop.table(table(TIAS2005_FTL$TA050733))
-
-dep.pie.ftl.05 <- ggplot(data = T05_DEP_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050733))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No")) + 
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050733))
-
-dep.pie.iac.05 <- ggplot(data = T05_DEP_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050733))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Depressed >2 Weeks", values = c("aquamarine3", "cadetblue2"), labels = c("Yes", "No")) + 
-  theme_void() 
-
-ggarrange(dep.pie.ftl.05, dep.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### Depression - Anhedonia ======================================================================================================= 
+### Depression - Anhedonia ======================================================================================================= EDITED
 
 ####
 # H16. WTR>2 Wks No Interest in Life: “In the past 12 months, have you had two weeks or longer when you lost interest in most things 
@@ -1008,40 +940,26 @@ ggarrange(dep.pie.ftl.05, dep.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050734)
 
-T05_ANH_FTLW <- TIAS[, c("TA050734", "FTL_COUNT")] %>% group_by(TA050734, FTL_COUNT) %>% summarise(Count = n())
-
-T05_ANH_FTLW <- T05_ANH_FTLW[1:10,]
+T05_ANH_FTLW <- TIAS2005[, c("TA050734", "FTL_COUNT")] %>% group_by(TA050734, FTL_COUNT) %>% summarise(Count = n())
 
 T05_ANH_CAT <- TIAS2005[, c("TA050734", "CAT_05")] %>% group_by(TA050734, CAT_05) %>% summarise(Count = n())
 
-T05_ANH_FTLCAT <- TIAS2005_FTL[, c("TA050734", "CAT_05")] %>% group_by(TA050734, CAT_05) %>% summarise(Count = n())
-
-T05_ANH_IACCAT <- TIAS2005_IAC[, c("TA050734", "CAT_05")] %>% group_by(TA050734, CAT_05) %>% summarise(Count = n())
+head(T05_DEP_CAT, 3)
 
 ggplot(T05_ANH_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050734)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No"))
 
-prop.table(table(TIAS2005_FTL$TA050734))
+head(T05_ANH_FTLW, 5)
 
-anh.pie.ftl.05 <- ggplot(data = T05_ANH_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050734))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No")) + 
-  theme_void() 
+ggplot(T05_ANH_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050734)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") +
+  scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No"))
 
-prop.table(table(TIAS2005_IAC$TA050734))
-
-anh.pie.iac.05 <- ggplot(data = T05_ANH_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050734))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Anhedonia >2 Weeks", values = c("cadetblue1", "lightsalmon"), labels = c("Yes", "No")) + 
-  theme_void() 
-
-ggarrange(anh.pie.ftl.05, anh.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### Depression Diagnosis ========================================================================================================= 
+### Depression Diagnosis ========================================================================================================= EDITED
 
 ####
 # H12B. WTR Depression: "What was the diagnosis? What is the emotional or psychiatric disorder?--DEPRESSION"
@@ -1056,25 +974,13 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050710 = c(8, 9))) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050710 = c(8, 9)))  
+T05_DPD_FTLW <- TIAS2005[, c("TA050710", "FTL_COUNT")] %>% group_by(TA050710, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050710 = c(8, 9))) 
-
-T05_DPD_FTLW <- TIAS[, c("TA050710", "FTL_COUNT")] %>% group_by(TA050710, FTL_COUNT) %>% summarise(Count = n())
-
-T05_DPD_FTLW <- T05_DPD_FTLW[1:9, ]
+T05_DPD_FTLW <- T05_DPD_FTLW[1:4, ]
 
 T05_DPD_CAT <- TIAS2005[, c("TA050710", "CAT_05")] %>% group_by(TA050710, CAT_05) %>% summarise(Count = n())
 
 T05_DPD_CAT <- T05_DPD_CAT[1:3, ]
-
-T05_DPD_FTLCAT <- TIAS2005_FTL[, c("TA050710", "CAT_05")] %>% group_by(TA050710, CAT_05) %>% summarise(Count = n())
-
-T05_DPD_IACCAT <- TIAS2005_IAC[, c("TA050710", "CAT_05")] %>% group_by(TA050710, CAT_05) %>% summarise(Count = n())
-
-T05_DPD_IACCAT <- T05_DPD_IACCAT[1:2, ]
   
 head(T05_DPD_CAT, 3)
 
@@ -1083,15 +989,15 @@ ggplot(T05_DPD_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050710)), xlab
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Depression Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-head(T05_DPD_FTLW, 9)
+head(T05_DPD_FTLW, 4)
 
 ggplot(T05_DPD_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050710)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Depression Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-### Bipolar Disorder Diagnosis =================================================================================================== 
+### Bipolar Disorder Diagnosis =================================================================================================== EDITED
 
 ####
 # H12B. WTR Bipolar: "What was the diagnosis? What is the emotional or psychiatric disorder?--BIPOLAR DISORDER"
@@ -1106,42 +1012,30 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050711 = c(8, 9))) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050711 = c(8, 9)))  
+T05_BIP_FTLW <- TIAS2005[, c("TA050711", "FTL_COUNT")] %>% group_by(TA050711, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050711 = c(8, 9))) 
+T05_BIP_FTLW <- T05_BIP_FTLW[1:4, ]
 
-T05_BIP_FTLW <- TIAS[, c("TA050711", "FTL_COUNT")] %>% group_by(TA050711, FTL_COUNT) %>% summarise(Count = n())
-
-T05_BIP_FTLW <- T05_BIP_FTLW[1:7, ]
-
-T05_BIP_CAT <- TIAS2005[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
+T05_BIP_CAT <- TIAS2005[, c("TA050711", "CAT_05")] %>% group_by(TA050711, CAT_05) %>% summarise(Count = n())
 
 T05_BIP_CAT <- T05_BIP_CAT[1:3, ]
 
-T05_BIP_FTLCAT <- TIAS2005_FTL[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
-
-T05_BIP_IACCAT <- TIAS2005_IAC[, c("TA050711", "CAT")] %>% group_by(TA050711, CAT) %>% summarise(Count = n())
-
-T05_BIP_IACCAT <- T05_BIP_IACCAT[1:2, ]
-
 head(T05_BIP_CAT, 3)
 
-ggplot(T05_BIP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050711)), xlab="Category") +
+ggplot(T05_BIP_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050711)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Bipolar Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-head(T05_BIP_FTLW, 7)
+head(T05_BIP_FTLW, 4)
 
 ggplot(T05_BIP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050711)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Bipolar Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-### Phobia Diagnosis =============================================================================================================
+### Phobia Diagnosis ============================================================================================================= EDITED
 
 ####
 # H12B. WTR Phobia: "What was the diagnosis? What is the emotional or psychiatric disorder?--PHOBIAS"
@@ -1156,42 +1050,30 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050714 = c(8, 9))) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050714 = c(8, 9)))  
+T05_PHB_FTLW <- TIAS2005[, c("TA050714", "FTL_COUNT")] %>% group_by(TA050714, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050714 = c(8, 9))) 
+T05_PHB_FTLW <- T05_PHB_FTLW[1:4, ]
 
-T05_PHB_FTLW <- TIAS[, c("TA050714", "FTL_COUNT")] %>% group_by(TA050714, FTL_COUNT) %>% summarise(Count = n())
-
-T05_PHB_FTLW <- T05_PHB_FTLW[1:7, ]
-
-T05_PHB_CAT <- TIAS2005[, c("TA050714", "CAT")] %>% group_by(TA050714, CAT) %>% summarise(Count = n())
+T05_PHB_CAT <- TIAS2005[, c("TA050714", "CAT_05")] %>% group_by(TA050714, CAT_05) %>% summarise(Count = n())
 
 T05_PHB_CAT <- T05_PHB_CAT[1:3, ]
 
-T05_PHB_FTLCAT <- TIAS2005_FTL[, c("TA050714", "CAT")] %>% group_by(TA050714, CAT) %>% summarise(Count = n())
-
-T05_PHB_IACCAT <- TIAS2005_IAC[, c("TA050714", "CAT")] %>% group_by(TA050714, CAT) %>% summarise(Count = n())
-
-T05_PHB_IACCAT <- T05_PHB_IACCAT[1:2, ]
-
 head(T05_PHB_CAT, 3)
 
-ggplot(T05_PHB_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050714)), xlab="Category") +
+ggplot(T05_PHB_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050714)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Phobia Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-head(T05_PHB_FTLW, 7)
+head(T05_PHB_FTLW, 4)
 
 ggplot(T05_PHB_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050714)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Phobia Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-### Anxiety Disorders Diagnosis ==================================================================================================
+### Anxiety Disorders Diagnosis ================================================================================================== EDITED
 
 #### 
 # H12B. What was the diagnosis? What is the emotional or psychiatric disorder? -- Anxiety 
@@ -1207,60 +1089,30 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050713 = c(8, 9))) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050713 = c(8, 9)))  
+T05_ANX_FTLW <- TIAS2005[, c("TA050713", "FTL_COUNT")] %>% group_by(TA050713, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050713 = c(8, 9))) 
+T05_ANX_FTLW <- T05_ANX_FTLW[1:4, ]
 
-T05_ANX_FTLW <- TIAS[, c("TA050713", "FTL_COUNT")] %>% group_by(TA050713, FTL_COUNT) %>% summarise(Count = n())
+T05_ANX_CAT <- TIAS2005[, c("TA050713", "CAT_05")] %>% group_by(TA050713, CAT_05) %>% summarise(Count = n())
 
-T05_ANX_FTLW <- T05_ANX_FTLW[1:8, ]
+T05_ANX_CAT <- T05_ANX_CAT[1:3, ]
 
-T05_ANX_CAT <- TIAS2005[, c("TA050713", "CAT")] %>% group_by(TA050713, CAT) %>% summarise(Count = n())
+head(T05_ANX_CAT, 3)
 
-T05_ANX_CAT <- T05_ANX_CAT[1:4, ]
-
-T05_ANX_FTLCAT <- TIAS2005_FTL[, c("TA050713", "CAT")] %>% group_by(TA050713, CAT) %>% summarise(Count = n())
-
-T05_ANX_IACCAT <- TIAS2005_IAC[, c("TA050713", "CAT")] %>% group_by(TA050713, CAT) %>% summarise(Count = n())
-
-T05_ANX_IACCAT <- T05_ANX_IACCAT[1:2, ]
-
-head(T05_ANX_CAT, 4)
-
-ggplot(T05_ANX_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050713)), xlab="Category") +
+ggplot(T05_ANX_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050713)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("Anxiety Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-head(T05_ANX_FTLW, 8)
+head(T05_ANX_FTLW, 4)
 
 ggplot(T05_ANX_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050713)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Anxiety Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-prop.table(table(TIAS2005_FTL$TA050713))
-
-anx.pie.ftl.05 <- ggplot(data = T05_ANX_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050713))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Anxiety Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed")) + 
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050713))
-
-anx.pie.iac.05 <- ggplot(data = T05_ANX_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050713))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Anxiety Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed")) + 
-  theme_void() 
-
-ggarrange(anx.pie.ftl.05, anx.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### OCD Diagnosis ================================================================================================================
+### OCD Diagnosis ================================================================================================================ EDITED
 
 #### 
 # H12B. What was the diagnosis? What is the emotional or psychiatric disorder? -- Obsessive Compulsive Disorder 
@@ -1276,36 +1128,30 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050717 = c(8, 9))) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050717 = c(8, 9)))  
+T05_OCD_FTLW <- TIAS2005[, c("TA050717", "FTL_COUNT")] %>% group_by(TA050717, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050717 = c(8, 9))) 
+T05_OCD_FTLW <- T05_OCD_FTLW[1:4, ]
 
-T05_OCD_FTLW <- TIAS[, c("TA050717", "FTL_COUNT")] %>% group_by(TA050717, FTL_COUNT) %>% summarise(Count = n())
-
-T05_OCD_FTLW <- T05_OCD_FTLW[1:7, ]
-
-T05_OCD_CAT <- TIAS2005[, c("TA050717", "CAT")] %>% group_by(TA050717, CAT) %>% summarise(Count = n())
+T05_OCD_CAT <- TIAS2005[, c("TA050717", "CAT_05")] %>% group_by(TA050717, CAT_05) %>% summarise(Count = n())
 
 T05_OCD_CAT <- T05_OCD_CAT[1:3, ]
 
 head(T05_OCD_CAT, 3)
 
-ggplot(T05_OCD_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050717)), xlab="Category") +
+ggplot(T05_OCD_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050717)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("OCD Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-head(T05_OCD_FTLW, 7)
+head(T05_OCD_FTLW, 4)
 
 ggplot(T05_OCD_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050717)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("OCD Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-### Emotional/Nervous/Psychiatric Problems =======================================================================================
+### Emotional/Nervous/Psychiatric Problems ======================================================================================= EDITED
 
 ###
 # H12. WTR Ever Had Emotional/Psych Problems: "Has a doctor or other health professional ever told you that you have or had any emotional, nervous, or psychiatric problems?”
@@ -1320,60 +1166,30 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050708 = 9)) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050708 = 9)) 
+T05_ENP_FTLW <- TIAS2005[, c("TA050708", "FTL_COUNT")] %>% group_by(TA050708, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050708 = 9)) 
+T05_ENP_FTLW <- T05_ENP_FTLW[1:4, ]
 
-T05_ENP_FTLW <- TIAS[, c("TA050708", "FTL_COUNT")] %>% group_by(TA050708, FTL_COUNT) %>% summarise(Count = n())
+T05_ENP_CAT <- TIAS2005[, c("TA050708", "CAT_05")] %>% group_by(TA050708, CAT_05) %>% summarise(Count = n())
 
-T05_ENP_FTLW <- T05_ENP_FTLW[1:9, ]
+T05_ENP_CAT <- T05_ENP_CAT[1:3, ]
 
-T05_ENP_CAT <- TIAS2005[, c("TA050708", "CAT")] %>% group_by(TA050708, CAT) %>% summarise(Count = n())
+head(T05_ENP_CAT, 3)
 
-T05_ENP_CAT <- T05_ENP_CAT[1:4, ]
-
-T05_ENP_FTLCAT <- TIAS2005_FTL[, c("TA050708", "CAT")] %>% group_by(TA050708, CAT) %>% summarise(Count = n())
-
-T05_ENP_IACCAT <- TIAS2005_IAC[, c("TA050708", "CAT")] %>% group_by(TA050708, CAT) %>% summarise(Count = n())
-
-T05_ENP_IACCAT <- T05_ENP_IACCAT[1:2, ]
-
-head(T05_ENP_CAT, 4)
-
-ggplot(T05_ENP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050708)), xlab="Category") +
+ggplot(T05_ENP_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050708)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("WTR Ever Had Emotional/Psych Problems", values = c("palevioletred1", "palegreen"), labels = c("Yes", "No"))
 
-head(T05_ENP_FTLW, 9)
+head(T05_ENP_FTLW, 4)
 
 ggplot(T05_ENP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050708)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") +
   scale_fill_manual("WTR Ever Had Emotional/Psych Problems", values = c("palevioletred1", "palegreen"), labels = c("Yes", "No"))
 
-prop.table(table(TIAS2005_FTL$TA050708))
-
-enp.pie.ftl.05 <- ggplot(data = T05_ENP_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050708))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("WTR Ever Had Emotional/Psych Problems", values = c("palevioletred1", "palegreen"), labels = c("Yes", "No")) + 
-  theme_void()
-
-prop.table(table(TIAS2005_IAC$TA050708))
-
-enp.pie.iac.05 <- ggplot(data = T05_ENP_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050708))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("WTR Ever Had Emotional/Psych Problems", values = c("palevioletred1", "palegreen"), labels = c("Yes", "No")) + 
-  theme_void()
-
-ggarrange(enp.pie.ftl.05, enp.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### Mental Health: Non-Spec Psych Distress ======================================================================================= 
+### Mental Health: Non-Spec Psych Distress ======================================================================================= EDITED
 
 ####
 # Cumulative score from answers to NSPD scale questions: 
@@ -1389,33 +1205,27 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050938 = 99)) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050938 = 99)) 
+T05_NPD_FTLW <- TIAS2005[, c("TA050938", "FTL_COUNT")] %>% group_by(TA050938, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050938 = 99)) 
+T05_NPD_FTLW <- T05_NPD_FTLW[1:27, ]
 
-T05_NPD_FTLW <- TIAS[, c("TA050938", "FTL_COUNT")] %>% group_by(TA050938, FTL_COUNT) %>% summarise(Count = n())
+T05_NPD_CAT <- TIAS2005[, c("TA050938", "CAT_05")] %>% group_by(TA050938, CAT_05) %>% summarise(Count = n())
 
-T05_NPD_FTLW <- T05_NPD_FTLW[1:55, ]
-
-T05_NPD_CAT <- TIAS2005[, c("TA050938", "CAT")] %>% group_by(TA050938, CAT) %>% summarise(Count = n())
-
-T05_NPD_CAT <- T05_NPD_CAT[1:36, ]
+T05_NPD_CAT <- T05_NPD_CAT[1:24, ]
 
 ggplot(T05_NPD_FTLW, aes(x = FTL_COUNT, y = TA050938, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
   geom_boxplot() + 
   scale_y_continuous(limits = c(0, 25), breaks = seq(0, 25, by = 1)) + 
-  scale_x_continuous(breaks = seq(0, 5, by = 1)) + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
   labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "NSPD Scale Score") + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-ggplot(T05_NPD_CAT, aes(x = CAT, y = TA050938, group = CAT, fill = as.factor(CAT))) +
+ggplot(T05_NPD_CAT, aes(x = CAT_05, y = TA050938, group = CAT_05, fill = as.factor(CAT_05))) +
   geom_boxplot() +
   labs(title = "TIAS 2005", x = "Category", y = "NSPD Scale Score") + 
   guides(fill = guide_legend(title = "Category"))
 
-### Mental Health: Social Anxiety ================================================================================================ 
+### Mental Health: Social Anxiety ================================================================================================ EDITED 
 
 ####
 # Cumulative score from answers to SA scale questions: 
@@ -27587,7 +27397,7 @@ RTH_S2_PLOT <- ggplot(RTH_FTL_S2_TIDY, aes(x=variable, y=PSID_ID, fill=rel_to_he
   theme(axis.ticks=element_blank()) + 
   theme(axis.text.x=element_text(angle = 45, hjust = 1)) + 
   scale_fill_manual("Relation to Head", values = c("slategray3", "indianred2", "darkorange", "khaki1", "lightgreen", "mediumturquoise", "steelblue1", "mediumpurple1"),
-  labels = c("Not included in wave", "Head (R)", "Son or daughter of R", "Stepson or stepdaughter of R", "Son or daughter of 'spouse' but not R","Grandson or granddaughter of R")) 
+                    labels = c("Not included in wave", "Head (R)", "Son or daughter of R", "Stepson or stepdaughter of R", "Son or daughter of 'spouse' but not R","Grandson or granddaughter of R", "Nephew or niece of R")) 
 
 RTH_FTL_S3 <- RTH_FTL[35:51, ]
 
@@ -27739,46 +27549,90 @@ table(TIAS2017_FTL$ER34504)
 
 ############################ TIAS-D Regression Analysis - TIAS 2005 ############################
 
-TIAS2005_DEP <- TIAS2005 %>% dplyr::select(FTLCAT,TA050784,TA050808,TA050792,TA050776,TA050824, TA050816,TA050797,TA050767,TA050768,TA050723,TA050938,TA050733,TA050734,TA050710,TA050711,
-                                           TA050714,TA050713,TA050717,TA050708,TA050933,TA050932,TA050131,TA050368,TA050069,TA050078,TA050091,TA050573,TA050594,TA050946,TA050044,TA050045,
-                                           TA050046,TA050047,TA050048,TA050050,TA050051,TA050020,TA050021,TA050022,TA050023,TA050024,TA050025,TA050026,TA050027,TA050060,TA050061,TA050888,
-                                           TA050889,TA050890,TA050891,TA050892,TA050893,TA050894,TA050895,TA050896,TA050897,TA050898,TA050899,TA050900,TA050901,TA050935,TA050937,TA050015,
-                                           TA050016,TA050017,TA050018,TA050049,TA050019,TA050032,TA050033,TA050028,TA050029,TA050030,TA050031,TA050034,TA050035, TA050041,TA050052,TA050053,
-                                           TA050054,TA050055,TA050056,TA050057,TA050058,TA050059,TA050755,TA050756,TA050883,TA050884,TA050759,TA050944,TA050754)
-str(TIAS2005_DEP)
+TIAS_FTL <- TIAS_FTL %>% 
+  mutate(age1 = ER33804, age2 = ER33904, age3 = ER34004, age4 = ER34104, age5 = ER34204, age6 = ER34305, age7 = ER34504, ftlcount = FTL_COUNT, sex = ER32000, 
+         npd1 = TA050938, npd2 = TA070919, npd3 = TA090983, npd4 = TA111125, npd5 = TA131217, npd6 = TA151277, npd7 = TA171975)
 
-factorcols.05 <- c("FTLCAT","TA050784","TA050808","TA050792","TA050776","TA050824", "TA050816","TA050797","TA050767","TA050768","TA050723","TA050938", "TA050733","TA050734","TA050710","TA050711",
-                   "TA050714","TA050713","TA050717","TA050708","TA050933","TA050932","TA050131","TA050368","TA050069","TA050078","TA050573","TA050594","TA050946","TA050044","TA050045",
-                   "TA050046","TA050047","TA050048","TA050050","TA050051","TA050020","TA050021","TA050022","TA050023","TA050024","TA050025","TA050026","TA050027","TA050060","TA050061","TA050888",
-                   "TA050889","TA050890","TA050891","TA050892","TA050893","TA050894","TA050895","TA050896","TA050897","TA050898","TA050899","TA050900","TA050901","TA050935","TA050937","TA050015",
-                   "TA050016","TA050017","TA050018","TA050049","TA050019","TA050032","TA050033","TA050028","TA050029","TA050030","TA050031","TA050034","TA050035", 
-                   "TA050041","TA050052","TA050053","TA050054","TA050055","TA050056","TA050057","TA050058","TA050059","TA050755","TA050756","TA050883","TA050884","TA050759")
+FTL_REGVAR <- TIAS_FTL %>% dplyr::select(PSID_ID, ftlcount, CAT_05, CAT_07, CAT_09, CAT_11, CAT_13, CAT_15, CAT_17, age1, age2, age3, age4, age5, age6, age7, sex, npd1, npd2, npd3, npd4, npd5, npd6, npd7)
 
-TIAS2005_DEP[factorcols.05] <- lapply(TIAS2005_DEP[factorcols.05], factor)
+FTL_REGVAR$PSID_ID <- as.character(FTL_REGVAR$PSID_ID)
 
-sapply(TIAS2005_DEP, class)
+FTL_REGVAR <- FTL_REGVAR %>% 
+  replace_with_na(replace = list(age1 = 0, age2 = 0, age3 = 0, age4 = 0, age5 = 0, age6 = 0, age7 = 0))
 
-str(TIAS2005_DEP)
+FTL_NPD <- reshape(FTL_REGVAR, idvar = "PSID_ID", varying = list(age = c("age1", "age2", "age3", "age4", "age5", "age6", "age7"), 
+                                                                 npd = c("npd1", "npd2", "npd3", "npd4", "npd5", "npd6", "npd7")), 
+                   times = 1:7, direction = "long")
+xyplot(npd1~age1|PSID_ID, data=FTL_NPD,
+       panel = function(x, y){
+         panel.xyplot(x, y)
+         panel.lmline(x, y)
+       })
 
-lapply(TIAS2005_DEP, table)
+TIAS <- TIAS %>% 
+  mutate(age1 = ER33804, age2 = ER33904, age3 = ER34004, age4 = ER34104, age5 = ER34204, age6 = ER34305, age7 = ER34504, ftlcount = FTL_COUNT, sex = ER32000, 
+         npd1 = TA050938, npd2 = TA070919, npd3 = TA090983, npd4 = TA111125, npd5 = TA131217, npd6 = TA151277, npd7 = TA171975)
 
-FULL.T05 <- glm(FTLCAT ~ ., family = binomial(link="logit"), data = TIAS2005_DEP)
+TIAS_REGVAR <- TIAS %>% dplyr::select(PSID_ID, ftlcount, age1, age2, age3, age4, age5, age6, age7, sex, npd1, npd2, npd3, npd4, npd5, npd6, npd7)
 
-step(FULL.T05) # warning: takes a really long time to run 
+TIAS_REGVAR$PSID_ID <- as.character(TIAS_REGVAR$PSID_ID)
 
-# Best model found with backward stepwise algorithm: FTLCAT ~ TA050131 + TA050368 + TA050023 + TA050055 (AIC = 10)
-# TA050131 (WTR WORKED SINCE JAN 1 OF PRIOR YEAR); TA050368 (WTR EVER WORKED); TA050023 (WTR EVER USED INTERNET); TA050055 (HOW GOOD AT HELPING COMP W/OTRS)
+TIAS_REGVAR <- TIAS_REGVAR %>% 
+  replace_with_na(replace = list(age1 = 0, age2 = 0, age3 = 0, age4 = 0, age5 = 0, age6 = 0, age7 = 0))
 
-STEP.T05 <- glm(formula = FTLCAT ~ TA050131 + TA050368 + TA050023 + TA050055, data = TIAS2005_DEP, family = binomial(link="logit")) 
+chunk <- 100
 
-print(STEP.T05)
+n <- nrow(TIAS_REGVAR)
 
-influencePlot(STEP.T05) 
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n]
 
-outlierTest(STEP.T05)
+REGVAR_LIST <- split(TIAS_REGVAR, r)
 
+length(REGVAR_LIST)
 
+reshape.regvar <- function(x){
+  reshape(x, idvar = "PSID_ID", varying = list(age = c("age1", "age2", "age3", "age4", "age5", "age6", "age7"), 
+  npd = c("npd1", "npd2", "npd3", "npd4", "npd5", "npd6", "npd7")), 
+  times = 1:7, direction = "long")
+}
 
+RESHAPE_LIST <- lapply(REGVAR_LIST, reshape.regvar)
+
+create.xyplot.npd1 <- function(g){
+  xyplot(npd1~age1|PSID_ID, data=g,
+         panel = function(x, y){
+           panel.xyplot(x, y)
+           panel.lmline(x, y)
+         })
+}
+
+REG_LIST <- lapply(RESHAPE_LIST, create.xyplot.npd1)
+
+REG_LIST[[1]]
+
+REG_LIST[[41]]
+
+TIAS_NPD <- reshape(TIAS_REGVAR, idvar = "PSID_ID", varying = list(age = c("age1", "age2", "age3", "age4", "age5", "age6", "age7"), 
+                                                          npd = c("npd1", "npd2", "npd3", "npd4", "npd5", "npd6", "npd7")), 
+                                                          times = 1:7, direction = "long")
+
+npd1.reg.fit1 <- glm(npd1 ~ time + ftlcount + sex, data = TIAS_NPD) # basic linear model 
+
+AIC(npd1.reg.fit1)
+
+summary(npd1.reg.fit1) 
+
+npd1.reg.fit2 <- lmer(npd1 ~ time + ftlcount + sex + (1|PSID_ID), data = TIAS_NPD) # random intercept model for individual differences 
+
+AIC(npd1.reg.fit2)
+
+npd1.reg.fit3 <- lmer(npd1 ~ time + ftlcount + sex + (time|PSID_ID), data = TIAS_NPD) # individual trajectory model with random slope for time
+
+summary(npd1.reg.fit3)
+
+AIC(npd1.reg.fit3)
+
+anova(npd1.reg.fit3, npd1.reg.fit2)
 
 ######################## TIAS-D FTL/IAC Difference Analysis - TIAS 2005 ######################## 
 
