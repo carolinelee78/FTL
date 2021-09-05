@@ -95,7 +95,7 @@ TIAS$PSID_ID <- (TIAS$ER30001 * 1000) + TIAS$ER30002
 
 ALL_PSID_ID <- TIAS$PSID_ID
 
-### TIAS 2005 IAC vs. FTL ============================================================================================================
+### TIAS 2005 IAC vs. FTL ============================================================================================================ 
 
 # The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2005 wave. You will be shown the number of FTL participants,
 # the number of IAC participants, and the participant IDs of all individuals who are FTL. 
@@ -1688,7 +1688,7 @@ reo.pie.iac.05 <- ggplot(data = T05_REO_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(reo.pie.ftl.05, reo.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Paying Own Rent =============================================================================================
+### Responsibility - Paying Own Rent ============================================================================================= EDITED
 
 ####
 # B5B. How Much Responsibility Paying Own Rent: “How much responsibility do you currently take for paying your rent or mortgage?"  
@@ -1710,29 +1710,29 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050045 = 8)) 
 
-T05_POR_FTLW <- TIAS[, c("TA050045", "FTL_COUNT")] %>% group_by(TA050045, FTL_COUNT) %>% summarise(Count = n())
+T05_POR_FTLW <- TIAS2005[, c("TA050045", "FTL_COUNT")] %>% group_by(TA050045, FTL_COUNT) %>% summarise(Count = n())
 
-T05_POR_FTLW <- T05_POR_FTLW[1:23, ]
+T05_POR_FTLW <- T05_POR_FTLW[1:11, ]
 
-T05_POR_CAT <- TIAS2005[, c("TA050045", "CAT")] %>% group_by(TA050045, CAT) %>% summarise(Count = n())
+T05_POR_CAT <- TIAS2005[, c("TA050045", "CAT_05")] %>% group_by(TA050045, CAT_05) %>% summarise(Count = n())
 
-T05_POR_CAT <- T05_POR_CAT[1:12, ]
+T05_POR_CAT <- T05_POR_CAT[1:8, ]
 
-T05_POR_FTLCAT <- TIAS2005_FTL[, c("TA050045", "CAT")] %>% group_by(TA050045, CAT) %>% summarise(Count = n())
+T05_POR_FTLCAT <- TIAS2005_FTL[, c("TA050045", "CAT_05")] %>% group_by(TA050045, CAT_05) %>% summarise(Count = n())
 
-T05_POR_IACCAT <- TIAS2005_IAC[, c("TA050045", "CAT")] %>% group_by(TA050045, CAT) %>% summarise(Count = n())
+T05_POR_IACCAT <- TIAS2005_IAC[, c("TA050045", "CAT_05")] %>% group_by(TA050045, CAT_05) %>% summarise(Count = n())
 
 T05_POR_IACCAT <- T05_POR_IACCAT[1:6, ]
 
-head(T05_POR_CAT, 12)
+head(T05_POR_CAT, 8)
 
-ggplot(T05_POR_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050045)), xlab="Category") +
+ggplot(T05_POR_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050045)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Responsibility - Paying Own Rent", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
                     labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No payments"))
 
-head(T05_POR_FTLW, 23)
+head(T05_POR_FTLW, 11)
 
 ggplot(T05_POR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050045)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -1759,7 +1759,7 @@ por.pie.iac.05 <- ggplot(data = T05_POR_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Paying Own Bills ============================================================================================
+### Responsibility - Paying Own Bills ============================================================================================ EDITED
 
 ####
 # B5C. How Much Responsibility for Own Bills: How much responsibility do you currently take for paying your bills?  
@@ -1769,25 +1769,29 @@ ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050046)
 
-T05_POB_FTLW <- TIAS[, c("TA050046", "FTL_COUNT")] %>% group_by(TA050046, FTL_COUNT) %>% summarise(Count = n())
+T05_POB_FTLW <- TIAS2005[, c("TA050046", "FTL_COUNT")] %>% group_by(TA050046, FTL_COUNT) %>% summarise(Count = n())
 
-T05_POB_FTLW <- T05_POB_FTLW[1:24, ]
+T05_POB_FTLW <- T05_POB_FTLW[1:11, ]
 
-T05_POB_CAT <- TIAS2005[, c("TA050046", "CAT")] %>% group_by(TA050046, CAT) %>% summarise(Count = n())
+T05_POB_CAT <- TIAS2005[, c("TA050046", "CAT_05")] %>% group_by(TA050046, CAT_05) %>% summarise(Count = n())
 
-T05_POB_FTLCAT <- TIAS2005_FTL[, c("TA050046", "CAT")] %>% group_by(TA050046, CAT) %>% summarise(Count = n())
+T05_POB_CAT <- T05_POB_CAT[1:8, ]
 
-T05_POB_IACCAT <- TIAS2005_IAC[, c("TA050046", "CAT")] %>% group_by(TA050046, CAT) %>% summarise(Count = n())
+T05_POB_FTLCAT <- TIAS2005_FTL[, c("TA050046", "CAT_05")] %>% group_by(TA050046, CAT_05) %>% summarise(Count = n())
 
-head(T05_POB_CAT, 12)
+T05_POB_IACCAT <- TIAS2005_IAC[, c("TA050046", "CAT_05")] %>% group_by(TA050046, CAT_05) %>% summarise(Count = n())
 
-ggplot(T05_POB_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050046)), xlab="Category") +
+T05_POB_IACCAT <- T05_POB_IACCAT[1:6, ]
+
+head(T05_POB_CAT, 8)
+
+ggplot(T05_POB_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050046)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Responsibility - Paying Own Bills", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "blueviolet"), 
                     labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time", "No bills"))
 
-head(T05_POB_FTLW, 24)
+head(T05_POB_FTLW, 11)
 
 ggplot(T05_POB_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050046)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -1816,7 +1820,7 @@ pob.pie.iac.05 <- ggplot(data = T05_POB_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(pob.pie.ftl.05, pob.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Managing Money ============================================================================================== 
+### Responsibility - Managing Money ============================================================================================== EDITED
 
 ####
 # B5D. How Much Responsibility Managing Money: "How much responsibility do you currently take for managing your money?"
@@ -1826,25 +1830,29 @@ ggarrange(pob.pie.ftl.05, pob.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050047)
 
-T05_RMM_FTLW <- TIAS[, c("TA050047", "FTL_COUNT")] %>% group_by(TA050047, FTL_COUNT) %>% summarise(Count = n())
+T05_RMM_FTLW <- TIAS2005[, c("TA050047", "FTL_COUNT")] %>% group_by(TA050047, FTL_COUNT) %>% summarise(Count = n())
 
-T05_RMM_FTLW <- T05_RMM_FTLW[1:20, ]
+T05_RMM_FTLW <- T05_RMM_FTLW[1:9, ]
 
-T05_RMM_CAT <- TIAS2005[, c("TA050047", "CAT")] %>% group_by(TA050047, CAT) %>% summarise(Count = n())
+T05_RMM_CAT <- TIAS2005[, c("TA050047", "CAT_05")] %>% group_by(TA050047, CAT_05) %>% summarise(Count = n())
 
-T05_RMM_FTLCAT <- TIAS2005_FTL[, c("TA050047", "CAT")] %>% group_by(TA050047, CAT) %>% summarise(Count = n())
+T05_RMM_CAT <- T05_RMM_CAT[1:7, ]
 
-T05_RMM_IACCAT <- TIAS2005_IAC[, c("TA050047", "CAT")] %>% group_by(TA050047, CAT) %>% summarise(Count = n())
+T05_RMM_FTLCAT <- TIAS2005_FTL[, c("TA050047", "CAT_05")] %>% group_by(TA050047, CAT_05) %>% summarise(Count = n())
 
-head(T05_RMM_CAT, 10)
+T05_RMM_IACCAT <- TIAS2005_IAC[, c("TA050047", "CAT_05")] %>% group_by(TA050047, CAT_05) %>% summarise(Count = n())
 
-ggplot(T05_RMM_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050047)), xlab="Category") +
+T05_RMM_IACCAT <- T05_RMM_IACCAT[1:5, ]
+
+head(T05_RMM_CAT, 7) 
+
+ggplot(T05_RMM_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050047)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Responsibility - Managing Money", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
                     labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time"))
 
-head(T05_RMM_FTLW, 20)
+head(T05_RMM_FTLW, 9)
 
 ggplot(T05_RMM_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050047)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -1871,7 +1879,7 @@ rmm.pie.iac.05 <- ggplot(data = T05_RMM_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(rmm.pie.ftl.05, rmm.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### How Good at Taking Responsibility for Actions ================================================================================
+### How Good at Taking Responsibility for Actions ================================================================================ EDITED
 
 ####
 # B6A. On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at taking responsibility for your actions?
@@ -1880,11 +1888,13 @@ ggarrange(rmm.pie.ftl.05, rmm.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050048)
 
-T05_ROA_FTLW <- TIAS[, c("TA050048", "FTL_COUNT")] %>% group_by(TA050048, FTL_COUNT) %>% summarise(Count = n())
+T05_ROA_FTLW <- TIAS2005[, c("TA050048", "FTL_COUNT")] %>% group_by(TA050048, FTL_COUNT) %>% summarise(Count = n())
 
-T05_ROA_FTLW <- T05_ROA_FTLW[1:21, ]
+T05_ROA_FTLW <- T05_ROA_FTLW[1:11, ]
 
-T05_ROA_CAT <- TIAS2005[, c("TA050048", "CAT")] %>% group_by(TA050048, CAT) %>% summarise(Count = n())
+T05_ROA_CAT <- TIAS2005[, c("TA050048", "CAT_05")] %>% group_by(TA050048, CAT_05) %>% summarise(Count = n())
+
+T05_ROA_CAT <- T05_ROA_CAT[1:9, ]
 
 ggplot(T05_ROA_FTLW, aes(x = FTL_COUNT, y = TA050048, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
   geom_boxplot() +
@@ -1893,13 +1903,13 @@ ggplot(T05_ROA_FTLW, aes(x = FTL_COUNT, y = TA050048, group = FTL_COUNT, fill = 
   scale_y_continuous(breaks = seq(1, 7, by = 1)) +
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-ggplot(T05_ROA_CAT, aes(x = CAT, y = TA050048, group = CAT, fill = as.factor(CAT))) +
+ggplot(T05_ROA_CAT, aes(x = CAT_05, y = TA050048, group = CAT_05, fill = as.factor(CAT_05))) +
   geom_boxplot() +
   labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "Taking Responsibility for Actions - Self-Rating (1 = Not at all well; 7 = Extremely Well)") + 
   scale_y_continuous(breaks = seq(1, 7, by = 1)) +
   guides(fill = guide_legend(title = "Category"))
 
-### How Good at Money Management =================================================================================================
+### How Good at Money Management ================================================================================================= EDITED
 
 ####
 # B6C. On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at managing money?
@@ -1908,11 +1918,13 @@ ggplot(T05_ROA_CAT, aes(x = CAT, y = TA050048, group = CAT, fill = as.factor(CAT
 
 table(TIAS$TA050050)
 
-T05_GMM_FTLW <- TIAS[, c("TA050050", "FTL_COUNT")] %>% group_by(TA050050, FTL_COUNT) %>% summarise(Count = n())
+T05_GMM_FTLW <- TIAS2005[, c("TA050050", "FTL_COUNT")] %>% group_by(TA050050, FTL_COUNT) %>% summarise(Count = n())
 
-T05_GMM_FTLW <- T05_GMM_FTLW[1:22, ]
+T05_GMM_FTLW <- T05_GMM_FTLW[1:12, ]
 
-T05_GMM_CAT <- TIAS2005[, c("TA050050", "CAT")] %>% group_by(TA050050, CAT) %>% summarise(Count = n())
+T05_GMM_CAT <- TIAS2005[, c("TA050050", "CAT_05")] %>% group_by(TA050050, CAT_05) %>% summarise(Count = n())
+
+T05_GMM_CAT <- T05_GMM_CAT[1:9, ]
 
 ggplot(T05_GMM_FTLW, aes(x = FTL_COUNT, y = TA050050, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
   geom_boxplot() +
@@ -1921,13 +1933,13 @@ ggplot(T05_GMM_FTLW, aes(x = FTL_COUNT, y = TA050050, group = FTL_COUNT, fill = 
   scale_y_continuous(breaks = seq(1, 7, by = 1)) +
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-ggplot(T05_GMM_CAT, aes(x = CAT, y = TA050050, group = CAT, fill = as.factor(CAT))) +
+ggplot(T05_GMM_CAT, aes(x = CAT_05, y = TA050050, group = CAT_05, fill = as.factor(CAT_05))) +
   geom_boxplot() +
   labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "How Good at Money Management - Self-Rating (1 = Not at all well; 7 = Extremely Well)") + 
   scale_y_continuous(breaks = seq(1, 7, by = 1)) +
   guides(fill = guide_legend(title = "Category"))
 
-### How Good at Paying Off Credit Card Balances ==================================================================================
+### How Good at Paying Off Credit Card Balances ================================================================================== 
 
 ####
 # B6D. On a scale of 1 to 7, where 1 means "Not At All Well" and 7 means "Extremely Well", how good are you at paying off credit card balances each month?
@@ -1942,11 +1954,11 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050051 = 8)) 
 
-T05_CCB_FTLW <- TIAS[, c("TA050051", "FTL_COUNT")] %>% group_by(TA050051, FTL_COUNT) %>% summarise(Count = n())
+T05_CCB_FTLW <- TIAS2005[, c("TA050051", "FTL_COUNT")] %>% group_by(TA050051, FTL_COUNT) %>% summarise(Count = n())
 
 T05_CCB_FTLW <- T05_CCB_FTLW[1:26, ]
 
-T05_CCB_CAT <- TIAS2005[, c("TA050051", "CAT")] %>% group_by(TA050051, CAT) %>% summarise(Count = n())
+T05_CCB_CAT <- TIAS2005[, c("TA050051", "CAT_05")] %>% group_by(TA050051, CAT_05) %>% summarise(Count = n())
 
 T05_CCB_CAT <- T05_CCB_CAT[1:16, ]
 
