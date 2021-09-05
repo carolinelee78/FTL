@@ -53,6 +53,7 @@ lapply(c("ResourceSelection"), pkgTest)
 lapply(c("lmtest"), pkgTest)
 lapply(c("lattice"), pkgTest)
 lapply(c("lme4"), pkgTest)
+lapply(c("data.table"), pkgTest)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -72,6 +73,7 @@ library(ResourceSelection)
 library(lmtest)
 library(lattice)
 library(lme4)
+library(data.table)
 library(RColorBrewer)
 
 # set working directory 
@@ -87,7 +89,7 @@ rm(list=ls())
 
 # Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
 
-TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
+TIAS <- fread("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -136,10 +138,12 @@ length(FTL05_ID)
 
 table(TIAS2005$CAT)
 
+FTL05_ID_VEC <- unname(unlist(FTL05_ID))
+
 # Create a new variable ('CAT_05') for FTL vs. IAC vs. NA (no data) categorization in the 2005 wave 
 
 TIAS$CAT_05 <- with(TIAS, ifelse(
-  PSID_ID %in% FTL05_ID, "FTL_05", ifelse(
+  PSID_ID %in% FTL05_ID_VEC, "FTL_05", ifelse(
     PSID_ID %in% T05_ID, "IAC_05", "NA_05")))
 
 # View the distribution for CAT_05
@@ -148,7 +152,7 @@ table(TIAS$CAT_05)
 
 # View the IDs of participants who have been identified as FTL for the 2005 wave 
 
-print(FTL05_ID)
+print(FTL05_ID_VEC)
 
 ### TIAS 2007 IAC vs. FTL ============================================================================================================
 
@@ -186,10 +190,12 @@ length(FTL07_ID)
 
 table(TIAS2007$CAT)
 
+FTL07_ID_VEC <- unname(unlist(FTL07_ID))
+
 # Create a new variable ('CAT_07') for FTL vs. IAC vs. NA (no data) categorization in the 2007 wave 
 
 TIAS$CAT_07 <- with(TIAS, ifelse(
-  PSID_ID %in% FTL07_ID, "FTL_07", ifelse(
+  PSID_ID %in% FTL07_ID_VEC, "FTL_07", ifelse(
     PSID_ID %in% T07_ID, "IAC_07", "NA_07")))
 
 # View the distribution for CAT_07
@@ -198,7 +204,7 @@ table(TIAS$CAT_07)
 
 # View the IDs of participants who have been identified as FTL for the 2007 wave 
 
-print(FTL07_ID)
+print(FTL07_ID_VEC)
 
 ### TIAS 2009 IAC vs. FTL ============================================================================================================
 
@@ -241,10 +247,12 @@ length(FTL09_ID)
 
 table(TIAS2009$CAT)
 
+FTL09_ID_VEC <- unname(unlist(FTL09_ID))
+
 # Create a new variable ('CAT_09') for FTL vs. IAC vs. NA (no data) categorization in the 2009 wave 
 
 TIAS$CAT_09 <- with(TIAS, ifelse(
-  PSID_ID %in% FTL09_ID, "FTL_09", ifelse(
+  PSID_ID %in% FTL09_ID_VEC, "FTL_09", ifelse(
     PSID_ID %in% T09_ID, "IAC_09", "NA_09")))
 
 # View the distribution for CAT_09
@@ -253,7 +261,7 @@ table(TIAS$CAT_09)
 
 # View the IDs of participants who have been identified as FTL for the 2009 wave 
 
-print(FTL09_ID)
+print(FTL09_ID_VEC)
 
 ### TIAS 2011 IAC vs. FTL ============================================================================================================
 
@@ -291,10 +299,12 @@ length(FTL11_ID)
 
 table(TIAS2011$CAT)
 
+FTL11_ID_VEC <- unname(unlist(FTL11_ID))
+
 # Create a new variable ('CAT_11') for FTL vs. IAC vs. NA (no data) categorization in the 2011 wave 
 
 TIAS$CAT_11 <- with(TIAS, ifelse(
-  PSID_ID %in% FTL11_ID, "FTL_11", ifelse(
+  PSID_ID %in% FTL11_ID_VEC, "FTL_11", ifelse(
     PSID_ID %in% T11_ID, "IAC_11", "NA_11")))
 
 # View the distribution for CAT_11
@@ -303,7 +313,7 @@ table(TIAS$CAT_11)
 
 # View the IDs of participants who have been identified as FTL for the 2011 wave 
 
-print(FTL11_ID)
+print(FTL11_ID_VEC)
 
 ### TIAS 2013 IAC vs. FTL ============================================================================================================
 
@@ -341,10 +351,12 @@ length(FTL13_ID)
 
 table(TIAS2013$CAT)
 
+FTL13_ID_VEC <- unname(unlist(FTL13_ID))
+
 # Create a new variable ('CAT_13') for FTL vs. IAC vs. NA (no data) categorization in the 2013 wave 
 
 TIAS$CAT_13 <- with(TIAS, ifelse(
-  PSID_ID %in% FTL13_ID, "FTL_13", ifelse(
+  PSID_ID %in% FTL13_ID_VEC, "FTL_13", ifelse(
     PSID_ID %in% T13_ID, "IAC_13", "NA_13")))
 
 # View the distribution for CAT_13
@@ -353,7 +365,7 @@ table(TIAS$CAT_13)
 
 # View the IDs of participants who have been identified as FTL for the 2013 wave 
 
-print(FTL13_ID)
+print(FTL13_ID_VEC)
 
 ### TIAS 2015 IAC vs. FTL ============================================================================================================
 
@@ -391,10 +403,12 @@ length(FTL15_ID)
 
 table(TIAS2015$CAT)
 
+FTL15_ID_VEC <- unname(unlist(FTL15_ID))
+
 # Create a new variable ('CAT_15') for FTL vs. IAC vs. NA (no data) categorization in the 2015 wave 
 
 TIAS$CAT_15 <- with(TIAS, ifelse(
-  PSID_ID %in% FTL15_ID, "FTL_15", ifelse(
+  PSID_ID %in% FTL15_ID_VEC, "FTL_15", ifelse(
     PSID_ID %in% T15_ID, "IAC_15", "NA_15")))
 
 # View the distribution for CAT_15
@@ -403,7 +417,7 @@ table(TIAS$CAT_15)
 
 # View the IDs of participants who have been identified as FTL for the 2015 wave 
 
-print(FTL15_ID)
+print(FTL15_ID_VEC)
 
 ### TIAS 2017 IAC vs. FTL ============================================================================================================
 
@@ -441,10 +455,12 @@ length(FTL17_ID)
 
 table(TIAS2017$CAT)
 
+FTL17_ID_VEC <- unname(unlist(FTL17_ID))
+
 # Create a new variable ('CAT_17') for FTL vs. IAC vs. NA (no data) categorization in the 2017 wave 
 
 TIAS$CAT_17 <- with(TIAS, ifelse(
-  PSID_ID %in% FTL17_ID, "FTL_17", ifelse(
+  PSID_ID %in% FTL17_ID_VEC, "FTL_17", ifelse(
     PSID_ID %in% T17_ID, "IAC_17", "NA_17")))
 
 # View the distribution for CAT_17
@@ -453,13 +469,13 @@ table(TIAS$CAT_17)
 
 # View the IDs of participants who have been identified as FTL for the 2017 wave 
 
-print(FTL17_ID)
+print(FTL17_ID_VEC)
 
 ### TIAS FTL Wave Count =========================================================================================================
 
 count.ftlwave <- function(x){
-  as.integer(as.logical(x %in% FTL05_ID)) + as.integer(as.logical(x %in% FTL07_ID)) + as.integer(as.logical(x %in% FTL09_ID)) +
-    as.integer(as.logical(x %in% FTL11_ID)) + as.integer(as.logical(x %in% FTL13_ID)) + as.integer(as.logical(x %in% FTL15_ID)) + as.integer(as.logical(x %in% FTL17_ID))
+  as.integer(as.logical(x %in% FTL05_ID_VEC)) + as.integer(as.logical(x %in% FTL07_ID_VEC)) + as.integer(as.logical(x %in% FTL09_ID_VEC)) +
+    as.integer(as.logical(x %in% FTL11_ID_VEC)) + as.integer(as.logical(x %in% FTL13_ID_VEC)) + as.integer(as.logical(x %in% FTL15_ID_VEC)) + as.integer(as.logical(x %in% FTL17_ID_VEC))
 }
 
 PSID_LIST <- lapply(ALL_PSID_ID, count.ftlwave)
@@ -552,7 +568,7 @@ TIAS2017_FTL <- subset(TIAS, CAT_17 == "FTL_17")
 
 TIAS2017_IAC <- subset(TIAS, CAT_17 == "IAC_17")
 
-ALL_FTL_ID <- c(FTL05_ID, FTL07_ID, FTL09_ID, FTL11_ID, FTL13_ID, FTL15_ID, FTL17_ID)
+ALL_FTL_ID <- c(FTL05_ID_VEC, FTL07_ID_VEC, FTL09_ID_VEC, FTL11_ID_VEC, FTL13_ID_VEC, FTL15_ID_VEC, FTL17_ID_VEC)
 
 length(ALL_FTL_ID)
 
@@ -563,8 +579,6 @@ FTL_ID <- unique(ALL_FTL_ID)
 TIAS$GREQ1_FTL <- with(TIAS, ifelse(PSID_ID %in% FTL_ID, "Yes", "No"))      
 
 TIAS_FTL <- subset(TIAS, GREQ1_FTL == "Yes")
-
-TIAS_IAC <- subset(TIAS, GREQ1_FTL == "No")
 
 ######################## TIAS-D Analysis - TIAS 2005 ######################## 
 
@@ -1289,7 +1303,7 @@ ggplot(T05_WRY_CAT, aes(x = CAT_05, y = TA050932, group = CAT_05, fill = as.fact
   scale_y_continuous(limits = c(1, 7), breaks = seq(1, 7, by = 1)) +
   guides(fill = guide_legend(title = "Category"))
 
-### Paid Employment Since Jan 1 of Prior Year ==================================================================================== EDITED
+### Paid Employment Since Jan 1 of Prior Year ==================================================================================== EDITED, PC
 
 #### 
 # E3A. WTR Worked Since Jan 1 Of Prior Year: “Have you done any work for money since January 1, 2003? Please include any type of work, no matter how small”
@@ -1326,7 +1340,7 @@ prop.table(table(TIAS2005_FTL$TA050131))
 epj.pie.ftl.05 <- ggplot(data = T05_EPJ_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050131))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Paid Employment Since Prior Year", values = c("lightblue1", "lightgoldenrod1", "lightpink"), labels = c("Yes (Working Now)", "Yes (Not Now)", "No")) +
+  scale_fill_manual("Paid Employment Since Prior Year", values = c("lightgoldenrod1", "lightpink"), labels = c("Yes (Not Now)", "No")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050131))
@@ -1339,7 +1353,7 @@ epj.pie.iac.05 <- ggplot(data = T05_EPJ_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(epj.pie.ftl.05, epj.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Paid Employment History ====================================================================================================== EDITED
+### Paid Employment History ====================================================================================================== EDITED, PC
 
 ####
 # E62. WTR Ever Worked: “Have you ever done any work for money?”
@@ -1387,7 +1401,7 @@ eph.pie.iac.05 <- ggplot(data = T05_EPH_IACCAT, aes(x = " ", y = Count, fill = a
   scale_fill_manual("Paid Employment History", values = c("darkturquoise", "darkviolet", "deeppink"), labels = c("Yes (Employed Since 2003 or Before)", "Yes (Not Now)", "No")) +
   theme_void() 
 
-ggarrange(eph.pie.ftl.05, eph.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
+ggpubr::ggarrange(eph.pie.ftl.05, eph.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Current Marital Status ======================================================================================================= EDITED
 
@@ -1417,7 +1431,7 @@ ggplot(T05_CMS_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050069)), 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Current Marital Status", values = c("lightcoral", "khaki1", "mediumaquamarine", "lightskyblue"), labels = c("Married", "Never Married", "Divorced", "Separated"))
 
-### Romantic Relationships ======================================================================================================= EDITED 
+### Romantic Relationships ======================================================================================================= EDITED, PC
 
 ####
 # D8. WTR Romantic Relationship Now: “Are you currently involved in a romantic relationship?”
@@ -1454,7 +1468,7 @@ prop.table(table(TIAS2005_FTL$TA050078))
 rrn.pie.ftl.05 <- ggplot(data = T05_RRN_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050078))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Involved in Romantic Rel.", values = c("darkturquoise", "darkviolet", "deeppink"), labels = c("Inap: Married", "Yes", "No")) +
+  scale_fill_manual("Involved in Romantic Rel.", values = c("darkviolet", "deeppink"), labels = c("Yes", "No")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050078))
@@ -1633,7 +1647,7 @@ ggplot(T05_HEL_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050946)), 
   labels = c("No HS Diploma, No GED", "No HS Diploma, GED", "HS Diploma", "Not Enrolled, Some College", "Not Enrolled, 2-yr College Graduate", "Enrolled in College, No Prior Degree", 
             "Enrolled in College, Has Prior Degree", "Enrolled in Graduate Program"))
 
-### Responsibility - Earning Own Living ========================================================================================== EDITED
+### Responsibility - Earning Own Living ========================================================================================== EDITED, PC
 
 ####
 # B5A. How Much Responsibility Earning Own Living: “As people get older they begin to take more responsibility for themselves. How much responsibility do you currently take for earning your own living?”
@@ -1673,8 +1687,8 @@ prop.table(table(TIAS2005_FTL$TA050044))
 reo.pie.ftl.05 <- ggplot(data = T05_REO_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050044))) + 
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Responsibility - Earning Own Living", values = c("lightcoral", "mediumturquoise", "deepskyblue", "gold", "green3"),
-  labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time")) +
+  scale_fill_manual("Responsibility - Earning Own Living", values = c("deepskyblue", "green3"),
+  labels = c("Half of the time", "All of the time")) +
   theme_void()
 
 prop.table(table(TIAS2005_IAC$TA050044))
@@ -1688,7 +1702,7 @@ reo.pie.iac.05 <- ggplot(data = T05_REO_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(reo.pie.ftl.05, reo.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Paying Own Rent ============================================================================================= EDITED
+### Responsibility - Paying Own Rent ============================================================================================= EDITED, PC
 
 ####
 # B5B. How Much Responsibility Paying Own Rent: “How much responsibility do you currently take for paying your rent or mortgage?"  
@@ -1759,7 +1773,7 @@ por.pie.iac.05 <- ggplot(data = T05_POR_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(por.pie.ftl.05, por.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Paying Own Bills ============================================================================================ EDITED
+### Responsibility - Paying Own Bills ============================================================================================ EDITED, PC
 
 ####
 # B5C. How Much Responsibility for Own Bills: How much responsibility do you currently take for paying your bills?  
@@ -1820,7 +1834,7 @@ pob.pie.iac.05 <- ggplot(data = T05_POB_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(pob.pie.ftl.05, pob.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Responsibility - Managing Money ============================================================================================== EDITED
+### Responsibility - Managing Money ============================================================================================== EDITED, PC
 
 ####
 # B5D. How Much Responsibility Managing Money: "How much responsibility do you currently take for managing your money?"
@@ -1865,8 +1879,8 @@ prop.table(table(TIAS2005_FTL$TA050047))
 
 rmm.pie.ftl.05 <- ggplot(data = T05_RMM_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050047))) +  geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Responsibility - Managing Money", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"),
-  labels = c("Never", "Sometimes", "Half of the time", "Most of the time", "All of the time")) +
+  scale_fill_manual("Responsibility - Managing Money", values = c("mediumturquoise", "deepskyblue"),
+  labels = c("Most of the time", "All of the time")) +
   theme_void()
 
 prop.table(table(TIAS2005_IAC$TA050047))
@@ -2013,8 +2027,8 @@ prop.table(table(TIAS2005_FTL$TA050888))
 
 m01.pie.ftl.05 <- ggplot(data = T05_M01_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050888))) +  geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Happiness in Last Mo.", values = c("green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("About once a week", "Two or three times a week", "Almost every day", "Every day")) +
+  scale_fill_manual("Happiness in Last Mo.", values = c("green3", "deepskyblue"), 
+  labels = c("About once a week", "Almost every day")) +
   theme_void()
 
 prop.table(table(TIAS2005_IAC$TA050888))
@@ -2058,7 +2072,7 @@ ggplot(T05_M02_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050889)), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
 
-### MIDUS M3 - Satisfaction ====================================================================================================== EDITED
+### MIDUS M3 - Satisfaction ====================================================================================================== EDITED, PC
 
 ####
 # M3. Freq of Feeling Satisfied in Last Month: "In the last month, how often did you feel satisfied?"
@@ -2096,8 +2110,8 @@ prop.table(table(TIAS2005_FTL$TA050890))
 
 m03.pie.ftl.05 <- ggplot(data = T05_M03_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050890))) +  geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Satisfaction in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
+  scale_fill_manual("Satisfaction in Last Mo.", values = c("deepskyblue", "mediumpurple1"), 
+  labels = c("Almost every day", "Every day")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050890))
@@ -2110,7 +2124,7 @@ m03.pie.iac.05 <- ggplot(data = T05_M03_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m03.pie.ftl.05, m03.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M4 - Contribution of Something Important to Society ==================================================================== EDITED
+### MIDUS M4 - Contribution of Something Important to Society ==================================================================== EDITED, PC
 
 ####
 # M4. Freq of Feeling Contributed to Society: “In the last month, how often did you feel that you had something important to contribute to society?"
@@ -2180,7 +2194,7 @@ m04.pie.iac.05 <- ggplot(data = T05_M04_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m04.pie.ftl.05, m04.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M5 - Belonging to Community ============================================================================================ EDITED
+### MIDUS M5 - Belonging to Community ============================================================================================ EDITED, PC
 
 ####
 # M5. Freq of Feeling Belonging to Community: "In the last month, how often did you feel that you belonged to a community like a social group, your school, or your neighborhood?”
