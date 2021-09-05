@@ -2246,7 +2246,7 @@ m05.pie.iac.05 <- ggplot(data = T05_M05_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m05.pie.ftl.05, m05.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M6 - Society Getting Better ============================================================================================
+### MIDUS M6 - Society Getting Better ============================================================================================ EDITED, PC
 
 ####
 # M6. Freq of Feeling Society Getting Better: "In the last month, how often did you feel that our society is becoming a better place?”
@@ -2267,31 +2267,29 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050893 = 8)) 
 
-T05_M06_FTLW <- TIAS[, c("TA050893", "FTL_COUNT")] %>% group_by(TA050893, FTL_COUNT) %>% summarise(Count = n())
+T05_M06_FTLW <- TIAS2005[, c("TA050893", "FTL_COUNT")] %>% group_by(TA050893, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M06_FTLW <- T05_M06_FTLW[1:24, ]
+T05_M06_FTLW <- T05_M06_FTLW[1:10, ]
 
-T05_M06_CAT <- TIAS2005[, c("TA050893", "CAT")] %>% group_by(TA050893, CAT) %>% summarise(Count = n())
+T05_M06_CAT <- TIAS2005[, c("TA050893", "CAT_05")] %>% group_by(TA050893, CAT_05) %>% summarise(Count = n())
 
-T05_M06_CAT <- T05_M06_CAT[1:12, ]
+T05_M06_CAT <- T05_M06_CAT[1:8, ]
 
-T05_M06_FTLCAT <- TIAS2005_FTL[, c("TA050893", "CAT")] %>% group_by(TA050893, CAT) %>% summarise(Count = n())
+T05_M06_FTLCAT <- TIAS2005_FTL[, c("TA050893", "CAT_05")] %>% group_by(TA050893, CAT_05) %>% summarise(Count = n())
 
-T05_M06_FTLCAT <- T05_M06_FTLCAT[1:6, ]
-
-T05_M06_IACCAT <- TIAS2005_IAC[, c("TA050893", "CAT")] %>% group_by(TA050893, CAT) %>% summarise(Count = n())
+T05_M06_IACCAT <- TIAS2005_IAC[, c("TA050893", "CAT_05")] %>% group_by(TA050893, CAT_05) %>% summarise(Count = n())
 
 T05_M06_IACCAT <- T05_M06_IACCAT[1:6, ]
 
-head(T05_M06_CAT, 12)
+head(T05_M06_CAT, 8)
 
-ggplot(T05_M06_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050893)), xlab="Category") +
+ggplot(T05_M06_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050893)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling Society Getting Better in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M06_FTLW, 24)
+head(T05_M06_FTLW, 10)
 
 ggplot(T05_M06_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050893)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2304,8 +2302,8 @@ prop.table(table(TIAS2005_FTL$TA050893))
 
 m06.pie.ftl.05 <- ggplot(data = T05_M06_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050893))) + geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Society Getting Better in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
+  scale_fill_manual("Feeling Society Getting Better in Last Mo.", values = c("gold", "deepskyblue"), 
+  labels = c("Once or twice", "Almost every day")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050893))
@@ -2318,7 +2316,7 @@ m06.pie.iac.05 <- ggplot(data = T05_M06_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m06.pie.ftl.05, m06.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M7 - People Basically Good =============================================================================================
+### MIDUS M7 - People Basically Good ============================================================================================= EDITED, PC
 
 ####
 # M7. Freq of Feeling People Basically Good: "In the last month, how often did you feel that people are basically good?”
@@ -2339,31 +2337,29 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050894 = 8)) 
 
-T05_M07_FTLW <- TIAS[, c("TA050894", "FTL_COUNT")] %>% group_by(TA050894, FTL_COUNT) %>% summarise(Count = n())
+T05_M07_FTLW <- TIAS2005[, c("TA050894", "FTL_COUNT")] %>% group_by(TA050894, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M07_FTLW <- T05_M07_FTLW[1:24, ]
+T05_M07_FTLW <- T05_M07_FTLW[1:9, ]
 
-T05_M07_CAT <- TIAS2005[, c("TA050894", "CAT")] %>% group_by(TA050894, CAT) %>% summarise(Count = n())
+T05_M07_CAT <- TIAS2005[, c("TA050894", "CAT_05")] %>% group_by(TA050894, CAT_05) %>% summarise(Count = n())
 
-T05_M07_CAT <- T05_M07_CAT[1:12, ]
+T05_M07_CAT <- T05_M07_CAT[1:8, ]
 
-T05_M07_FTLCAT <- TIAS2005_FTL[, c("TA050894", "CAT")] %>% group_by(TA050894, CAT) %>% summarise(Count = n())
+T05_M07_FTLCAT <- TIAS2005_FTL[, c("TA050894", "CAT_05")] %>% group_by(TA050894, CAT_05) %>% summarise(Count = n())
 
-T05_M07_FTLCAT <- T05_M07_FTLCAT[1:6, ]
-
-T05_M07_IACCAT <- TIAS2005_IAC[, c("TA050894", "CAT")] %>% group_by(TA050894, CAT) %>% summarise(Count = n())
+T05_M07_IACCAT <- TIAS2005_IAC[, c("TA050894", "CAT_05")] %>% group_by(TA050894, CAT_05) %>% summarise(Count = n())
 
 T05_M07_IACCAT <- T05_M07_IACCAT[1:6, ]
 
-head(T05_M07_CAT, 12)
+head(T05_M07_CAT, 8)
 
-ggplot(T05_M07_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050894)), xlab="Category") +
+ggplot(T05_M07_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050894)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling People are Good in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M07_FTLW, 24)
+head(T05_M07_FTLW, 9)
 
 ggplot(T05_M07_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050894)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2376,8 +2372,8 @@ prop.table(table(TIAS2005_FTL$TA050894))
 
 m07.pie.ftl.05 <- ggplot(data = T05_M07_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050894))) + geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling People are Good in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) + 
+  scale_fill_manual("Feeling People are Good in Last Mo.", values = c("green3", "deepskyblue"), 
+  labels = c("About once a week", "Almost every day")) + 
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050894))
@@ -2390,7 +2386,7 @@ m07.pie.iac.05 <- ggplot(data = T05_M07_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m07.pie.ftl.05, m07.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M8 - Way Society Makes Sense ===========================================================================================
+### MIDUS M8 - Way Society Makes Sense =========================================================================================== EDITED, PC
 
 ####
 # M8. Freq Feeling Way Soc Works Makes Sense: "In the last month, how often did you feel that the way our society works made sense to you?”
@@ -2411,31 +2407,29 @@ TIAS2005_FTL <- TIAS2005_FTL %>%
 TIAS2005_IAC <- TIAS2005_IAC %>% 
   replace_with_na(replace = list(TA050895 = 8)) 
 
-T05_M08_FTLW <- TIAS[, c("TA050895", "FTL_COUNT")] %>% group_by(TA050895, FTL_COUNT) %>% summarise(Count = n())
+T05_M08_FTLW <- TIAS2005[, c("TA050895", "FTL_COUNT")] %>% group_by(TA050895, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M08_FTLW <- T05_M08_FTLW[1:23, ]
+T05_M08_FTLW <- T05_M08_FTLW[1:11, ]
 
-T05_M08_CAT <- TIAS2005[, c("TA050895", "CAT")] %>% group_by(TA050895, CAT) %>% summarise(Count = n())
+T05_M08_CAT <- TIAS2005[, c("TA050895", "CAT_05")] %>% group_by(TA050895, CAT_05) %>% summarise(Count = n())
 
-T05_M08_CAT <- T05_M08_CAT[1:12, ]
+T05_M08_CAT <- T05_M08_CAT[1:8, ]
 
-T05_M08_FTLCAT <- TIAS2005_FTL[, c("TA050895", "CAT")] %>% group_by(TA050895, CAT) %>% summarise(Count = n())
+T05_M08_FTLCAT <- TIAS2005_FTL[, c("TA050895", "CAT_05")] %>% group_by(TA050895, CAT_05) %>% summarise(Count = n())
 
-T05_M08_FTLCAT <- T05_M08_FTLCAT[1:6, ]
-
-T05_M08_IACCAT <- TIAS2005_IAC[, c("TA050895", "CAT")] %>% group_by(TA050895, CAT) %>% summarise(Count = n())
+T05_M08_IACCAT <- TIAS2005_IAC[, c("TA050895", "CAT_05")] %>% group_by(TA050895, CAT_05) %>% summarise(Count = n())
 
 T05_M08_IACCAT <- T05_M08_IACCAT[1:6, ]
 
-head(T05_M08_CAT, 12)
+head(T05_M08_CAT, 8)
 
-ggplot(T05_M08_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050895)), xlab="Category") +
+ggplot(T05_M08_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050895)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling Soc. Makes Sense in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M08_FTLW, 23)
+head(T05_M08_FTLW, 11)
 
 ggplot(T05_M08_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050895)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2448,8 +2442,8 @@ prop.table(table(TIAS2005_FTL$TA050895))
 
 m08.pie.ftl.05 <- ggplot(data = T05_M08_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050895))) + geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Soc. Makes Sense in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
+  scale_fill_manual("Feeling Soc. Makes Sense in Last Mo.", values = c("lightcoral", "deepskyblue"), 
+  labels = c("Never", "Almost every day")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050895))
@@ -2462,7 +2456,7 @@ m08.pie.iac.05 <- ggplot(data = T05_M08_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m08.pie.ftl.05, m08.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M9 - Managing Daily Responsibility =====================================================================================
+### MIDUS M9 - Managing Daily Responsibility ===================================================================================== EDITED, PC
 
 ####
 # M9. Freq Feel Managing Responsibility: "In the last month, how often did you feel good at managing the responsibilities of your daily life?”
@@ -2471,25 +2465,23 @@ ggarrange(m08.pie.ftl.05, m08.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050896)
 
-T05_M09_FTLW <- TIAS[, c("TA050896", "FTL_COUNT")] %>% group_by(TA050896, FTL_COUNT) %>% summarise(Count = n())
+T05_M09_FTLW <- TIAS2005[, c("TA050896", "FTL_COUNT")] %>% group_by(TA050896, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M09_FTLW <- T05_M09_FTLW[1:21, ]
+T05_M09_CAT <- TIAS2005[, c("TA050896", "CAT_05")] %>% group_by(TA050896, CAT_05) %>% summarise(Count = n())
 
-T05_M09_CAT <- TIAS2005[, c("TA050896", "CAT")] %>% group_by(TA050896, CAT) %>% summarise(Count = n())
+T05_M09_FTLCAT <- TIAS2005_FTL[, c("TA050896", "CAT_05")] %>% group_by(TA050896, CAT_05) %>% summarise(Count = n())
 
-T05_M09_FTLCAT <- TIAS2005_FTL[, c("TA050896", "CAT")] %>% group_by(TA050896, CAT) %>% summarise(Count = n())
+T05_M09_IACCAT <- TIAS2005_IAC[, c("TA050896", "CAT_05")] %>% group_by(TA050896, CAT_05) %>% summarise(Count = n())
 
-T05_M09_IACCAT <- TIAS2005_IAC[, c("TA050896", "CAT")] %>% group_by(TA050896, CAT) %>% summarise(Count = n())
+head(T05_M09_CAT, 8)
 
-head(T05_M09_CAT, 12)
-
-ggplot(T05_M09_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050896)), xlab="Category") +
+ggplot(T05_M09_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050896)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling Managing Resp. in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M09_FTLW, 21)
+head(T05_M09_FTLW, 11)
 
 ggplot(T05_M09_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050896)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2502,8 +2494,8 @@ prop.table(table(TIAS2005_FTL$TA050896))
 
 m09.pie.ftl.05 <- ggplot(data = T05_M09_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050896))) + geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Managing Resp. in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
+  scale_fill_manual("Feeling Managing Resp. in Last Mo.", values = c("gold", "mediumpurple1"), 
+  labels = c("Once or twice", "Every day")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050896))
@@ -2516,7 +2508,7 @@ m09.pie.iac.05 <- ggplot(data = T05_M09_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m09.pie.ftl.05, m09.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M10 - Trusting Relationships w/ Others =================================================================================
+### MIDUS M10 - Trusting Relationships w/ Others ================================================================================= EDITED, PC 
 
 ####
 # M10. Freq Feeling Trusting Rels w/ Others: "In the last month, how often did you feel that you have warm and trusting relationships with other people?”
@@ -2525,25 +2517,23 @@ ggarrange(m09.pie.ftl.05, m09.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050897)
 
-T05_M10_FTLW <- TIAS[, c("TA050897", "FTL_COUNT")] %>% group_by(TA050897, FTL_COUNT) %>% summarise(Count = n())
+T05_M10_FTLW <- TIAS2005[, c("TA050897", "FTL_COUNT")] %>% group_by(TA050897, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M10_FTLW <- T05_M10_FTLW[1:22, ]
+T05_M10_CAT <- TIAS2005[, c("TA050897", "CAT_05")] %>% group_by(TA050897, CAT_05) %>% summarise(Count = n())
 
-T05_M10_CAT <- TIAS2005[, c("TA050897", "CAT")] %>% group_by(TA050897, CAT) %>% summarise(Count = n())
+T05_M10_FTLCAT <- TIAS2005_FTL[, c("TA050897", "CAT_05")] %>% group_by(TA050897, CAT_05) %>% summarise(Count = n())
 
-T05_M10_FTLCAT <- TIAS2005_FTL[, c("TA050897", "CAT")] %>% group_by(TA050897, CAT) %>% summarise(Count = n())
+T05_M10_IACCAT <- TIAS2005_IAC[, c("TA050897", "CAT_05")] %>% group_by(TA050897, CAT_05) %>% summarise(Count = n())
 
-T05_M10_IACCAT <- TIAS2005_IAC[, c("TA050897", "CAT")] %>% group_by(TA050897, CAT) %>% summarise(Count = n())
+head(T05_M10_CAT, 8)
 
-head(T05_M10_CAT, 12)
-
-ggplot(T05_M10_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050897)), xlab="Category") +
+ggplot(T05_M10_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050897)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling Trusting Rels w/ Others in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M10_FTLW, 22)
+head(T05_M10_FTLW, 11)
 
 ggplot(T05_M10_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050897)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2556,8 +2546,8 @@ prop.table(table(TIAS2005_FTL$TA050897))
 
 m10.pie.ftl.05 <- ggplot(data = T05_M10_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050897))) + geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Trusting Rels w/ Others in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
+  scale_fill_manual("Feeling Trusting Rels w/ Others in Last Mo.", values = c("mediumturquoise", "deepskyblue"), 
+  labels = c("Two or three times a week", "Almost every day")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050897))
@@ -2570,7 +2560,7 @@ m10.pie.iac.05 <- ggplot(data = T05_M10_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m10.pie.ftl.05, m10.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M11 - Challenged to Grow ===============================================================================================
+### MIDUS M11 - Challenged to Grow =============================================================================================== EDITED
 
 ####
 # M11. Freq Feeling Challenged to Grow: "In the last month, how often did you feel that you have experiences that challenged you to grow or become a better person?”
@@ -2579,25 +2569,19 @@ ggarrange(m10.pie.ftl.05, m10.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050898)
 
-T05_M11_FTLW <- TIAS[, c("TA050898", "FTL_COUNT")] %>% group_by(TA050898, FTL_COUNT) %>% summarise(Count = n())
+T05_M11_FTLW <- TIAS2005[, c("TA050898", "FTL_COUNT")] %>% group_by(TA050898, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M11_FTLW <- T05_M11_FTLW[1:21, ]
+T05_M11_CAT <- TIAS2005[, c("TA050898", "CAT_05")] %>% group_by(TA050898, CAT_05) %>% summarise(Count = n())
 
-T05_M11_CAT <- TIAS2005[, c("TA050898", "CAT")] %>% group_by(TA050898, CAT) %>% summarise(Count = n())
+head(T05_M11_CAT, 7)
 
-T05_M11_FTLCAT <- TIAS2005_FTL[, c("TA050898", "CAT")] %>% group_by(TA050898, CAT) %>% summarise(Count = n())
-
-T05_M11_IACCAT <- TIAS2005_IAC[, c("TA050898", "CAT")] %>% group_by(TA050898, CAT) %>% summarise(Count = n())
-
-head(T05_M11_CAT, 11)
-
-ggplot(T05_M11_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050898)), xlab="Category") +
+ggplot(T05_M11_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050898)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling Challenged to Grow in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M11_FTLW, 21)
+head(T05_M11_FTLW, 12)
 
 ggplot(T05_M11_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050898)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2606,25 +2590,7 @@ ggplot(T05_M11_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050898)), 
   scale_fill_manual("Feeling Challenged to Grow in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-prop.table(table(TIAS2005_FTL$TA050898))
-
-m11.pie.ftl.05 <- ggplot(data = T05_M11_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050898))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Challenged to Grow in Last Mo.", values = c("lightcoral", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050898))
-
-m11.pie.iac.05 <- ggplot(data = T05_M11_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050898))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Challenged to Grow in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) + 
-  theme_void()
-
-ggarrange(m11.pie.ftl.05, m11.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### MIDUS M12 - Confident of Own Ideas ===========================================================================================
+### MIDUS M12 - Confident of Own Ideas =========================================================================================== EDITED, PC
 
 ####
 # M12. Freq Feeling Confident of Own Ideas: "In the last month, how often did you feel confident to think or express your own ideas and opinions?”
@@ -2633,25 +2599,23 @@ ggarrange(m11.pie.ftl.05, m11.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050899)
 
-T05_M12_FTLW <- TIAS[, c("TA050899", "FTL_COUNT")] %>% group_by(TA050899, FTL_COUNT) %>% summarise(Count = n())
+T05_M12_FTLW <- TIAS2005[, c("TA050899", "FTL_COUNT")] %>% group_by(TA050899, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M12_FTLW <- T05_M12_FTLW[1:21, ]
+T05_M12_CAT <- TIAS2005[, c("TA050899", "CAT_05")] %>% group_by(TA050899, CAT_05) %>% summarise(Count = n())
 
-T05_M12_CAT <- TIAS2005[, c("TA050899", "CAT")] %>% group_by(TA050899, CAT) %>% summarise(Count = n())
+T05_M12_FTLCAT <- TIAS2005_FTL[, c("TA050899", "CAT_05")] %>% group_by(TA050899, CAT_05) %>% summarise(Count = n())
 
-T05_M12_FTLCAT <- TIAS2005_FTL[, c("TA050899", "CAT")] %>% group_by(TA050899, CAT) %>% summarise(Count = n())
+T05_M12_IACCAT <- TIAS2005_IAC[, c("TA050899", "CAT_05")] %>% group_by(TA050899, CAT_05) %>% summarise(Count = n())
 
-T05_M12_IACCAT <- TIAS2005_IAC[, c("TA050899", "CAT")] %>% group_by(TA050899, CAT) %>% summarise(Count = n())
+head(T05_M12_CAT, 8)
 
-head(T05_M12_CAT, 12)
-
-ggplot(T05_M12_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050899)), xlab="Category") +
+ggplot(T05_M12_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050899)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling Confident of Own Ideas in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M12_FTLW, 21)
+head(T05_M12_FTLW, 10)
 
 ggplot(T05_M12_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050899)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2664,8 +2628,8 @@ prop.table(table(TIAS2005_FTL$TA050899))
 
 m12.pie.ftl.05 <- ggplot(data = T05_M12_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050899))) + geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Confident of Own Ideas in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
+  scale_fill_manual("Feeling Confident of Own Ideas in Last Mo.", values = c("deepskyblue", "mediumpurple1"), 
+  labels = c("Almost every day", "Every day")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050899))
@@ -2678,7 +2642,7 @@ m12.pie.iac.05 <- ggplot(data = T05_M12_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m12.pie.ftl.05, m12.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M13 - Liked Personality ================================================================================================
+### MIDUS M13 - Liked Personality ================================================================================================ EDITED, PC
 
 ####
 # M13. Freq Feeling Liked Personality: "In the last month, how often did you feel that you liked your personality?”
@@ -2687,25 +2651,23 @@ ggarrange(m12.pie.ftl.05, m12.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050900)
 
-T05_M13_FTLW <- TIAS[, c("TA050900", "FTL_COUNT")] %>% group_by(TA050900, FTL_COUNT) %>% summarise(Count = n())
+T05_M13_FTLW <- TIAS2005[, c("TA050900", "FTL_COUNT")] %>% group_by(TA050900, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M13_FTLW <- T05_M13_FTLW[1:20, ]
+T05_M13_CAT <- TIAS2005[, c("TA050900", "CAT_05")] %>% group_by(TA050900, CAT_05) %>% summarise(Count = n())
 
-T05_M13_CAT <- TIAS2005[, c("TA050900", "CAT")] %>% group_by(TA050900, CAT) %>% summarise(Count = n())
+T05_M13_FTLCAT <- TIAS2005_FTL[, c("TA050900", "CAT_05")] %>% group_by(TA050900, CAT_05) %>% summarise(Count = n())
 
-T05_M13_FTLCAT <- TIAS2005_FTL[, c("TA050900", "CAT")] %>% group_by(TA050900, CAT) %>% summarise(Count = n())
+T05_M13_IACCAT <- TIAS2005_IAC[, c("TA050900", "CAT_05")] %>% group_by(TA050900, CAT_05) %>% summarise(Count = n())
 
-T05_M13_IACCAT <- TIAS2005_IAC[, c("TA050900", "CAT")] %>% group_by(TA050900, CAT) %>% summarise(Count = n())
+head(T05_M13_CAT, 8)
 
-head(T05_M13_CAT, 10)
-
-ggplot(T05_M13_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050900)), xlab="Category") +
+ggplot(T05_M13_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050900)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling Liked Own Personality in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M13_FTLW, 20)
+head(T05_M13_FTLW, 10)
 
 ggplot(T05_M13_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050900)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2718,8 +2680,8 @@ prop.table(table(TIAS2005_FTL$TA050900))
 
 m13.pie.ftl.05 <- ggplot(data = T05_M13_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050900))) + geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Liked Own Personality in Last Mo.", values = c("green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("About once a week", "Two or three times a week", "Almost every day", "Every day")) +
+  scale_fill_manual("Feeling Liked Own Personality in Last Mo.", values = c("deepskyblue", "mediumpurple1"), 
+  labels = c("Almost every day", "Every day")) +
   theme_void() 
 
 prop.table(table(TIAS2005_IAC$TA050900))
@@ -2732,7 +2694,7 @@ m13.pie.iac.05 <- ggplot(data = T05_M13_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(m13.pie.ftl.05, m13.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### MIDUS M14 - Life Had Direction ===============================================================================================
+### MIDUS M14 - Life Had Direction =============================================================================================== EDITED
 
 ####
 # M14. Freq Feeling Life Had Direction: "In the last month, how often did you feel that your life had a direction or purpose?”
@@ -2741,25 +2703,19 @@ ggarrange(m13.pie.ftl.05, m13.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050901)
 
-T05_M14_FTLW <- TIAS[, c("TA050901", "FTL_COUNT")] %>% group_by(TA050901, FTL_COUNT) %>% summarise(Count = n())
+T05_M14_FTLW <- TIAS2005[, c("TA050901", "FTL_COUNT")] %>% group_by(TA050901, FTL_COUNT) %>% summarise(Count = n())
 
-T05_M14_FTLW <- T05_M14_FTLW[1:21, ]
+T05_M14_CAT <- TIAS2005[, c("TA050901", "CAT_05")] %>% group_by(TA050901, CAT_05) %>% summarise(Count = n())
 
-T05_M14_CAT <- TIAS2005[, c("TA050901", "CAT")] %>% group_by(TA050901, CAT) %>% summarise(Count = n())
+head(T05_M14_CAT, 7)
 
-T05_M14_FTLCAT <- TIAS2005_FTL[, c("TA050901", "CAT")] %>% group_by(TA050901, CAT) %>% summarise(Count = n())
-
-T05_M14_IACCAT <- TIAS2005_IAC[, c("TA050901", "CAT")] %>% group_by(TA050901, CAT) %>% summarise(Count = n())
-
-head(T05_M14_CAT, 12)
-
-ggplot(T05_M14_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050901)), xlab="Category") +
+ggplot(T05_M14_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050901)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Feeling Life Had Direction in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-head(T05_M14_FTLW, 21)
+head(T05_M14_FTLW, 10)
 
 ggplot(T05_M14_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050901)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2768,25 +2724,7 @@ ggplot(T05_M14_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050901)), 
   scale_fill_manual("Feeling Life Had Direction in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
   labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day"))
 
-prop.table(table(TIAS2005_FTL$TA050901))
-
-m14.pie.ftl.05 <- ggplot(data = T05_M14_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050901))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Life Had Direction in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
-  theme_void() 
-
-prop.table(table(TIAS2005_IAC$TA050901))
-
-m14.pie.iac.05 <- ggplot(data = T05_M14_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050901))) + geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  scale_fill_manual("Feeling Life Had Direction in Last Mo.", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1"), 
-  labels = c("Never", "Once or twice", "About once a week", "Two or three times a week", "Almost every day", "Every day")) +
-  theme_void()
-
-ggarrange(m14.pie.ftl.05, m14.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### MIDUS Subscale - Emotional ===================================================================================================
+### MIDUS Subscale - Emotional =================================================================================================== EDITED
 
 ####
 # MIDUS Subscale - Emotional (M1-M3): Total Average for Frequency of (1) Happiness in Last Month; (2) Interest in Life in Last Month; (3) Feeling Satisfied in Last Month
@@ -2795,11 +2733,9 @@ ggarrange(m14.pie.ftl.05, m14.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050935)
 
-T05_MSE_FTLW <- TIAS[, c("TA050935", "FTL_COUNT")] %>% group_by(TA050935, FTL_COUNT) %>% summarise(Count = n())
+T05_MSE_FTLW <- TIAS2005[, c("TA050935", "FTL_COUNT")] %>% group_by(TA050935, FTL_COUNT) %>% summarise(Count = n())
 
-T05_MSE_FTLW <- T05_MSE_FTLW[1:19, ]
-
-T05_MSE_CAT <- TIAS2005[, c("TA050935", "CAT")] %>% group_by(TA050935, CAT) %>% summarise(Count = n())
+T05_MSE_CAT <- TIAS2005[, c("TA050935", "CAT_05")] %>% group_by(TA050935, CAT_05) %>% summarise(Count = n())
 
 ggplot(T05_MSE_FTLW, aes(x = FTL_COUNT, y = TA050935, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
   geom_boxplot() + 
@@ -2808,13 +2744,13 @@ ggplot(T05_MSE_FTLW, aes(x = FTL_COUNT, y = TA050935, group = FTL_COUNT, fill = 
   scale_y_continuous(limits = c(1, 6), breaks = seq(1, 6, by = 1)) + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-ggplot(T05_MSE_CAT, aes(x = CAT, y = TA050935, group = CAT, fill = as.factor(CAT))) +
+ggplot(T05_MSE_CAT, aes(x = CAT_05, y = TA050935, group = CAT_05, fill = as.factor(CAT_05))) +
   geom_boxplot() +
   labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "MIDUS Emotional Subscale Score") + 
   scale_y_continuous(limits = c(1, 6), breaks = seq(1, 6, by = 1)) + 
   guides(fill = guide_legend(title = "Category"))
 
-### MIDUS Subscale - Psychological ===============================================================================================
+### MIDUS Subscale - Psychological =============================================================================================== EDITED 
 
 ####
 # MIDUS Subscale - Psychological (M9-M14): Total Average for Frequency of (1) Feeling Good at Managing Daily Responsibility; (2) Feeling Has Trusting Relationships with Others; 
@@ -2824,11 +2760,9 @@ ggplot(T05_MSE_CAT, aes(x = CAT, y = TA050935, group = CAT, fill = as.factor(CAT
 
 table(TIAS$TA050937)
 
-T05_MSP_FTLW <- TIAS[, c("TA050937", "FTL_COUNT")] %>% group_by(TA050937, FTL_COUNT) %>% summarise(Count = n())
+T05_MSP_FTLW <- TIAS2005[, c("TA050937", "FTL_COUNT")] %>% group_by(TA050937, FTL_COUNT) %>% summarise(Count = n())
 
-T05_MSP_FTLW <- T05_MSP_FTLW[1:18, ]
-
-T05_MSP_CAT <- TIAS2005[, c("TA050937", "CAT")] %>% group_by(TA050937, CAT) %>% summarise(Count = n())
+T05_MSP_CAT <- TIAS2005[, c("TA050937", "CAT_05")] %>% group_by(TA050937, CAT_05) %>% summarise(Count = n())
 
 ggplot(T05_MSP_FTLW, aes(x = FTL_COUNT, y = TA050937, group = FTL_COUNT, fill = as.factor(FTL_COUNT))) +
   geom_boxplot() + 
@@ -2837,13 +2771,13 @@ ggplot(T05_MSP_FTLW, aes(x = FTL_COUNT, y = TA050937, group = FTL_COUNT, fill = 
   scale_y_continuous(limits = c(1, 6), breaks = seq(1, 6, by = 1)) + 
   guides(fill = guide_legend(title = "# of FTL Waves"))
 
-ggplot(T05_MSP_CAT, aes(x = CAT, y = TA050937, group = CAT, fill = as.factor(CAT))) +
+ggplot(T05_MSP_CAT, aes(x = CAT_05, y = TA050937, group = CAT_05, fill = as.factor(CAT_05))) +
   geom_boxplot() +
   labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "MIDUS Psychological Subscale Score") + 
   scale_y_continuous(limits = c(1, 6), breaks = seq(1, 6, by = 1)) + 
   guides(fill = guide_legend(title = "Category"))
 
-### Time Use - Involved in Arts ==================================================================================================
+### Time Use - Involved in Arts ================================================================================================== EDITED
 
 ####
 # A1. WTR Involved in Arts: “I would like to ask you about things you like to do in your free time. In the last 12 months, have you been involved/participated in any organized activities related to art, music, or the theater?”
@@ -2858,34 +2792,22 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050015 = 9)) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050015 = 9)) 
+T05_TIA_FTLW <- TIAS2005[, c("TA050015", "FTL_COUNT")] %>% group_by(TA050015, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050015 = 9)) 
+T05_TIA_FTLW <- T05_TIA_FTLW[1:4, ]
 
-T05_TIA_FTLW <- TIAS[, c("TA050015", "FTL_COUNT")] %>% group_by(TA050015, FTL_COUNT) %>% summarise(Count = n())
+T05_TIA_CAT <- TIAS2005[, c("TA050015", "CAT_05")] %>% group_by(TA050015, CAT_05) %>% summarise(Count = n())
 
-T05_TIA_FTLW <- T05_TIA_FTLW[1:9, ]
+T05_TIA_CAT <- T05_TIA_CAT[1:3, ]
 
-T05_TIA_CAT <- TIAS2005[, c("TA050015", "CAT")] %>% group_by(TA050015, CAT) %>% summarise(Count = n())
+head(T05_TIA_CAT, 3)
 
-T05_TIA_CAT <- T05_TIA_CAT[1:4, ]
-
-T05_TIA_FTLCAT <- TIAS2005_FTL[, c("TA050015", "CAT")] %>% group_by(TA050015, CAT) %>% summarise(Count = n())
-
-T05_TIA_IACCAT <- TIAS2005_IAC[, c("TA050015", "CAT")] %>% group_by(TA050015, CAT) %>% summarise(Count = n())
-
-T05_TIA_IACCAT <- T05_TIA_IACCAT[1:2, ]
-
-head(T05_TIA_CAT, 4)
-
-ggplot(T05_TIA_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050015))) + 
+ggplot(T05_TIA_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050015))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("WTR Involved in Arts", values =  c("lightgreen", "lightpink"), labels = c("Yes", "No"))
 
-head(T05_TIA_FTLW, 9)
+head(T05_TIA_FTLW, 4)
 
 ggplot(T05_TIA_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050015)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2893,25 +2815,7 @@ ggplot(T05_TIA_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050015)), 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("WTR Involved in Arts", values =  c("lightgreen", "lightpink"), labels = c("Yes", "No"))
 
-prop.table(table(TIAS2005_FTL$TA050015))
-
-tia.pie.ftl.05 <- ggplot(data = T05_TIA_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050015))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() + 
-  scale_fill_manual("WTR Involved in Arts", values =  c("lightgreen", "lightpink"), labels = c("Yes", "No"))
-
-prop.table(table(TIAS2005_IAC$TA050015)) 
-
-tia.pie.iac.05 <- ggplot(data = T05_TIA_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050015))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() +
-  scale_fill_manual("WTR Involved in Arts", values =  c("lightgreen", "lightpink"), labels = c("Yes", "No"))
-
-ggarrange(tia.pie.ftl.05, tia.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### Time Use - Type of Art (Involvement) =========================================================================================
+### Time Use - Type of Art (Involvement) ========================================================================================= EDITED
 
 ####
 # A2 Type of Arts: “Follow up question: What Activities Are Those?”
@@ -2930,31 +2834,17 @@ TIAS <- TIAS %>%
 TIAS2005 <- TIAS2005 %>% 
   replace_with_na(replace = list(TA050016 = 9999)) 
 
-TIAS2005_FTL <- TIAS2005_FTL %>% 
-  replace_with_na(replace = list(TA050016 = 9999)) 
+T05_IIA_FTLW <- TIAS2005[, c("TA050016", "FTL_COUNT")] %>% group_by(TA050016, FTL_COUNT) %>% summarise(Count = n())
 
-TIAS2005_IAC <- TIAS2005_IAC %>% 
-  replace_with_na(replace = list(TA050016 = 9999)) 
+T05_IIA_FTLW <- T05_IIA_FTLW[1:21, ]
 
-T05_IIA_FTLW <- TIAS[, c("TA050016", "FTL_COUNT")] %>% group_by(TA050016, FTL_COUNT) %>% summarise(Count = n())
+T05_IIA_CAT <- TIAS2005[, c("TA050016", "CAT_05")] %>% group_by(TA050016, CAT_05) %>% summarise(Count = n())
 
-T05_IIA_FTLW <- T05_IIA_FTLW[1:35, ]
+T05_IIA_CAT <- T05_IIA_CAT[1:20, ]
 
-T05_IIA_CAT <- TIAS2005[, c("TA050016", "CAT")] %>% group_by(TA050016, CAT) %>% summarise(Count = n())
+head(T05_IIA_CAT, 20)
 
-T05_IIA_CAT <- T05_IIA_CAT[1:24, ]
-
-T05_IIA_FTLCAT <- TIAS2005_FTL[, c("TA050016", "CAT")] %>% group_by(TA050016, CAT) %>% summarise(Count = n())
-
-T05_IIA_FTLCAT <- T05_IIA_FTLCAT[1:5, ]
-
-T05_IIA_IACCAT <- TIAS2005_IAC[, c("TA050016", "CAT")] %>% group_by(TA050016, CAT) %>% summarise(Count = n())
-
-T05_IIA_IACCAT <- T05_IIA_IACCAT[1:19, ]
-
-head(T05_IIA_CAT, 24)
-
-ggplot(T05_IIA_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050016))) + 
+ggplot(T05_IIA_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050016))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Type of Art Involvement", values =  c("skyblue", "hotpink", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "violet", "olivedrab1", "orange", 
@@ -2962,7 +2852,7 @@ ggplot(T05_IIA_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050016))) +
   "After-School Drama/Art Club", "Arts & Crafts", "Pottery/Ceramics", "Painting", "Drawing/Coloring", "Literature", "Writing", "Poetry", "Musical Instrument", "Singing", "Play Rehearsal/Acting", "Non-social Dancing/Ballet/Body Movement",
   "Dance Lessons", "Music Lessons - Unspecified", "Voice Lessons", "Musical Instrument Lessons", "Other Activity"))                                                                                                                                       
 
-head(T05_IIA_FTLW, 35)
+head(T05_IIA_FTLW, 21)
 
 ggplot(T05_IIA_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050016)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -2973,28 +2863,7 @@ ggplot(T05_IIA_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050016)), 
   "After-School Drama/Art Club", "Arts & Crafts", "Pottery/Ceramics", "Painting", "Drawing/Coloring", "Literature", "Writing", "Poetry", "Musical Instrument", "Singing", "Play Rehearsal/Acting", "Non-social Dancing/Ballet/Body Movement",
   "Dance Lessons", "Music Lessons - Unspecified", "Voice Lessons", "Musical Instrument Lessons", "Other Activity"))                                                                                                                                       
 
-prop.table(table(TIAS2005_FTL$TA050016)) 
-
-iia.pie.ftl.05 <- ggplot(data = T05_IIA_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050016))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() + 
-  scale_fill_manual("Type of Art Involvement", values =  c("skyblue", "olivedrab1", "seagreen1", "yellow", "aquamarine"),  labels = c("Not Involved in Arts/Music/Theater", "Writing", "Singing", "Play Rehearsal/Acting", "Non-social Dancing/Ballet/Body Movement"))
-                                                                                                                                                                          
-prop.table(table(TIAS2005_IAC$TA050016)) 
-
-iia.pie.iac.05 <- ggplot(data = T05_IIA_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050016))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() +
-  scale_fill_manual("Type of Art Involvement", values =  c("skyblue", "hotpink", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "violet", "olivedrab1", "orange", 
-  "royalblue1", "seagreen1", "yellow", "aquamarine", "cornflowerblue", "coral1", "forestgreen", "wheat", "lawngreen"),  labels = c("Not Involved in Arts/Music/Theater", "After-School Band/Choir/Orchestra", 
-  "After-School Drama/Art Club", "Arts & Crafts", "Pottery/Ceramics", "Painting", "Drawing/Coloring", "Literature", "Writing", "Poetry", "Musical Instrument", "Singing", "Play Rehearsal/Acting", "Non-social Dancing/Ballet/Body Movement",
-  "Dance Lessons", "Music Lessons - Unspecified", "Voice Lessons", "Musical Instrument Lessons", "Other Activity"))                                                                                                                                       
-
-ggarrange(iia.pie.ftl.05, iia.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### Time Use - Art Involvement Frequency (Over 12 Mos) ===========================================================================
+### Time Use - Art Involvement Frequency (Over 12 Mos) =========================================================================== EDITED
 
 ####
 # A3. How Often Participated In Arts: “During the last 12 months, about how often did you participate in any activity related to art, music, or the theater?"
@@ -3004,25 +2873,19 @@ ggarrange(iia.pie.ftl.05, iia.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050017)
 
-T05_AIF_FTLW <- TIAS[, c("TA050017", "FTL_COUNT")] %>% group_by(TA050017, FTL_COUNT) %>% summarise(Count = n())
+T05_AIF_FTLW <- TIAS2005[, c("TA050017", "FTL_COUNT")] %>% group_by(TA050017, FTL_COUNT) %>% summarise(Count = n())
 
-T05_AIF_FTLW <- T05_AIF_FTLW[1:22, ]
+T05_AIF_CAT <- TIAS2005[, c("TA050017", "CAT_05")] %>% group_by(TA050017, CAT_05) %>% summarise(Count = n())
 
-T05_AIF_CAT <- TIAS2005[, c("TA050017", "CAT")] %>% group_by(TA050017, CAT) %>% summarise(Count = n())
+head(T05_AIF_CAT, 8)
 
-T05_AIF_FTLCAT <- TIAS2005_FTL[, c("TA050017", "CAT")] %>% group_by(TA050017, CAT) %>% summarise(Count = n())
-
-T05_AIF_IACCAT <- TIAS2005_IAC[, c("TA050017", "CAT")] %>% group_by(TA050017, CAT) %>% summarise(Count = n())
-
-head(T05_AIF_CAT, 12)
-
-ggplot(T05_AIF_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050017))) + 
+ggplot(T05_AIF_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050017))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Time Use - Art Involvement Frequency", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
                     labels = c("Not Involved in Arts/Music/Theater", "Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day"))
 
-head(T05_AIF_FTLW, 22)
+head(T05_AIF_FTLW, 9)
 
 ggplot(T05_AIF_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050017)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -3031,27 +2894,7 @@ ggplot(T05_AIF_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050017)), 
   scale_fill_manual("Time Use - Art Involvement Frequency", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
                     labels = c("Not Involved in Arts/Music/Theater", "Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day"))
 
-prop.table(table(TIAS2005_FTL$TA050017)) 
-
-aif.pie.ftl.05 <- ggplot(data = T05_AIF_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050017))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() + 
-  scale_fill_manual("Time Use - Art Involvement Frequency", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "#0072B2"), 
-                    labels = c("Not Involved in Arts/Music/Theater", "Less than once a month", "At least once a month", "Once a week", "Almost every day"))
-
-prop.table(table(TIAS2005_IAC$TA050017)) 
-
-aif.pie.iac.05 <- ggplot(data = T05_AIF_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050017))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() +
-  scale_fill_manual("Time Use - Art Involvement Frequency", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
-                    labels = c("Not Involved in Arts/Music/Theater", "Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day"))
-
-ggarrange(aif.pie.ftl.05, aif.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
-
-### WTR Member of Sports Team (Over 12 Mos) ======================================================================================
+### WTR Member of Sports Team (Over 12 Mos) ====================================================================================== EDITED
 
 ####
 # A4. WTR Member of Sports Team: “Were you a member of any athletic or sports teams in the last 12 months?”
@@ -3060,24 +2903,22 @@ ggarrange(aif.pie.ftl.05, aif.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050018)
 
-T05_SPO_FTLW <- TIAS[, c("TA050018", "FTL_COUNT")] %>% group_by(TA050018, FTL_COUNT) %>% summarise(Count = n())
+T05_SPO_FTLW <- TIAS2005[, c("TA050018", "FTL_COUNT")] %>% group_by(TA050018, FTL_COUNT) %>% summarise(Count = n())
 
-T05_SPO_FTLW <- T05_SPO_FTLW[1:10, ]
+T05_SPO_CAT <- TIAS2005[, c("TA050018", "CAT_05")] %>% group_by(TA050018, CAT_05) %>% summarise(Count = n())
 
-T05_SPO_CAT <- TIAS2005[, c("TA050018", "CAT")] %>% group_by(TA050018, CAT) %>% summarise(Count = n())
+T05_SPO_FTLCAT <- TIAS2005_FTL[, c("TA050018", "CAT_05")] %>% group_by(TA050018, CAT_05) %>% summarise(Count = n())
 
-T05_SPO_FTLCAT <- TIAS2005_FTL[, c("TA050018", "CAT")] %>% group_by(TA050018, CAT) %>% summarise(Count = n())
-
-T05_SPO_IACCAT <- TIAS2005_IAC[, c("TA050018", "CAT")] %>% group_by(TA050018, CAT) %>% summarise(Count = n())
+T05_SPO_IACCAT <- TIAS2005_IAC[, c("TA050018", "CAT_05")] %>% group_by(TA050018, CAT_05) %>% summarise(Count = n())
 
 head(T05_SPO_CAT, 4)
 
-ggplot(T05_SPO_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050018))) + 
+ggplot(T05_SPO_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050018))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("WTR Member of Sports Team", values =  c("lightgreen", "lightpink"), labels = c("Yes", "No"))
 
-head(T05_SPO_FTLW, 10)
+head(T05_SPO_FTLW, 4)
 
 ggplot(T05_SPO_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050018)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -3103,7 +2944,7 @@ spo.pie.iac.05 <- ggplot(data = T05_SPO_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(spo.pie.ftl.05, spo.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Time Use - Involved in Sports Frequency  =====================================================================================
+### Time Use - Involved in Sports Frequency  ===================================================================================== EDITED, PC
 
 ####
 # A5. How Often Participated in Sports: “During the last 12 months, how often did you spend time on athletic or sports teams?"
@@ -3113,25 +2954,23 @@ ggarrange(spo.pie.ftl.05, spo.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050019)
 
-T05_IIS_FTLW <- TIAS[, c("TA050019", "FTL_COUNT")] %>% group_by(TA050019, FTL_COUNT) %>% summarise(Count = n())
+T05_IIS_FTLW <- TIAS2005[, c("TA050019", "FTL_COUNT")] %>% group_by(TA050019, FTL_COUNT) %>% summarise(Count = n())
 
-T05_IIS_FTLW <- T05_IIS_FTLW[1:21, ]
+T05_IIS_CAT <- TIAS2005[, c("TA050019", "CAT_05")] %>% group_by(TA050019, CAT_05) %>% summarise(Count = n())
 
-T05_IIS_CAT <- TIAS2005[, c("TA050019", "CAT")] %>% group_by(TA050019, CAT) %>% summarise(Count = n())
+T05_IIS_FTLCAT <- TIAS2005_FTL[, c("TA050019", "CAT_05")] %>% group_by(TA050019, CAT_05) %>% summarise(Count = n())
 
-T05_IIS_FTLCAT <- TIAS2005_FTL[, c("TA050019", "CAT")] %>% group_by(TA050019, CAT) %>% summarise(Count = n())
+T05_IIS_IACCAT <- TIAS2005_IAC[, c("TA050019", "CAT_05")] %>% group_by(TA050019, CAT_05) %>% summarise(Count = n())
 
-T05_IIS_IACCAT <- TIAS2005_IAC[, c("TA050019", "CAT")] %>% group_by(TA050019, CAT) %>% summarise(Count = n())
+head(T05_IIS_CAT, 9)
 
-head(T05_IIS_CAT, 13)
-
-ggplot(T05_IIS_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050019))) + 
+ggplot(T05_IIS_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050019))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Time Use - Involved in Sports", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
                     labels = c("Not Involved in Sports", "Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day"))
 
-head(T05_IIS_FTLW, 21)
+head(T05_IIS_FTLW, 10)
 
 ggplot(T05_IIS_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050019)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -3146,8 +2985,8 @@ iis.pie.ftl.05 <- ggplot(data = T05_IIS_FTLCAT, aes(x = " ", y = Count, fill = a
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   theme_void() + 
-  scale_fill_manual("Time Use - Involved in Sports", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "turquoise"), 
-                    labels = c("Not Involved in Sports", "Less than once a month", "At least once a month", "Once a week", "Several times a week", "Every day"))
+  scale_fill_manual("Time Use - Involved in Sports", values =  c("darkolivegreen1", "turquoise"), 
+                    labels = c("Not Involved in Sports", "Every day"))
 
 prop.table(table(TIAS2005_IAC$TA050019)) 
 
@@ -3160,7 +2999,7 @@ iis.pie.iac.05 <- ggplot(data = T05_IIS_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(iis.pie.ftl.05, iis.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Time Use - Watching/Reading News (Over 12 Mos) ===============================================================================
+### Time Use - Watching/Reading News (Over 12 Mos) =============================================================================== EDITED, PC
 
 ####
 # A6. How Often Watch/Read News (TV or Magazine): “During the last 12 months, about how often did you watch or read news?"
@@ -3170,25 +3009,23 @@ ggarrange(iis.pie.ftl.05, iis.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050020)
 
-T05_WRN_FTLW <- TIAS[, c("TA050020", "FTL_COUNT")] %>% group_by(TA050020, FTL_COUNT) %>% summarise(Count = n())
+T05_WRN_FTLW <- TIAS2005[, c("TA050020", "FTL_COUNT")] %>% group_by(TA050020, FTL_COUNT) %>% summarise(Count = n())
 
-T05_WRN_FTLW <- T05_WRN_FTLW[1:23, ]
+T05_WRN_CAT <- TIAS2005[, c("TA050020", "CAT_05")] %>% group_by(TA050020, CAT_05) %>% summarise(Count = n())
 
-T05_WRN_CAT <- TIAS2005[, c("TA050020", "CAT")] %>% group_by(TA050020, CAT) %>% summarise(Count = n())
+T05_WRN_FTLCAT <- TIAS2005_FTL[, c("TA050020", "CAT_05")] %>% group_by(TA050020, CAT_05) %>% summarise(Count = n())
 
-T05_WRN_FTLCAT <- TIAS2005_FTL[, c("TA050020", "CAT")] %>% group_by(TA050020, CAT) %>% summarise(Count = n())
+T05_WRN_IACCAT <- TIAS2005_IAC[, c("TA050020", "CAT_05")] %>% group_by(TA050020, CAT_05) %>% summarise(Count = n())
 
-T05_WRN_IACCAT <- TIAS2005_IAC[, c("TA050020", "CAT")] %>% group_by(TA050020, CAT) %>% summarise(Count = n())
+head(T05_WRN_CAT, 9)
 
-head(T05_WRN_CAT, 13)
-
-ggplot(T05_WRN_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050020))) + 
+ggplot(T05_WRN_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050020))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Time Use - Watching/Reading News", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
                     labels = c("Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day", "Never watch or read news"))
 
-head(T05_WRN_FTLW, 23)
+head(T05_WRN_FTLW, 10)
 
 ggplot(T05_WRN_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050020)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -3203,8 +3040,8 @@ wrn.pie.ftl.05 <- ggplot(data = T05_WRN_FTLCAT, aes(x = " ", y = Count, fill = a
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   theme_void() + 
-  scale_fill_manual("Time Use - Watching/Reading News", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2"), 
-                    labels = c("Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day"))
+  scale_fill_manual("Time Use - Watching/Reading News", values =  c("lightskyblue", "gold"), 
+                    labels = c("Once a week", "Almost every day"))
 
 prop.table(table(TIAS2005_IAC$TA050020)) 
 
@@ -3217,7 +3054,7 @@ wrn.pie.iac.05 <- ggplot(data = T05_WRN_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(wrn.pie.ftl.05, wrn.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================
+### Time Use - Reading for Pleasure (Over 12 Mos) ================================================================================ EDITED, PC
 
 ####
 # A7. How Often Read for Pleasure: “During the last 12 months, about how often did you read for pleasure?"
@@ -3227,25 +3064,23 @@ ggarrange(wrn.pie.ftl.05, wrn.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050021)
 
-T05_RFP_FTLW <- TIAS[, c("TA050021", "FTL_COUNT")] %>% group_by(TA050021, FTL_COUNT) %>% summarise(Count = n())
+T05_RFP_FTLW <- TIAS2005[, c("TA050021", "FTL_COUNT")] %>% group_by(TA050021, FTL_COUNT) %>% summarise(Count = n())
 
-T05_RFP_FTLW <- T05_RFP_FTLW[1:26, ]
+T05_RFP_CAT <- TIAS2005[, c("TA050021", "CAT_05")] %>% group_by(TA050021, CAT_05) %>% summarise(Count = n())
 
-T05_RFP_CAT <- TIAS2005[, c("TA050021", "CAT")] %>% group_by(TA050021, CAT) %>% summarise(Count = n())
+T05_RFP_FTLCAT <- TIAS2005_FTL[, c("TA050021", "CAT_05")] %>% group_by(TA050021, CAT_05) %>% summarise(Count = n())
 
-T05_RFP_FTLCAT <- TIAS2005_FTL[, c("TA050021", "CAT")] %>% group_by(TA050021, CAT) %>% summarise(Count = n())
+T05_RFP_IACCAT <- TIAS2005_IAC[, c("TA050021", "CAT_05")] %>% group_by(TA050021, CAT_05) %>% summarise(Count = n())
 
-T05_RFP_IACCAT <- TIAS2005_IAC[, c("TA050021", "CAT")] %>% group_by(TA050021, CAT) %>% summarise(Count = n())
+head(T05_RFP_CAT, 9)
 
-head(T05_RFP_CAT, 14)
-
-ggplot(T05_RFP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050021))) + 
+ggplot(T05_RFP_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050021))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Time Use - Reading for Pleasure", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
                   labels = c("Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day", "Never read for pleasure"))
 
-head(T05_RFP_FTLW, 26)
+head(T05_RFP_FTLW, 12)
 
 ggplot(T05_RFP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050021)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -3260,8 +3095,8 @@ rfp.pie.ftl.05 <- ggplot(data = T05_RFP_FTLCAT, aes(x = " ", y = Count, fill = a
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start=0) + 
   theme_void() + 
-  scale_fill_manual("Time Use - Reading for Pleasure", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
-                    labels = c("Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day", "Never read for pleasure"))
+  scale_fill_manual("Time Use - Reading for Pleasure", values =  c("darkolivegreen1", "lightskyblue"), 
+                    labels = c("Less than once a month", "Once a week"))
 
 prop.table(table(TIAS2005_IAC$TA050021)) 
 
@@ -3274,7 +3109,7 @@ rfp.pie.iac.05 <- ggplot(data = T05_RFP_IACCAT, aes(x = " ", y = Count, fill = a
 
 ggarrange(rfp.pie.ftl.05, rfp.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
-### Time Use - Watching Non-News TV Shows (Over 12 Mos) ==========================================================================
+### Time Use - Watching Non-News TV Shows (Over 12 Mos) ========================================================================== EDITED
 
 ####
 # A8. How Often Watch Non-News TV Shows: “During the last 12 months, about how often did you watch non-news TV shows?"
@@ -3284,25 +3119,19 @@ ggarrange(rfp.pie.ftl.05, rfp.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA050022)
 
-T05_NNT_FTLW <- TIAS[, c("TA050022", "FTL_COUNT")] %>% group_by(TA050022, FTL_COUNT) %>% summarise(Count = n())
+T05_NNT_FTLW <- TIAS2005[, c("TA050022", "FTL_COUNT")] %>% group_by(TA050022, FTL_COUNT) %>% summarise(Count = n())
 
-T05_NNT_FTLW <- T05_NNT_FTLW[1:21, ]
+T05_NNT_CAT <- TIAS2005[, c("TA050022", "CAT_05")] %>% group_by(TA050022, CAT_05) %>% summarise(Count = n())
 
-T05_NNT_CAT <- TIAS2005[, c("TA050022", "CAT")] %>% group_by(TA050022, CAT) %>% summarise(Count = n())
+head(T05_NNT_CAT, 8)
 
-T05_NNT_FTLCAT <- TIAS2005_FTL[, c("TA050022", "CAT")] %>% group_by(TA050022, CAT) %>% summarise(Count = n())
-
-T05_NNT_IACCAT <- TIAS2005_IAC[, c("TA050022", "CAT")] %>% group_by(TA050022, CAT) %>% summarise(Count = n())
-
-head(T05_NNT_CAT, 12)
-
-ggplot(T05_NNT_CAT, aes(x = CAT, y = Count, fill = as.factor(TA050022))) + 
+ggplot(T05_NNT_CAT, aes(x = CAT_05, y = Count, fill = as.factor(TA050022))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
   scale_fill_manual("Time Use - Non-News TV Shows", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
                     labels = c("Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day", "Never watched non-news TV shows"))
 
-head(T05_NNT_FTLW, 21)
+head(T05_NNT_FTLW, 11)
 
 ggplot(T05_NNT_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050022)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
@@ -3310,26 +3139,6 @@ ggplot(T05_NNT_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050022)), 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Time Use - Non-News TV Shows", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
                     labels = c("Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day", "Never watched non-news TV shows"))
-
-prop.table(table(TIAS2005_FTL$TA050022))
-
-nnt.pie.ftl.05 <- ggplot(data = T05_NNT_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA050022))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() + 
-  scale_fill_manual("Time Use - Non-News TV Shows", values =  c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2"), 
-                    labels = c("At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day"))
-
-prop.table(table(TIAS2005_IAC$TA050022)) 
-
-nnt.pie.iac.05 <- ggplot(data = T05_NNT_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA050022))) + 
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) + 
-  theme_void() +
-  scale_fill_manual("Time Use - Non-News TV Shows", values =  c("darkolivegreen1", "lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2", "turquoise"), 
-                    labels = c("Less than once a month", "At least once a month", "Once a week", "Several times a week", "Almost every day", "Every day", "Never watched non-news TV shows"))
-
-ggarrange(nnt.pie.ftl.05, nnt.pie.iac.05, ncol = 2, nrow = 1, labels = c("FTL 2005", "IAC 2005"))
 
 ### Time Use - Internet Usage ====================================================================================================
 
