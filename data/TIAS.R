@@ -4491,6 +4491,7 @@ TIAS2007 <- TIAS2007 %>%
   replace_with_na(replace = list(TA070755 = 8)) 
 
 T07_AMP_FTLW <- TIAS2007[, c("TA070755", "FTL_COUNT")] %>% group_by(TA070755, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_AMP_FTLW <- T07_AMP_FTLW[1:7,]
 
@@ -4498,6 +4499,15 @@ T07_AMP_CAT <- TIAS2007[, c("TA070755", "CAT_07")] %>% group_by(TA070755, CAT_07
 
 T07_AMP_CAT <- T07_AMP_CAT[1:6, ]
 
+=======
+
+T07_AMP_FTLW <- T07_AMP_FTLW[1:7,]
+
+T07_AMP_CAT <- TIAS2007[, c("TA070755", "CAT_07")] %>% group_by(TA070755, CAT_07) %>% summarise(Count = n())
+
+T07_AMP_CAT <- T07_AMP_CAT[1:6, ]
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 head(T07_AMP_CAT, 6)
 
 ggplot(T07_AMP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA070755)), xlab="Category") +
@@ -4706,6 +4716,7 @@ ggplot(T07_CCN_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA070768)), 
 table(TIAS$TA070738)
 
 T07_AAC_FTLW <- TIAS2007[, c("TA070738", "FTL_COUNT")] %>% group_by(TA070738, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_AAC_CAT <- TIAS2007[, c("TA070738", "CAT_07")] %>% group_by(TA070738, CAT_07) %>% summarise(Count = n())
 
@@ -4715,6 +4726,17 @@ T07_AAC_IACCAT <- TIAS2007_IAC[, c("TA070738", "CAT_07")] %>% group_by(TA070738,
 
 head(T07_AAC_CAT, 9)
 
+=======
+
+T07_AAC_CAT <- TIAS2007[, c("TA070738", "CAT_07")] %>% group_by(TA070738, CAT_07) %>% summarise(Count = n())
+
+T07_AAC_FTLCAT <- TIAS2007_FTL[, c("TA070738", "CAT_07")] %>% group_by(TA070738, CAT_07) %>% summarise(Count = n())
+
+T07_AAC_IACCAT <- TIAS2007_IAC[, c("TA070738", "CAT_07")] %>% group_by(TA070738, CAT_07) %>% summarise(Count = n())
+
+head(T07_AAC_CAT, 9)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_AAC_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070738))) + 
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2007", x = "Category", y = "Count") + 
@@ -4772,6 +4794,7 @@ TIAS2007_IAC <- TIAS2007_IAC %>%
   replace_with_na(replace = list(TA070739 = c(98, 99))) 
 
 T07_DAC_FTLW <- TIAS2007[, c("TA070739", "FTL_COUNT")] %>% group_by(TA070739, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_DAC_FTLW <- T07_DAC_FTLW[1:23, ]
 
@@ -4781,6 +4804,17 @@ T07_DAC_CAT <- T07_DAC_CAT[1:19, ]
 
 T07_DAC_FTLCAT <- TIAS2007_FTL[, c("TA070739", "CAT_07")] %>% group_by(TA070739, CAT_07) %>% summarise(Count = n())
 
+=======
+
+T07_DAC_FTLW <- T07_DAC_FTLW[1:23, ]
+
+T07_DAC_CAT <- TIAS2007[, c("TA070739", "CAT_07")] %>% group_by(TA070739, CAT_07) %>% summarise(Count = n())
+
+T07_DAC_CAT <- T07_DAC_CAT[1:19, ] 
+
+T07_DAC_FTLCAT <- TIAS2007_FTL[, c("TA070739", "CAT_07")] %>% group_by(TA070739, CAT_07) %>% summarise(Count = n())
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 T07_DAC_IACCAT <- TIAS2007_IAC[, c("TA070739", "CAT_07")] %>% group_by(TA070739, CAT_07) %>% summarise(Count = n())
 
 T07_DAC_IACCAT <- T07_DAC_IACCAT[1:17, ]
@@ -4837,6 +4871,7 @@ ggarrange(dac.pie.ftl.07, dac.pie.iac.07, ncol = 2, nrow = 1, labels = c("FTL 20
 table(TIAS$TA070694)
 
 T07_DCN_FTLW <- TIAS2007[, c("TA070694", "FTL_COUNT")] %>% group_by(TA070694, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_DCN_FTLW <- T07_DCN_FTLW[1:7, ]
 
@@ -4846,6 +4881,17 @@ T07_DCN_CAT <- T07_DCN_CAT[1:6, ]
 
 head(T07_DCN_CAT, 6)
 
+=======
+
+T07_DCN_FTLW <- T07_DCN_FTLW[1:7, ]
+
+T07_DCN_CAT <- TIAS2007[, c("TA070694", "CAT_07")] %>% group_by(TA070694, CAT_07) %>% summarise(Count = n())
+
+T07_DCN_CAT <- T07_DCN_CAT[1:6, ]
+
+head(T07_DCN_CAT, 6)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_DCN_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070694)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2007", x = "Category", y = "Count") + 
@@ -4916,6 +4962,7 @@ TIAS2007 <- TIAS2007 %>%
   replace_with_na(replace = list(TA070705 = 9)) 
 
 T07_ANH_FTLW <- TIAS2007[, c("TA070705", "FTL_COUNT")] %>% group_by(TA070705, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_ANH_FTLW <- T07_ANH_FTLW[1:5, ]
 
@@ -4925,6 +4972,17 @@ T07_ANH_CAT <- T07_ANH_CAT[1:3, ]
 
 head(T07_ANH_CAT, 3)
 
+=======
+
+T07_ANH_FTLW <- T07_ANH_FTLW[1:5, ]
+
+T07_ANH_CAT <- TIAS2007[, c("TA070705", "CAT_07")] %>% group_by(TA070705, CAT_07) %>% summarise(Count = n())
+
+T07_ANH_CAT <- T07_ANH_CAT[1:3, ]
+
+head(T07_ANH_CAT, 3)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_ANH_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070705)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2007", x = "Category", y = "Count") +
@@ -4949,11 +5007,19 @@ ggplot(T07_ANH_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA070705)), 
 table(TIAS$TA070681)
 
 T07_DPD_FTLW <- TIAS2007[, c("TA070681", "FTL_COUNT")] %>% group_by(TA070681, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_DPD_CAT <- TIAS2007[, c("TA070681", "CAT_07")] %>% group_by(TA070681, CAT_07) %>% summarise(Count = n())
 
 head(T07_DPD_CAT, 3)
 
+=======
+
+T07_DPD_CAT <- TIAS2007[, c("TA070681", "CAT_07")] %>% group_by(TA070681, CAT_07) %>% summarise(Count = n())
+
+head(T07_DPD_CAT, 3)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_DPD_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070681)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2007", x = "Category", y = "Count") +
@@ -5101,6 +5167,7 @@ TIAS2007 <- TIAS2007 %>%
   replace_with_na(replace = list(TA070679 = c(8, 9)))
 
 T07_ENP_FTLW <- TIAS2007[, c("TA070679", "FTL_COUNT")] %>% group_by(TA070679, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_ENP_FTLW <- T07_ENP_FTLW[1:5, ]
 
@@ -5110,6 +5177,17 @@ T07_ENP_CAT <- T07_ENP_CAT[1:3, ]
 
 head(T07_ENP_CAT, 3)
 
+=======
+
+T07_ENP_FTLW <- T07_ENP_FTLW[1:5, ]
+
+T07_ENP_CAT <- TIAS2007[, c("TA070679", "CAT_07")] %>% group_by(TA070679, CAT_07) %>% summarise(Count = n())
+
+T07_ENP_CAT <- T07_ENP_CAT[1:3, ]
+
+head(T07_ENP_CAT, 3)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_ENP_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070679)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2007", x = "Category", y = "Count") +
@@ -5273,6 +5351,7 @@ ggarrange(epj.pie.ftl.07, epj.pie.iac.07, ncol = 2, nrow = 1, labels = c("FTL 20
 table(TIAS$TA070341)
 
 T07_EPH_FTLW <- TIAS2007[, c("TA070341", "FTL_COUNT")] %>% group_by(TA070341, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_EPH_CAT <- TIAS2007[, c("TA070341", "CAT_07")] %>% group_by(TA070341, CAT_07) %>% summarise(Count = n())
 
@@ -5282,6 +5361,17 @@ T07_EPH_IACCAT <- TIAS2007_IAC[, c("TA070341", "CAT_07")] %>% group_by(TA070341,
 
 head(T07_EPH_CAT, 5)
 
+=======
+
+T07_EPH_CAT <- TIAS2007[, c("TA070341", "CAT_07")] %>% group_by(TA070341, CAT_07) %>% summarise(Count = n())
+
+T07_EPH_FTLCAT <- TIAS2007_FTL[, c("TA070341", "CAT_07")] %>% group_by(TA070341, CAT_07) %>% summarise(Count = n())
+
+T07_EPH_IACCAT <- TIAS2007_IAC[, c("TA070341", "CAT_07")] %>% group_by(TA070341, CAT_07) %>% summarise(Count = n())
+
+head(T07_EPH_CAT, 5)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_EPH_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070341)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2007", x = "Category", y = "Count") +
@@ -5425,6 +5515,7 @@ ggplot(T07_CHL_CAT, aes(x = CAT_07, y = TA070091, group = CAT_07, fill = as.fact
 table(TIAS$TA070548)
 
 T07_HSG_FTLW <- TIAS2007[, c("TA070548", "FTL_COUNT")] %>% group_by(TA070548, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_HSG_CAT <- TIAS2007[, c("TA070548", "CAT_07")] %>% group_by(TA070548, CAT_07) %>% summarise(Count = n())
 
@@ -5434,6 +5525,17 @@ T07_HSG_IACCAT <- TIAS2007_IAC[, c("TA070548", "CAT_07")] %>% group_by(TA070548,
 
 head(T07_HSG_CAT, 5)
 
+=======
+
+T07_HSG_CAT <- TIAS2007[, c("TA070548", "CAT_07")] %>% group_by(TA070548, CAT_07) %>% summarise(Count = n())
+
+T07_HSG_FTLCAT <- TIAS2007_FTL[, c("TA070548", "CAT_07")] %>% group_by(TA070548, CAT_07) %>% summarise(Count = n())
+
+T07_HSG_IACCAT <- TIAS2007_IAC[, c("TA070548", "CAT_07")] %>% group_by(TA070548, CAT_07) %>% summarise(Count = n())
+
+head(T07_HSG_CAT, 5)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_HSG_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070548)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") + 
   labs(title = "TIAS 2007", x = "Category", y = "Count") +
@@ -5557,6 +5659,7 @@ TIAS2007_IAC <- TIAS2007_IAC %>%
   replace_with_na(replace = list(TA070927 = 99))   
 
 T07_HEL_FTLW <- TIAS2007[, c("TA070927", "FTL_COUNT")] %>% group_by(TA070927, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_HEL_FTLW <- T07_HEL_FTLW[1:13, ]
 
@@ -5566,6 +5669,17 @@ T07_HEL_CAT <- T07_HEL_CAT[1:12, ]
 
 T07_HEL_FTLCAT <- TIAS2007_FTL[, c("TA070927", "CAT_07")] %>% group_by(TA070927, CAT_07) %>% summarise(Count = n())
 
+=======
+
+T07_HEL_FTLW <- T07_HEL_FTLW[1:13, ]
+
+T07_HEL_CAT <- TIAS2007[, c("TA070927", "CAT_07")] %>% group_by(TA070927, CAT_07) %>% summarise(Count = n())
+
+T07_HEL_CAT <- T07_HEL_CAT[1:12, ]
+
+T07_HEL_FTLCAT <- TIAS2007_FTL[, c("TA070927", "CAT_07")] %>% group_by(TA070927, CAT_07) %>% summarise(Count = n())
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 T07_HEL_IACCAT <- TIAS2007_IAC[, c("TA070927", "CAT_07")] %>% group_by(TA070927, CAT_07) %>% summarise(Count = n())
 
 T07_HEL_IACCAT <- T07_HEL_IACCAT[1:10, ]
@@ -5675,6 +5789,7 @@ ggarrange(reo.pie.ftl.07, reo.pie.iac.07, ncol = 2, nrow = 1, labels = c("FTL 20
 table(TIAS$TA070045)
 
 T07_POR_FTLW <- TIAS2007[, c("TA070045", "FTL_COUNT")] %>% group_by(TA070045, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_POR_CAT <- TIAS2007[, c("TA070045", "CAT_07")] %>% group_by(TA070045, CAT_07) %>% summarise(Count = n())
 
@@ -5684,6 +5799,17 @@ T07_POR_IACCAT <- TIAS2007_IAC[, c("TA070045", "CAT_07")] %>% group_by(TA070045,
 
 head(T07_POR_CAT, 9)
 
+=======
+
+T07_POR_CAT <- TIAS2007[, c("TA070045", "CAT_07")] %>% group_by(TA070045, CAT_07) %>% summarise(Count = n())
+
+T07_POR_FTLCAT <- TIAS2007_FTL[, c("TA070045", "CAT_07")] %>% group_by(TA070045, CAT_07) %>% summarise(Count = n())
+
+T07_POR_IACCAT <- TIAS2007_IAC[, c("TA070045", "CAT_07")] %>% group_by(TA070045, CAT_07) %>% summarise(Count = n())
+
+head(T07_POR_CAT, 9)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_POR_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070045)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2007", x = "Category", y = "Count") + 
@@ -5728,6 +5854,7 @@ ggarrange(por.pie.ftl.07, por.pie.iac.07, ncol = 2, nrow = 1, labels = c("FTL 20
 table(TIAS$TA070046)
 
 T07_POB_FTLW <- TIAS2007[, c("TA070046", "FTL_COUNT")] %>% group_by(TA070046, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
 
 T07_POB_CAT <- TIAS2007[, c("TA070046", "CAT_07")] %>% group_by(TA070046, CAT_07) %>% summarise(Count = n())
 
@@ -5737,6 +5864,17 @@ T07_POB_IACCAT <- TIAS2007_IAC[, c("TA070046", "CAT_07")] %>% group_by(TA070046,
 
 head(T07_POB_CAT, 10)
 
+=======
+
+T07_POB_CAT <- TIAS2007[, c("TA070046", "CAT_07")] %>% group_by(TA070046, CAT_07) %>% summarise(Count = n())
+
+T07_POB_FTLCAT <- TIAS2007_FTL[, c("TA070046", "CAT_07")] %>% group_by(TA070046, CAT_07) %>% summarise(Count = n())
+
+T07_POB_IACCAT <- TIAS2007_IAC[, c("TA070046", "CAT_07")] %>% group_by(TA070046, CAT_07) %>% summarise(Count = n())
+
+head(T07_POB_CAT, 10)
+
+>>>>>>> d12ced36168da55c72f66c7f73c4be1da99ced8f
 ggplot(T07_POB_CAT, aes(x = CAT_07, y = Count, fill = as.factor(TA070046)), xlab="Category") +
   geom_bar(stat="identity", width=1, position = "dodge") +
   labs(title = "TIAS 2005", x = "Category", y = "Count") + 
