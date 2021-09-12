@@ -13559,25 +13559,471 @@ ggplot(T09_SLP_CAT, aes(x = CAT_09, y = TA090784, group = CAT_09, fill = as.fact
 
 ######################## TIAS-D Analysis - TIAS 2011 ######################## 
 
-### Amphetamine Usage ===========================================================================================================
+### Amphetamine Usage ==============================================================================================================
 
-### Barbiturate Usage ===========================================================================================================
+####
+# H44B. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used amphetamine on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
 
-### Marijuana Usage =============================================================================================================
+table(TIAS$TA110930)
 
-### Diet Pill Usage =============================================================================================================
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA110930 = 9))
 
-### Steroid Usage ===============================================================================================================
+TIAS2011 <- TIAS2011 %>% 
+  replace_with_na(replace = list(TA110930 = 9))
 
-### Tranquilizer Usage ==========================================================================================================
+T11_AMP_FTLW <- TIAS2011[, c("TA110930", "FTL_COUNT")] %>% group_by(TA110930, FTL_COUNT) %>% summarise(Count = n())
 
-### Cocaine Usage ===============================================================================================================
+T11_AMP_FTLW <- T11_AMP_FTLW[1:8,]
 
-### Average Alcohol Consumption Frequency Over Past Year ========================================================================
+T11_AMP_CAT <- TIAS2011[, c("TA110930", "CAT_11")] %>% group_by(TA110930, CAT_11) %>% summarise(Count = n())
 
-### Average Daily Alcohol Consumption ===========================================================================================
+T11_AMP_CAT <- T11_AMP_CAT[1:7, ]
 
-### Degree to Which Condition Limits Normal Daily Activities ====================================================================
+head(T11_AMP_CAT, 7)
+
+ggplot(T11_AMP_CAT, aes(x = CAT_11, y = Count, fill = as.factor(TA110930)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2011", x = "Category", y = "Count") + 
+  scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times", "40 or more times"))
+
+head(T11_AMP_FTLW, 7)
+
+ggplot(T11_AMP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA110930)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2011", x = "Category", y = "Count") + 
+  scale_fill_manual("Amphetamine Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times", "40 or more times"))
+
+### Barbiturate Usage =========================================================================================================== 
+
+####
+# H44E. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used barbiturates on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA110951)
+
+T11_BRB_FTLW <- TIAS2011[, c("TA110951", "FTL_COUNT")] %>% group_by(TA110951, FTL_COUNT) %>% summarise(Count = n())
+
+T11_BRB_CAT <- TIAS2011[, c("TA110951", "CAT_11")] %>% group_by(TA110951, CAT_11) %>% summarise(Count = n())
+
+head(T11_BRB_CAT, 6)
+
+ggplot(T11_BRB_CAT, aes(x = CAT_11, y = Count, fill = as.factor(TA110951)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2011", x = "Category", y = "Count") + 
+  scale_fill_manual("Barbiturate Usage (Prev. Year)", values = c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2"), 
+                    labels = c("Never", "1-2 times", "6-9 times", "10-19 times", "40 or more times"))
+
+head(T11_BRB_FTLW, 7)
+
+ggplot(T11_BRB_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA110951)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2011", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Barbiturate Usage (Prev. Year)", values = c("lightcoral", "lightskyblue", "#009E73", "gold", "#0072B2"), 
+                    labels = c("Never", "1-2 times", "6-9 times", "10-19 times", "40 or more times"))
+
+### Marijuana Usage ============================================================================================================= 
+
+####
+# H44C. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used marijuana on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA110938)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA110938 = 9)) 
+
+TIAS2011 <- TIAS2011 %>% 
+  replace_with_na(replace = list(TA110938 = 9)) 
+
+TIAS2011_FTL <- TIAS2011_FTL %>% 
+  replace_with_na(replace = list(TA110938 = 9)) 
+
+TIAS2011_IAC <- TIAS2011_IAC %>% 
+  replace_with_na(replace = list(TA110938 = 9))
+
+T11_MAR_FTLW <- TIAS2011[, c("TA110938", "FTL_COUNT")] %>% group_by(TA110938, FTL_COUNT) %>% summarise(Count = n())
+
+T11_MAR_FTLW <- T11_MAR_FTLW[1:8, ]
+
+T11_MAR_CAT <- TIAS2011[, c("TA110938", "CAT_11")] %>% group_by(TA110938, CAT_11) %>% summarise(Count = n())
+
+T11_MAR_CAT <- T11_MAR_CAT[1:7, ]
+
+head(T11_MAR_CAT, 7)
+
+ggplot(T11_MAR_CAT, aes(x = CAT_11, y = Count, fill = as.factor(TA110938)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2011", x = "Category", y = "Count") + 
+  scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "10-19 times", "20-39 times", "40 or more times"))
+
+head(T11_MAR_FTLW, 8)
+
+ggplot(T11_MAR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA110938)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2011", x = "# of FTL Waves", y = "Count") +
+  scale_fill_manual("Marijuana Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1", "mediumpurple"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "10-19 times", "20-39 times", "40 or more times"))
+
+### Diet Pill Usage ============================================================================================================= 
+
+####
+# H44A. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used diet pills on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA110922)
+
+T11_DIP_FTLW <- TIAS2011[, c("TA110922", "FTL_COUNT")] %>% group_by(TA110922, FTL_COUNT) %>% summarise(Count = n())
+
+T11_DIP_CAT <- TIAS2011[, c("TA110922", "CAT_11")] %>% group_by(TA110922, CAT_11) %>% summarise(Count = n())
+
+head(T11_DIP_CAT, 5)
+
+ggplot(T11_DIP_CAT, aes(x = CAT_11, y = Count, fill = as.factor(TA110922)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2011", x = "Category", y = "Count") + 
+  scale_fill_manual("Diet Pill Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "40 or more times")) 
+
+head(T11_DIP_FTLW, 6)
+
+ggplot(T11_DIP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA110922)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2011", x = "# of FTL Waves", y = "Count") +
+  scale_fill_manual("Diet Pill Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "40 or more times")) 
+
+### Steroid Usage =============================================================================================================== 
+
+####
+# H44G. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used steroids on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA110967)
+
+T11_STR_FTLW <- TIAS2011[, c("TA110967", "FTL_COUNT")] %>% group_by(TA110967, FTL_COUNT) %>% summarise(Count = n())
+
+T11_STR_CAT <- TIAS2011[, c("TA110967", "CAT_11")] %>% group_by(TA110967, CAT_11) %>% summarise(Count = n())
+
+head(T11_STR_CAT, 3)
+
+ggplot(T11_STR_CAT, aes(x = CAT_11, y = Count, fill = as.factor(TA110967)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2011", x = "Category", y = "Count") + 
+  scale_fill_manual("Steroid Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), 
+                    labels = c("Never", "1-2 times")) 
+
+head(T11_STR_FTLW, 4)
+
+ggplot(T11_STR_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA110967)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2011", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Steroid Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2"), 
+                    labels = c("Never", "1-2 times")) 
+
+### Tranquilizer Usage ========================================================================================================== 
+
+####
+# H44F. # of Times Took w/o Doc in Past 12mos: "On how many occasions (if any) have you taken/used tranquilizers on your own
+# w/o a doctor telling you to take them during the last 12 months?" 
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA110959)
+
+T11_TRQ_FTLW <- TIAS2011[, c("TA110959", "FTL_COUNT")] %>% group_by(TA110959, FTL_COUNT) %>% summarise(Count = n())
+
+T11_TRQ_CAT <- TIAS2011[, c("TA110959", "CAT_11")] %>% group_by(TA110959, CAT_11) %>% summarise(Count = n())
+
+head(T11_TRQ_CAT, 6)
+
+ggplot(T11_TRQ_CAT, aes(x = CAT_11, y = Count, fill = as.factor(TA110959)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2011", x = "Category", y = "Count") +
+  scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "20-39 times"))
+
+head(T11_TRQ_FTLW, 7)
+
+ggplot(T11_TRQ_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA110959)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2011", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Tranquilizer Usage (Prev. Year)", values = c("darkseagreen2", "darkslategray2", "lightgoldenrod1", "lightsalmon", "lightpink1"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "20-39 times"))
+
+### Cocaine Usage =============================================================================================================== 
+
+####
+# H42D_B. # of Occasions in Past 12mos: "On how many occasions (if any) have you used cocaine in the past 12 months?"
+# Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
+#### 
+
+table(TIAS$TA090827)
+
+T09_CCN_FTLW <- TIAS2009[, c("TA090827", "FTL_COUNT")] %>% group_by(TA090827, FTL_COUNT) %>% summarise(Count = n())
+
+T09_CCN_CAT <- TIAS2009[, c("TA090827", "CAT_09")] %>% group_by(TA090827, CAT_09) %>% summarise(Count = n())
+
+head(T09_CCN_CAT, 6)
+
+ggplot(T09_CCN_CAT, aes(x = CAT_09, y = Count, fill = as.factor(TA090827))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2009", x = "Category", y = "Count") + 
+  scale_fill_manual("Cocaine Usage (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times"))
+
+head(T09_CCN_FTLW, 7)
+
+ggplot(T09_CCN_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA090827)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2009", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Cocaine Usage (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
+                    labels = c("Never", "1-2 times", "3-5 times", "6-9 times", "10-19 times"))
+
+### Average Alcohol Consumption Frequency Over Past Year ======================================================================== 
+
+#### 
+# H37. How Often Have Drinks-HD: “In the last year, on average, how often did you have any alcohol to drink? Would you say: 
+# less than once a month, about once a month, several times a month, about once a week, several times a week, or every day?”
+# Answers: 1 (Less than once a month); 2 (About once a month); 3 (Several times a month); 4 (About once a week); 5 (Several times a week); 
+# 6 (Every day); 8 (DK); 9 (NA/refused); 0 (Inap: Does not drink alcohol)
+####
+
+table(TIAS$TA090797)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA090797 = 9)) 
+
+TIAS2009 <- TIAS2009 %>% 
+  replace_with_na(replace = list(TA090797 = 9)) 
+
+TIAS2009_FTL <- TIAS2009_FTL %>% 
+  replace_with_na(replace = list(TA090797 = 9)) 
+
+TIAS2009_IAC <- TIAS2009_IAC %>% 
+  replace_with_na(replace = list(TA090797 = 9))  
+
+T09_AAC_FTLW <- TIAS2009[, c("TA090797", "FTL_COUNT")] %>% group_by(TA090797, FTL_COUNT) %>% summarise(Count = n())
+
+T09_AAC_FTLW <- T09_AAC_FTLW[1:14, ]
+
+T09_AAC_CAT <- TIAS2009[, c("TA090797", "CAT_09")] %>% group_by(TA090797, CAT_09) %>% summarise(Count = n())
+
+T09_AAC_CAT <- T09_AAC_CAT[1:10, ]
+
+T09_AAC_FTLCAT <- TIAS2009_FTL[, c("TA090797", "CAT_09")] %>% group_by(TA090797, CAT_09) %>% summarise(Count = n())
+
+T09_AAC_IACCAT <- TIAS2009_IAC[, c("TA090797", "CAT_09")] %>% group_by(TA090797, CAT_09) %>% summarise(Count = n())
+
+T09_AAC_IACCAT <- T09_AAC_IACCAT[1:7, ]
+
+head(T09_AAC_CAT, 10)
+
+ggplot(T09_AAC_CAT, aes(x = CAT_09, y = Count, fill = as.factor(TA090797))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2009", x = "Category", y = "Count") + 
+  scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
+                    labels = c("Never", "Less than once a month", "About once a month", "Several times a month", "About once a week", "Several times a week", "Every day"))
+
+head(T09_AAC_FTLW, 14)
+
+ggplot(T09_AAC_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA090797)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2009", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
+                    labels = c("Never", "Less than once a month", "About once a month", "Several times a month", "About once a week", "Several times a week", "Every day"))
+
+prop.table(table(TIAS2009_FTL$TA090797))
+
+aac.pie.ftl.09 <- ggplot(data = T09_AAC_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA090797))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "mediumturquoise"), 
+                    labels = c("Never", "Less than once a month", "About once a week")) +
+  theme_void() 
+
+prop.table(table(TIAS2009_IAC$TA090797))
+
+aac.pie.iac.09 <- ggplot(data = T09_AAC_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA090797))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) +
+  scale_fill_manual("Avg. Alcohol Consumption (Prev. Year)", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue", "mediumpurple1", "hotpink"), 
+                    labels = c("Never", "Less than once a month", "About once a month", "Several times a month", "About once a week", "Several times a week", "Every day")) +
+  theme_void() 
+
+ggarrange(aac.pie.ftl.09, aac.pie.iac.09, ncol = 2, nrow = 1, labels = c("FTL 2009", "IAC 2009"))      
+
+### Average Daily Alcohol Consumption =========================================================================================== 
+
+#### 
+# H38. # Alcoholic Drinks Per Day: "In the last year, on the days you drank, about how many drinks did you have?”
+# Answers: 1 (One drink or fewer); 2-50 (Actual number of drinks); 98 (DK); 99 (NA/refused); 0 (Inap.: Does not drink alcohol or drinks alcohol but frequency of drinking is DK or NA)
+####
+
+table(TIAS$TA090798)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA090798 = c(98, 99)))
+
+TIAS2009 <- TIAS2009 %>% 
+  replace_with_na(replace = list(TA090798 = c(98, 99)))
+
+TIAS2009_FTL <- TIAS2009_FTL %>% 
+  replace_with_na(replace = list(TA090798 = c(98, 99)))
+
+TIAS2009_IAC <- TIAS2009_IAC %>% 
+  replace_with_na(replace = list(TA090798 = c(98, 99)))
+
+T09_DAC_FTLW <- TIAS2009[, c("TA090798", "FTL_COUNT")] %>% group_by(TA090798, FTL_COUNT) %>% summarise(Count = n())
+
+T09_DAC_FTLW <- T09_DAC_FTLW[1:24, ]
+
+T09_DAC_CAT <- TIAS2009[, c("TA090798", "CAT_09")] %>% group_by(TA090798, CAT_09) %>% summarise(Count = n())
+
+T09_DAC_CAT <- T09_DAC_CAT[1:21, ]
+
+T09_DAC_FTLCAT <- TIAS2009_FTL[, c("TA090798", "CAT_09")] %>% group_by(TA090798, CAT_09) %>% summarise(Count = n())
+
+T09_DAC_IACCAT <- TIAS2009_IAC[, c("TA090798", "CAT_09")] %>% group_by(TA090798, CAT_09) %>% summarise(Count = n())
+
+T09_DAC_IACCAT <- T09_DAC_IACCAT[1:18, ]
+
+head(T09_DAC_CAT, 21)
+
+ggplot(T09_DAC_CAT, aes(x = CAT_09, y = Count, fill = as.factor(TA090798))) + 
+  geom_bar(stat="identity", width=1, position = "dodge") + 
+  labs(title = "TIAS 2009", x = "Category", y = "Count") + 
+  scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("skyblue", "hotpink", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred",
+                                                                  "midnightblue", "violet", "olivedrab1", "orange", "royalblue1", "seagreen1", "yellow", "aquamarine", "cornflowerblue", "coral1", "forestgreen", "darkgoldenrod1"),
+                    labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", "9 drinks", "10 drinks", "12 drinks",
+                               "13 drinks", "14 drinks", "15 drinks", "16 drinks", "20 drinks", "25 drinks"))
+
+head(T09_DAC_FTLW, 24)
+
+ggplot(T09_DAC_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA090798)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2009", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("skyblue", "hotpink", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred",
+                                                                  "midnightblue", "violet", "olivedrab1", "orange", "royalblue1", "seagreen1", "yellow", "aquamarine", "cornflowerblue", "coral1", "forestgreen", "darkgoldenrod1"),
+                    labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", "9 drinks", "10 drinks", "12 drinks",
+                               "13 drinks", "14 drinks", "15 drinks", "16 drinks", "20 drinks", "25 drinks"))
+
+prop.table(table(TIAS2009_FTL$TA090798))
+
+dac.pie.ftl.09 <- ggplot(data = T09_DAC_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA090798))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() + 
+  scale_fill_manual("Avg. Daily Alcohol Consumption", values = c("skyblue", "mediumspringgreen", "mediumvioletred"), labels = c("Never", "3 drinks", "5 drinks")) + 
+  theme_void()
+
+prop.table(table(TIAS2009_IAC$TA090798))
+
+dac.pie.iac.09 <- ggplot(data = T09_DAC_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA090798))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) +
+  scale_fill_manual("Avg. Daily Alcohol Consumption", values =  c("skyblue", "hotpink", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred",
+                                                                  "midnightblue", "violet", "olivedrab1", "orange", "royalblue1", "seagreen1", "yellow", "aquamarine", "cornflowerblue", "coral1", "forestgreen", "darkgoldenrod1"),
+                    labels = c("Never", "1 or fewer drinks", "2 drinks", "3 drinks", "4 drinks", "5 drinks", "6 drinks", "7 drinks", "8 drinks", "9 drinks", "10 drinks", "12 drinks",
+                               "13 drinks", "14 drinks", "15 drinks", "16 drinks", "20 drinks", "25 drinks")) + 
+  theme_void() 
+
+ggarrange(dac.pie.ftl.09, dac.pie.iac.09, ncol = 2, nrow = 1, labels = c("FTL 2009", "IAC 2009"))  
+
+### Degree to Which Condition Limits Normal Daily Activities ====================================================================  
+
+####
+# H13B. How much limits normal activities: "How much does this condition limit your normal daily activities? Would you say: A lot, somewhat, just a little, or not at all?”
+# Answers: 1 (A lot); 3 (Somewhat); 5 (Just a little); 7 (Not at all); 8 (DK); 9 (NA; refused); 0 (Inap: Never diagnosed with any serious chronic condition)
+####
+
+table(TIAS$TA090750)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA090750 = 9)) 
+
+TIAS2009 <- TIAS2009 %>% 
+  replace_with_na(replace = list(TA090750 = 9)) 
+
+TIAS2009_FTL <- TIAS2009_FTL %>% 
+  replace_with_na(replace = list(TA090750 = 9)) 
+
+TIAS2009_IAC <- TIAS2009_IAC %>% 
+  replace_with_na(replace = list(TA090750 = 9))  
+
+T09_DCN_FTLW <- TIAS2009[, c("TA090750", "FTL_COUNT")] %>% group_by(TA090750, FTL_COUNT) %>% summarise(Count = n())
+
+T09_DCN_FTLW <- T09_DCN_FTLW[1:8, ]
+
+T09_DCN_CAT <- TIAS2009[, c("TA090750", "CAT_09")] %>% group_by(TA090750, CAT_09) %>% summarise(Count = n())
+
+T09_DCN_CAT <- T09_DCN_CAT[1:7, ]
+
+T09_DCN_FTLCAT <- TIAS2009_FTL[, c("TA090750", "CAT_09")] %>% group_by(TA090750, CAT_09) %>% summarise(Count = n())
+
+T09_DCN_IACCAT <- TIAS2009_IAC[, c("TA090750", "CAT_09")] %>% group_by(TA090750, CAT_09) %>% summarise(Count = n())
+
+T09_DCN_IACCAT <- T09_DCN_IACCAT[1:5, ]
+
+head(T09_DCN_CAT, 7)
+
+ggplot(T09_DCN_CAT, aes(x = CAT_09, y = Count, fill = as.factor(TA090750)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  labs(title = "TIAS 2009", x = "Category", y = "Count") + 
+  scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
+                    labels = c("Inap: No chronic condition", "A lot", "Somewhat", "Just a little", "Not at all"))
+
+head(T09_DCN_FTLW, 8)
+
+ggplot(T09_DCN_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA090750)), xlab="Category") +
+  geom_bar(stat="identity", width=1, position = "dodge") +
+  scale_x_continuous(breaks = seq(0, 2, by = 1)) + 
+  labs(title = "TIAS 2009", x = "# of FTL Waves", y = "Count") + 
+  scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
+                    labels = c("Inap: No chronic condition", "A lot", "Somewhat", "Just a little", "Not at all"))
+
+prop.table(table(TIAS2009_FTL$TA090750))
+
+dcn.pie.ftl.09 <- ggplot(data = T09_DCN_FTLCAT, aes(x = " ", y = Count, fill = as.factor(TA090750))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() + 
+  scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "green3"), 
+                    labels = c("Inap: No chronic condition", "Somewhat")) 
+
+prop.table(table(TIAS2009_IAC$TA090750))
+
+dcn.pie.iac.09 <- ggplot(data = T09_DCN_IACCAT, aes(x = " ", y = Count, fill = as.factor(TA090750))) + 
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) + 
+  theme_void() + 
+  scale_fill_manual("Condition Limits Daily Activities", values = c("lightcoral", "gold", "green3", "mediumturquoise", "deepskyblue"), 
+                    labels = c("Inap: No chronic condition", "A lot", "Somewhat", "Just a little", "Not at all")) 
+
+ggarrange(dcn.pie.ftl.09, dcn.pie.iac.09, ncol = 2, nrow = 1, labels = c("FTL 2009", "IAC 2009"))
 
 ### Depression Over Past Year ===================================================================================================
 
