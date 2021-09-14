@@ -1,0 +1,895 @@
+---
+title: "TIAS FTL/IAC BMI Report"
+output: html_document
+---
+
+## Setup Section 
+
+```{r, echo = FALSE, warnings=FALSE}
+
+# There are three ways to collapse/expand sections: 
+# (1) Go to the 'Edit' tab, and select 'Folding' to collapse/expand certain sections or collapse/expand all sections 
+# (2) Shortcuts: collapse (option + command + L); expand (option + shift + command + L); collapse all (option + command + O); expand all (option + shift + command + O)
+# (3) Click on the small upside down triangles to the left of each section marker to collapse/expand each section 
+
+######################## Setup Section ######################## 
+
+# This section downloads the necessary R packages and functions we need to run the analysis and create visuals. 
+
+# clear global environment
+
+rm(list=ls())
+
+# detach all libraries
+
+detachAllPackages <- function() {
+  basic.packages <- c("package:stats", "package:graphics", "package:grDevices", "package:utils", "package:datasets", "package:methods", "package:base")
+  package.list <- search()[ifelse(unlist(gregexpr("package:", search()))==1, TRUE, FALSE)]
+  package.list <- setdiff(package.list, basic.packages)
+  if (length(package.list)>0)  for (package in package.list) detach(package,  character.only=TRUE)
+}
+detachAllPackages()
+
+# function to load libraries
+
+pkgTest <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[,  "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg,  dependencies = TRUE)
+  sapply(pkg,  require,  character.only = TRUE)
+}
+
+# here is where you load any necessary packages
+# ex: stringr
+# lapply(c("stringr"),  pkgTest)
+
+lapply(c("tidyverse"),pkgTest)
+lapply(c("ggplot2"), pkgTest)
+lapply(c("ggthemes"), pkgTest)
+lapply(c("ggpubr"), pkgTest)
+lapply(c("naniar"), pkgTest)
+lapply(c("DescTools"), pkgTest)
+lapply(c("corrplot"), pkgTest)
+lapply(c("rcompanion"), pkgTest)
+lapply(c("lsr"), pkgTest)
+lapply(c("MASS"), pkgTest)
+lapply(c("car"), pkgTest)
+lapply(c("leaps"), pkgTest)
+lapply(c("mplot"), pkgTest)
+lapply(c("bestglm"), pkgTest)
+lapply(c("BayesVarSel"), pkgTest)
+lapply(c("ResourceSelection"), pkgTest)
+lapply(c("lmtest"), pkgTest)
+lapply(c("lattice"), pkgTest)
+lapply(c("lme4"), pkgTest)
+lapply(c("data.table"), pkgTest)
+lapply(c("plotly"), pkgTest)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggpubr)
+library(naniar)
+library(DescTools)
+library(corrplot)
+library(rcompanion)
+library(lsr)
+library(MASS)
+library(car)
+library(leaps)
+library(mplot)
+library(bestglm)
+library(BayesVarSel)
+library(ResourceSelection)
+library(lmtest)
+library(lattice)
+library(lme4)
+library(data.table)
+library(RColorBrewer)
+library(plotly)
+
+# set working directory 
+
+setwd("/Users/carolinelee/Desktop/Lebowitz_Lab/FTL/data")
+
+######################## Isolating TIAS FTL Participants In Waves 2005-2017 ######################## 
+
+# Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
+
+TIAS <- fread("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS$PSID_ID <- (TIAS$ER30001 * 1000) + TIAS$ER30002
+
+ALL_PSID_ID <- TIAS$PSID_ID
+
+### TIAS 2005 IAC vs. FTL ============================================================================================================ 
+
+# The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2005 wave. You will be shown the number of FTL participants,
+# the number of IAC participants, and the participant IDs of all individuals who are FTL. 
+
+# This selects the data only from the wave of interest, which in this case is 2005. 
+
+TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
+
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
+
+TIAS2005$CAT <- with(TIAS2005, ifelse(
+  TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
+    TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
+    TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA050371 == 5 & TA050091 == 0, "FTL_05", "IAC_05"))  
+
+TIAS2005$FTLCAT <- with(TIAS2005, ifelse(
+  TA050042 == 1 & TA050043 %in% c("1", "96") & TA050595 %in% c("5", "0") & TA050631 %in% c("5", "0") & TA050127 == 3 & TA050769 < 60 & 
+    TA050712 == 0 & TA050715 == 0 & TA050716 == 0 & TA050678 %in% c("3", "5", "7", "0") & TA050785 == 0 & TA050809 == 0 & TA050793 == 0 & TA050777 == 0 & TA050825 == 0 & 
+    TA050817 == 0 & TA050798 == 0 & TA050394 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA050371 == 5 & TA050091 == 0, 1, 0))  
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2005$PSID_ID <- (TIAS2005$ER30001 * 1000) + TIAS2005$ER30002
+
+# Before subsetting the data to only include data for the wave of interest, we are adding PSID IDs for each participant
+
+T05_ID <- TIAS2005$PSID_ID
+  
+# Extract IDs of participants who have been identified as FTL for the 2005 wave 
+
+FTL05_ID <- TIAS2005[TIAS2005$CAT == "FTL_05", "PSID_ID"]
+
+# Count the number of participants who have been identified as FTL for the 2005 wave 
+
+length(FTL05_ID)
+
+# View the number of FTL vs. IAC participants for the 2005 wave 
+
+table(TIAS2005$CAT)
+
+FTL05_ID_VEC <- unname(unlist(FTL05_ID))
+
+# Create a new variable ('CAT_05') for FTL vs. IAC vs. NA (no data) categorization in the 2005 wave 
+
+TIAS$CAT_05 <- with(TIAS, ifelse(
+  PSID_ID %in% FTL05_ID_VEC, "FTL_05", ifelse(
+    PSID_ID %in% T05_ID, "IAC_05", "NA_05")))
+
+# View the distribution for CAT_05
+
+table(TIAS$CAT_05)
+
+# View the IDs of participants who have been identified as FTL for the 2005 wave 
+
+print(FTL05_ID_VEC)
+
+### TIAS 2007 IAC vs. FTL ============================================================================================================
+
+# The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2007 wave. You will be shown the number of FTL participants,
+# the number of IAC participants, and the participant IDs of all individuals who are FTL.
+
+# This selects the data only from the wave of interest, which in this case is 2007. 
+
+TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
+
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
+
+TIAS2007$CAT <- with(TIAS2007, ifelse(
+  TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
+    TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
+    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA070344 == 5 & TA070091 == 0, "FTL_07", "IAC_07"))  
+
+# Before subsetting the data to only include data for the wave of interest, we are adding PSID IDs for each participant
+
+T07_ID <- TIAS2007$PSID_ID
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2007$PSID_ID <- (TIAS2007$ER30001 * 1000) + TIAS2007$ER30002
+
+# Extract IDs of participants who have been identified as FTL for the 2007 wave 
+
+FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "PSID_ID"]
+
+# Count the number of participants who have been identified as FTL for the 2007 wave 
+
+length(FTL07_ID)
+
+# View the number of FTL vs. IAC participants for the 2007 wave 
+
+table(TIAS2007$CAT)
+
+FTL07_ID_VEC <- unname(unlist(FTL07_ID))
+
+# Create a new variable ('CAT_07') for FTL vs. IAC vs. NA (no data) categorization in the 2007 wave 
+
+TIAS$CAT_07 <- with(TIAS, ifelse(
+  PSID_ID %in% FTL07_ID_VEC, "FTL_07", ifelse(
+    PSID_ID %in% T07_ID, "IAC_07", "NA_07")))
+
+# View the distribution for CAT_07
+
+table(TIAS$CAT_07)
+
+# View the IDs of participants who have been identified as FTL for the 2007 wave 
+
+print(FTL07_ID_VEC)
+
+### TIAS 2009 IAC vs. FTL ============================================================================================================
+
+# The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2009 wave. You will be shown the number of FTL participants,
+# the number of IAC participants, and the participant IDs of all individuals who are FTL.
+
+# This selects the data only from the wave of interest, which in this case is 2009. 
+
+TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
+
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
+
+TIAS2009$CAT <- with(TIAS2009, ifelse(
+  TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
+  TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
+  TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA090361 == 5 & TA090100 == 0, "FTL_09", "IAC_07"))  
+
+TIAS2009$FTLCAT <- with(TIAS2009, ifelse(
+  TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
+    TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
+    TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA090361 == 5 & TA090100 == 0, 1, 0))  
+
+# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+
+T09_ID <- TIAS2009$PSID_ID
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2009$PSID_ID <- (TIAS2009$ER30001 * 1000) + TIAS2009$ER30002
+
+# Extract IDs of participants who have been identified as FTL for the 2009 wave 
+
+FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "PSID_ID"]
+
+# Count the number of participants who have been identified as FTL for the 2009 wave 
+
+length(FTL09_ID)
+
+# View the number of FTL vs. IAC participants for the 2009 wave 
+
+table(TIAS2009$CAT)
+
+FTL09_ID_VEC <- unname(unlist(FTL09_ID))
+
+# Create a new variable ('CAT_09') for FTL vs. IAC vs. NA (no data) categorization in the 2009 wave 
+
+TIAS$CAT_09 <- with(TIAS, ifelse(
+  PSID_ID %in% FTL09_ID_VEC, "FTL_09", ifelse(
+    PSID_ID %in% T09_ID, "IAC_09", "NA_09")))
+
+# View the distribution for CAT_09
+
+table(TIAS$CAT_09)
+
+# View the IDs of participants who have been identified as FTL for the 2009 wave 
+
+print(FTL09_ID_VEC)
+
+### TIAS 2011 IAC vs. FTL ============================================================================================================
+
+# The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2011 wave. You will be shown the number of FTL participants,
+# the number of IAC participants, and the participant IDs of all individuals who are FTL.
+
+# This selects the data only from the wave of interest, which in this case is 2011. 
+
+TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
+
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
+
+TIAS2011$CAT <- with(TIAS2011, ifelse(
+  TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
+  TA110829 == 0 & TA110832 == 0 & TA110833 == 0 & TA110793 %in% c("3", "5", "7", "0") & TA110931 == 0 & TA110952 == 0 & TA110939 == 0 & TA110923 == 0 & TA110968 == 0 & 
+  TA110960 == 0 & TA110944 == 0 & TA110462 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA110351 == 5 & TA110101 == 0, "FTL_11", "IAC_11"))
+
+# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+
+T11_ID <- TIAS2011$PSID_ID
+
+# Extract IDs of participants who have been identified as FTL for the 2011 wave 
+
+FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "PSID_ID"]
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2011$PSID_ID <- (TIAS2011$ER30001 * 1000) + TIAS2011$ER30002
+
+# Count the number of participants who have been identified as FTL for the 2011 wave 
+
+length(FTL11_ID)
+
+# View the number of FTL vs. IAC participants for the 2011 wave 
+
+table(TIAS2011$CAT)
+
+FTL11_ID_VEC <- unname(unlist(FTL11_ID))
+
+# Create a new variable ('CAT_11') for FTL vs. IAC vs. NA (no data) categorization in the 2011 wave 
+
+TIAS$CAT_11 <- with(TIAS, ifelse(
+  PSID_ID %in% FTL11_ID_VEC, "FTL_11", ifelse(
+    PSID_ID %in% T11_ID, "IAC_11", "NA_11")))
+
+# View the distribution for CAT_11
+
+table(TIAS$CAT_11)
+
+# View the IDs of participants who have been identified as FTL for the 2011 wave 
+
+print(FTL11_ID_VEC)
+
+### TIAS 2013 IAC vs. FTL ============================================================================================================
+
+# The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2013 wave. You will be shown the number of FTL participants,
+# the number of IAC participants, and the participant IDs of all individuals who are FTL.
+
+# This selects the data only from the wave of interest, which in this case is 2013. 
+
+TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
+
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
+
+TIAS2013$CAT <- with(TIAS2013, ifelse(
+  TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
+  TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130964 == 0 & TA130982 == 0 & TA130972 == 0 & 
+  TA130956 == 0 & TA131001 == 0 & TA130993 == 0 & TA130977 == 0 & TA130482 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA130350 == 5 & TA130100 == 0, "FTL_13", "IAC_13"))
+
+# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+
+T13_ID <- TIAS2013$PSID_ID
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2013$PSID_ID <- (TIAS2013$ER30001 * 1000) + TIAS2013$ER30002
+
+# Extract IDs of participants who have been identified as FTL for the 2013 wave 
+
+FTL13_ID <- TIAS2013[TIAS2013$CAT == "FTL_13", "PSID_ID"]
+
+# Count the number of participants who have been identified as FTL for the 2013 wave 
+
+length(FTL13_ID)
+
+# View the number of FTL vs. IAC participants for the 2013 wave 
+
+table(TIAS2013$CAT)
+
+FTL13_ID_VEC <- unname(unlist(FTL13_ID))
+
+# Create a new variable ('CAT_13') for FTL vs. IAC vs. NA (no data) categorization in the 2013 wave 
+
+TIAS$CAT_13 <- with(TIAS, ifelse(
+  PSID_ID %in% FTL13_ID_VEC, "FTL_13", ifelse(
+    PSID_ID %in% T13_ID, "IAC_13", "NA_13")))
+
+# View the distribution for CAT_13
+
+table(TIAS$CAT_13)
+
+# View the IDs of participants who have been identified as FTL for the 2013 wave 
+
+print(FTL13_ID_VEC)
+
+### TIAS 2015 IAC vs. FTL ============================================================================================================
+
+# The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2015 wave. You will be shown the number of FTL participants,
+# the number of IAC participants, and the participant IDs of all individuals who are FTL.
+
+# This selects the data only from the wave of interest, which in this case is 2015. 
+
+TIAS2015 <- TIAS[!is.na(TIAS$TAS15),]
+
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
+
+TIAS2015$CAT <- with(TIAS2015, ifelse(
+  TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
+  TA150869 == 0 & TA150872 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 == 0 & TA150978 == 0 & TA151023 == 0 & 
+  TA151015 == 0 & TA150999 == 0 & TA150491 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA150352 == 5 & TA150092 == 0, "FTL_15", "IAC_15"))
+
+# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+
+T15_ID <- TIAS2015$PSID_ID
+
+# Extract IDs of participants who have been identified as FTL for the 2015 wave 
+
+FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "PSID_ID"]
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2015$PSID_ID <- (TIAS2015$ER30001 * 1000) + TIAS2015$ER30002
+
+# Count the number of participants who have been identified as FTL for the 2015 wave 
+
+length(FTL15_ID)
+
+# View the number of FTL vs. IAC participants for the 2015 wave 
+
+table(TIAS2015$CAT)
+
+FTL15_ID_VEC <- unname(unlist(FTL15_ID))
+
+# Create a new variable ('CAT_15') for FTL vs. IAC vs. NA (no data) categorization in the 2015 wave 
+
+TIAS$CAT_15 <- with(TIAS, ifelse(
+  PSID_ID %in% FTL15_ID_VEC, "FTL_15", ifelse(
+    PSID_ID %in% T15_ID, "IAC_15", "NA_15")))
+
+# View the distribution for CAT_15
+
+table(TIAS$CAT_15)
+
+# View the IDs of participants who have been identified as FTL for the 2015 wave 
+
+print(FTL15_ID_VEC)
+
+### TIAS 2017 IAC vs. FTL ============================================================================================================
+
+# The below code applies the chosen criteria to the dataset and isolates the participants that are FTL from the 2017 wave. You will be shown the number of FTL participants,
+# the number of IAC participants, and the participant IDs of all individuals who are FTL.
+
+# This selects the data only from the wave of interest, which in this case is 2017. 
+
+TIAS2017 <- TIAS[!is.na(TIAS$TAS17),]
+
+# Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
+
+TIAS2017$CAT <- with(TIAS2017, ifelse(
+  TA170058 == 1 & TA170059 %in% c("1", "96") & TA170790 %in% c("5", "0") & TA170416 %in% c("5", "0") & TA170183 == 3 & TA171827 < 60 & 
+  TA170909 == 0 & TA170912 == 0 & TA170913 == 0 & TA170866 %in% c("3", "5", "7", "0") & TA171869 == 0 & TA171885 == 0 & TA171893 == 0 & 
+  TA171861 == 0 & TA171877 == 0 & TA171893 == 0 & TA171840 == 0 & TA170389 == 1 & TA170176 == 0, "FTL_17", "IAC_17"))
+
+# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+
+T17_ID <- TIAS2017$PSID_ID
+
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
+
+TIAS2017$PSID_ID <- (TIAS2017$ER30001 * 1000) + TIAS2017$ER30002
+
+# Extract IDs of participants who have been identified as FTL for the 2017 wave 
+
+FTL17_ID <- TIAS2017[TIAS2017$CAT == "FTL_17", "PSID_ID"]
+
+# Count the number of participants who have been identified as FTL for the 2017 wave 
+
+length(FTL17_ID)
+
+# View the number of FTL vs. IAC participants for the 2017 wave 
+
+table(TIAS2017$CAT)
+
+FTL17_ID_VEC <- unname(unlist(FTL17_ID))
+
+# Create a new variable ('CAT_17') for FTL vs. IAC vs. NA (no data) categorization in the 2017 wave 
+
+TIAS$CAT_17 <- with(TIAS, ifelse(
+  PSID_ID %in% FTL17_ID_VEC, "FTL_17", ifelse(
+    PSID_ID %in% T17_ID, "IAC_17", "NA_17")))
+
+# View the distribution for CAT_17
+
+table(TIAS$CAT_17)
+
+# View the IDs of participants who have been identified as FTL for the 2017 wave 
+
+print(FTL17_ID_VEC)
+
+### TIAS FTL Wave Count =========================================================================================================
+
+count.ftlwave <- function(x){
+  as.integer(as.logical(x %in% FTL05_ID_VEC)) + as.integer(as.logical(x %in% FTL07_ID_VEC)) + as.integer(as.logical(x %in% FTL09_ID_VEC)) +
+    as.integer(as.logical(x %in% FTL11_ID_VEC)) + as.integer(as.logical(x %in% FTL13_ID_VEC)) + as.integer(as.logical(x %in% FTL15_ID_VEC)) + as.integer(as.logical(x %in% FTL17_ID_VEC))
+}
+
+PSID_LIST <- lapply(ALL_PSID_ID, count.ftlwave)
+
+TIAS$FTL_COUNT <- unlist(PSID_LIST)
+
+table(TIAS$FTL_COUNT)
+
+TIAS2005 <- TIAS[!is.na(TIAS$TAS05),]
+
+table(TIAS2005$FTL_COUNT)
+
+TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
+
+table(TIAS2007$FTL_COUNT)
+
+TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
+
+table(TIAS2009$FTL_COUNT)
+
+TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
+
+table(TIAS2011$FTL_COUNT)
+
+TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
+
+table(TIAS2013$FTL_COUNT)
+
+TIAS2015 <- TIAS[!is.na(TIAS$TAS15),]
+
+table(TIAS2015$FTL_COUNT)
+
+TIAS2017 <- TIAS[!is.na(TIAS$TAS17),]
+
+table(TIAS2017$FTL_COUNT)
+
+# Creating a subsetted dataframe including only FTL participants for the 2005 wave 
+
+TIAS2005_FTL <- subset(TIAS, CAT_05 == "FTL_05")
+
+# Creating a subsetted dataframe including only IAC participants for the 2005 wave 
+
+TIAS2005_IAC <- subset(TIAS, CAT_05 == "IAC_05")
+
+# Creating a subsetted dataframe including only FTL participants for the 2007 wave 
+
+TIAS2007_FTL <- subset(TIAS, CAT_07 == "FTL_07")
+
+# Creating a subsetted dataframe including only IAC participants for the 2007 wave 
+
+TIAS2007_IAC <- subset(TIAS, CAT_07 == "IAC_07")
+
+# Creating a subsetted dataframe including only FTL participants for the 2009 wave 
+
+TIAS2009_FTL <- subset(TIAS, CAT_09 == "FTL_09")
+
+# Creating a subsetted dataframe including only IAC participants for the 2009 wave 
+
+TIAS2009_IAC <- subset(TIAS, CAT_09 == "IAC_09")
+
+# Creating a subsetted dataframe including only FTL participants for the 2011 wave 
+
+TIAS2011_FTL <- subset(TIAS, CAT_11 == "FTL_11")
+
+# Creating a subsetted dataframe including only IAC participants for the 2011 wave 
+
+TIAS2011_IAC <- subset(TIAS, CAT_11 == "IAC_11")
+
+# Creating a subsetted dataframe including only FTL participants for the 2013 wave 
+
+TIAS2013_FTL <- subset(TIAS, CAT_13 == "FTL_13")
+
+# Creating a subsetted dataframe including only IAC participants for the 2013 wave 
+
+TIAS2013_IAC <- subset(TIAS, CAT_13 == "IAC_13")
+
+# Creating a subsetted dataframe including only FTL participants for the 2015 wave 
+
+TIAS2015_FTL <- subset(TIAS, CAT_15 == "FTL_15")
+
+# Creating a subsetted dataframe including only IAC participants for the 2015 wave 
+
+TIAS2015_IAC <- subset(TIAS, CAT_15 == "IAC_15")
+
+# Creating a subsetted dataframe including only FTL participants for the 2017 wave 
+
+TIAS2017_FTL <- subset(TIAS, CAT_17 == "FTL_17")
+
+# Creating a subsetted dataframe including only IAC participants for the 2017 wave 
+
+TIAS2017_IAC <- subset(TIAS, CAT_17 == "IAC_17")
+
+ALL_FTL_ID <- c(FTL05_ID_VEC, FTL07_ID_VEC, FTL09_ID_VEC, FTL11_ID_VEC, FTL13_ID_VEC, FTL15_ID_VEC, FTL17_ID_VEC)
+
+length(ALL_FTL_ID)
+
+FTL_ID <- unique(ALL_FTL_ID)
+
+# Creating a variable distinguishing participants who identified as FTL for at least one wave (greater than or equal to 1; GREQ1) vs. who never identified as FTL
+
+TIAS$GREQ1_FTL <- with(TIAS, ifelse(PSID_ID %in% FTL_ID, "Yes", "No"))      
+
+TIAS_FTL <- subset(TIAS, GREQ1_FTL == "Yes")
+```
+
+## TIAS 2005
+
+```{R}
+### Body Mass Index (BMI)  
+
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA050944)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050944 = 99)) 
+
+TIAS2005 <- TIAS2005 %>% 
+  replace_with_na(replace = list(TA050944 = 99)) 
+
+T05_BMI_FTLW <- TIAS2005[, c("TA050944", "FTL_COUNT")] %>% group_by(TA050944, FTL_COUNT) %>% summarise(Count = n())
+
+T05_BMI_FTLW <- T05_BMI_FTLW[1:190, ]
+
+T05_BMI_CAT <- TIAS2005[, c("TA050944", "CAT_05")] %>% group_by(TA050944, CAT_05) %>% summarise(Count = n())
+
+T05_BMI_CAT <- T05_BMI_CAT[1:186, ]
+```
+
+```{R}
+my_comparisons <- list( c("0", "1"), c("1", "2"), c("0", "2"))
+ggboxplot(T05_BMI_FTLW, x = "FTL_COUNT", y = "TA050944", title = "TIAS 2005",
+          color = "FTL_COUNT", palette = "jco", xlab = "# of Waves for Which Participant Identified as FTL", ylab = "Body Mass Index (BMI)", legend.title="# of FTL Waves") + 
+  stat_compare_means(comparisons = my_comparisons) +  
+  stat_compare_means(label.y = 50)   
+```
+
+```{R}
+ggplot(T05_BMI_CAT, aes(x = CAT_05, y = TA050944, group = CAT_05, fill = as.factor(CAT_05))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2005", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category")) + 
+  stat_compare_means(method = "t.test")
+```
+
+## TIAS 2007
+
+```{R}
+### Body Mass Index (BMI) 
+
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA070925)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA070925 = 99))
+
+TIAS2007 <- TIAS2007 %>% 
+  replace_with_na(replace = list(TA070925 = 99))
+
+T07_BMI_FTLW <- TIAS2007[, c("TA070925", "FTL_COUNT")] %>% group_by(TA070925, FTL_COUNT) %>% summarise(Count = n())
+
+T07_BMI_FTLW <- T07_BMI_FTLW[1:233, ]
+
+T07_BMI_CAT <- TIAS2007[, c("TA070925", "CAT_07")] %>% group_by(TA070925, CAT_07) %>% summarise(Count = n())
+
+T07_BMI_CAT <- T07_BMI_CAT[1:227, ]
+```
+
+```{R}
+my_comparisons <- list( c("0", "1"), c("1", "2"), c("0", "2"))
+ggboxplot(T07_BMI_FTLW, x = "FTL_COUNT", y = "TA070925", title = "TIAS 2007",
+          color = "FTL_COUNT", palette = "jco", xlab = "# of Waves for Which Participant Identified as FTL", ylab = "Body Mass Index (BMI)", legend.title="# of FTL Waves") + 
+  stat_compare_means(comparisons = my_comparisons) +  
+  stat_compare_means(label.y = 50)   
+```
+
+```{R}
+ggplot(T07_BMI_CAT, aes(x = CAT_07, y = TA070925, group = CAT_07, fill = as.factor(CAT_07))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2007", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category")) + 
+  stat_compare_means(method = "t.test")
+```
+
+## TIAS 2009
+
+```{R}
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA090989)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA090989 = 99))
+
+TIAS2009 <- TIAS2009 %>% 
+  replace_with_na(replace = list(TA090989 = 99))
+
+T09_BMI_FTLW <- TIAS2009[, c("TA090989", "FTL_COUNT")] %>% group_by(TA090989, FTL_COUNT) %>% summarise(Count = n())
+
+T09_BMI_FTLW <- T09_BMI_FTLW[1:268, ]
+
+T09_BMI_CAT <- TIAS2009[, c("TA090989", "CAT_09")] %>% group_by(TA090989, CAT_09) %>% summarise(Count = n())
+
+T09_BMI_CAT <- T09_BMI_CAT[1:256, ]
+```
+
+```{R}
+compare_means(TA090989 ~ FTL_COUNT,  data = T09_BMI_FTLW, ref.group = "0",
+              method = "t.test")
+```
+
+```{R}
+my_comparisons <- list( c("0", "1"), c("1", "2"), c("0", "2"))
+ggboxplot(T09_BMI_FTLW, x = "FTL_COUNT", y = "TA090989", title = "TIAS 2009",
+          color = "FTL_COUNT", palette = "jco", xlab = "# of Waves for Which Participant Identified as FTL", ylab = "Body Mass Index (BMI)", legend.title="# of FTL Waves") + 
+  stat_compare_means(comparisons = my_comparisons) +  
+  stat_compare_means(label.y = 50)    
+```
+
+```{R}
+ggplot(T09_BMI_CAT, aes(x = CAT_09, y = TA090989, group = CAT_09, fill = as.factor(CAT_09))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2009", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category")) + 
+  stat_compare_means(method = "t.test")
+
+```
+
+## TIAS 2011 
+
+```{R}
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA111131)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA111131 = 99)) 
+
+TIAS2011 <- TIAS2011 %>% 
+  replace_with_na(replace = list(TA111131 = 99)) 
+
+T11_BMI_FTLW <- TIAS[, c("TA111131", "FTL_COUNT")] %>% group_by(TA111131, FTL_COUNT) %>% summarise(Count = n())
+
+T11_BMI_FTLW <- T11_BMI_FTLW[1:285, ]
+
+T11_BMI_CAT <- TIAS2011[, c("TA111131", "CAT_11")] %>% group_by(TA111131, CAT_11) %>% summarise(Count = n())
+
+T11_BMI_CAT <- T11_BMI_CAT[1:266, ]
+
+```
+
+```{R}
+my_comparisons <- list( c("0", "1"), c("1", "2"), c("0", "2"))
+ggboxplot(T11_BMI_FTLW, x = "FTL_COUNT", y = "TA111131", title = "TIAS 2011",
+          color = "FTL_COUNT", palette = "jco", xlab = "# of Waves for Which Participant Identified as FTL", ylab = "Body Mass Index (BMI)", legend.title="# of FTL Waves") + 
+  stat_compare_means(comparisons = my_comparisons) +  
+  stat_compare_means(label.y = 50)  
+```
+
+```{R}
+ggplot(T11_BMI_CAT, aes(x = CAT_11, y = TA111131, group = CAT_11, fill = as.factor(CAT_11))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2011", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category")) + 
+  stat_compare_means(method = "t.test")
+```
+
+## TIAS 2013 
+
+```{R}
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA131223)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA131223 = 99)) 
+
+TIAS2013 <- TIAS2013 %>% 
+  replace_with_na(replace = list(TA131223 = 99)) 
+
+T13_BMI_FTLW <- TIAS2013[, c("TA131223", "FTL_COUNT")] %>% group_by(TA131223, FTL_COUNT) %>% summarise(Count = n())
+
+T13_BMI_FTLW <- T13_BMI_FTLW[1:292, ]
+
+T13_BMI_CAT <- TIAS2013[, c("TA131223", "CAT_13")] %>% group_by(TA131223, CAT_13) %>% summarise(Count = n())
+
+T13_BMI_CAT <- T13_BMI_CAT[1:270, ]
+```
+
+```{R}
+my_comparisons <- list( c("0", "1"), c("1", "2"), c("0", "2"))
+ggboxplot(T13_BMI_FTLW, x = "FTL_COUNT", y = "TA131223", title = "TIAS 2013",
+          color = "FTL_COUNT", palette = "jco", xlab = "# of Waves for Which Participant Identified as FTL", ylab = "Body Mass Index (BMI)", legend.title="# of FTL Waves") + 
+  stat_compare_means(comparisons = my_comparisons) +  
+  stat_compare_means(label.y = 50)  
+```
+
+```{R}
+ggplot(T13_BMI_CAT, aes(x = CAT_13, y = TA131223, group = CAT_13, fill = as.factor(CAT_13))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2013", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category")) + 
+  stat_compare_means(method = "t.test")
+```
+
+## TIAS 2015 
+
+```{R}
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA151283)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA151283 = 99)) 
+
+TIAS2015 <- TIAS2015 %>% 
+  replace_with_na(replace = list(TA151283 = 99)) 
+
+T15_BMI_FTLW <- TIAS2015[, c("TA151283", "FTL_COUNT")] %>% group_by(TA151283, FTL_COUNT) %>% summarise(Count = n())
+
+T15_BMI_FTLW <- T15_BMI_FTLW[1:280, ]
+
+T15_BMI_CAT <- TIAS2015[, c("TA151283", "CAT_15")] %>% group_by(TA151283, CAT_15) %>% summarise(Count = n())
+
+T15_BMI_CAT <- T15_BMI_CAT[1:257, ]
+```
+
+```{R}
+my_comparisons <- list( c("0", "1"), c("1", "2"), c("0", "2"))
+ggboxplot(T15_BMI_FTLW, x = "FTL_COUNT", y = "TA151283", title = "TIAS 2015",
+          color = "FTL_COUNT", palette = "jco", xlab = "# of Waves for Which Participant Identified as FTL", ylab = "Body Mass Index (BMI)", legend.title="# of FTL Waves") + 
+  stat_compare_means(comparisons = my_comparisons) +  
+  stat_compare_means(label.y = 50)  
+```
+
+```{R}
+ggplot(T15_BMI_CAT, aes(x = CAT_15, y = TA151283, group = CAT_15, fill = as.factor(CAT_15))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2015", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category")) + 
+  stat_compare_means(method = "t.test")
+```
+
+## TIAS 2017 
+
+```{R}
+####
+# Body Mass Index - Calculated as: [( Weight in Pounds) / (Height in inches) x (Height in inches)] x 703
+# Answers: 15.0-59.9 (Actual Value); 99.0 (DK/NA/refused)
+####
+
+table(TIAS$TA171978)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA171978 = 99)) 
+
+TIAS2017 <- TIAS2017 %>% 
+  replace_with_na(replace = list(TA171978 = 99)) 
+
+T17_BMI_FTLW <- TIAS2017[, c("TA171978", "FTL_COUNT")] %>% group_by(TA171978, FTL_COUNT) %>% summarise(Count = n())
+
+T17_BMI_FTLW <- T17_BMI_FTLW[1:356, ]
+
+T17_BMI_CAT <- TIAS2017[, c("TA171978", "CAT_17")] %>% group_by(TA171978, CAT_17) %>% summarise(Count = n())
+
+T17_BMI_CAT <- T17_BMI_CAT[1:342, ]
+```
+
+```{R}
+my_comparisons <- list( c("0", "1"), c("1", "2"), c("0", "2"))
+ggboxplot(T17_BMI_FTLW, x = "FTL_COUNT", y = "TA171978", title = "TIAS 2017",
+          color = "FTL_COUNT", palette = "jco", xlab = "# of Waves for Which Participant Identified as FTL", ylab = "Body Mass Index (BMI)", legend.title="# of FTL Waves") + 
+  stat_compare_means(comparisons = my_comparisons) +  
+  stat_compare_means(label.y = 50)  
+```
+
+```{R}
+ggplot(T17_BMI_CAT, aes(x = CAT_17, y = TA171978, group = CAT_17, fill = as.factor(CAT_17))) +
+  geom_boxplot() +
+  labs(title = "TIAS 2017", x = "Category", y = "Body Mass Index (BMI)") + 
+  guides(fill = guide_legend(title = "Category")) + 
+  stat_compare_means(method = "t.test") 
+```
+
+
+
+
+
+
+
+
+
