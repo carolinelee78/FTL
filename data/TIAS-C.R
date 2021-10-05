@@ -42,7 +42,7 @@ library(data.table)
 
 # set working directory 
 
-setwd("/Users/kdlee/Desktop/Lebowitz_Lab/FTL")
+setwd("/Users/carolinelee/Desktop/Lebowitz_Lab/FTL/data")
 
 ########### TIAS 2005 ###########
 
@@ -245,11 +245,13 @@ rm(list=ls())
 
 # Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
 
-TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
+TIAS <- fread("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
 
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
+# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
-TIAS$ID <- seq.int(nrow(TIAS)) 
+TIAS$PSID_ID <- (TIAS$ER30001 * 1000) + TIAS$ER30002
+
+ALL_PSID_ID <- TIAS$PSID_ID
 
 # This selects the data only from the wave of interest, which in this case is 2007.    
 
@@ -258,86 +260,83 @@ TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
 # Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
 
 TIAS2007$CAT <- with(TIAS2007, ifelse(
-    TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
-    TA070683 == 0 & TA070686 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 == 0 & TA070748 == 0 & TA070793 == 0 & 
-    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA070344 == 5 & TA070091 == 0, "FTL_07", "IAC_07"))  
-
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
-
-T07_ID <- TIAS2007$ID
-
-# Extract IDs of participants who have been identified as FTL for the 2007 wave 
-
-FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "ID"]
+  TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070927 %in% c("1", "2", "3", "4", "5", "6", "7") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
+    TA070683 == 0 & TA070686 == 0 & TA070682 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 %in% c("0", "1", "2", "3") & TA070748 == 0 & TA070793 == 0 & 
+    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA070091 == 0, "FTL_07", ifelse(
+      TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070927 %in% c("1", "2", "3", "4", "5", "6", "7") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
+        TA070683 == 0 & TA070686 == 0 & TA070682 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 %in% c("0", "1", "2", "3") & TA070748 == 0 & TA070793 == 0 & 
+        TA070785 == 0 & TA070769 == 0 & TA070368 == 0 & TA050371 == 1 & TA070091 == 0, "FTL_07", "IAC_07")))
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
 TIAS2007$PSID_ID <- (TIAS2007$ER30001 * 1000) + TIAS2007$ER30002
 
+# Before subsetting the data to only include data for the wave of interest, we are adding PSID IDs for each participant
+
+T07_ID <- TIAS2007$PSID_ID
+
+# Extract IDs of participants who have been identified as FTL for the 2007 wave 
+
+FTL07_ID <- TIAS2007[TIAS2007$CAT == "FTL_07", "PSID_ID"]
+
+# Count the number of participants who have been identified as FTL for the 2007 wave 
+
+nrow(FTL07_ID)
+
 # View the number of FTL vs. IAC participants for the 2007 wave 
 
 table(TIAS2007$CAT)
 
+FTL07_ID_VEC <- unname(unlist(FTL07_ID))
+
 # Create a new variable ('CAT_07') for FTL vs. IAC vs. NA (no data) categorization in the 2007 wave 
 
 TIAS$CAT_07 <- with(TIAS, ifelse(
-  ID %in% FTL07_ID, "FTL_07", ifelse(
-    ID %in% T07_ID, "IAC_07", "NA_07")))
+  PSID_ID %in% FTL07_ID_VEC, "FTL_07", ifelse(
+    PSID_ID %in% T07_ID, "IAC_07", "NA_07")))
 
 # View the distribution for CAT_07
 
 table(TIAS$CAT_07)
 
-# Creating a subsetted dataframe including only FTL participants for the 2007 wave 
-
-TIAS2007_FTL <- subset(TIAS2007, CAT == "FTL_07")
-
-# Creating a subsetted dataframe including only IAC participants for the 2007 wave 
-
-TIAS2007_IAC <- subset(TIAS2007, CAT == "IAC_07")
-
 # View the IDs of participants who have been identified as FTL for the 2007 wave 
 
-print(FTL07_ID)
-
-print(TIAS2007_FTL$PSID_ID)
-
-# Count the number of participants who have been identified as FTL for the 2007 wave 
-
-length(TIAS2007_FTL$PSID_ID)
+print(FTL07_ID_VEC)
 
 # Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria. 
 
-TIAS2007 <- TIAS2007 %>% select(ID, PSID_ID, CAT, TA070042, TA070043, TA070570, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, TA070756, 
-                                TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368, TA070344, TA070091) 
+TIAS2007 <- TIAS2007 %>% select(ID, PSID_ID, CAT, TA070042, TA070043, TA070570, TA070927, TA070602, TA070127, TA070740, TA070683, TA070686, TA070687, TA070649, 
+                                TA070756, TA070777, TA070764, TA070748, TA070793, TA070785, TA070769, TA070368, TA050371, TA070091)
 
-# Without altering the values of the variables in the original dataframe, we will create a new boolean variable (their original PSID name with _M at the end, M for match) for each variable (TRUE if matching FTL, FALSE if not).
+# Without altering the values of the variables in the original dataframe, we will create a new boolean variable (their original PSID name with _M at the end, M for match) for each variable (TRUE if matching FTL, FALSE if not)
 
 TIAS2007$TA070042_M <- TIAS2007$TA070042 == 1 
 TIAS2007$TA070043_M <- TIAS2007$TA070043 %in% c("1", "96")
 TIAS2007$TA070570_M <- TIAS2007$TA070570 %in% c("5", "0")
+TIAS2007$TA070927_M <- TIAS2007$TA070927 %in% c("1", "2", "3", "4", "5", "6", "7")
 TIAS2007$TA070602_M <- TIAS2007$TA070602 %in% c("5", "0")
 TIAS2007$TA070127_M <- TIAS2007$TA070127 == 3
 TIAS2007$TA070740_M <- TIAS2007$TA070740 < 60
 TIAS2007$TA070683_M <- TIAS2007$TA070683 == 0 
 TIAS2007$TA070686_M <- TIAS2007$TA070686 == 0 
+TIAS2007$TA070682_M <- TIAS2007$TA070682 == 0
 TIAS2007$TA070687_M <- TIAS2007$TA070687 == 0 
 TIAS2007$TA070649_M <- TIAS2007$TA070649 %in% c("3", "5", "7", "0")
 TIAS2007$TA070756_M <- TIAS2007$TA070756 == 0
 TIAS2007$TA070777_M <- TIAS2007$TA070777 == 0
-TIAS2007$TA070764_M <- TIAS2007$TA070764 == 0
+TIAS2007$TA070764_M <- TIAS2007$TA070764 %in% c("0", "1", "2", "3")
 TIAS2007$TA070748_M <- TIAS2007$TA070748 == 0
 TIAS2007$TA070793_M <- TIAS2007$TA070793 == 0
 TIAS2007$TA070785_M <- TIAS2007$TA070785 == 0
 TIAS2007$TA070769_M <- TIAS2007$TA070769 == 0
-TIAS2007$TA070368_M <- TIAS2007$TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99")
-TIAS2007$TA070344_M <- TIAS2007$TA070344 == 5
+TIAS2007$TA070368_M <- ifelse(TIAS2007$TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE,
+                              ifelse(TIAS2007$TA070368 == 0 & TIAS2007$TA070344 == 1, TRUE, FALSE))
 TIAS2007$TA070091_M <- TIAS2007$TA070091 == 0
 
 # Here, we are creating a new dataframe with only the boolean variables.  
 
-T2007M <- TIAS2007 %>% select(TA070042_M, TA070043_M, TA070570_M, TA070602_M, TA070127_M, TA070740_M, TA070683_M, TA070686_M, TA070687_M, TA070649_M, TA070756_M, 
-                              TA070777_M, TA070764_M, TA070748_M, TA070793_M, TA070785_M, TA070769_M, TA070368_M, TA070344_M, TA070091_M, PSID_ID) 
+T2007M <- TIAS2007 %>% select(TA070042_M, TA070043_M, TA070570_M, TA070927_M, TA070602_M, TA070127_M, TA070740_M, TA070683_M, TA070686_M, TA070682_M, TA070687_M, TA070649_M, 
+                              TA070756_M, TA070777_M, TA070764_M, TA070748_M, TA070793_M, TA070785_M, TA070769_M, TA070368_M, TA070091_M, PSID_ID)
 
 # We then have to convert the boolean values (FALSE/TRUE) to binary values (0/1), as we will be working with these to create our heatmaps. 
 
@@ -352,11 +351,11 @@ ncol(T2007M)
 
 nrow(T2007M) # Find out how many rows (participants) are in T2007M. 
 
-chunk <- 50 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
+chunk <- 75 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
 
 n <- nrow(T2007M) # Save the number of rows in T2007M. 
 
-r <- rep(1:ceiling(n/chunk), each=chunk)[1:n] # This command loops through the dataframe to create chunks (if the total # of rows was not cleanly divisible by 50, the # of rows included in the last chunk would be the remainder).
+r <- rep(1:ceiling(n/chunk), each=chunk)[1:n] # This command loops through the dataframe to create chunks (if the total # of rows was not cleanly divisible by 50, the # of rows included in the last chunk would be the remainder)
 
 T2007M_list <- split(T2007M, r) # This command splits the dataframe into chunks as calculated above. 
 
@@ -365,7 +364,7 @@ length(T2007M_list) # Now find out how many chunks of 50 have been created from 
 # This function lets us tidy the data into the long format. 
 
 tidy.vars <- function(x){
-  x %>% tidyr::gather(variable, met_FTL_crt, 1:20)
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:21)
 }
 
 # Apply the function to T2007M chunks, tidying the data. 
@@ -374,10 +373,10 @@ T2007M_tidy_list <- lapply(T2007M_list, tidy.vars)
 
 # This for-loop lets us create and assign factor levels for each variable in T2007M (excluding the last column 'ID'). 
 
-for(i in 1:23) {
-  T2007M_tidy_list[[i]]$variable <- factor(T2007M_tidy_list[[i]]$variable, levels = c("TA070042_M", "TA070043_M", "TA070570_M", "TA070602_M", "TA070127_M", "TA070740_M", "TA070683_M", "TA070686_M", "TA070687_M", "TA070649_M", "TA070756_M", 
-                                                                                      "TA070777_M", "TA070764_M", "TA070748_M", "TA070793_M", "TA070785_M", "TA070769_M", "TA070368_M", "TA070344_M", "TA070091_M"))
-}
+for(i in 1:15) {
+  T2007M_tidy_list[[i]]$variable <- factor(T2007M_tidy_list[[i]]$variable, levels = c("TA070042_M", "TA070043_M", "TA070570_M", "TA070927_M", "TA070602_M", "TA070127_M", "TA070740_M", "TA070683_M", "TA070686_M", "TA070682_M", "TA070687_M", "TA070649_M", 
+                                                                                      "TA070756_M", "TA070777_M", "TA070764_M", "TA070748_M", "TA070793_M", "TA070785_M", "TA070769_M", "TA070368_M", "TA070091_M"))
+} 
 
 # This function lets us isolate and save the values for the 'ID' column.
 
@@ -391,17 +390,17 @@ T2007M_levels_list <- lapply(T2007M_list, set.ID.levels)
 
 # This for-loop lets us create and assign factor levels for IDs in each T2007M chunk (in tidy long format) as corresponding to all included variables.  
 
-for(i in 1:23) {
-   T2007M_tidy_list[[i]]$PSID_ID <- factor(T2007M_tidy_list[[i]]$PSID_ID, levels = T2007M_levels_list[[i]])
+for(i in 1:15) {
+  T2007M_tidy_list[[i]]$PSID_ID <- factor(T2007M_tidy_list[[i]]$PSID_ID, levels = T2007M_levels_list[[i]])
 }
 
 # This for-loop lets us create and assign factor levels for the binary values (0/1; 0 = IAC, 1 = FTL) stored in each variable. 
 
-for(i in 1:23) {
+for(i in 1:15) {
   T2007M_tidy_list[[i]]$met_FTL_crt <- factor(T2007M_tidy_list[[i]]$met_FTL_crt)
 }
 
-# This function lets us create the heatmap itself.
+# This function lets us create the heatmap itself. 
 
 create.heatmap <- function(x){
   ggplot(x, aes(x=PSID_ID, y=variable, fill=met_FTL_crt)) + geom_tile(color="white", size=0.5) +
@@ -421,19 +420,13 @@ T07.heatmaps <- function(x){
 
 # To create fewer plots to save overall and for the sake of easier data visualization, we will combine the subplots to create aggregated plots. 
 
-TIAS2007_plot1 <- ggarrange(T07.heatmaps(1) + rremove("legend"), T07.heatmaps(2) + rremove("legend") + rremove("y.title"), T07.heatmaps(3) + rremove("legend") + rremove("y.title"), 
-                            T07.heatmaps(4) + rremove("legend"), T07.heatmaps(5) + rremove("legend") + rremove("y.title"), T07.heatmaps(6) + rremove("legend") + rremove("y.title"), 
-                            T07.heatmaps(7) + rremove("legend"), T07.heatmaps(8) + rremove("legend") + rremove("y.title"), T07.heatmaps(9) + rremove("legend") + rremove("y.title"), 
-                            T07.heatmaps(10) + rremove("legend"), T07.heatmaps(11) + rremove("legend") + rremove("y.title"), T07.heatmaps(12) + rremove("legend") + rremove("y.title"), ncol = 3, nrow = 4) 
+TIAS2007_plot <- ggarrange(T07.heatmaps(1) + rremove("legend"), T07.heatmaps(2) + rremove("legend") + rremove("y.title"), T07.heatmaps(3) + rremove("legend") + rremove("y.title"), 
+                           T07.heatmaps(4) + rremove("legend"), T07.heatmaps(5) + rremove("legend") + rremove("y.title"), T07.heatmaps(6) + rremove("legend") + rremove("y.title"), 
+                           T07.heatmaps(7) + rremove("legend"), T07.heatmaps(8) + rremove("legend") + rremove("y.title"), T07.heatmaps(9) + rremove("legend") + rremove("y.title"), 
+                           T07.heatmaps(10) + rremove("legend"), T07.heatmaps(11) + rremove("legend") + rremove("y.title"), T07.heatmaps(12) + rremove("legend") + rremove("y.title"),
+                           T07.heatmaps(13) + rremove("legend"), T07.heatmaps(14) + rremove("legend") + rremove("y.title"), T07.heatmaps(15) + rremove("y.title"), ncol = 3, nrow = 5) 
 
-TIAS2007_plot1 # This command lets us view the first aggregated plot. To see clearly, you export manually as png with width 3000 height 2000. This is done by selecting plots>export>png and entering the correct values for width and height.
-
-TIAS2007_plot2 <- ggarrange(T07.heatmaps(13) + rremove("legend"), T07.heatmaps(14) + rremove("legend") + rremove("y.title"), T07.heatmaps(15) + rremove("legend") + rremove("y.title"), 
-                            T07.heatmaps(16) + rremove("legend"), T07.heatmaps(17) + rremove("legend") + rremove("y.title"), T07.heatmaps(18) + rremove("legend") + rremove("y.title"), 
-                            T07.heatmaps(19) + rremove("legend"), T07.heatmaps(20) + rremove("legend") + rremove("y.title"), T07.heatmaps(21) + rremove("legend") + rremove("y.title"), 
-                            T07.heatmaps(22) + rremove("legend"), T07.heatmaps(23) + rremove("y.title"), ncol = 3, nrow = 4) 
-
-TIAS2007_plot2 # This command lets us view the second aggregated plot. To see clearly, you export manually as png with width 3000 height 2000. This is done by selecting plots>export>png and entering the correct values for width and height.
+TIAS2007_plot # This command lets us view the aggregated plot. To see clearly, you export manually as png with width 3000 height 2800. This is done by selecting plots>export>png and entering the correct values for width and height.
 
 ########### TIAS 2009 ###########
 
