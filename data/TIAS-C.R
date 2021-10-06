@@ -261,11 +261,11 @@ TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
 
 TIAS2007$CAT <- with(TIAS2007, ifelse(
   TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070927 %in% c("1", "2", "3", "4", "5", "6", "7") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
-    TA070683 == 0 & TA070686 == 0 & TA070682 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 %in% c("0", "1", "2", "3") & TA070748 == 0 & TA070793 == 0 & 
-    TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA070091 == 0, "FTL_07", ifelse(
+  TA070683 == 0 & TA070686 == 0 & TA070682 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 %in% c("0", "1", "2", "3") & TA070748 == 0 & TA070793 == 0 & 
+  TA070785 == 0 & TA070769 == 0 & TA070368 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA070091 == 0, "FTL_07", ifelse(
       TA070042 == 1 & TA070043 %in% c("1", "96") & TA070570 %in% c("5", "0") & TA070927 %in% c("1", "2", "3", "4", "5", "6", "7") & TA070602 %in% c("5", "0") & TA070127 == 3 & TA070740 < 60 & 
-        TA070683 == 0 & TA070686 == 0 & TA070682 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 %in% c("0", "1", "2", "3") & TA070748 == 0 & TA070793 == 0 & 
-        TA070785 == 0 & TA070769 == 0 & TA070368 == 0 & TA050371 == 1 & TA070091 == 0, "FTL_07", "IAC_07")))
+      TA070683 == 0 & TA070686 == 0 & TA070682 == 0 & TA070687 == 0 & TA070649 %in% c("3", "5", "7", "0") & TA070756 == 0 & TA070777 == 0 & TA070764 %in% c("0", "1", "2", "3") & TA070748 == 0 & TA070793 == 0 & 
+      TA070785 == 0 & TA070769 == 0 & TA070368 == 0 & TA050371 == 1 & TA070091 == 0, "FTL_07", "IAC_07")))
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -430,19 +430,6 @@ TIAS2007_plot # This command lets us view the aggregated plot. To see clearly, y
 
 ########### TIAS 2009 ###########
 
-# The below code clears your R environment (found on the right side of the console and includes data tables and values). 
-# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2009 wave). 
-
-rm(list=ls())
-
-# Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
-
-TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
-
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
-
-TIAS$ID <- seq.int(nrow(TIAS)) 
-
 # This selects the data only from the wave of interest, which in this case is 2009.    
 
 TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
@@ -450,9 +437,12 @@ TIAS2009 <- TIAS[!is.na(TIAS$TAS09),]
 # Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables.   
 
 TIAS2009$CAT <- with(TIAS2009, ifelse(
-  TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
-  TA090739 == 0 & TA090742 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 == 0 & TA090807 == 0 & TA090852 == 0 & 
-  TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA090361 == 5 & TA090100 == 0, "FTL_09", "IAC_07"))  
+  TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090991 %in% c("1", "2", "3", "4", "5", "6", "7") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
+  TA090739 == 0 & TA090742 == 0 & TA090738 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 %in% c("0", "1", "2", "3") & TA090807 == 0 & TA090852 == 0 & 
+  TA090844 == 0 & TA090828 == 0 & TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA090100 == 0, "FTL_09", ifelse(
+      TA090043 == 1 & TA090044 %in% c("1", "96") & TA090612 %in% c("5", "0") & TA090991 %in% c("1", "2", "3", "4", "5", "6", "7") & TA090655 %in% c("5", "0") & TA090136 == 3 & TA090799 < 60 & 
+      TA090739 == 0 & TA090742 == 0 & TA090738 == 0 & TA090743 == 0 & TA090705 %in% c("3", "5", "7", "0") & TA090815 == 0 & TA090836 == 0 & TA090823 %in% c("0", "1", "2", "3") & TA090807 == 0 & TA090852 == 0 & 
+      TA090844 == 0 & TA090828 == 0 & TA090385 == 0 & TA090361 == 1 & TA090100 == 0, "FTL_09", "IAC_09")))
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
@@ -468,7 +458,7 @@ FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "ID"]
 
 # Count the number of participants who have been identified as FTL for the 2009 wave 
 
-length(FTL09_ID)
+nrow(FTL09_ID)
 
 # View the number of FTL vs. IAC participants for the 2009 wave 
 
@@ -500,7 +490,7 @@ print(TIAS2009_FTL$PSID_ID)
 
 # Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria.
 
-TIAS2009 <- TIAS2009 %>% select(ID, PSID_ID, CAT, TA090043, TA090044, TA090612, TA090655, TA090136, TA090799, TA090739, TA090742, TA090743, TA090705, TA090815, 
+TIAS2009 <- TIAS2009 %>% select(ID, PSID_ID, CAT, TA090043, TA090044, TA090612, TA090991, TA090655, TA090136, TA090799, TA090739, TA090742, TA090738, TA090743, TA090705, TA090815, 
                                 TA090836, TA090823, TA090807, TA090852, TA090844, TA090828, TA090385, TA090361, TA090100) 
 
 # Without altering the values of the variables in the original dataframe, we will create a new boolean variable (their original PSID name with _M at the end, M for match) for each variable (TRUE if matching FTL, FALSE if not).
@@ -508,28 +498,30 @@ TIAS2009 <- TIAS2009 %>% select(ID, PSID_ID, CAT, TA090043, TA090044, TA090612, 
 TIAS2009$TA090043_M <- TIAS2009$TA090043 == 1 
 TIAS2009$TA090044_M <- TIAS2009$TA090044 %in% c("1", "96")
 TIAS2009$TA090612_M <- TIAS2009$TA090612 %in% c("5", "0")
+TIAS2009$TA090991_M <- TIAS2009$TA090991 %in% c("1", "2", "3", "4", "5", "6", "7")
 TIAS2009$TA090655_M <- TIAS2009$TA090655 %in% c("5", "0")
 TIAS2009$TA090136_M <- TIAS2009$TA090136 == 3
 TIAS2009$TA090799_M <- TIAS2009$TA090799 < 60
 TIAS2009$TA090739_M <- TIAS2009$TA090739 == 0 
 TIAS2009$TA090742_M <- TIAS2009$TA090742 == 0 
+TIAS2009$TA090738_M <- TIAS2009$TA090738 == 0
 TIAS2009$TA090743_M <- TIAS2009$TA090743 == 0 
 TIAS2009$TA090705_M <- TIAS2009$TA090705 %in% c("3", "5", "7", "0")
 TIAS2009$TA090815_M <- TIAS2009$TA090815 == 0
 TIAS2009$TA090836_M <- TIAS2009$TA090836 == 0
-TIAS2009$TA090823_M <- TIAS2009$TA090823 == 0
+TIAS2009$TA090823_M <- TIAS2009$TA090823 %in% c("0", "1", "2", "3") 
 TIAS2009$TA090807_M <- TIAS2009$TA090807 == 0
 TIAS2009$TA090852_M <- TIAS2009$TA090852 == 0
 TIAS2009$TA090844_M <- TIAS2009$TA090844 == 0
 TIAS2009$TA090828_M <- TIAS2009$TA090828 == 0
-TIAS2009$TA090385_M <- TIAS2009$TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99") 
-TIAS2009$TA090361_M <- TIAS2009$TA090361 == 5 
-TIAS2009$TA090100_M <- TIAS2009$TA090100 == 0 
+TIAS2009$TA090385_M <- ifelse(TIAS2009$TA090385 %in% c("1", "2", "3", "4", "7", "8", "97", "99"), TRUE,
+                              ifelse(TIAS2009$TA090385 == 0 & TIAS2009$TA090361 == 1, TRUE, FALSE))
+TIAS2009$TA090100_M <- TIAS2009$TA090100 == 0
 
 # Here, we are creating a new dataframe with only the boolean variables.  
 
-T2009M <- TIAS2009 %>% select(TA090043_M, TA090044_M, TA090612_M, TA090655_M, TA090136_M, TA090799_M, TA090739_M, TA090742_M, TA090743_M, TA090705_M, TA090815_M, 
-                              TA090836_M, TA090823_M, TA090807_M, TA090852_M, TA090844_M, TA090828_M, TA090385_M, TA090361_M, TA090100_M, PSID_ID) 
+T2009M <- TIAS2009 %>% select(TA090043_M, TA090044_M, TA090612_M, TA090991_M, TA090655_M, TA090136_M, TA090799_M, TA090739_M, TA090742_M, TA090738_M, TA090743_M, TA090705_M, TA090815_M, 
+                              TA090836_M, TA090823_M, TA090807_M, TA090852_M, TA090844_M, TA090828_M, TA090385_M, TA090100_M, PSID_ID) 
 
 # We then have to convert the boolean values (FALSE/TRUE) to binary values (0/1), as we will be working with these to create our heatmaps.
 
@@ -544,7 +536,7 @@ ncol(T2009M)
 
 nrow(T2009M) # Find out how many rows (participants) are in T2009M. 
 
-chunk <- 50 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
+chunk <- 49 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
 
 n <- nrow(T2009M) # Save the number of rows in T2009M. 
 
@@ -557,7 +549,7 @@ length(T2009M_list) # Now find out how many chunks of 50 have been created from 
 # This function lets us tidy the data into the long format. 
 
 tidy.vars <- function(x){
-  x %>% tidyr::gather(variable, met_FTL_crt, 1:20)
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:21)
 }
 
 # Apply the function to T2009M chunks, tidying the data. 
@@ -567,8 +559,8 @@ T2009M_tidy_list <- lapply(T2009M_list, tidy.vars)
 # This for-loop lets us create and assign factor levels for each variable in T2009M (excluding the last column 'ID'). 
 
 for(i in 1:32) {
-  T2009M_tidy_list[[i]]$variable <- factor(T2009M_tidy_list[[i]]$variable, levels = c("TA090043_M", "TA090044_M", "TA090612_M", "TA090655_M", "TA090136_M", "TA090799_M", "TA090739_M", "TA090742_M", "TA090743_M", "TA090705_M", "TA090815_M", 
-                                                                                      "TA090836_M", "TA090823_M", "TA090807_M", "TA090852_M", "TA090844_M", "TA090828_M", "TA090385_M", "TA090361_M", "TA090100_M"))
+  T2009M_tidy_list[[i]]$variable <- factor(T2009M_tidy_list[[i]]$variable, levels = c("TA090043_M", "TA090044_M", "TA090612_M", "TA090991_M", "TA090655_M", "TA090136_M", "TA090799_M", "TA090739_M", "TA090742_M", "TA090738_M", "TA090743_M", "TA090705_M", "TA090815_M", 
+                                                                                      "TA090836_M", "TA090823_M", "TA090807_M", "TA090852_M", "TA090844_M", "TA090828_M", "TA090385_M", "TA090100_M"))
 }                                                                                     
 
 # This function lets us isolate and save the values for the 'ID' column.
