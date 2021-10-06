@@ -238,21 +238,6 @@ TIAS2005_plot # This command lets us view the aggregated plot. To see clearly, y
 
 ########### TIAS 2007 ###########
 
-# The below code clears your R environment (found on the right side of the console and includes data tables and values). 
-# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2007 wave). 
-
-rm(list=ls())
-
-# Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
-
-TIAS <- fread("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
-
-# We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
-
-TIAS$PSID_ID <- (TIAS$ER30001 * 1000) + TIAS$ER30002
-
-ALL_PSID_ID <- TIAS$PSID_ID
-
 # This selects the data only from the wave of interest, which in this case is 2007.    
 
 TIAS2007 <- TIAS[!is.na(TIAS$TAS07),]
@@ -621,19 +606,6 @@ TIAS2009_plot2 # This command lets us view the second aggreagted plot. To see cl
 
 ########### TIAS 2011 ###########
 
-# The below code clears your R environment (found on the right side of the console and includes data tables and values). 
-# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2011 wave). 
-
-rm(list=ls())
-
-# Now you import the TIAS data again. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
-
-TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
-
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to identify each row (participant).  
-
-TIAS$ID <- seq.int(nrow(TIAS)) 
-
 # This selects the data only from the wave of interest, which in this case is 2011.   
 
 TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
@@ -830,19 +802,6 @@ TIAS2011_plot4 # This command lets us view the fourth aggregated plot. To see cl
 
 ########### TIAS 2013 ###########
 
-# The below code clears your R environment (found on the right side of the console and includes data tables and values). 
-# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2013 wave). 
-
-rm(list=ls())
-
-# Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
-
-TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
-
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
-
-TIAS$ID <- seq.int(nrow(TIAS)) 
-
 # This selects the data only from the wave of interest, which in this case is 2013.   
 
 TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
@@ -850,13 +809,16 @@ TIAS2013 <- TIAS[!is.na(TIAS$TAS13),]
 # Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables.   
 
 TIAS2013$CAT <- with(TIAS2013, ifelse(
-  TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
-  TA130852 == 0 & TA130855 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130964 == 0 & TA130982 == 0 & TA130972 == 0 & 
-  TA130956 == 0 & TA131001 == 0 & TA130993 == 0 & TA130977 == 0 & TA130482 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA130350 == 5 & TA130100 == 0, "FTL_13", "IAC_13"))
+  TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA131225 %in% c("1", "2", "3", "4", "5", "6", "7", "96") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
+  TA130852 == 0 & TA130855 == 0 & TA130851 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130964 == 0 & TA130982 == 0 & TA130972 %in% c("0", "1", "2", "3") & TA130956 == 0 & TA131001 == 0 & 
+  TA130993 == 0 & TA130977 == 0 & TA130482 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA130100 == 0, "FTL_13", ifelse(
+      TA130043 == 1 & TA130044 %in% c("1", "96") & TA130719 %in% c("5", "0") & TA131225 %in% c("1", "2", "3", "4", "5", "6", "7") & TA130763 %in% c("5", "0") & TA130136 == 3 & TA130948 < 60 & 
+      TA130852 == 0 & TA130855 == 0 & TA130851 == 0 & TA130856 == 0 & TA130813 %in% c("3", "5", "7", "0") & TA130964 == 0 & TA130982 == 0 & TA130972 %in% c("0", "1", "2", "3") & TA130956 == 0 & TA131001 == 0 & 
+      TA130993 == 0 & TA130977 == 0 & TA130482 == 0 & TA130350 == 1 & TA130100 == 0, "FTL_13", "IAC_13")))
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T13_ID <- TIAS2013$ID
+T13_ID <- TIAS2013$PSID_ID
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -864,15 +826,17 @@ TIAS2013$PSID_ID <- (TIAS2013$ER30001 * 1000) + TIAS2013$ER30002
 
 # Extract IDs of participants who have been identified as FTL for the 2013 wave 
 
-FTL13_ID <- TIAS2013[TIAS2013$CAT == "FTL_13", "ID"]
+FTL13_ID <- TIAS2013[TIAS2013$CAT == "FTL_13", "PSID_ID"]
 
 # Count the number of participants who have been identified as FTL for the 2013 wave 
 
-length(FTL13_ID)
+nrow(FTL13_ID)
 
 # View the number of FTL vs. IAC participants for the 2013 wave 
 
 table(TIAS2013$CAT)
+
+FTL13_ID_VEC <- unname(unlist(FTL13_ID))
 
 # Create a new variable ('CAT_13') for FTL vs. IAC vs. NA (no data) categorization in the 2013 wave 
 
@@ -884,14 +848,6 @@ TIAS$CAT_13 <- with(TIAS, ifelse(
 
 table(TIAS$CAT_13)
 
-# Creating a subsetted dataframe including only FTL participants for the 2013 wave 
-
-TIAS2013_FTL <- subset(TIAS2013, CAT == "FTL_13")
-
-# Creating a subsetted dataframe including only IAC participants for the 2013 wave 
-
-TIAS2013_IAC <- subset(TIAS2013, CAT == "IAC_13")
-
 # View the IDs of participants who have been identified as FTL for the 2013 wave 
 
 print(FTL13_ID)
@@ -900,7 +856,7 @@ print(TIAS2013_FTL$PSID_ID)
 
 # Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria.
 
-TIAS2013 <- TIAS2013 %>% select(ID, PSID_ID, CAT, TA130043, TA130044, TA130719, TA130763, TA130136, TA130948, TA130852, TA130855, TA130856, TA130813, TA130964, 
+TIAS2013 <- TIAS2013 %>% select(ID, PSID_ID, CAT, TA130043, TA130044, TA130719, TA131225, TA130763, TA130136, TA130948, TA130852, TA130855, TA130851, TA130856, TA130813, TA130964, 
                                 TA130982, TA130972, TA130956, TA131001, TA130993, TA130977, TA130482, TA130350, TA130100) 
 
 # Without altering the values of the variables in the original dataframe, we will create a new boolean variable (their original PSID name with _M at the end, M for match) for each variable (TRUE if matching FTL, FALSE if not).
@@ -908,16 +864,18 @@ TIAS2013 <- TIAS2013 %>% select(ID, PSID_ID, CAT, TA130043, TA130044, TA130719, 
 TIAS2013$TA130043_M <- TIAS2013$TA130043 == 1 
 TIAS2013$TA130044_M <- TIAS2013$TA130044 %in% c("1", "96")
 TIAS2013$TA130719_M <- TIAS2013$TA130719 %in% c("5", "0")
+TIAS2013$TA131225_M <- TIAS2013$TA131225 %in% c("1", "2", "3", "4", "5", "6", "7", "96")
 TIAS2013$TA130763_M <- TIAS2013$TA130763 %in% c("5", "0")
 TIAS2013$TA130136_M <- TIAS2013$TA130136 == 3
 TIAS2013$TA130948_M <- TIAS2013$TA130948 < 60
 TIAS2013$TA130852_M <- TIAS2013$TA130852 == 0 
 TIAS2013$TA130855_M <- TIAS2013$TA130855 == 0 
+TIAS2013$TA130851_M <- TIAS2013$TA130851 == 0 
 TIAS2013$TA130856_M <- TIAS2013$TA130856 == 0 
 TIAS2013$TA130813_M <- TIAS2013$TA130813 %in% c("3", "5", "7", "0")
 TIAS2013$TA130964_M <- TIAS2013$TA130964 == 0
 TIAS2013$TA130982_M <- TIAS2013$TA130982 == 0
-TIAS2013$TA130972_M <- TIAS2013$TA130972 == 0
+TIAS2013$TA130972_M <- TIAS2013$TA130972 %in% c("0", "1", "2", "3")
 TIAS2013$TA130956_M <- TIAS2013$TA130956 == 0
 TIAS2013$TA131001_M <- TIAS2013$TA131001 == 0
 TIAS2013$TA130993_M <- TIAS2013$TA130993 == 0
@@ -928,8 +886,8 @@ TIAS2013$TA130100_M <- TIAS2013$TA130100 == 0
 
 # Here, we are creating a new dataframe with only the boolean variables.  
 
-T2013M <- TIAS2013 %>% select(TA130043_M, TA130044_M, TA130719_M, TA130763_M, TA130136_M, TA130948_M, TA130852_M, TA130855_M, TA130856_M, TA130813_M, TA130964_M, 
-                              TA130982_M, TA130972_M, TA130956_M, TA131001_M, TA130993_M, TA130977_M, TA130482_M, TA130350_M, TA130100_M, PSID_ID) 
+T2013M <- TIAS2013 %>% select(TA130043_M, TA130044_M, TA130719_M, TA131225_M, TA130763_M, TA130136_M, TA130948_M, TA130852_M, TA130855_M, TA130851_M, TA130856_M, TA130813_M, TA130964_M, 
+                              TA130982_M, TA130972_M, TA130956_M, TA131001_M, TA130993_M, TA130977_M, TA130482_M, TA130100_M, PSID_ID) 
 
 # We then have to convert the boolean values (FALSE/TRUE) to binary values (0/1), as we will be working with these to create our heatmaps.
 
@@ -944,7 +902,7 @@ ncol(T2013M)
 
 nrow(T2013M) # Find out how many rows (participants) are in T2013M.  
 
-chunk <- 50 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
+chunk <- 49 # The value of the chunk should be the no. of columns (participants) you would want for each heatmap subplot. 
 
 n <- nrow(T2013M) # Save the number of rows in T2013M. 
 
@@ -957,7 +915,7 @@ length(T2013M_list) # Now find out how many chunks of 50 have been created from 
 # This function lets us tidy the data into the long format. 
 
 tidy.vars <- function(x){
-  x %>% tidyr::gather(variable, met_FTL_crt, 1:20)
+  x %>% tidyr::gather(variable, met_FTL_crt, 1:21)
 }
 
 # Apply the function to T2013M chunks, tidying the data. 
@@ -967,8 +925,8 @@ T2013M_tidy_list <- lapply(T2013M_list, tidy.vars)
 # This for-loop lets us create and assign factor levels for each variable in T2013M (excluding the last column 'ID'). 
 
 for(i in 1:37) {
-  T2013M_tidy_list[[i]]$variable <- factor(T2013M_tidy_list[[i]]$variable, levels = c("TA130043_M", "TA130044_M", "TA130719_M", "TA130763_M", "TA130136_M", "TA130948_M", "TA130852_M", "TA130855_M", "TA130856_M", "TA130813_M", "TA130964_M",  "TA130982_M", 
-                                                                                      "TA130972_M", "TA130956_M", "TA131001_M", "TA130993_M", "TA130977_M", "TA130482_M", "TA130350_M", "TA130100_M"))
+  T2013M_tidy_list[[i]]$variable <- factor(T2013M_tidy_list[[i]]$variable, levels = c("TA130043_M", "TA130044_M", "TA130719_M", "TA131225_M", "TA130763_M", "TA130136_M", "TA130948_M", "TA130852_M", "TA130855_M", "TA130851_M", "TA130856_M", "TA130813_M", "TA130964_M", 
+                                                                                      "TA130982_M", "TA130972_M", "TA130956_M", "TA131001_M", "TA130993_M", "TA130977_M", "TA130482_M", "TA130100_M"))
 }
 
 # This function lets us isolate and save the values for the 'ID' column.
