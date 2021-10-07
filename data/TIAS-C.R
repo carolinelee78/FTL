@@ -431,7 +431,7 @@ TIAS2009$CAT <- with(TIAS2009, ifelse(
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T09_ID <- TIAS2009$ID
+T09_ID <- TIAS2009$PSID_ID
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -439,39 +439,31 @@ TIAS2009$PSID_ID <- (TIAS2009$ER30001 * 1000) + TIAS2009$ER30002
 
 # Extract IDs of participants who have been identified as FTL for the 2009 wave 
 
-FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "ID"]
+FTL09_ID <- TIAS2009[TIAS2009$CAT == "FTL_09", "PSID_ID"]
 
 # Count the number of participants who have been identified as FTL for the 2009 wave 
 
-nrow(FTL09_ID)
+length(FTL09_ID)
 
 # View the number of FTL vs. IAC participants for the 2009 wave 
 
 table(TIAS2009$CAT)
 
+FTL09_ID_VEC <- unname(unlist(FTL09_ID))
+
 # Create a new variable ('CAT_09') for FTL vs. IAC vs. NA (no data) categorization in the 2009 wave 
 
 TIAS$CAT_09 <- with(TIAS, ifelse(
-  ID %in% FTL09_ID, "FTL_09", ifelse(
-    ID %in% T09_ID, "IAC_09", "NA_09")))
+  PSID_ID %in% FTL09_ID_VEC, "FTL_09", ifelse(
+    PSID_ID %in% T09_ID, "IAC_09", "NA_09")))
 
 # View the distribution for CAT_09
 
 table(TIAS$CAT_09)
 
-# Creating a subsetted dataframe including only FTL participants for the 2009 wave 
-
-TIAS2009_FTL <- subset(TIAS2009, CAT == "FTL_09")
-
-# Creating a subsetted dataframe including only IAC participants for the 2009 wave 
-
-TIAS2009_IAC <- subset(TIAS2009, CAT == "IAC_09")
-
 # View the IDs of participants who have been identified as FTL for the 2009 wave 
 
-print(FTL09_ID)
-
-print(TIAS2009_FTL$PSID_ID)
+print(FTL09_ID_VEC)
 
 # Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria.
 
@@ -619,11 +611,11 @@ TIAS2011$CAT <- with(TIAS2011, ifelse(
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T11_ID <- TIAS2011$ID
+T11_ID <- TIAS2011$PSID_ID
 
 # Extract IDs of participants who have been identified as FTL for the 2011 wave 
 
-FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "ID"]
+FTL11_ID <- TIAS2011[TIAS2011$CAT == "FTL_11", "PSID_ID"]
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -631,35 +623,29 @@ TIAS2011$PSID_ID <- (TIAS2011$ER30001 * 1000) + TIAS2011$ER30002
 
 # Count the number of participants who have been identified as FTL for the 2011 wave 
 
-length(FTL11_ID)
+nrow(FTL11_ID)
 
 # View the number of FTL vs. IAC participants for the 2011 wave 
 
 table(TIAS2011$CAT)
 
+FTL11_ID_VEC <- unname(unlist(FTL11_ID))
+
 # Create a new variable ('CAT_11') for FTL vs. IAC vs. NA (no data) categorization in the 2011 wave 
 
 TIAS$CAT_11 <- with(TIAS, ifelse(
-  ID %in% FTL11_ID, "FTL_11", ifelse(
+  PSID_ID %in% FTL11_ID_VEC, "FTL_11", ifelse(
     ID %in% T11_ID, "IAC_11", "NA_11")))
 
 # View the distribution for CAT_11
 
 table(TIAS$CAT_11)
 
-# Creating a subsetted dataframe including only FTL participants for the 2011 wave 
-
-TIAS2011_FTL <- subset(TIAS2011, CAT == "FTL_11")
-
-# Creating a subsetted dataframe including only IAC participants for the 2011 wave 
-
-TIAS2011_IAC <- subset(TIAS2011, CAT == "IAC_11")
-
 # View the IDs of participants who have been identified as FTL for the 2011 wave 
 
 print(FTL11_ID)
 
-print(TIAS2011_FTL$PSID_ID)
+print(FTL11_ID_VEC)
 
 # Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria. 
 
@@ -841,8 +827,8 @@ FTL13_ID_VEC <- unname(unlist(FTL13_ID))
 # Create a new variable ('CAT_13') for FTL vs. IAC vs. NA (no data) categorization in the 2013 wave 
 
 TIAS$CAT_13 <- with(TIAS, ifelse(
-  ID %in% FTL13_ID, "FTL_13", ifelse(
-    ID %in% T13_ID, "IAC_13", "NA_13")))
+  PSID_ID %in% FTL13_ID_VEC, "FTL_13", ifelse(
+    PSID_ID %in% T13_ID, "IAC_13", "NA_13")))
 
 # View the distribution for CAT_13
 
@@ -850,9 +836,7 @@ table(TIAS$CAT_13)
 
 # View the IDs of participants who have been identified as FTL for the 2013 wave 
 
-print(FTL13_ID)
-
-print(TIAS2013_FTL$PSID_ID)
+print(FTL13_ID_VEC)
 
 # Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria.
 
