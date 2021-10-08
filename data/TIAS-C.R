@@ -605,9 +605,12 @@ TIAS2011 <- TIAS[!is.na(TIAS$TAS11),]
 # Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables. 
 
 TIAS2011$CAT <- with(TIAS2011, ifelse(
-  TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
-  TA110829 == 0 & TA110832 == 0 & TA110833 == 0 & TA110793 %in% c("3", "5", "7", "0") & TA110931 == 0 & TA110952 == 0 & TA110939 == 0 & TA110923 == 0 & TA110968 == 0 & 
-  TA110960 == 0 & TA110944 == 0 & TA110462 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA110351 == 5 & TA110101 == 0, "FTL_11", "IAC_11"))
+  TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA111133 %in% c("1", "2", "3", "4", "5", "6", "7", "96") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
+  TA110829 == 0 & TA110832 == 0 & TA110828 == 0 & TA110833 == 0 & TA110793 %in% c("3", "5", "7", "0") & TA110931 == 0 & TA110952 %in% c("0", "1", "2", "3") & TA110939 == 0 & TA110923 == 0 & TA110968 == 0 & 
+  TA110960 == 0 & TA110944 == 0 & TA110462 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA110101 == 0, "FTL_11", ifelse( 
+    TA110044 == 1 & TA110045 %in% c("1", "96") & TA110699 %in% c("5", "0") & TA111133 %in% c("1", "2", "3", "4", "5", "6", "7", "96") & TA110743 %in% c("5", "0") & TA110137 == 3 & TA110915 < 60 & 
+    TA110829 == 0 & TA110832 == 0 & TA110828 == 0 & TA110833 == 0 & TA110793 %in% c("3", "5", "7", "0") & TA110931 == 0 & TA110952 %in% c("0", "1", "2", "3") & TA110939 == 0 & TA110923 == 0 & TA110968 == 0 & 
+    TA110960 == 0 & TA110944 == 0 & TA110462 == 0 & TA110351 == 1 & TA110101 == 0,  "FTL_11", "IAC_11")))
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
@@ -635,7 +638,7 @@ FTL11_ID_VEC <- unname(unlist(FTL11_ID))
 
 TIAS$CAT_11 <- with(TIAS, ifelse(
   PSID_ID %in% FTL11_ID_VEC, "FTL_11", ifelse(
-    ID %in% T11_ID, "IAC_11", "NA_11")))
+    PSID_ID %in% T11_ID, "IAC_11", "NA_11")))
 
 # View the distribution for CAT_11
 
@@ -976,19 +979,6 @@ TIAS2013_plot3 # This command lets us view the third aggregated plot. To see cle
 
 ########### TIAS 2015 ###########
 
-# The below code clears your R environment (found on the right side of the console and includes data tables and values). 
-# Clearing the environment after you make heatmaps for each wave is important because otherwise the environment gets crowded – it would be hard to find data and values you need from the 2015 wave). 
-
-rm(list=ls())
-
-# Import the TIAS data. This dataset was downloaded from the PSID website and includes values for all waves. The raw csv file can be found on github. 
-
-TIAS <- read.csv("https://raw.githubusercontent.com/carolinelee78/FTL/main/data/raw/PSID/TIAS/TIAS.csv")
-
-# Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
-
-TIAS$ID <- seq.int(nrow(TIAS)) 
-
 # This selects the data only from the wave of interest, which in this case is 2015.    
 
 TIAS2015 <- TIAS[!is.na(TIAS$TAS15),]
@@ -996,17 +986,20 @@ TIAS2015 <- TIAS[!is.na(TIAS$TAS15),]
 # Now, we select the variables of interest that filter for participants who meet FTL criteria. See TIAS-C variable table for the names and details of these variables.  
 
 TIAS2015$CAT <- with(TIAS2015, ifelse(
-   TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
-   TA150869 == 0 & TA150872 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 == 0 & TA150978 == 0 & TA151023 == 0 & 
-   TA151015 == 0 & TA150999 == 0 & TA150491 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA150352 == 5 & TA150092 == 0, "FTL_15", "IAC_15"))
+   TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA151285 %in% c("1", "2", "3", "4", "5", "6", "7", "96") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
+   TA150869 == 0 & TA150872 == 0 & TA150868 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 %in% c("0", "1", "2", "3") & TA150978 == 0 & TA151023 == 0 & 
+   TA151015 == 0 & TA150999 == 0 & TA150491 %in% c("1", "2", "3", "4", "7", "8", "97", "99") & TA150092 == 0, "FTL_15", ifelse( 
+      TA150043 == 1 & TA150044 %in% c("1", "96") & TA150731 %in% c("5", "0") & TA151285 %in% c("1", "2", "3", "4", "5", "6", "7", "96") & TA150776 %in% c("5", "0") & TA150128 == 3 & TA150970 < 60 & 
+      TA150869 == 0 & TA150872 == 0 & TA150868 == 0 & TA150873 == 0 & TA150826 %in% c("3", "5", "7", "0") & TA150986 == 0 & TA151007 == 0 & TA150994 %in% c("0", "1", "2", "3") & TA150978 == 0 & TA151023 == 0 & 
+      TA151015 == 0 & TA150999 == 0 & TA150491 == 0 & TA150352 == 1 & TA150092 == 0, "FTL_15", "IAC_15")))
 
 # Before subsetting the data to only include data for the wave of interest, we are adding IDs for each row in a new column ('ID') to consistently identify each row (participant).
 
-T15_ID <- TIAS2015$ID
+T15_ID <- TIAS2015$PSID_ID
 
 # Extract IDs of participants who have been identified as FTL for the 2015 wave 
 
-FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "ID"]
+FTL15_ID <- TIAS2015[TIAS2015$CAT == "FTL_15", "PSID_ID"]
 
 # We will also add the unique individual identifier ID calculated using the method recommended by PSID researchers 
 
@@ -1014,35 +1007,27 @@ TIAS2015$PSID_ID <- (TIAS2015$ER30001 * 1000) + TIAS2015$ER30002
 
 # Count the number of participants who have been identified as FTL for the 2015 wave 
 
-length(FTL15_ID)
+nrow(FTL15_ID)
 
 # View the number of FTL vs. IAC participants for the 2015 wave 
 
 table(TIAS2015$CAT)
 
+FTL15_ID_VEC <- unname(unlist(FTL15_ID))
+
 # Create a new variable ('CAT_15') for FTL vs. IAC vs. NA (no data) categorization in the 2015 wave 
 
 TIAS$CAT_15 <- with(TIAS, ifelse(
-  ID %in% FTL15_ID, "FTL_15", ifelse(
-    ID %in% T15_ID, "IAC_15", "NA_15")))
+  PSID_ID %in% FTL15_ID_VEC, "FTL_15", ifelse(
+    PSID_ID %in% T15_ID, "IAC_15", "NA_15")))
 
 # View the distribution for CAT_15
 
 table(TIAS$CAT_15)
 
-# Creating a subsetted dataframe including only FTL participants for the 2015 wave 
-
-TIAS2015_FTL <- subset(TIAS2015, CAT == "FTL_15")
-
-# Creating a subsetted dataframe including only IAC participants for the 2015 wave 
-
-TIAS2015_IAC <- subset(TIAS2015, CAT == "IAC_15")
-
 # View the IDs of participants who have been identified as FTL for the 2015 wave 
 
-print(FTL15_ID)
-
-print(TIAS2015_FTL$PSID_ID)
+print(FTL15_ID_VEC)
 
 # Again, we are selecting these variables to create a dataset with only the relevant information for our TIAS criteria.
 
