@@ -8,5 +8,5 @@ The present study will use data from the [Panel Study of Income Dynamics (PSID)]
 ![PSID Banner](https://raw.githubusercontent.com/carolinelee78/FTL/main/misc/CDS_PSIDbanner.jpg)
 
 The study has three goals. First, to examine which characteristics at childhood and adolescence are more prominent in individuals with FTL. Second, to examine the course of FTL dependency. Third, explore familial demographics and parental psychosocial problems that may increase the chances of individuals to develop FTL. Finally, in this protocol, we use the term "FTL" for brevity in place of "highly dependent adult children who are not functioning independently", but we use it without judgment and in a non-pejorative, descriptive way.
-### Analysis 
+
 
