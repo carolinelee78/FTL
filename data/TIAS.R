@@ -32861,142 +32861,240 @@ table(TIAS2017_FTL$ER34504)
 
 ############################ TIAS-D Analysis ############################
 
-# Non-Specific Psychological Distress 
+### Non-Specific Psychological Distress 
 
-npd_05 <- as.data.frame(aggregate(TIAS$TA050938, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
+# =================== 2005 ===================  
 
-npd_05 <- npd_05 %>% rename(Criteria = Group.1, NPD = x) 
-            
-npd_05$Year <- c(rep(2005, 2))
+table(TIAS$TA050938) # viewing NPD data for 2005
 
-npd_07 <- as.data.frame(aggregate(TIAS$TA070919, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA050938 = 99)) # removing NA value for NPD scale 
 
-npd_07 <- npd_07 %>% rename(Criteria = Group.1, NPD = x) 
+npd_05 <- select(TIAS, TA050938, ER33804, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
-npd_07$Year <- c(rep(2007, 2))
+npd_05 <- na.omit(npd_05) # removing rows with NA 
 
-npd_09 <- as.data.frame(aggregate(TIAS$TA090983, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
+npd_05 <- npd_05 %>% rename(NPD = TA050938, Age = ER33804, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
 
-npd_09 <- npd_09 %>% rename(Criteria = Group.1, NPD = x) 
+hist(npd_05$NPD) # viewing distribution for NPD 
 
-npd_09$Year <- c(rep(2009, 2))
+npd_05$NPD <- log(npd_05$NPD) # log transformation for NPD 
 
-npd_11 <- as.data.frame(aggregate(TIAS$TA111125, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
+hist(npd_05$NPD) # viewing distribution after log transformation
 
-npd_11 <- npd_11 %>% rename(Criteria = Group.1, NPD = x) 
+npd_05 <- npd_05 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
+                          
+npd_05$Sex <- as.integer(npd_05$Sex) # character to integer
 
-npd_11$Year <- c(rep(2011, 2))
+class(npd_05$Sex) # confirming variable type 
 
-npd_13 <- as.data.frame(aggregate(TIAS$TA131217, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
+npd_05 <- npd_05 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
 
-npd_13 <- npd_13 %>% rename(Criteria = Group.1, NPD = x) 
+npd_05$FTL <- as.integer(npd_05$FTL) # character to integer
 
-npd_13$Year <- c(rep(2013, 2))
+npd_05$Year <- c(rep(1, 743)) # adding year 
 
-npd_15 <- as.data.frame(aggregate(TIAS$TA151277, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
+# =================== 2007 ===================  
 
-npd_15 <- npd_15 %>% rename(Criteria = Group.1, NPD = x) 
+table(TIAS$TA070919) # viewing NPD data for 2007
 
-npd_15$Year <- c(rep(2015, 2))
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA070919 = 99)) # removing NA value for NPD scale 
 
-npd_17 <- as.data.frame(aggregate(TIAS$TA171975, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
+npd_07 <- select(TIAS, TA070919, ER33904, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
-npd_17 <- npd_17 %>% rename(Criteria = Group.1, NPD = x) 
+npd_07 <- na.omit(npd_07) # removing rows with NA 
 
-npd_17$Year <- c(rep(2017, 2))
+npd_07 <- npd_07 %>% rename(NPD = TA070919, Age = ER33904, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_07$NPD) # viewing distribution for NPD 
+
+npd_07$NPD <- log(npd_07$NPD) # log transformation for NPD 
+
+hist(npd_07$NPD) # viewing distribution after log transformation
+
+npd_07 <- npd_07 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
+
+npd_07$Sex <- as.integer(npd_07$Sex) # character to integer
+
+class(npd_07$Sex) # confirming variable type 
+
+npd_07 <- npd_07 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
+
+npd_07$FTL <- as.integer(npd_07$FTL) # character to integer
+
+npd_07$Year <- c(rep(2, 1114)) # adding year 
+
+# =================== 2009 =================== 
+
+table(TIAS$TA090983) # viewing NPD data for 2009
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA090983 = 99)) # removing NA value for NPD scale 
+
+npd_09 <- select(TIAS, TA090983, ER34004, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+
+npd_09 <- na.omit(npd_09) # removing rows with NA 
+
+npd_09 <- npd_09 %>% rename(NPD = TA090983, Age = ER34004, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_09$NPD) # viewing distribution for NPD 
+
+npd_09$NPD <- log(npd_09$NPD) # log transformation for NPD 
+
+hist(npd_09$NPD) # viewing distribution after log transformation
+
+npd_09 <- npd_09 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
+
+npd_09$Sex <- as.integer(npd_09$Sex) # character to integer
+
+class(npd_09$Sex) # confirming variable type 
+
+npd_09 <- npd_09 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
+
+npd_09$FTL <- as.integer(npd_09$FTL) # character to integer
+
+npd_09$Year <- c(rep(3, 1553)) # adding year 
+
+# =================== 2011 =================== 
+
+table(TIAS$TA111125) # viewing NPD data for 2011, no NAs present
+
+npd_11 <- select(TIAS, TA111125, ER34104, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+
+npd_11 <- na.omit(npd_11) # removing rows with NA 
+
+npd_11 <- npd_11 %>% rename(NPD = TA111125, Age = ER34104, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_11$NPD) # viewing distribution for NPD 
+
+npd_11$NPD <- log(npd_11$NPD) # log transformation for NPD 
+
+hist(npd_11$NPD) # viewing distribution after log transformation
+
+npd_11 <- npd_11 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
+
+npd_11$Sex <- as.integer(npd_11$Sex) # character to integer
+
+class(npd_11$Sex) # confirming variable type 
+
+npd_11 <- npd_11 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
+
+npd_11$FTL <- as.integer(npd_11$FTL) # character to integer
+
+npd_11$Year <- c(rep(4, 1907)) # adding year 
+
+# =================== 2013 =================== 
+
+table(TIAS$TA131217) # viewing NPD data for 2013
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA131217 = 99)) # removing NA value for NPD scale 
+
+npd_13 <- select(TIAS, TA131217, ER34204, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+
+npd_13 <- na.omit(npd_13) # removing rows with NA 
+
+npd_13 <- npd_13 %>% rename(NPD = TA131217, Age = ER34204, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_13$NPD) # viewing distribution for NPD 
+
+npd_13$NPD <- log(npd_13$NPD) # log transformation for NPD 
+
+hist(npd_13$NPD) # viewing distribution after log transformation
+
+npd_13 <- npd_13 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
+
+npd_13$Sex <- as.integer(npd_13$Sex) # character to integer
+
+class(npd_13$Sex) # confirming variable type 
+
+npd_13 <- npd_13 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
+
+npd_13$FTL <- as.integer(npd_13$FTL) # character to integer
+
+npd_13$Year <- c(rep(5, 1802)) # adding year 
+
+# =================== 2015 =================== 
+
+table(TIAS$TA151277) # viewing NPD data for 2015 
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA151277 = 99)) # removing NA value for NPD scale 
+
+npd_15 <- select(TIAS, TA151277, ER34305, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+
+npd_15 <- na.omit(npd_15) # removing rows with NA 
+
+npd_15 <- npd_15 %>% rename(NPD = TA151277, Age = ER34305, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_15$NPD) # viewing distribution for NPD 
+
+npd_15$NPD <- log(npd_15$NPD) # log transformation for NPD 
+
+hist(npd_15$NPD) # viewing distribution after log transformation
+
+npd_15 <- npd_15 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
+
+npd_15$Sex <- as.integer(npd_15$Sex) # character to integer
+
+class(npd_15$Sex) # confirming variable type 
+
+npd_15 <- npd_15 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
+
+npd_15$FTL <- as.integer(npd_15$FTL) # character to integer
+
+npd_15$Year <- c(rep(6, 1636)) # adding year 
+
+# =================== 2017 =================== 
+
+table(TIAS$TA171975) # viewing NPD data for 2017
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA171975 = 99)) # removing NA value for NPD scale 
+
+npd_17 <- select(TIAS, TA171975, ER34504, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+
+npd_17 <- na.omit(npd_17) # removing rows with NA 
+
+npd_17 <- npd_17 %>% rename(NPD = TA171975, Age = ER34504, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_17$NPD) # viewing distribution for NPD 
+
+npd_17$NPD <- log(npd_17$NPD) # log transformation for NPD 
+
+hist(npd_17$NPD) # viewing distribution after log transformation
+
+npd_17 <- npd_17 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
+
+npd_17$Sex <- as.integer(npd_17$Sex) # character to integer
+
+class(npd_17$Sex) # confirming variable type 
+
+npd_17 <- npd_17 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
+
+npd_17$FTL <- as.integer(npd_17$FTL) # character to integer
+
+npd_17$Year <- c(rep(7, 2512)) # adding year 
+
+# =================== Analysis =================== 
 
 npd_df <- rbind(npd_05, npd_07, npd_09, npd_11, npd_13, npd_15, npd_17)
 
-npd_df # FTL/IAC npd across all years
+npd_df$NPD[!is.finite(npd_df$NPD)] <- NA
 
-coplot(NPD ~ Year|Criteria, type = "b", data=npd_df,  ylab = "Average Non-Specific Psychological Distress") # conditional plot 
+npd_df <- na.omit(npd_df)
 
-scatterplot(NPD ~ Year|Criteria, boxplots=TRUE, smooth=TRUE, reg.line=TRUE, data=npd_df)
+fixed <- plm(formula = NPD ~ factor(FTL) + factor(Sex) + Age, data=npd_df, index = c("PSID_ID", "Year"), model="within")
 
-fixed <- plm(NPD ~ Criteria, data=npd_df, index="Year", model="within")
+summary(fixed)
 
-summary(fixed) # fixed effects model 
+random <- plm(formula = NPD ~ factor(FTL) + factor(Sex) + Age, data=npd_df, index = c("PSID_ID", "Year"), model="random")
 
-pcdtest(fixed, test = c("cd")) # Pesaran CD test of independence p<0.05, insufficent evidence for cross-sectional dependence  
+summary(random)
 
-pbgtest(fixed) # Breusch-Godfrey/Wooldridge test for serial correlation in panel models, p>0.05, insufficient evidence for serial correlation 
+phtest(fixed, random)
 
-random <- plm(NPD ~ Criteria, data=npd_df, index="Year", model="random")
-
-summary(random) # random effects model
-
-phtest(fixed, random) # Hausman test, p>0.05, opting for random effects 
-
-bptest(NPD ~ Criteria + factor(Year), data=npd_df, studentize=F) # p>0.05, insufficient evidence for heteroskedasticity
-
-# Social Anxiety 
-
-soa_05 <- as.data.frame(aggregate(TIAS$TA050933, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
-
-soa_05 <- soa_05 %>% rename(Criteria = Group.1, SOA = x) 
-
-soa_05$Year <- c(rep(2005, 2))
-
-soa_07 <- as.data.frame(aggregate(TIAS$TA070914, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
-
-soa_07 <- soa_07 %>% rename(Criteria = Group.1, SOA = x) 
-
-soa_07$Year <- c(rep(2007, 2))
-
-soa_09 <- as.data.frame(aggregate(TIAS$TA090978, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
-
-soa_09 <- soa_09 %>% rename(Criteria = Group.1, SOA = x) 
-
-soa_09$Year <- c(rep(2009, 2))
-
-soa_11 <- as.data.frame(aggregate(TIAS$TA111120, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
-
-soa_11 <- soa_11 %>% rename(Criteria = Group.1, SOA = x) 
-
-soa_11$Year <- c(rep(2011, 2))
-
-soa_13 <- as.data.frame(aggregate(TIAS$TA131212, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
-
-soa_13 <- soa_13 %>% rename(Criteria = Group.1, SOA = x) 
-
-soa_13$Year <- c(rep(2013, 2))
-
-soa_15 <- as.data.frame(aggregate(TIAS$TA151272, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
-
-soa_15 <- soa_15 %>% rename(Criteria = Group.1, SOA = x) 
-
-soa_15$Year <- c(rep(2015, 2))
-
-soa_17 <- as.data.frame(aggregate(TIAS$TA171971, list(TIAS$GREQ1_FTL), FUN=mean, na.rm=TRUE))
-
-soa_17 <- soa_17 %>% rename(Criteria = Group.1, SOA = x) 
-
-soa_17$Year <- c(rep(2017, 2))
-
-soa_df <- rbind(soa_05, soa_07, soa_09, soa_11, soa_13, soa_15, soa_17)
-
-soa_df # FTL/IAC npd across all years
-
-coplot(SOA ~ Year|Criteria, type = "b", data=soa_df,  ylab = "Average Social Anxiety Score") # conditional plot 
-
-scatterplot(SOA ~ Year|Criteria, boxplots=TRUE, smooth=TRUE, reg.line=TRUE, data=soa_df)
-
-fixed <- plm(SOA ~ Criteria, data=soa_df, index="Year", model="within")
-
-summary(fixed) # fixed effects model 
-
-pcdtest(fixed, test = c("cd")) # Pesaran CD test of independence,  p>0.05, insufficent evidence for cross-sectional dependence  
-
-pbgtest(fixed) # Breusch-Godfrey/Wooldridge test for serial correlation in panel models, p>0.05, insufficient evidence for serial correlation 
-
-random <- plm(SOA ~ Criteria, data=soa_df, index="Year", model="random")
-
-summary(random) # random effects model
-
-phtest(fixed, random) # Hausman test, p>0.05, opting for random effects 
-
-bptest(SOA ~ Criteria + factor(Year), data=soa_df, studentize=F) # p>0.05, insufficient evidence for heteroskedasticity
-
-
+summary(plm(formula = NPD ~ FTL + Sex + Age + Between(FTL) + Between(Age) + Between(Sex), data=npd_df, index = c("PSID_ID", "Year"), model="random", random.method="nerlove"))
 
 
