@@ -45,10 +45,10 @@ lapply(c("ResourceSelection"), pkgTest)
 lapply(c("lmtest"), pkgTest)
 lapply(c("lattice"), pkgTest)
 lapply(c("data.table"), pkgTest)
-lapply(c("sjPlot"), pkgTest)
-lapply(c("sjmisc"), pkgTest)
-lapply(c("sjlabelled"), pkgTest)
-lapply(c("plyr"), pkgTest)
+lapply(c("foreign"), pkgTest)
+lapply(c("gplots"), pkgTest)
+lapply(c("plm"), pkgTest)
+lapply(c("car"), pkgTest)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -60,14 +60,17 @@ library(lmtest)
 library(lattice)
 library(data.table)
 library(RColorBrewer)
-library(sjPlot)
-library(sjmisc)
-library(sjlabelled)
-library(plyr)
-
+library(foreign)
+library(gplots)
+library(plm)
+library(car)
 # set working directory 
 
+<<<<<<< HEAD
+setwd("/Users/kdlee/Desktop/Caroline Files/Lebowitz_Lab/FTL/data")
+=======
 setwd("/Users/carolinelee/Desktop/Lebowitz_Lab/FTL/data")
+>>>>>>> a1eaa442c7236c9b4f785f8ab5fcaddefd9552f0
 
 ######################## Isolating TIAS FTL Participants In Waves 2005-2017 ######################## 
 
@@ -1029,8 +1032,6 @@ ggplot(T05_BIP_FTLW, aes(x = FTL_COUNT, y = Count, fill = as.factor(TA050711)), 
   labs(title = "TIAS 2005", x = "# of FTL Waves", y = "Count") + 
   scale_fill_manual("Bipolar Disorder Diagnosis", values = c("cadetblue1", "lightsalmon"), labels = c("Not Diagnosed", "Diagnosed"))
 
-
-
 ### Phobia Diagnosis ============================================================================================================= 
 
 ####
@@ -1233,6 +1234,11 @@ ggplot(T05_NPD_CAT, aes(x = CAT_05, y = TA050938, group = CAT_05, fill = as.fact
 table(TIAS$TA050933)
 
 T05_SOA_FTLW <- TIAS2005[, c("TA050933", "FTL_COUNT")] %>% group_by(TA050933, FTL_COUNT) %>% summarise(Count = n())
+<<<<<<< HEAD
+
+T05_SOA_FTLW <- T05_SOA_FTLW[1:12, ]
+=======
+>>>>>>> a1eaa442c7236c9b4f785f8ab5fcaddefd9552f0
 
 T05_SOA_CAT <- TIAS2005[, c("TA050933", "CAT_05")] %>% group_by(TA050933, CAT_05) %>% summarise(Count = n())
 
@@ -1241,7 +1247,11 @@ ggplot(T05_SOA_FTLW, aes(x = FTL_COUNT, y = TA050933, group = FTL_COUNT, fill = 
   labs(title = "TIAS 2005", x = "# of Waves for Which Participant Identified as FTL", y = "SA Scale Score") + 
   scale_y_continuous(limits = c(1, 7), breaks = seq(1, 7, by = 1)) + 
   scale_x_continuous(breaks = seq(0, 2, by = 1)) +
+<<<<<<< HEAD
+  guides(fill = guide_legend(title = "# of FTL Waves"))
+=======
   guides(fill = guide_legend(title = "# of FTL Waves")) 
+>>>>>>> a1eaa442c7236c9b4f785f8ab5fcaddefd9552f0
 
 ggplot(T05_SOA_CAT, aes(x = CAT_05, y = TA050933, group = CAT_05, fill = as.factor(CAT_05))) +
   geom_boxplot() +
@@ -1393,7 +1403,7 @@ ggpubr::ggarrange(eph.pie.ftl.05, eph.pie.iac.05, ncol = 2, nrow = 1, labels = c
 # Answers: 1 (Married); 2 (Never Married); 3 (Widowed); 4 (Divorced); 5 (Separated); 8 (DK); 9 (NA/refused)
 ####
 
-table(TIAS$TA050069) 
+table(TIAS$TA050069)
 
 T05_CMS_FTLW <- TIAS2005[, c("TA050069", "FTL_COUNT")] %>% group_by(TA050069, FTL_COUNT) %>% summarise(Count = n())
 
@@ -14734,16 +14744,16 @@ ggplot(T11_CHL_CAT, aes(x = CAT_11, y = TA110101, group = CAT_11, fill = as.fact
 table(TIAS$TA110671)
 
 TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA110671 = 0))
+  replace_with_na(replace = list(TA110671 = c(0, 9))) 
 
 TIAS2011 <- TIAS2011 %>% 
-  replace_with_na(replace = list(TA110671 = 0))
+  replace_with_na(replace = list(TA110671 = c(0, 9))) 
 
 TIAS2011_FTL <- TIAS2011_FTL %>% 
-  replace_with_na(replace = list(TA110671 = 0))
+  replace_with_na(replace = list(TA110671 = c(0, 9))) 
 
 TIAS2011_IAC <- TIAS2011_IAC %>% 
-  replace_with_na(replace = list(TA110671 = 0))
+  replace_with_na(replace = list(TA110671 = c(0, 9))) 
 
 T11_HSG_FTLW <- TIAS2011[, c("TA110671", "FTL_COUNT")] %>% group_by(TA110671, FTL_COUNT) %>% summarise(Count = n())
 
@@ -23977,6 +23987,18 @@ ggarrange(anx.pie.ftl.15, anx.pie.iac.15, ncol = 2, nrow = 1, labels = c("FTL 20
 
 table(TIAS$TA150874)
 
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA150874 = c(8, 9))) 
+
+TIAS2015 <- TIAS2015 %>% 
+  replace_with_na(replace = list(TA150874 = c(8, 9))) 
+
+TIAS2015_FTL <- TIAS2015_FTL %>% 
+  replace_with_na(replace = list(TA150874 = c(8, 9)))  
+
+TIAS2015_IAC <- TIAS2015_IAC %>% 
+  replace_with_na(replace = list(TA150874 = c(8, 9))) 
+
 T15_OCD_FTLW <- TIAS[, c("TA150874", "FTL_COUNT")] %>% group_by(TA150874, FTL_COUNT) %>% summarise(Count = n())
 
 T15_OCD_FTLW <- T15_OCD_FTLW[1:6, ]
@@ -24143,7 +24165,30 @@ prop.table(table(TIAS2015_IAC$TA151271))
 table(TIAS$TA150132)
 
 TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA150132 = c(8, 9))) 
+  replace_with_na(replace = list(TA150132 = 9)) 
+
+TIAS2015 <- TIAS2015 %>% 
+  replace_with_na(replace = list(TA150132 = 9)) 
+
+TIAS2015_FTL <- TIAS2015_FTL %>% 
+  replace_with_na(replace = list(TA150132 = 9)) 
+
+TIAS2015_IAC <- TIAS2015_IAC %>% 
+  replace_with_na(replace = list(TA150132 = 9)) 
+  
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA150132 = 8)) 
+
+TIAS2015 <- TIAS2015 %>% 
+  replace_with_na(replace = list(TA150132 = 8)) 
+
+TIAS2015_FTL <- TIAS2015_FTL %>% 
+  replace_with_na(replace = list(TA150132 = 8)) 
+
+TIAS2015_IAC <- TIAS2015_IAC %>% 
+  replace_with_na(replace = list(TA150132 = 8)) 
+
 
 T15_EPJ_FTLW <- TIAS[, c("TA150132", "FTL_COUNT")] %>% group_by(TA150132, FTL_COUNT) %>% summarise(Count = n())
 
@@ -24271,6 +24316,18 @@ ggarrange(eph.pie.ftl.15, eph.pie.iac.15, ncol = 2, nrow = 1, labels = c("FTL 20
 ####
 
 table(TIAS$TA150070)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA150070 = c(8, 9))) 
+
+TIAS2015 <- TIAS2015 %>% 
+  replace_with_na(replace = list(TA150070 = c(8, 9))) 
+
+TIAS2015_FTL <- TIAS2015_FTL %>% 
+  replace_with_na(replace = list(TA150070 = c(8, 9)))  
+
+TIAS2015_IAC <- TIAS2015_IAC %>% 
+  replace_with_na(replace = list(TA150070 = c(8, 9))) 
 
 T15_CMS_FTLW <- TIAS[, c("TA150070", "FTL_COUNT")] %>% group_by(TA150070, FTL_COUNT) %>% summarise(Count = n())
 
@@ -24432,22 +24489,22 @@ ggplot(T15_CHL_CAT, aes(x = CAT, y = TA150092, group = CAT, fill = as.factor(CAT
 
 ####
 # G1. WTR Graduated High School: “Now I would like to talk about the education you have received. Did you graduate from high school, get a GED, or neither?”
-# Answers: 0 (Inap.: TA alumnus and reported education last wave); 1 (Graduated from high school); 2 (Got a GED); 3 (Neither); 8 (DK); 9 (NA/refused)
+# Answers: 1 (Graduated from high school); 2 (Got a GED); 3 (Neither); 8 (DK); 9 (NA/refused)
 ####
 
 table(TIAS$TA150701)
 
 TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA150701 = c(0, 9))) 
+  replace_with_na(replace = list(TA150701 = c(8, 9))) 
 
 TIAS2015 <- TIAS2015 %>% 
-  replace_with_na(replace = list(TA150701 = c(0, 9))) 
+  replace_with_na(replace = list(TA150701 = c(8, 9))) 
 
 TIAS2015_FTL <- TIAS2015_FTL %>% 
-  replace_with_na(replace = list(TA150701 = c(0, 9))) 
+  replace_with_na(replace = list(TA150701 = c(8, 9)))  
 
 TIAS2015_IAC <- TIAS2015_IAC %>% 
-  replace_with_na(replace = list(TA150701 = c(0, 9))) 
+  replace_with_na(replace = list(TA150701 = c(8, 9))) 
 
 
 T15_HSG_FTLW <- TIAS[, c("TA150701", "FTL_COUNT")] %>% group_by(TA150701, FTL_COUNT) %>% summarise(Count = n())
@@ -24507,6 +24564,18 @@ ggarrange(hsg.pie.ftl.15, hsg.pie.iac.15, ncol = 2, nrow = 1, labels = c("FTL 20
 ####
 
 table(TIAS$TA150730)
+
+TIAS <- TIAS %>% 
+  replace_with_na(replace = list(TA150730 = c(8, 9))) 
+
+TIAS2015 <- TIAS2015 %>% 
+  replace_with_na(replace = list(TA150730 = c(8, 9)))  
+
+TIAS2015_FTL <- TIAS2015_FTL %>% 
+  replace_with_na(replace = list(TA150730 = c(8, 9))) 
+
+TIAS2015_IAC <- TIAS2015_IAC %>% 
+  replace_with_na(replace = list(TA150730 = c(8, 9))) 
 
 T15_CLG_FTLW <- TIAS[, c("TA150730", "FTL_COUNT")] %>% group_by(TA150730, FTL_COUNT) %>% summarise(Count = n())
 
@@ -28468,28 +28537,28 @@ ggplot(T15_SLP_CAT, aes(x = CAT, y = TA150949, group = CAT, fill = as.factor(CAT
 # Answers: 1 (1-2); 2 (3-5); 3 (6-9); 4 (10-19); 5 (20-39); 6 (40 or more); 8 (DK); 9 (NA/refused); 0 (Inap: 0 in past 12 mos or never)
 #### 
 
-table(TIAS$TA171868)
+table(TIAS$TA171852)
 
 TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA171868 = 9))
+  replace_with_na(replace = list(TA171852 = c(8, 9))) 
 
 TIAS2017 <- TIAS2017 %>% 
-  replace_with_na(replace = list(TA171868 = 9))
+  replace_with_na(replace = list(TA171852 = c(8, 9))) 
 
 TIAS2017_FTL <- TIAS2017_FTL %>% 
-  replace_with_na(replace = list(TA171868 = 9)) 
+  replace_with_na(replace = list(TA171852 = c(8, 9)))  
 
 TIAS2017_IAC <- TIAS2017_IAC %>% 
-  replace_with_na(replace = list(TA171868 = 9))
+  replace_with_na(replace = list(TA171852 = c(8, 9))) 
 
-T17_AMP_FTLW <- TIAS[, c("TA171868", "FTL_COUNT")] %>% group_by(TA171868, FTL_COUNT) %>% summarise(Count = n())
+T17_AMP_FTLW <- TIAS[, c("TA171852", "FTL_COUNT")] %>% group_by(TA171852, FTL_COUNT) %>% summarise(Count = n())
 
 T17_AMP_FTLW <- T17_AMP_FTLW[1:18,]
 
-T17_AMP_CAT <- TIAS2017[, c("TA171868", "CAT")] %>% group_by(TA171868, CAT) %>% summarise(Count = n())
+T17_AMP_CAT <- TIAS2017[, c("TA171852", "CAT")] %>% group_by(TA171852, CAT) %>% summarise(Count = n())
+
 
 T17_AMP_CAT=T17_AMP_CAT[1:11, ]
-
 head(T17_AMP_CAT, 11)
 
 ggplot(T17_AMP_CAT, aes(x = CAT, y = Count, fill = as.factor(TA171852)), xlab="Category") +
@@ -29619,16 +29688,16 @@ ggarrange(eph.pie.ftl.17, eph.pie.iac.17, ncol = 2, nrow = 1, labels = c("FTL 20
 table(TIAS$TA170093)
 
 TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA170093 = 9))
+  replace_with_na(replace = list(TA170093 = c(8, 9))) 
 
 TIAS2017 <- TIAS2017 %>% 
-  replace_with_na(replace = list(TA170093 = 9))
+  replace_with_na(replace = list(TA170093 = c(8, 9))) 
 
 TIAS2017_FTL <- TIAS2017_FTL %>% 
-  replace_with_na(replace = list(TA170093 = 9))
+  replace_with_na(replace = list(TA170093 = c(8, 9)))  
 
 TIAS2017_IAC <- TIAS2017_IAC %>% 
-  replace_with_na(replace = list(TA170093 = 9))
+  replace_with_na(replace = list(TA170093 = c(8, 9))) 
 
 T17_CMS_FTLW <- TIAS[, c("TA170093", "FTL_COUNT")] %>% group_by(TA170093, FTL_COUNT) %>% summarise(Count = n())
 
@@ -29778,6 +29847,7 @@ ggplot(T17_CHL_CAT, aes(x = CAT, y = TA170176, group = CAT, fill = as.factor(CAT
 ####
 
 table(TIAS$TA170781)
+
 
 T17_HSG_FTLW <- TIAS[, c("TA170781", "FTL_COUNT")] %>% group_by(TA170781, FTL_COUNT) %>% summarise(Count = n())
 
@@ -32804,356 +32874,7 @@ table(TIAS2017_FTL$ER34504)
 
 ############################ TIAS-D Analysis ############################
 
-##### =================== Amphetamine Usage =================== 
-
-# =================== 2005 ===================  
-
-table(TIAS$TA050784)  
-
-amp_05 <- dplyr::select(TIAS, TA050784, ER33804, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-amp_05 <- na.omit(amp_05) # removing rows with NA 
-
-amp_05 <- amp_05 %>% dplyr::rename(AMP = TA050784, Age = ER33804, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-amp_05$AMP <- as.numeric(revalue(as.character(amp_05$AMP), c("0" = "0", "1" = "1", "2" = "1", "3" = "1", "5" = "1", "6" = "1")))
-
-amp_05 <- amp_05 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-amp_05$Sex <- as.integer(amp_05$Sex) # character to integer
-
-amp_05 <- amp_05 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-amp_05$FTL <- as.integer(amp_05$FTL) # character to integer
-
-amp_05$Year <- c(rep(1, 745)) # adding year 
-
-# =================== 2007 ===================  
-
-table(TIAS$TA070755)  
-
-TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA070755 = 8))  
-
-amp_07 <- dplyr::select(TIAS, TA070755, ER33904, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-amp_07 <- na.omit(amp_07) # removing rows with NA 
-
-amp_07 <- amp_07 %>% dplyr::rename(AMP = TA070755, Age = ER33904, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-amp_07$AMP <- as.numeric(revalue(as.character(amp_07$AMP), c("0" = "0", "1" = "1", "2" = "1", "3" = "1", "4" = "1")))
-
-amp_07 <- amp_07 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-amp_07$Sex <- as.integer(amp_07$Sex) # character to integer
-
-class(amp_07$Sex) # confirming variable type 
-
-amp_07 <- amp_07 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-amp_07$FTL <- as.integer(amp_07$FTL) # character to integer
-
-amp_07$Year <- c(rep(2, 1114)) # adding year 
-
-# =================== 2009 =================== 
-
-table(TIAS$TA090814) 
-
-TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA090814 = 9))  
-
-amp_09 <- dplyr::select(TIAS, TA090814, ER34004, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-amp_09 <- na.omit(amp_09) # removing rows with NA 
-
-amp_09 <- amp_09 %>% dplyr::rename(AMP = TA090814, Age = ER34004, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-amp_09$AMP <- as.numeric(revalue(as.character(amp_09$AMP), c("0" = "0", "1" = "1", "2" = "1", "3" = "1", "6" = "1")))
-
-amp_09 <- amp_09 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-amp_09$Sex <- as.integer(amp_09$Sex) # character to integer
-
-class(amp_09$Sex) # confirming variable type 
-
-amp_09 <- amp_09 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-amp_09$FTL <- as.integer(amp_09$FTL) # character to integer
-
-amp_09$Year <- c(rep(3, 1553)) # adding year 
-
-# =================== 2011 =================== 
-
-table(TIAS$TA110930)  
-
-TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA110930 = 9))
-
-amp_11 <- dplyr::select(TIAS, TA110930, ER34104, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-amp_11 <- na.omit(amp_11) # removing rows with NA 
-
-amp_11 <- amp_11 %>% dplyr::rename(AMP = TA110930, Age = ER34104, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-amp_11$AMP <- as.numeric(revalue(as.character(amp_11$AMP), c("0" = "0", "1" = "1", "2" = "1", "3" = "1", "4" = "1", "6" = "1")))
-
-amp_11 <- amp_11 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-amp_11$Sex <- as.integer(amp_11$Sex) # character to integer
-
-class(amp_11$Sex) # confirming variable type 
-
-amp_11 <- amp_11 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-amp_11$FTL <- as.integer(amp_11$FTL) # character to integer
-
-amp_11$Year <- c(rep(4, 1906)) # adding year 
-
-# =================== 2013 =================== 
-
-table(TIAS$TA130963)  
-
-amp_13 <- dplyr::select(TIAS, TA130963, ER34204, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-amp_13 <- na.omit(amp_13) # removing rows with NA 
-
-amp_13 <- amp_13 %>% dplyr::rename(AMP = TA130963, Age = ER34204, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-amp_13$AMP <- as.numeric(revalue(as.character(amp_13$AMP), c("0" = "0", "1" = "1", "3" = "1", "4" = "1", "6" = "1")))
-
-amp_13 <- amp_13 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-amp_13$Sex <- as.integer(amp_13$Sex) # character to integer
-
-class(amp_13$Sex) # confirming variable type 
-
-amp_13 <- amp_13 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-amp_13$FTL <- as.integer(amp_13$FTL) # character to integer
-
-amp_13$Year <- c(rep(5, 1804)) # adding year 
-
-# =================== 2015 =================== 
-
-table(TIAS$TA150985)  
-
-amp_15 <- dplyr::select(TIAS, TA150985, ER34305, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-amp_15 <- na.omit(amp_15) # removing rows with NA 
-
-amp_15 <- amp_15 %>% dplyr::rename(AMP = TA150985, Age = ER34305, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-amp_15$AMP <- as.numeric(revalue(as.character(amp_15$AMP), c("0" = "0", "1" = "1", "2" = "1", "3" = "1", "4" = "1", "6" = "1")))
-
-amp_15 <- amp_15 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-amp_15$Sex <- as.integer(amp_15$Sex) # character to integer
-
-class(amp_15$Sex) # confirming variable type 
-
-amp_15 <- amp_15 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-amp_15$FTL <- as.integer(amp_15$FTL) # character to integer
-
-amp_15$Year <- c(rep(6, 1641)) # adding year 
-
-# =================== 2017 =================== 
-
-table(TIAS$TA171868)  
-
-TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA171868 = 9))
-
-amp_17 <- dplyr::select(TIAS, TA171868, ER34504, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-amp_17 <- na.omit(amp_17) # removing rows with NA 
-
-amp_17 <- amp_17 %>% dplyr::rename(AMP = TA171868, Age = ER34504, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-amp_17$AMP <- as.numeric(revalue(as.character(amp_17$AMP), c("0" = "0", "1" = "1", "2" = "1", "3" = "1", "4" = "1", "5" = "1", "6" = "1")))
-
-amp_17 <- amp_17 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-amp_17$Sex <- as.integer(amp_17$Sex) # character to integer
-
-class(amp_17$Sex) # confirming variable type 
-
-amp_17 <- amp_17 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-amp_17$FTL <- as.integer(amp_17$FTL) # character to integer
-
-amp_17$Year <- c(rep(7, 2525)) # adding year 
-
-# =================== Analysis =================== 
-
-amp_df <- rbind(amp_05, amp_07, amp_09, amp_11, amp_13, amp_15, amp_17)
-
-table(amp_df$AMP)
-
-amp_df$AMP <- as.factor(amp_df$AMP)
-
-# ordinal logistic regression 
-
-tab_model(glm(AMP ~ FTL + Age + Sex + Year, data = amp_df, family = binomial(link = "logit")))
-
-##### =================== Barbiturate Usage =================== 
-
-# =================== 2005 ===================  
-
-table(TIAS$TA050808)  
-
-brb_05 <- dplyr::select(TIAS, TA050808, ER33804, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-brb_05 <- na.omit(brb_05) # removing rows with NA 
-
-brb_05 <- brb_05 %>% rename(BRB = TA050808, Age = ER33804, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-brb_05 <- brb_05 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-brb_05$Sex <- as.integer(brb_05$Sex) # character to integer
-
-brb_05 <- brb_05 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-brb_05$FTL <- as.integer(brb_05$FTL) # character to integer
-
-brb_05$Year <- c(rep(1, 745)) # adding year 
-
-# =================== 2007 ===================  
-
-table(TIAS$TA070776)  
-
-brb_07 <- dplyr::select(TIAS, TA070776, ER33904, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-brb_07 <- na.omit(brb_07) # removing rows with NA 
-
-brb_07 <- brb_07 %>% rename(BRB = TA070776, Age = ER33904, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-brb_07 <- brb_07 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-brb_07$Sex <- as.integer(brb_07$Sex) # character to integer
-
-brb_07 <- brb_07 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-brb_07$FTL <- as.integer(brb_07$FTL) # character to integer
-
-brb_07$Year <- c(rep(2, 1115)) # adding year 
-
-# =================== 2009 =================== 
-
-table(TIAS$TA090835) 
-
-brb_09 <- dplyr::select(TIAS, TA090835, ER34004, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-brb_09 <- na.omit(brb_09) # removing rows with NA 
-
-brb_09 <- brb_09 %>% rename(BRB = TA090835, Age = ER34004, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-brb_09 <- brb_09 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-brb_09$Sex <- as.integer(brb_09$Sex) # character to integer
-
-brb_09 <- brb_09 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-brb_09$FTL <- as.integer(brb_09$FTL) # character to integer
-
-brb_09$Year <- c(rep(3, 1554)) # adding year 
-
-# =================== 2011 =================== 
-
-table(TIAS$TA110951)  
-
-TIAS <- TIAS %>% 
-  replace_with_na(replace = list(TA110951 = 9))
-
-brb_11 <- dplyr::select(TIAS, TA110951, ER34104, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-brb_11 <- na.omit(brb_11) # removing rows with NA 
-
-brb_11 <- brb_11 %>% rename(BRB = TA110951, Age = ER34104, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-brb_11 <- brb_11 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-brb_11$Sex <- as.integer(brb_11$Sex) # character to integer
-
-brb_11 <- brb_11 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-brb_11$FTL <- as.integer(brb_11$FTL) # character to integer
-
-brb_11$Year <- c(rep(4, 1907)) # adding year 
-
-# =================== 2013 =================== 
-
-table(TIAS$TA130984)  
-
-brb_13 <- dplyr::select(TIAS, TA130984, ER34204, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-brb_13 <- na.omit(brb_13) # removing rows with NA 
-
-brb_13 <- brb_13 %>% rename(BRB = TA130984, Age = ER34204, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-brb_13 <- brb_13 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-brb_13$Sex <- as.integer(brb_13$Sex) # character to integer
-
-brb_13 <- brb_13 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-brb_13$FTL <- as.integer(brb_13$FTL) # character to integer
-
-brb_13$Year <- c(rep(5, 1804)) # adding year 
-
-# =================== 2015 =================== 
-
-table(TIAS$TA151006)  
-
-brb_15 <- dplyr::select(TIAS, TA151006, ER34305, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-brb_15 <- na.omit(brb_15) # removing rows with NA 
-
-brb_15 <- brb_15 %>% rename(BRB = TA151006, Age = ER34305, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-brb_15 <- brb_15 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-brb_15$Sex <- as.integer(brb_15$Sex) # character to integer
-
-brb_15 <- brb_15 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-brb_15$FTL <- as.integer(brb_15$FTL) # character to integer
-
-brb_15$Year <- c(rep(6, 1641)) # adding year 
-
-# =================== 2017 =================== 
-
-table(TIAS$TA171868)  
-
-brb_17 <- dplyr::select(TIAS, TA171868, ER34504, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
-
-brb_17 <- na.omit(brb_17) # removing rows with NA 
-
-brb_17 <- brb_17 %>% rename(BRB = TA171868, Age = ER34504, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
-
-brb_17 <- brb_17 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
-
-brb_17$Sex <- as.integer(brb_17$Sex) # character to integer
-
-brb_17 <- brb_17 %>% mutate(FTL = dplyr::recode(FTL, "FTL" = "1", "IAC" = "0")) # recoding values
-
-brb_17$FTL <- as.integer(brb_17$FTL) # character to integer
-
-brb_17$Year <- c(rep(7, 2525)) # adding year 
-
-# =================== Analysis =================== 
-
-brb_df <- rbind(brb_05, brb_07, brb_09, brb_11, brb_13, brb_15, brb_17)
-
-table(brb_df$BRB)
-
-brb_df$BRB <- as.factor(brb_df$BRB) 
-
-# ordinal logistic regression 
-
-tab_model(multinom(BRB ~ ., data = brb_df)) 
-
-### =================== Non-Specific Psychological Distress =================== 
+### Non-Specific Psychological Distress 
 
 # =================== 2005 ===================  
 
@@ -33162,11 +32883,17 @@ table(TIAS$TA050938) # viewing NPD data for 2005
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA050938 = 99)) # removing NA value for NPD scale 
 
-npd_05 <- dplyr::select(TIAS, TA050938, ER33804, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+npd_05 <- select(TIAS, TA050938, ER33804, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
 npd_05 <- na.omit(npd_05) # removing rows with NA 
 
 npd_05 <- npd_05 %>% rename(NPD = TA050938, Age = ER33804, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_05$NPD) # viewing distribution for NPD 
+
+npd_05$NPD <- log(npd_05$NPD) # log transformation for NPD 
+
+hist(npd_05$NPD) # viewing distribution after log transformation
 
 npd_05 <- npd_05 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
                           
@@ -33187,11 +32914,17 @@ table(TIAS$TA070919) # viewing NPD data for 2007
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA070919 = 99)) # removing NA value for NPD scale 
 
-npd_07 <- dplyr::select(TIAS, TA070919, ER33904, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+npd_07 <- select(TIAS, TA070919, ER33904, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
 npd_07 <- na.omit(npd_07) # removing rows with NA 
 
 npd_07 <- npd_07 %>% rename(NPD = TA070919, Age = ER33904, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_07$NPD) # viewing distribution for NPD 
+
+npd_07$NPD <- log(npd_07$NPD) # log transformation for NPD 
+
+hist(npd_07$NPD) # viewing distribution after log transformation
 
 npd_07 <- npd_07 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
 
@@ -33212,13 +32945,25 @@ table(TIAS$TA090983) # viewing NPD data for 2009
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA090983 = 99)) # removing NA value for NPD scale 
 
-npd_09 <- dplyr::select(TIAS, TA090983, ER34004, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+npd_09 <- select(TIAS, TA090983, ER34004, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
 npd_09 <- na.omit(npd_09) # removing rows with NA 
 
 npd_09 <- npd_09 %>% rename(NPD = TA090983, Age = ER34004, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
 
+hist(npd_09$NPD) # viewing distribution for NPD 
+
+npd_09$NPD <- log(npd_09$NPD) # log transformation for NPD 
+
+hist(npd_09$NPD) # viewing distribution after log transformation
+
+<<<<<<< HEAD
+summary(npd1.reg.fit2)
+
+npd1.reg.fit3 <- lmer(npd1 ~ time + ftlcount + sex + (time|PSID_ID), data = TIAS_NPD) # individual trajectory model with random slope for time
+=======
 npd_09 <- npd_09 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
+>>>>>>> a1eaa442c7236c9b4f785f8ab5fcaddefd9552f0
 
 npd_09$Sex <- as.integer(npd_09$Sex) # character to integer
 
@@ -33232,13 +32977,23 @@ npd_09$Year <- c(rep(3, 1553)) # adding year
 
 # =================== 2011 =================== 
 
+<<<<<<< HEAD
+T05_EPH_TBL <- table(TIAS2005$TA050368, TIAS2005$CAT_05) # converting the data as a contingency table
+=======
 table(TIAS$TA111125) # viewing NPD data for 2011, no NAs present
+>>>>>>> a1eaa442c7236c9b4f785f8ab5fcaddefd9552f0
 
-npd_11 <- dplyr::select(TIAS, TA111125, ER34104, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+npd_11 <- select(TIAS, TA111125, ER34104, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
 npd_11 <- na.omit(npd_11) # removing rows with NA 
 
 npd_11 <- npd_11 %>% rename(NPD = TA111125, Age = ER34104, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_11$NPD) # viewing distribution for NPD 
+
+npd_11$NPD <- log(npd_11$NPD) # log transformation for NPD 
+
+hist(npd_11$NPD) # viewing distribution after log transformation
 
 npd_11 <- npd_11 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
 
@@ -33259,11 +33014,17 @@ table(TIAS$TA131217) # viewing NPD data for 2013
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA131217 = 99)) # removing NA value for NPD scale 
 
-npd_13 <- dplyr::select(TIAS, TA131217, ER34204, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+npd_13 <- select(TIAS, TA131217, ER34204, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
 npd_13 <- na.omit(npd_13) # removing rows with NA 
 
 npd_13 <- npd_13 %>% rename(NPD = TA131217, Age = ER34204, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_13$NPD) # viewing distribution for NPD 
+
+npd_13$NPD <- log(npd_13$NPD) # log transformation for NPD 
+
+hist(npd_13$NPD) # viewing distribution after log transformation
 
 npd_13 <- npd_13 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
 
@@ -33284,11 +33045,17 @@ table(TIAS$TA151277) # viewing NPD data for 2015
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA151277 = 99)) # removing NA value for NPD scale 
 
-npd_15 <- dplyr::select(TIAS, TA151277, ER34305, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+npd_15 <- select(TIAS, TA151277, ER34305, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
 npd_15 <- na.omit(npd_15) # removing rows with NA 
 
 npd_15 <- npd_15 %>% rename(NPD = TA151277, Age = ER34305, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_15$NPD) # viewing distribution for NPD 
+
+npd_15$NPD <- log(npd_15$NPD) # log transformation for NPD 
+
+hist(npd_15$NPD) # viewing distribution after log transformation
 
 npd_15 <- npd_15 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
 
@@ -33309,11 +33076,17 @@ table(TIAS$TA171975) # viewing NPD data for 2017
 TIAS <- TIAS %>% 
   replace_with_na(replace = list(TA171975 = 99)) # removing NA value for NPD scale 
 
-npd_17 <- dplyr::select(TIAS, TA171975, ER34504, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
+npd_17 <- select(TIAS, TA171975, ER34504, ER32000, GREQ1_FTL, PSID_ID) # extracting columns from TIAS
 
 npd_17 <- na.omit(npd_17) # removing rows with NA 
 
 npd_17 <- npd_17 %>% rename(NPD = TA171975, Age = ER34504, Sex = ER32000, FTL = GREQ1_FTL) # renaming columns
+
+hist(npd_17$NPD) # viewing distribution for NPD 
+
+npd_17$NPD <- log(npd_17$NPD) # log transformation for NPD 
+
+hist(npd_17$NPD) # viewing distribution after log transformation
 
 npd_17 <- npd_17 %>% mutate(Sex = dplyr::recode(Sex, `2` = "1", `1` = "0")) # recoding values 
 
@@ -33331,8 +33104,20 @@ npd_17$Year <- c(rep(7, 2512)) # adding year
 
 npd_df <- rbind(npd_05, npd_07, npd_09, npd_11, npd_13, npd_15, npd_17)
 
-# multiple linear regression
+npd_df$NPD[!is.finite(npd_df$NPD)] <- NA
 
-tab_model(lm(NPD ~ FTL + Age + Sex + Year, data = npd_df))  
+npd_df <- na.omit(npd_df)
+
+fixed <- plm(formula = NPD ~ factor(FTL) + factor(Sex) + Age, data=npd_df, index = c("PSID_ID", "Year"), model="within")
+
+summary(fixed)
+
+random <- plm(formula = NPD ~ factor(FTL) + factor(Sex) + Age, data=npd_df, index = c("PSID_ID", "Year"), model="random")
+
+summary(random)
+
+phtest(fixed, random)
+
+summary(plm(formula = NPD ~ FTL + Sex + Age + Between(FTL) + Between(Age) + Between(Sex), data=npd_df, index = c("PSID_ID", "Year"), model="random", random.method="nerlove"))
 
 
